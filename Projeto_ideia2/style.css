@@ -1,0 +1,193 @@
+/* Reset e Estilos Gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.bodi {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #a9a7a7, #7b7c7c, #6c6e70);
+    background-size: 200% 200%;
+    animation: gradientAnimation 15s ease infinite;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    color: #e0e1dd;
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+/* Cabeçalho */
+.header {
+    background: rgba(33, 37, 43, 0.95);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 2rem;
+    padding: 0 1rem;
+}
+
+.header a {
+    color: #4cc9f0;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.header a:hover {
+    background: #4cc9f0;
+    color: #0d1b2a;
+}
+.controltech-title:hover {
+    transform: scale3d(1.25, 1.15 , 1.5);
+}
+
+.controltech-title {
+    font-size: 1.8rem;
+    color: #3ea4c3;
+    text-shadow: 0 0 8px rgba(73, 180, 213, 0.6);
+    font-weight: 600;
+    position: absolute;
+    left: 2rem;
+    font-family: 'Montserrat', sans-serif;
+    transition: 2.2s;
+}
+
+/* Carrossel 3D */
+.carousel-3d-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1200px;
+    margin: 2rem 0;
+    position: relative;
+    height: 400px;
+}
+
+.carousel-wheel {
+    width: 300px;
+    height: 300px;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+/* Estilo das ferramentas */
+.tool {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    top: 50%;
+    left: 50%;
+    transform-style: preserve-3d;
+    transition: transform 1.5s ease-in-out; /* Transição extremamente fluida */
+    background: rgba(27, 38, 59, 0.9);
+    border-radius: 10px;
+}
+
+.tool img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
+/* Ferramenta em foco */
+.tool.active {
+    transform: translate(-50%, -50%) translateZ(280px) scale(1.15);
+    z-index: 10; /* Sem brilho, apenas posição e escala */
+}
+
+/* Animações de transição ultra suaves */
+@keyframes slideFromRight {
+    0% {
+        transform: translate(-50%, -50%) translateX(300px) translateZ(200px) scale(0.8);
+        opacity: 0.5;
+    }
+    60% { /* Ponto intermediário para desaceleração */
+        transform: translate(-50%, -50%) translateX(30px) translateZ(270px) scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) translateZ(280px) scale(1.15);
+        opacity: 1;
+    }
+}
+
+@keyframes slideFromLeft {
+    0% {
+        transform: translate(-50%, -50%) translateX(-300px) translateZ(200px) scale(0.8);
+        opacity: 0.5;
+    }
+    60% { /* Ponto intermediário para desaceleração */
+        transform: translate(-50%, -50%) translateX(-30px) translateZ(270px) scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) translateZ(280px) scale(1.15);
+        opacity: 1;
+    }
+}
+
+.tool.from-right {
+    animation: slideFromRight 1.2s ease-in-out forwards; /* Duração maior para fluidez */
+}
+
+.tool.from-left {
+    animation: slideFromLeft 1.2s ease-in-out forwards; /* Duração maior para fluidez */
+}
+
+/* Setas */
+.arrow {
+    position: absolute;
+    background: #ffffff;
+    color: #0d1b2a;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    z-index: 20;
+}
+
+.arrow:hover {
+    background: #3da8d1;
+    transform: scale(1.1);
+}
+
+.arrow.left { left: 15%; }
+.arrow.right { right: 15%; }
+
+/* Efeito de luz no carrossel */
+.carousel-3d-container::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    right: -50%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(76, 201, 240, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
