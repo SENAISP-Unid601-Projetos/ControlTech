@@ -221,59 +221,142 @@ nav a:hover {
     pointer-events: none;
     padding-bottom: 200px;
 }
+/* Footer */
 .footer {
-    background-color: #333;
+    background: linear-gradient(135deg, #222, #111);
     color: #fff;
-    padding: 20px 0 20px;
-    margin-top: 50px;
+    padding: 3rem 0 1rem;
+    margin-top: auto;
+    font-family: 'Montserrat', sans-serif;
+    border-top: 4px solid #008dc4;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
 }
 
 .footer-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 2rem;
 }
 
 .footer-section {
-    flex: 1;
-    min-width: 250px;
+    padding: 0 1rem;
 }
 
 .footer-section h3 {
-    margin-bottom: 20px;
-    font-size: 1.5rem;
+    color: #4cc9f0;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 2px;
+    background: #008dc4;
 }
 
 .footer-section p {
-    margin: 10px 0;
-    font-size: 1rem;
+    color: #bbb;
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
 }
 
-.footer-section ul {
+.footer-links {
     list-style: none;
-    padding: 0;
 }
 
-.footer-section ul li {
-    margin: 10px 0;
+.footer-links li {
+    margin-bottom: 0.8rem;
 }
 
-.footer-section ul li a {
-    color: #fff;
+.footer-links a {
+    color: #ddd;
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    display: inline-block;
+    font-size: 0.95rem;
 }
 
-.footer-section ul li a:hover {
-    color: #007bff;
+.footer-links a:hover {
+    color: #4cc9f0;
+    transform: translateX(5px);
+}
+
+.footer-contact span {
+    display: block;
+    margin-bottom: 0.8rem;
+    color: #bbb;
+    font-size: 0.95rem;
+}
+
+.footer-contact i {
+    color: #4cc9f0;
+    margin-right: 0.5rem;
+    width: 20px;
+    text-align: center;
+}
+
+.footer-social {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.footer-social a {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.footer-social a:hover {
+    background: #4cc9f0;
+    transform: translateY(-3px);
 }
 
 .footer-bottom {
     text-align: center;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #444;
-    font-size: 0.9rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #aaa;
+    font-size: 0.85rem;
 }
 
+/* Responsividade */
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .footer-section {
+        padding: 0;
+    }
+    
+    .footer-section h3 {
+        margin-bottom: 1rem;
+    }
+}
+.footer-section_links {
+    padding-left: 10px;
+}
+.footer-section_about {
+    padding-left: 10px;
+}
