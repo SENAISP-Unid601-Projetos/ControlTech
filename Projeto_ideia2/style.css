@@ -58,8 +58,9 @@
     background: #4cc9f0;
     color: #0d1b2a;
 }
+
 .controltech-title:hover {
-    transform: scale3d(1.25, 1.15 , 1.5);
+    transform: scale3d(1.25, 1.15, 1.5);
 }
 
 .controltech-title {
@@ -95,26 +96,40 @@
 /* Estilo das ferramentas */
 .tool {
     position: absolute;
-    width: 120px;
-    height: 120px;
+    width: 150px; /* Aumentado de 120px para 150px */
+    height: 150px; /* Aumentado de 120px para 150px */
     top: 50%;
     left: 50%;
     transform-style: preserve-3d;
-    transition: transform 1.5s ease-in-out; /* Transição extremamente fluida */
+    transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0.2, 0.2, 1), border 0.4s cubic-bezier(0.4, 0.2, 0.2, 1); /* Transição fluida */
     background: rgba(27, 38, 59, 0.9);
-    border-radius: 10px;
+    border-radius: 12px; /* Ajustado para proporção */
+    will-change: transform, box-shadow, border; /* Otimiza renderização */
+}
+
+.tool:hover {
+    transform: translate(-50%, -50%) translateZ(280px) translateY(-10px); /* Elevação suave */
+    border: 2px solid rgba(76, 201, 240, 0.9); /* Borda brilhante */
+    box-shadow: 0 12px 30px rgba(76, 201, 240, 0.5); /* Sombra ajustada para tamanho maior */
+    z-index: 15; /* Acima das outras ferramentas, mas abaixo das setas */
 }
 
 .tool img {
-    width: 80%;
-    height: 80%;
+    width: 80%; /* Mantido para ajustar ao novo tamanho da ferramenta */
+    height: 80%; /* Mantido para ajustar ao novo tamanho da ferramenta */
     object-fit: contain;
+    transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); /* Transição para escala */
+    will-change: transform; /* Otimiza renderização da imagem */
+}
+
+.tool:hover img {
+    transform: scale(1.3); /* Aumenta o tamanho da imagem no hover */
 }
 
 /* Ferramenta em foco */
 .tool.active {
     transform: translate(-50%, -50%) translateZ(280px) scale(1.15);
-    z-index: 10; /* Sem brilho, apenas posição e escala */
+    z-index: 10;
 }
 
 /* Animações de transição ultra suaves */
@@ -123,7 +138,7 @@
         transform: translate(-50%, -50%) translateX(300px) translateZ(200px) scale(0.8);
         opacity: 0.5;
     }
-    60% { /* Ponto intermediário para desaceleração */
+    60% {
         transform: translate(-50%, -50%) translateX(30px) translateZ(270px) scale(1.1);
         opacity: 1;
     }
@@ -138,7 +153,7 @@
         transform: translate(-50%, -50%) translateX(-300px) translateZ(200px) scale(0.8);
         opacity: 0.5;
     }
-    60% { /* Ponto intermediário para desaceleração */
+    60% {
         transform: translate(-50%, -50%) translateX(-30px) translateZ(270px) scale(1.1);
         opacity: 1;
     }
@@ -149,11 +164,11 @@
 }
 
 .tool.from-right {
-    animation: slideFromRight 1.2s ease-in-out forwards; /* Duração maior para fluidez */
+    animation: slideFromRight 1.2s ease-in-out forwards;
 }
 
 .tool.from-left {
-    animation: slideFromLeft 1.2s ease-in-out forwards; /* Duração maior para fluidez */
+    animation: slideFromLeft 1.2s ease-in-out forwards;
 }
 
 /* Setas */
