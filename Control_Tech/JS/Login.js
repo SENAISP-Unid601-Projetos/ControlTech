@@ -1,4 +1,4 @@
-const canvas = document.getElementById('backgroundCanvas');
+const canvas = document.getElementById('');
 const ctx = canvas.getContext('2d');
 let particles = [];
 
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const password = document.getElementById('password').value.trim();
 
     if (username && password) {
-      window.location.href = '/Pagina/Home.html';
+      window.location.href = '../menu.html';
     } else {
       alertBox.style.display = 'block';
     }
