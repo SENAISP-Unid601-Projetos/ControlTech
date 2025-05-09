@@ -124,7 +124,7 @@ nav a:hover {
 
 .button-container {
     text-align: center;
-    margin-top: 20px; /* Ajuste a margem conforme necessário */
+    margin-top: 60px; /* Ajuste a margem conforme necessário */ 
 }
 
 .center-button {
@@ -140,4 +140,30 @@ nav a:hover {
 
 .center-button:hover {
     background-color: #008cff; /* Cor ao passar o mouse */
+}
+/* Rodapé */
+.footer {
+    background: linear-gradient(135deg, #222, #111);
+    color: #fff;
+    padding: 2rem 5rem 1rem;
+    font-family: 'Montserrat', sans-serif;
+    border-top: 4px solid #008dc4;
+    margin-top: auto;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section {
+    grid-template-columns: 1fr;
 }

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ControlTech - Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../Style/styleLogin.css">
+  <script src="../../js/Login.js" defer></script>
+</head>
+<body class="bodi">
+  <canvas id="backgroundCanvas"></canvas>
+
+  <div id="form-ui">
+    <form id="form">
+      <div id="form-body">
+        <div id="welcome-lines">
+          <div id="welcome-line-1">ControlTech</div>
+          <div id="welcome-line-2">Bem-vindo </div>
+        </div>
+        <div id="input-area">
+          <div class="form-inp">
+            <input id="username" placeholder="Nome" type="text" />
+          </div>
+          <div class="form-inp">
+            <input id="password" placeholder="Senha" type="password" />
+          </div>
+        </div>
+        <div id="submit-button-cvr">
+          <button id="submit-button" type="button">Entrar</button>
+        </div>
+        <div class="alert" id="loginAlert">Por favor, preencha todos os campos!</div>
+        <div id="forgot-pass">
+          <a href="#">Esqueceu a senha?</a>
+        </div>
+        <div id="bar"></div>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
