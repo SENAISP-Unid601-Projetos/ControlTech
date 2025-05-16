@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 @Service
 public class UsuarioService {
 
@@ -49,6 +50,11 @@ public class UsuarioService {
         dto.setPerfil(usuario.getPerfil());
         dto.setQrCode(usuario.getQrCode());
         return dto;
+    }
+    public UsuarioOutputDTO buscarPorId(Long id) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        return usuario.map(this::toResponseDTO)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
     }
 
 }

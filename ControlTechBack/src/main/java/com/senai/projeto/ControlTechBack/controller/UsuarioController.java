@@ -1,6 +1,6 @@
 package com.senai.projeto.ControlTechBack.controller;
 
-import com.senai.projeto.ControlTechBack.DTO.UsuarioInputDTO;
+import com.senai.projeto.ControlTechBack.QrCode.QRCodeGenerator;
 import com.senai.projeto.ControlTechBack.DTO.UsuarioOutputDTO;
 import com.senai.projeto.ControlTechBack.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,7 +19,7 @@ public class UsuarioController {
 
     @PostMapping
     @Operation(summary = "Cria um novo usuário")
-    public ResponseEntity<UsuarioOutputDTO> criarUsuario(@RequestBody UsuarioInputDTO dto) {
+    public ResponseEntity<UsuarioOutputDTO> criarUsuario(@RequestBody com.senai.projeto.ControlTechBack.DTO.UsuarioInputDTO dto) {
         UsuarioOutputDTO criado = usuarioService.criar(dto);
         return ResponseEntity.ok(criado);
     }
@@ -30,9 +30,30 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.listarTodos());
     }
 
-    @GetMapping("/qr/{qrCode}")
-    @Operation(summary = "Busca um usuário pelo QR Code")
-    public ResponseEntity<UsuarioOutputDTO> buscarPorQrCode(@PathVariable String qrCode) {
-        return ResponseEntity.ok(usuarioService.buscarPorQrCode(qrCode));
+    @GetMapping("/{id}/qrcode")
+    @Operation(summary = "Gera QR Code simples e compatível com iPhone")
+    public ResponseEntity<byte[]> gerarQrCodeDoUsuario(@PathVariable Long id) {
+        try {
+            UsuarioOutputDTO usuario = usuarioService.buscarPorId(id);
+
+            // Texto simples e legível — funciona em iPhone
+            String textoQr = String.format(
+                    "ID: %d\nNome: %s\nPerfil: %s\nDescricao: %s",
+                    usuario.getId(),
+                    usuario.getNome(),
+                    usuario.getPerfil(),
+                    usuario.getDescricao() != null ? usuario.getDescricao() : "N/A"
+            );
+
+            byte[] imagemQr = QRCodeGenerator.gerarQRCodeBytes(textoQr, 350, 350);
+
+            return ResponseEntity.ok()
+                    .header("Content-Type", "image/png")
+                    .body(imagemQr);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }
