@@ -24,9 +24,9 @@ public class QrCodeController {
             UsuarioOutputDTO usuario = usuarioService.buscarPorId(id);
 
             // Aqui você define o texto que vai ser codificado no QR Code:
-            String textoQr = "ID:" + usuario.getId() + "; Nome:" + usuario.getNome() + "; Perfil:" + usuario.getPerfil();
+            String textoQr = "ID:" + usuario.getId() + "; Nome:" + usuario.getNome() + "; Perfil:" + usuario.getPerfil() + "; Descricao" + usuario.getDescricao();
 
-            byte[] imagemQr = QRCodeGenerator.gerarQRCodeBytes(textoQr, 350, 350);
+            byte[] imagemQr = QRCodeGenerator.gerarQRCodeBytes(textoQr, 400, 400);
 
             return ResponseEntity.ok()
                     .header("Content-Type", "image/png")

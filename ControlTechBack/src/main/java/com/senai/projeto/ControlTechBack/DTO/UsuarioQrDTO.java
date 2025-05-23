@@ -15,5 +15,4 @@ public class UsuarioQrDTO {
         this.perfil = perfil;
         this.descricao = descricao;
     }
-
 }
