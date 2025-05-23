@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ferramentas - SENAI App</title>
   <link href="../CSS/Ferramenta.css" rel="stylesheet" />
-  <script src="../JS/Ferramenta.js" defer></script>
- </head>
+</head>
 <body>
 
   <header>
@@ -18,21 +17,58 @@
     </nav>
   </header>
 
+  <img src="../img/Alicate Abraçadeira.jfif" alt="Ferramentas" class="imagem-lateral" />
+
   <div class="container">
     <h2>Selecione a Peça Mecânica</h2>
 
     <div class="search-bar">
       <input type="text" placeholder="Pesquise a peça desejada..." id="searchInput" oninput="filtrarFerramentas()"/>
-    </div>
 
-    <div class="carousel-wrapper">
-      <button class="carousel-button" onclick="moverEsquerda()">⬅️</button>
-      <div class="carousel-container">
-        <div class="carousel" id="carouselFerramentas">
-          <!-- Os cards são inseridos via JavaScript -->
+      <!-- AGORA o carrossel está dentro da search-bar -->
+      <div class="carousel-wrapper">
+        <button class="carousel-button" onclick="moverEsquerda()">⬅️</button>
+        <div class="carousel-container">
+          <div class="carousel" id="carouselFerramentas">
+            <div class="tool-card" data-nome="Chave de Fenda">
+              <img src="/img/Alicate Abraçadeira.jfif" alt="Chave de Fenda">
+              <h3>Chave de Fenda</h3>
+              <button>Selecionar</button>
+            </div>
+            <div class="tool-card" data-nome="Martelo">
+              <img src="/img/Alicate.png" alt="Martelo">
+              <h3>Martelo</h3>
+              <button>Selecionar</button>
+            </div>
+            <div class="tool-card" data-nome="Alicate">
+              <img src="/img/ferramenta4.png" alt="Alicate">
+              <h3>Alicate</h3>
+              <button>Selecionar</button>
+            </div>
+            <div class="tool-card" data-nome="Chave Inglesa">
+              <img src="/img/ferramenta3.png" alt="Chave Inglesa">
+              <h3>Chave Inglesa</h3>
+              <button>Selecionar</button>
+            </div>
+            <div class="tool-card" data-nome="Serra">
+              <img src="/img/ChaveFenda.jpg" alt="Serra">
+              <h3>Serra</h3>
+              <button>Selecionar</button>
+            </div>
+            <div class="tool-card" data-nome="Furadeira">
+              <img src="/img/alicate_para_abracadeira.png" alt="Furadeira">
+              <h3>Furadeira</h3>
+              <button>Selecionar</button>
+            </div>
+            <div class="tool-card" data-nome="Trena">
+              <img src="/img/Alicate Torques.png" alt="Trena">
+              <h3>Trena</h3>
+              <button>Selecionar</button>
+            </div>
+          </div>
         </div>
+        <button class="carousel-button" onclick="moverDireita()">➡️</button>
       </div>
-      <button class="carousel-button" onclick="moverDireita()">➡️</button>
     </div>
   </div>
 
@@ -40,75 +76,43 @@
     &copy; 2025 SENAI. Todos os direitos reservados.
   </footer>
 
-  <script>
-    const ferramentas = [
-      { nome: "Chave de Fenda", img: "https://cdn-icons-png.flaticon.com/512/2357/2357457.png" },
-      { nome: "Martelo", img: "https://cdn-icons-png.flaticon.com/512/2933/2933186.png" },
-      { nome: "Alicate", img: "https://cdn-icons-png.flaticon.com/512/4322/4322961.png" },
-      { nome: "Chave Inglesa", img: "https://cdn-icons-png.flaticon.com/512/2340/2340994.png" },
-      { nome: "Serra", img: "https://cdn-icons-png.flaticon.com/512/618/618649.png" },
-      { nome: "Furadeira", img: "https://cdn-icons-png.flaticon.com/512/1055/1055646.png" },
-      { nome: "Trena", img: "https://cdn-icons-png.flaticon.com/512/589/589671.png" }
-    ];
+</body>
+</html>
 
+
+  <script>
     let inicio = 0;
 
-    function renderizarFerramentas() {
-      const container = document.getElementById("carouselFerramentas");
-      container.innerHTML = "";
-      const visiveis = ferramentas.slice(inicio, inicio + 4);
-
-      visiveis.forEach(f => {
-        const card = document.createElement("div");
-        card.className = "tool-card";
-        card.setAttribute("data-nome", f.nome);
-        card.innerHTML = `
-          <img src="${f.img}" alt="${f.nome}">
-          <h3>${f.nome}</h3>
-          <button>Selecionar</button>
-        `;
-        container.appendChild(card);
-      });
-
-      const offset = inicio * -210; // 200px largura + 10px gap
-      container.style.transform = `translateX(${offset}px)`;
-    }
-
     function moverDireita() {
-      if (inicio + 4 < ferramentas.length) {
+      const carousel = document.getElementById("carouselFerramentas");
+      const totalCards = carousel.children.length;
+      if (inicio + -100 < totalCards) { //O numero de VOLTAS é o numero Negativo\\
         inicio++;
-        renderizarFerramentas();
+        atualizarCarrossel();
       }
     }
 
     function moverEsquerda() {
       if (inicio > 0) {
         inicio--;
-        renderizarFerramentas();
+        atualizarCarrossel();
       }
+    }
+
+    function atualizarCarrossel() {
+      const carousel = document.getElementById("carouselFerramentas");
+      const offset = inicio * -210;
+      carousel.style.transform = `translateX(${offset}px)`;
     }
 
     function filtrarFerramentas() {
       const input = document.getElementById("searchInput").value.toLowerCase();
-      const container = document.getElementById("carouselFerramentas");
-      container.innerHTML = "";
-
-      const filtradas = ferramentas.filter(f => f.nome.toLowerCase().includes(input)).slice(0, 4);
-      filtradas.forEach(f => {
-        const card = document.createElement("div");
-        card.className = "tool-card";
-        card.setAttribute("data-nome", f.nome);
-        card.innerHTML = `
-          <img src="${f.img}" alt="${f.nome}">
-          <h3>${f.nome}</h3>
-          <button>Selecionar</button>
-        `;
-        container.appendChild(card);
+      const cards = document.querySelectorAll(".tool-card");
+      cards.forEach(card => {
+        const nome = card.getAttribute("data-nome").toLowerCase();
+        card.style.display = nome.includes(input) ? "block" : "none";
       });
     }
-
-    // Inicializa a tela
-    renderizarFerramentas();
   </script>
 
 </body>

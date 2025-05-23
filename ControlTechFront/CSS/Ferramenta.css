@@ -35,30 +35,32 @@ nav a {
 }
 
 nav a:hover {
-  background-color: #0052a3;
+  background-color: #111112;
   transform: scale(1.05);
 }
 
 .container {
-  flex: 1;
+  flex: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: #f4f4f4;
-  padding: 2rem;
+  padding: 20rem;
 }
 
   .search-bar {
-    margin-bottom: 1rem;
+    margin-bottom: 5rem;
   }
 
   .search-bar input {
-    width: 100%;
-    padding: 0.75rem;
+    width: 101%;
+    padding: 1rem;
+    margin: 30px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 8px;
+    position: absolute;
   }
 
   .carousel-wrapper {
@@ -66,7 +68,7 @@ nav a:hover {
     align-items: center;
     justify-content: center;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .carousel-button {
@@ -74,21 +76,22 @@ nav a:hover {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0 1rem;
+    padding: 5rem;
     color: #004b8d;
     z-index: 1;
   }
 
   .carousel-container {
-    overflow: hidden;
+    overflow:auto;
     width: 100%;
-    max-width: 1000px;
+    max-width: 5000px;
   }
 
   .carousel {
     display: flex;
-    gap: 1rem;
-    transition: transform 0.5s ease-in-out;
+    gap: 2rem;
+    position: sticky;
+    transition: transform 0s ease-in-out;
   }
 
   .tool-card {
@@ -124,8 +127,56 @@ nav a:hover {
     background: #ccc;
     text-align: center;
     padding: 1rem;
-    font-size: 0.9rem;
-    position: absolute;
+    font-size: 1rem;
+    position: fixed;
     bottom: 0;
     width: 100%;
   }
+
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 50%;
+    padding: 40px;
+    z-index: 20;
+    position: relative;
+  }
+  
+  .carousel-wrapper {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .carousel-container {
+    overflow: hidden;
+    width: 800px;
+  }
+  
+  .carousel {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .tool-card {
+    width: 200px;
+    margin-right: 10px;
+    text-align: center;
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .imagem-lateral {
+    position: absolute;
+    right: 0;
+    top: 1;
+    height: 90vh;
+    width: 750px;
+    object-fit: cover;
+    opacity: 1;
+  }
+  
