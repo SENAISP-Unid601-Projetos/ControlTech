@@ -1,0 +1,73 @@
+body, html {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #f2f4f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #222;
+  margin: 0;
+}
+.login-card {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+  min-width: 320px;
+  max-width: 400px;
+  text-align: center;
+}
+.login-card h1 {
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  color: #003a75;
+}
+.login-card p {
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+.info-aluno {
+  margin-top: 1.8rem;
+  text-align: left;
+  background: #f9fafb;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  color: #222;
+  display: none;
+}
+.info-aluno div {
+  margin-bottom: 0.6rem;
+}
+.info-aluno label {
+  font-weight: 600;
+  display: inline-block;
+  width: 70px;
+  color: #003a75;
+}
+button {
+  margin-top: 1.8rem;
+  width: 100%;
+  background-color: #003a75;
+  border: none;
+  padding: 1rem;
+  font-weight: 700;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+}
+button:hover {
+  background-color: #002950;
+}
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #ccc;
+  color: #333;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 1rem;
+}
