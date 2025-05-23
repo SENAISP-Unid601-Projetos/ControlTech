@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="../CSS/Ajuda.css">
   <script src="../JS/Ajuda.js" defer></script>
   <title>Ajuda - SENAI App</title>
-  </head>
+</head>
 <body>
 
   <header>
@@ -14,7 +14,6 @@
     <nav>
       <a href="Ferramentas.html">Ferramentas 🛠️</a>
       <a href="Ajuda.html">Ajuda 🆘</a>
-      <a href="Home.html">Home 🏠</a>
       <a href="Saida.html">Saída ❌</a>
     </nav>
   </header>
@@ -52,12 +51,19 @@
 
       <button type="submit">Enviar</button>
     </form>
+  </div>
 
+  <!-- Popup de confirmação -->
+  <div class="popup" id="popupAjuda">
+    <div class="popup-content">
+      <p id="mensagemPopup"></p>
+      <button onclick="fecharPopup()">OK</button>
+    </div>
   </div>
 
   <footer>
     &copy; 2025 SENAI. Todos os direitos reservados.
   </footer>
-  
+
 </body>
 </html>

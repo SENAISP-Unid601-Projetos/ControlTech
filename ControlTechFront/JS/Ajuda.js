@@ -1,4 +1,5 @@
 const form = document.getElementById('formAjuda');
+
 form.addEventListener('submit', function(e) {
   e.preventDefault();
 
@@ -11,9 +12,19 @@ form.addEventListener('submit', function(e) {
     return;
   }
 
-  // Aqui você pode implementar o envio do formulário, via AJAX, API, etc.
-  // Por enquanto, só um alerta de confirmação:
-  alert(`Obrigado, ${nome}! Seu problema foi registrado. Em breve entraremos em contato pelo e-mail ${email}.`);
+  // Define mensagem personalizada no popup
+  const mensagem = document.getElementById('mensagemPopup');
+  mensagem.innerHTML = `✅ Obrigado, <strong>${nome}</strong>! Seu problema foi registrado. Entraremos em contato pelo e-mail <strong>${email}</strong>.`;
 
+  // Mostra o popup
+  const popup = document.getElementById('popupAjuda');
+  popup.style.display = 'flex';
+
+  // Limpa o formulário
   form.reset();
 });
+
+function fecharPopup() {
+  const popup = document.getElementById('popupAjuda');
+  popup.style.display = 'none';
+}
