@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-    Optional<Usuario> findByQrCode(String qrCode);
+    Optional<Usuario> findByCodigoCracha(String codigoCracha);
     Optional<Usuario> findById(Long id);
+
 }

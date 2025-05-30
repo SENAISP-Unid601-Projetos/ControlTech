@@ -8,5 +8,5 @@ public class UsuarioOutputDTO {
     private String nome;
     private String perfil;
     private String descricao;
-    private String qrCode;
+    private String codigoCracha;
 }

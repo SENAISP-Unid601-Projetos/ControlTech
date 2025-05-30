@@ -1,10 +1,7 @@
 package com.senai.projeto.ControlTechBack.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -15,10 +12,13 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     long id;
-    String nome;
-    String perfil;
-    String descricao;
-    String qrCode;
+    private String nome;
+    private String perfil;
+    private String descricao;
+
+    // Novo campo:
+    @Column(unique = true)
+    private String codigoCracha;
 
 
 }

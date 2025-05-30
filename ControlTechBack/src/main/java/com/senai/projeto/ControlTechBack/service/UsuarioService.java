@@ -22,49 +22,50 @@ public class UsuarioService {
         Usuario usuario = new Usuario();
         usuario.setNome(dto.getNome());
         usuario.setPerfil(dto.getPerfil());
-        usuario.setQrCode(dto.getQrCode());
-        usuario.setDescricao(dto.getDescricao() != null ? dto.getDescricao() : ""); // Ensure descricao is set
+        usuario.setCodigoCracha(dto.getCodigoCracha()); // Lê o código do crachá como ID do SENAI
+        usuario.setDescricao(dto.getDescricao() != null ? dto.getDescricao() : "");
 
         Usuario salvo = usuarioRepository.save(usuario);
-
-        return toResponseDTO(salvo);
+        return toOutputDTO(salvo);
     }
 
     public List<UsuarioOutputDTO> listarTodos() {
         return usuarioRepository.findAll()
                 .stream()
-                .map(this::toResponseDTO)
+                .map(this::toOutputDTO)
                 .collect(Collectors.toList());
     }
 
-    public UsuarioOutputDTO buscarPorQrCode(String qrCode) {
-        Optional<Usuario> usuario = usuarioRepository.findByQrCode(qrCode);
-        return usuario.map(this::toResponseDTO)
+    public UsuarioOutputDTO buscarPorId(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        return toOutputDTO(usuario);
     }
 
-    private UsuarioOutputDTO toResponseDTO(Usuario usuario) {
+    public UsuarioQrDTO buscarQrPorId(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        return new UsuarioQrDTO(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getPerfil(),
+                usuario.getDescricao() != null ? usuario.getDescricao() : ""
+        );
+    }
+
+    public UsuarioOutputDTO buscarPorCodigoCracha(String codigoCracha) {
+        Usuario usuario = usuarioRepository.findByCodigoCracha(codigoCracha)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado com o crachá informado"));
+        return toOutputDTO(usuario);
+    }
+
+    private UsuarioOutputDTO toOutputDTO(Usuario usuario) {
         UsuarioOutputDTO dto = new UsuarioOutputDTO();
         dto.setId(usuario.getId());
         dto.setNome(usuario.getNome());
         dto.setPerfil(usuario.getPerfil());
-        dto.setQrCode(usuario.getQrCode());
+        dto.setDescricao(usuario.getDescricao());
+        dto.setCodigoCracha(usuario.getCodigoCracha());
         return dto;
-    }
-
-    public UsuarioOutputDTO buscarPorId(Long id) {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
-        return usuario.map(this::toResponseDTO)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-    }
-
-    public UsuarioQrDTO buscarQrPorId(Long id) {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
-        return usuario.map(u -> new UsuarioQrDTO(
-                u.getId(),
-                u.getNome(),
-                u.getPerfil(),
-                u.getDescricao() != null ? u.getDescricao() : ""
-        )).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
     }
 }
