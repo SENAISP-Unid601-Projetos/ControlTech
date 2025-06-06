@@ -6,24 +6,15 @@
   <link rel="stylesheet" href="../CSS/Ajuda.css">
   <script src="../JS/Ajuda.js" defer></script>
   <title>Ajuda - SENAI App</title>
-</head>
+  </head>
 <body>
 
   <header>
     <div class="logo">SENAI - ControlTech</div>
     <nav>
-<<<<<<< HEAD
-      <ul>
-        <li><a href="PortalFerramentas.html">PEÇAS EM USO</a></li>
-        <li><a href="Home.html">HOME</a></li>
-        <li><a href="#">AJUDA </a></li>
-        <li><a href="#"></a></li>
-      </ul>
-=======
       <a href="Ferramentas.html">Ferramentas 🛠️</a>
       <a href="Ajuda.html">Ajuda 🆘</a>
       <a href="Saida.html">Saída ❌</a>
->>>>>>> 1e39ebcdd6e18a7bce7362b224da80a37ae522a2
     </nav>
   </header>
 
@@ -60,19 +51,23 @@
 
       <button type="submit">Enviar</button>
     </form>
-  </div>
 
-  <!-- Popup de confirmação -->
-  <div class="popup" id="popupAjuda">
-    <div class="popup-content">
-      <p id="mensagemPopup"></p>
-      <button onclick="fecharPopup()">OK</button>
-    </div>
   </div>
 
   <footer>
     &copy; 2025 SENAI. Todos os direitos reservados.
   </footer>
 
+   <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+  
 </body>
 </html>

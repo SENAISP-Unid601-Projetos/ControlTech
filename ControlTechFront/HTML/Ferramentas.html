@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ferramentas - SENAI App</title>
   <link href="../CSS/Ferramenta.css" rel="stylesheet" />
-  <script src="../JS/Ferramenta.js" defer></script>
+  <script src="/ControlTechFront/JS/Ferramenta.js" defer></script>
 </head>
 <body>
+
   <header>
     <div class="logo">SENAI - ControlTech</div>
     <nav>
@@ -17,59 +18,73 @@
     </nav>
   </header>
 
+  <img src="../img/Alicate Abraçadeira.jfif" alt="Ferramentas" class="imagem-lateral" />
+
   <div class="container">
     <h2>Selecione a Peça Mecânica</h2>
+
     <div class="search-bar">
-      <input type="text" placeholder="Pesquise a peça desejada..." id="searchInput" oninput="filtrarFerramentas()" />
-    </div>
-    <div class="carousel-wrapper">
-      <button class="carousel-button" onclick="scrollCarousel(-1)">⬅️</button>
-      <div class="carousel-container">
-        <div class="carousel" id="carouselFerramentas">
-          <!-- Ferramentas com imagens aqui -->
-          <div class="tool-card" data-nome="Chave de Fenda">
-            <img src="https://cdn-icons-png.flaticon.com/512/2357/2357457.png" alt="Chave de Fenda">
-            <h3>Chave de Fenda</h3>
-            <button>Selecionar</button>
-          </div>
-          <div class="tool-card" data-nome="Martelo">
-            <img src="https://cdn-icons-png.flaticon.com/512/2933/2933186.png" alt="Martelo">
-            <h3>Martelo</h3>
-            <button>Selecionar</button>
-          </div>
-          <div class="tool-card" data-nome="Alicate">
-            <img src="https://cdn-icons-png.flaticon.com/512/4322/4322961.png" alt="Alicate">
-            <h3>Alicate</h3>
-            <button>Selecionar</button>
-          </div>
-          <div class="tool-card" data-nome="Chave Inglesa">
-            <img src="https://cdn-icons-png.flaticon.com/512/2340/2340994.png" alt="Chave Inglesa">
-            <h3>Chave Inglesa</h3>
-            <button>Selecionar</button>
-          </div>
-          <div class="tool-card" data-nome="Serra">
-            <img src="https://cdn-icons-png.flaticon.com/512/618/618649.png" alt="Serra">
-            <h3>Serra</h3>
-            <button>Selecionar</button>
-          </div>
-          <div class="tool-card" data-nome="Furadeira">
-            <img src="https://cdn-icons-png.flaticon.com/512/1055/1055646.png" alt="Furadeira">
-            <h3>Furadeira</h3>
-            <button>Selecionar</button>
-          </div>
-          <div class="tool-card" data-nome="Trena">
-            <img src="https://cdn-icons-png.flaticon.com/512/589/589671.png" alt="Trena">
-            <h3>Trena</h3>
-            <button>Selecionar</button>
+      <input type="text" placeholder="Pesquise a peça desejada..." id="searchInput" oninput="filtrarFerramentas()"/>
+
+      <div class="carousel-wrapper">
+        <button class="carousel-button" id="prevButton">⬅</button>
+        <div class="carousel-container">
+          <div class="carousel" id="carouselFerramentas">
+            <div class="tool-card" data-nome="Chave de Fenda">
+              <img src="/ControlTechFront/img/Alicate Abraçadeira.jfif" alt="Chave de Fenda">
+              <h3>Chave de Fenda</h3>
+              <button>Selecionar</button>
+            </div>
+            <div class="tool-card" data-nome="Martelo">
+              <img src="/ControlTechFront/img/Alicate.png" alt="Martelo">
+              <h3>Martelo</h3>
+              <button>Selecionar</button>
+            </div>
+            <div class="tool-card" data-nome="Alicate">
+              <img src="/ControlTechFront/img/ferramenta4.png" alt="Alicate">
+              <h3>Alicate</h3>
+              <button>Selecionar</button>
+            </div>
+            <div class="tool-card" data-nome="Chave Inglesa">
+              <img src="/ControlTechFront/img/ferramenta3.png" alt="Chave Inglesa">
+              <h3>Chave Inglesa</h3>
+              <button>Selecionar</button>
+            </div>
+            <div class="tool-card" data-nome="Serra">
+              <img src="/ControlTechFront/img/ChaveFenda.jpg" alt="Serra">
+              <h3>Serra</h3>
+              <button>Selecionar</button>
+            </div>
+            <div class="tool-card" data-nome="Furadeira">
+              <img src="/ControlTechFront/img/alicate_para_abracadeira.png" alt="Furadeira">
+              <h3>Furadeira</h3>
+              <button>Selecionar</button>
+            </div>
+            <div class="tool-card" data-nome="Trena">
+              <img src="/ControlTechFront/img/Alicate Torques.png" alt="Trena">
+              <h3>Trena</h3>
+              <button>Selecionar</button>
+            </div>
           </div>
         </div>
+        <button class="carousel-button" id="nextButton">⭢</button>
       </div>
-      <button class="carousel-button" onclick="scrollCarousel(1)">➡️</button>
     </div>
   </div>
 
   <footer>
     &copy; 2025 SENAI. Todos os direitos reservados.
   </footer>
+
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
 </body>
 </html>

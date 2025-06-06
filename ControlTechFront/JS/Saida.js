@@ -29,4 +29,10 @@ const crachasCadastrados = {
     }
   }
 
-  
+  function registrarSaida() {
+    alert("Saída registrada com sucesso!");
+    window.location.href = "Login.html";
+  }
+
+  document.addEventListener("click", focusInput);
+  document.addEventListener("keydown", focusInput);

@@ -9,7 +9,6 @@
 </head>
 <body onload="focusInput()">
 
-
     <header>
         <div class="logo">SENAI - ControlTech</div>
         <nav>
@@ -29,6 +28,17 @@
       <button id="confirmarBtn" onclick="registrarSaida()">Confirmar Saída</button>
     </div>
   </div>
+
+   <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
 
   <footer class="">
     &copy; 2025 SENAI. Todos os direitos reservados.
