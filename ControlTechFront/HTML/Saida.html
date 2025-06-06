@@ -2,35 +2,72 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Saída - SENAI</title>
+  <title>Registro de Saída - SENAI ControlTech</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="../CSS/Saida.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="../JS/Saida.js" defer></script>
 </head>
-<body onload="focusInput()">
+<body>
 
-    <header>
-        <div class="logo">SENAI - ControlTech</div>
-        <nav>
-          <a href="Ferramentas.html">Ferramentas 🛠️</a>
-          <a href="Ajuda.html">Ajuda 🆘</a>
-          <a href="Saida.html">Saída ❌</a>
-        </nav>
-      </header>
+  <header>
+    <div class="logo">SENAI - ControlTech</div>
+    <nav>
+      <a href="Ferramentas.html"><i class="fas fa-tools"></i> Ferramentas</a>
+      <a href="Ajuda.html"><i class="fas fa-question-circle"></i> Ajuda</a>
+       <a href="Devolver.html" class="active"><i class="fas fa-sign-out-alt"></i>Devolver</a>
+      <a href="Saida.html" class="active"><i class="fas fa-sign-out-alt"></i> Saída</a>
+    </nav>
+  </header>
 
   <div class="container">
     <div class="saida-box">
-      <h2>Aproxime seu crachá para registrar a saída</h2>
-      <input type="text" id="crachaInput" oninput="lerCracha()" autofocus />
-      <div class="info" id="dadosAluno">
-        Aguardando leitura do crachá...
+      <div class="scanner-animation" id="scannerAnimation">
+        <div class="laser"></div>
       </div>
-      <button id="confirmarBtn" onclick="registrarSaida()">Confirmar Saída</button>
+      <h2><i class="fas fa-id-card"></i> Aproxime seu crachá</h2>
+      <p class="instructions">Posicione o crachá próximo ao leitor para registrar sua saída</p>
+      
+      <input type="text" id="crachaInput" autocomplete="off" placeholder="Número do crachá (auto preenchido)" readonly />
+      
+      <div class="info-card" id="dadosAluno">
+        <div class="placeholder">
+          <i class="fas fa-user-graduate"></i>
+          <p>Aguardando leitura do crachá...</p>
+        </div>
+      </div>
+      
+      <button id="confirmarBtn" class="btn-primary" disabled>
+        <i class="fas fa-check-circle"></i> Confirmar Saída
+      </button>
+      
+      <div class="time-display">
+        <i class="fas fa-clock"></i>
+        <span id="currentTime">--:--:--</span>
+        <span id="currentDate">--/--/----</span>
+      </div>
     </div>
+    
+    <div class="notification" id="notification"></div>
   </div>
 
-  <footer class="">
-    &copy; 2025 SENAI. Todos os direitos reservados.
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 SENAI. Todos os direitos reservados.</p>
+      <p class="version"></p>
+    </div>
   </footer>
+
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
 </body>
 </html>

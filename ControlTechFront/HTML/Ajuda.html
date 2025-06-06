@@ -3,19 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="../CSS/Ajuda.css">
-  <script src="../JS/Ajuda.js" defer></script>
   <title>Ajuda - SENAI App</title>
-  </head>
+  <link rel="stylesheet" href="/ControlTechFront/CSS/Ajuda.css">
+  <!-- Adicionando Font Awesome para ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Estilos para o header */
+    header {
+      background-color: #004b8d;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+
+    nav {
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      background-color: #0061c0;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    nav a:hover {
+      background-color: #111112;
+    }
+
+    nav a i {
+      font-size: 1.2rem;
+    }
+  </style>
+  <script src="/ControlTechFront/JS/Ajuda.js" defer></script>
+</head>
 <body>
 
-  <header>
+ <header>
     <div class="logo">SENAI - ControlTech</div>
     <nav>
-      <a href="Ferramentas.html">Ferramentas 🛠️</a>
-      <a href="Ajuda.html">Ajuda 🆘</a>
-      <a href="Home.html">Home 🏠</a>
-      <a href="Saida.html">Saída ❌</a>
+      <a href="Ferramentas.html"><i class="fas fa-tools"></i> Ferramentas</a>
+      <a href="Ajuda.html"><i class="fas fa-question-circle"></i> Ajuda</a>
+       <a href="Devolver.html" class="active"><i class="fas fa-sign-out-alt"></i>Devolver</a>
+      <a href="Saida.html" class="active"><i class="fas fa-sign-out-alt"></i> Saída</a>
     </nav>
   </header>
 
@@ -52,12 +97,18 @@
 
       <button type="submit">Enviar</button>
     </form>
-
   </div>
 
   <footer>
     &copy; 2025 SENAI. Todos os direitos reservados.
   </footer>
-  
+
+  <!-- POP-UP -->
+  <div class="popup" id="popupAjuda">
+    <div class="popup-content">
+      <p id="mensagemPopup"></p>
+      <button onclick="fecharPopup()">OK</button>
+    </div>
+  </div>
 </body>
 </html>

@@ -1,133 +1,184 @@
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #f4f4f4;
-}
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+      height: auto;
+    }
 
-header {
-  background-color: #004b8d;
-  color: white;
-  padding: 1rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
+    header {
+      background-color: #004b8d;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
 
-.logo {
-  font-size: 1.6rem;
-  font-weight: 600;
-}
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
 
-nav {
-  display: flex;
-  gap: 1rem;
-}
+    nav {
+      display: flex;
+      gap: 1rem;
+    }
 
-nav a {
-  color: white;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  background-color: #0061c0;
-  border-radius: 8px;
-  transition: background-color 0.3s, transform 0.2s;
-  font-weight: 500;
-}
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      background-color: #0061c0;
+      border-radius: 8px;
+      transition: background-color 0.3s, transform 0.2s;
+      font-weight: 500;
+    }
 
-nav a:hover {
-  background-color: #0052a3;
-  transform: scale(1.05);
-}
+    nav a:hover {
+      background-color: #0052a3;
+      transform: scale(1.05);
+    }
 
-.container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  background: #f4f4f4;
-  padding: 2rem;
-  max-width: 700px;
-  margin: 0 auto;
-  min-height: calc(100vh - 140px); /* header + footer */
-}
+    .container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: #f4f4f4;
+      padding: 2rem;
+      max-width: 700px;
+      margin: 0 auto;
+      min-height: calc(100vh - 140px);
+    }
 
-h2 {
-  color: #004b8d;
-}
+    h2 {
+      color: #004b8d;
+    }
 
-.faq {
-  margin-top: 1rem;
-  width: 100%;
-}
+    .faq {
+      margin-top: 1rem;
+      width: 100%;
+    }
 
-.faq-item {
-  background: white;
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
+    .faq-item {
+      background: white;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
 
-.faq-item h3 {
-  margin: 0 0 0.5rem 0;
-}
+    .faq-item h3 {
+      margin: 0 0 0.5rem 0;
+    }
 
-form {
-  background: white;
-  padding: 1.5rem 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  width: 100%;
-  margin-top: 2rem;
-  box-sizing: border-box;
-}
+    form {
+      background: white;
+      padding: 1.5rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      width: 100%;
+      margin: 21px 0;
+      box-sizing: border-box;
+    }
 
-form label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 0.4rem;
-  color: #004b8d;
-}
+    form label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.9rem;
+      color: #004b8d;
+    }
 
-form input, form textarea {
-  width: 100%;
-  padding: 0.6rem 0.8rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-  resize: vertical;
-}
+    form input, form textarea {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+      resize: vertical;
+    }
 
-form textarea {
-  min-height: 80px;
-}
+    form textarea {
+      min-height: 80px;
+    }
 
-form button {
-  background-color: #004b8d;
-  color: white;
-  border: none;
-  padding: 0.9rem 1.5rem;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+    form button {
+      background-color: #004b8d;
+      color: white;
+      border: none;
+      padding: 0.9rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-form button:hover {
-  background-color: #003366;
-}
+    form button:hover {
+      background-color: #003366;
+    }
 
-footer {
-  background: #ccc;
-  text-align: center;
-  padding: 1rem;
-  font-size: 0.9rem;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
+    footer {
+      background: #ccc;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      margin-top: auto;
+    }
+
+    /* POP-UP ESTILO AZUL SENAI */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup-content {
+      background-color: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 15px rgba(0, 58, 117, 0.4);
+      text-align: center;
+      color: #003a75;
+      font-family: Arial, sans-serif;
+    }
+
+    .popup-content p {
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+
+    .popup-content strong {
+      color: #004b8d;
+    }
+
+    .popup-content button {
+      background-color: #004b8d;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .popup-content button:hover {
+      background-color: #003366;
+    }
+

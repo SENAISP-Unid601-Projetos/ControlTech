@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -5,102 +6,89 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Devolução de Itens - SENAI</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    body {
-      background: linear-gradient(to right, #e0f2fe, #ffffff);
-    }
-    .animated-button {
-      transition: all 0.3s ease-in-out;
-    }
-    .animated-button:hover {
-      transform: scale(1.05);
-      background-color: #2563eb;
-    }
-    .fade-in {
-      opacity: 0;
-      animation: fadeIn ease-in 1;
-      animation-fill-mode: forwards;
-      animation-duration: 0.8s;
-    }
-    @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/ControlTechFront/CSS/Devolver.css">
+  <script src="/ControlTechFront/JS/Devolver.js" defer></script>
+
 </head>
-<body class="bg-gray-100 font-sans fade-in">
-  <div class="max-w-3xl mx-auto p-6 mt-10 bg-white rounded-2xl shadow-lg">
+<body class="bg-gray-100 font-sans">
+  <header>
+    <div class="logo">SENAI - ControlTech</div>
+    <nav>
+      <a href="Ferramentas.html">
+        <i class="fas fa-tools"></i>
+        <span>Ferramentas</span>
+      </a>
+      <a href="Devolver.html">
+        <i class="fas fa-undo"></i>
+        <span>Devolver</span>
+      </a>
+      <a href="Ajuda.html">
+        <i class="fas fa-question-circle"></i>
+        <span>Ajuda</span>
+      </a>
+      <a href="Saida.html">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Sair</span>
+      </a>
+    </nav>
+  </header>
+
+  <div class="main-content">
     <h1 class="text-2xl font-bold text-center text-blue-700 mb-6">Devolução de Itens</h1>
-    <form id="devolucaoForm" class="space-y-4">
-
+    
+    <div class="info-box mb-4">
       <div>
-        <label for="cracha" class="block text-sm font-medium text-gray-700">Passe o crachá do funcionário</label>
-        <input type="text" id="cracha" name="cracha" placeholder="Aproxime o crachá ou digite o código" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+        <label for="cracha" class="block text-sm font-medium text-gray-700">Passe o crachá do funcionário (apenas números)</label>
+        <input type="text" id="cracha" name="cracha" 
+               placeholder="Aproxime o crachá ou digite o código" 
+               class="input-field" 
+               required
+               maxlength="5"
+               pattern="\d+"
+               title="Digite apenas números (5 dígitos)" />
       </div>
+    </div>
 
-      <div id="dadosFuncionario" class="hidden space-y-2 p-4 bg-gray-50 rounded-md border border-gray-200">
-        <p><strong>ID:</strong> <span id="funcId"></span></p>
-        <p><strong>Nome:</strong> <span id="funcNome"></span></p>
-        <p><strong>Data:</strong> <span id="dataAtual"></span></p>
-        <p><strong>Horário:</strong> <span id="horaAtual"></span></p>
-      </div>
+    <div id="infoUsuario" class="info-box mb-4 hidden">
+      <p><strong>ID do Funcionário:</strong> <span id="funcId"></span></p>
+      <p><strong>Nome:</strong> <span id="funcNome"></span></p>
+      <p><strong>Data:</strong> <span id="dataAtual"></span></p>
+      <p><strong>Horário:</strong> <span id="horaAtual"></span></p>
+    </div>
 
+    <form id="devolucaoForm" class="space-y-4 hidden">
       <div>
         <label for="objeto" class="block text-sm font-medium text-gray-700">Objeto ou ID do item a ser devolvido</label>
-        <input type="text" id="objeto" name="objeto" placeholder="Ex: Livro de Mecânica ou ID 1234" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+        <input type="text" id="objeto" name="objeto" placeholder="Ex: Livro de Mecânica ou ID 1234" class="input-field" required />
       </div>
 
       <div>
         <label for="observacoes" class="block text-sm font-medium text-gray-700">Observações</label>
-        <textarea id="observacoes" name="observacoes" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+        <textarea id="observacoes" name="observacoes" rows="3" class="input-field"></textarea>
       </div>
 
       <div class="text-center">
-        <button type="submit" class="animated-button inline-block bg-blue-600 text-white px-6 py-2 rounded-full shadow-md hover:bg-blue-700 focus:outline-none">Confirmar Devolução</button>
+        <button type="submit" class="submit-button">Confirmar Devolução</button>
       </div>
     </form>
-    <div id="mensagemSucesso" class="hidden mt-4 text-green-600 text-center font-semibold"></div>
+    <div id="mensagem" class="hidden mt-4 p-3 rounded text-center font-semibold"></div>
   </div>
 
+  <footer>
+    &copy; 2025 SENAI. Todos os direitos reservados.
+  </footer>
+
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
   <script>
-    function preencherDataHora() {
-      const agora = new Date();
-      const data = agora.toLocaleDateString('pt-BR');
-      const hora = agora.toLocaleTimeString('pt-BR');
-      document.getElementById("dataAtual").textContent = data;
-      document.getElementById("horaAtual").textContent = hora;
-    }
-
-    document.getElementById("cracha").addEventListener("change", function() {
-      const valor = this.value.trim();
-
-      // Simulação de leitura do crachá
-      if (valor) {
-        document.getElementById("funcId").textContent = valor;
-        document.getElementById("funcNome").textContent = "João da Silva"; // Pode ser dinâmico futuramente
-        preencherDataHora();
-        document.getElementById("dadosFuncionario").classList.remove("hidden");
-      }
-    });
-
-    document.getElementById("devolucaoForm").addEventListener("submit", function(event) {
-      event.preventDefault();
-
-      const cracha = document.getElementById("cracha").value;
-      const objeto = document.getElementById("objeto").value;
-
-      if (cracha && objeto) {
-        document.getElementById("mensagemSucesso").textContent = `Objeto "${objeto}" devolvido com sucesso pelo funcionário de ID ${cracha}.`;
-        document.getElementById("mensagemSucesso").classList.remove("hidden");
-        this.reset();
-        document.getElementById("dadosFuncionario").classList.add("hidden");
-      } else {
-        document.getElementById("mensagemSucesso").textContent = "Por favor, preencha todos os campos obrigatórios.";
-        document.getElementById("mensagemSucesso").classList.remove("text-green-600");
-        document.getElementById("mensagemSucesso").classList.add("text-red-600");
-        document.getElementById("mensagemSucesso").classList.remove("hidden");
-      }
-    });
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
   </script>
+
 </body>
-</html>
+ </html>

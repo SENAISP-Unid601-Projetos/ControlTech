@@ -1,5 +1,4 @@
 function simularLeituraCracha(crachaCodigo) {
-  // Dados simulados para diferentes crachás
   const alunos = {
     "12345": { id: "12345", nome: "João da Silva" },
     "67890": { id: "67890", nome: "Maria Oliveira" },
@@ -7,35 +6,50 @@ function simularLeituraCracha(crachaCodigo) {
   };
 
   const aluno = alunos[crachaCodigo];
-
   const statusMsg = document.getElementById('statusMsg');
   const infoAluno = document.getElementById('infoAluno');
 
-  if(aluno) {
+  if (aluno) {
     const agora = new Date();
-    const dataFormatada = agora.toLocaleDateString('pt-BR');
-    const horaFormatada = agora.toLocaleTimeString('pt-BR');
-
+    // @ts-ignore
     document.getElementById('idAluno').textContent = aluno.id;
+    // @ts-ignore
     document.getElementById('nomeAluno').textContent = aluno.nome;
-    document.getElementById('dataAtual').textContent = dataFormatada;
-    document.getElementById('horaAtual').textContent = horaFormatada;
-
+    // @ts-ignore
+    document.getElementById('dataAtual').textContent = agora.toLocaleDateString('pt-BR');
+    // @ts-ignore
+    document.getElementById('horaAtual').textContent = agora.toLocaleTimeString('pt-BR');
+    // @ts-ignore
     statusMsg.textContent = "Crachá lido com sucesso!";
+    // @ts-ignore
     infoAluno.style.display = 'block';
   } else {
+    // @ts-ignore
     statusMsg.textContent = "Crachá não reconhecido. Tente novamente.";
+    // @ts-ignore
     infoAluno.style.display = 'none';
   }
 }
 
 function entrar() {
-  alert('Login realizado com sucesso!');
-  // Pode redirecionar para página principal
-  window.location.href = 'Home.html';
+  // @ts-ignore
+  const nome = document.getElementById('nomeAluno').textContent;
+  // @ts-ignore
+  document.getElementById('popupNome').textContent = nome;
+  // @ts-ignore
+  document.getElementById('popup').classList.remove('hidden');
 }
 
-// Exemplo de teste: simula a leitura após 2 segundos
-setTimeout(() => {
-  simularLeituraCracha("12345");
-}, 2000);
+document.addEventListener("DOMContentLoaded", () => {
+  // @ts-ignore
+  document.getElementById('fecharPopup').addEventListener('click', () => {
+    // @ts-ignore
+    document.getElementById('popup').classList.add('hidden');
+    window.location.href = 'Ferramentas.html';
+  });
+
+  // Simula leitura do crachá após 2 segundos
+  setTimeout(() => {
+    simularLeituraCracha("12345");
+  }, 2000);
+});

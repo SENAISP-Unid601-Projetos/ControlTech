@@ -1,19 +1,37 @@
 const form = document.getElementById('formAjuda');
-form.addEventListener('submit', function(e) {
-  e.preventDefault();
+    // @ts-ignore
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
 
-  const nome = form.nome.value.trim();
-  const email = form.email.value.trim();
-  const problema = form.problema.value.trim();
+      // @ts-ignore
+      const nome = form.nome.value.trim();
+      // @ts-ignore
+      const email = form.email.value.trim();
+      // @ts-ignore
+      const problema = form.problema.value.trim();
 
-  if (!nome || !email || !problema) {
-    alert('Por favor, preencha todos os campos.');
-    return;
-  }
+      if (!nome || !email || !problema) {
+        alert('Por favor, preencha todos os campos.');
+        return;
+      }
 
-  // Aqui você pode implementar o envio do formulário, via AJAX, API, etc.
-  // Por enquanto, só um alerta de confirmação:
-  alert(`Obrigado, ${nome}! Seu problema foi registrado. Em breve entraremos em contato pelo e-mail ${email}.`);
+      mostrarPopup(nome, email);
+      // @ts-ignore
+      form.reset();
+    });
 
-  form.reset();
-});
+    function mostrarPopup(nome, email) {
+      const mensagem = document.getElementById('mensagemPopup');
+      // @ts-ignore
+      mensagem.innerHTML = `✅ Obrigado, <strong>${nome}</strong>! Seu problema foi registrado. Entraremos em contato pelo e-mail <strong>${email}</strong>.`;
+
+      const popup = document.getElementById('popupAjuda');
+      // @ts-ignore
+      popup.style.display = 'flex';
+    }
+
+    function fecharPopup() {
+      const popup = document.getElementById('popupAjuda');
+      // @ts-ignore
+      popup.style.display = 'none';
+    }

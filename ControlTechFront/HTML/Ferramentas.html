@@ -5,15 +5,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ferramentas - SENAI App</title>
   <link href="../CSS/Ferramenta.css" rel="stylesheet" />
+  <!-- Adicionando Font Awesome para ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Estilos para o header */
+    header {
+      background-color: #004b8d;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+
+    nav {
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      background-color: #0061c0;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    nav a:hover {
+      background-color: #111112;
+    }
+
+    nav a i {
+      font-size: 1.2rem;
+    }
+  </style>
+  <script src="/JS/Ferramenta.js" defer></script>
 </head>
 <body>
 
   <header>
     <div class="logo">SENAI - ControlTech</div>
     <nav>
-      <a href="Ferramentas.html">Ferramentas 🛠️</a>
-      <a href="Ajuda.html">Ajuda 🆘</a>
-      <a href="Saida.html">Saída ❌</a>
+      <a href="Ferramentas.html">
+        <i class="fas fa-tools"></i>
+        <span>Ferramentas</span>
+      </a>
+      <a href="Devolver.html">
+        <i class="fas fa-undo"></i>
+        <span>Devolver</span>
+      </a>
+      <a href="Ajuda.html">
+        <i class="fas fa-question-circle"></i>
+        <span>Ajuda</span>
+      </a>
+      <a href="Saida.html">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Sair</span>
+      </a>
     </nav>
   </header>
 
@@ -25,38 +84,37 @@
     <div class="search-bar">
       <input type="text" placeholder="Pesquise a peça desejada..." id="searchInput" oninput="filtrarFerramentas()"/>
 
-      <!-- AGORA o carrossel está dentro da search-bar -->
       <div class="carousel-wrapper">
-        <button class="carousel-button" onclick="moverEsquerda()">⬅️</button>
+        <button class="carousel-button" id="prevButton">⬅</button>
         <div class="carousel-container">
           <div class="carousel" id="carouselFerramentas">
             <div class="tool-card" data-nome="Chave de Fenda">
-              <img src="/img/Alicate Abraçadeira.jfif" alt="Chave de Fenda">
+              <img src="/img/EletricaImagemCanto.jpeg" alt="Chave de Fenda">
               <h3>Chave de Fenda</h3>
               <button>Selecionar</button>
             </div>
             <div class="tool-card" data-nome="Martelo">
-              <img src="/img/Alicate.png" alt="Martelo">
+              <img src="/img/alicate_para_abracadeira.png" alt="Martelo">
               <h3>Martelo</h3>
               <button>Selecionar</button>
             </div>
             <div class="tool-card" data-nome="Alicate">
-              <img src="/img/ferramenta4.png" alt="Alicate">
+              <img src="/img/EletricaImagemCanto.jpeg" alt="Alicate">
               <h3>Alicate</h3>
               <button>Selecionar</button>
             </div>
             <div class="tool-card" data-nome="Chave Inglesa">
-              <img src="/img/ferramenta3.png" alt="Chave Inglesa">
+              <img src="/img/Alicate Abraçadeira.jfif" alt="Chave Inglesa">
               <h3>Chave Inglesa</h3>
               <button>Selecionar</button>
             </div>
             <div class="tool-card" data-nome="Serra">
-              <img src="/img/ChaveFenda.jpg" alt="Serra">
+              <img src="/ControlTechFront/img/ChaveFenda.jpg" alt="Serra">
               <h3>Serra</h3>
               <button>Selecionar</button>
             </div>
             <div class="tool-card" data-nome="Furadeira">
-              <img src="/img/alicate_para_abracadeira.png" alt="Furadeira">
+              <img src="/ControlTechFront/img/alicate_para_abracadeira.png" alt="Furadeira">
               <h3>Furadeira</h3>
               <button>Selecionar</button>
             </div>
@@ -67,7 +125,7 @@
             </div>
           </div>
         </div>
-        <button class="carousel-button" onclick="moverDireita()">➡️</button>
+        <button class="carousel-button" id="nextButton">⭢</button>
       </div>
     </div>
   </div>
@@ -76,44 +134,15 @@
     &copy; 2025 SENAI. Todos os direitos reservados.
   </footer>
 
-</body>
-</html>
-
-
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
   <script>
-    let inicio = 0;
-
-    function moverDireita() {
-      const carousel = document.getElementById("carouselFerramentas");
-      const totalCards = carousel.children.length;
-      if (inicio + -100 < totalCards) { //O numero de VOLTAS é o numero Negativo\\
-        inicio++;
-        atualizarCarrossel();
-      }
-    }
-
-    function moverEsquerda() {
-      if (inicio > 0) {
-        inicio--;
-        atualizarCarrossel();
-      }
-    }
-
-    function atualizarCarrossel() {
-      const carousel = document.getElementById("carouselFerramentas");
-      const offset = inicio * -210;
-      carousel.style.transform = `translateX(${offset}px)`;
-    }
-
-    function filtrarFerramentas() {
-      const input = document.getElementById("searchInput").value.toLowerCase();
-      const cards = document.querySelectorAll(".tool-card");
-      cards.forEach(card => {
-        const nome = card.getAttribute("data-nome").toLowerCase();
-        card.style.display = nome.includes(input) ? "block" : "none";
-      });
-    }
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
   </script>
-
 </body>
 </html>
