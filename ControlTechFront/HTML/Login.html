@@ -2,40 +2,28 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ControlTech - Login</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../CSS/styleLogin.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../CSS/Login.css">
   <script src="../JS/Login.js" defer></script>
+  <title>Login SENAI - ControlTech</title>
 </head>
-<body class="bodi">
-  <canvas id="backgroundCanvas"></canvas>
+<body>
 
-  <div id="form-ui">
-    <form id="form">
-      <div id="form-body">
-        <div id="welcome-lines">
-          <div id="welcome-line-1">ControlTech</div>
-          <div id="welcome-line-2">Bem-vindo </div>
-        </div>
-        <div id="input-area">
-          <div class="form-inp">
-            <input id="username" placeholder="Nome" type="text" />
-          </div>
-          <div class="form-inp">
-            <input id="password" placeholder="Senha" type="password" />
-          </div>
-        </div>
-        <div id="submit-button-cvr">
-          <button id="submit-button" type="button">Entrar</button>
-        </div>
-        <div class="alert" id="loginAlert">Por favor, preencha todos os campos!</div>
-        <div id="forgot-pass">
-          <a href="#">Esqueceu a senha?</a>
-        </div>
-        <div id="bar"></div>
-      </div>
-    </form>
+  <div class="login-card">
+    <h1>Passe o crachá...</h1>
+    <p id="statusMsg">Aguardando leitura do crachá...</p>
+
+    <div class="info-aluno" id="infoAluno">
+      <div><label>ID:</label><span id="idAluno"></span></div>
+      <div><label>Nome:</label><span id="nomeAluno"></span></div>
+      <div><label>Data:</label><span id="dataAtual"></span></div>
+      <div><label>Hora:</label><span id="horaAtual"></span></div>
+      <button onclick="entrar()">ENTRAR</button>
+    </div>
   </div>
+
+  <footer>
+    © 2025 SENAI. Todos os direitos reservados.
+  </footer>
 </body>
 </html>

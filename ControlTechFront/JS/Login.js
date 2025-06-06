@@ -1,69 +1,41 @@
-const canvas = document.getElementById('');
-const ctx = canvas.getContext('2d');
-let particles = [];
-
-function randomParticle() {
-  const colors = ['#ff6ec4', '#7873f5', '#4df8f8', '#ffffff'];
-  return {
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    size: Math.random() * 3 + 1,
-    speedX: (Math.random() - 0.5) * 0.5,
-    speedY: (Math.random() - 0.5) * 0.5,
-    color: colors[Math.floor(Math.random() * colors.length)],
-    opacity: Math.random() * 0.5 + 0.3
+function simularLeituraCracha(crachaCodigo) {
+  // Dados simulados para diferentes crachás
+  const alunos = {
+    "12345": { id: "12345", nome: "João da Silva" },
+    "67890": { id: "67890", nome: "Maria Oliveira" },
+    "11111": { id: "11111", nome: "Carlos Souza" }
   };
-}
 
-function setup() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  particles = [];
-  for (let i = 0; i < 100; i++) {
-    particles.push(randomParticle());
+  const aluno = alunos[crachaCodigo];
+
+  const statusMsg = document.getElementById('statusMsg');
+  const infoAluno = document.getElementById('infoAluno');
+
+  if(aluno) {
+    const agora = new Date();
+    const dataFormatada = agora.toLocaleDateString('pt-BR');
+    const horaFormatada = agora.toLocaleTimeString('pt-BR');
+
+    document.getElementById('idAluno').textContent = aluno.id;
+    document.getElementById('nomeAluno').textContent = aluno.nome;
+    document.getElementById('dataAtual').textContent = dataFormatada;
+    document.getElementById('horaAtual').textContent = horaFormatada;
+
+    statusMsg.textContent = "Crachá lido com sucesso!";
+    infoAluno.style.display = 'block';
+  } else {
+    statusMsg.textContent = "Crachá não reconhecido. Tente novamente.";
+    infoAluno.style.display = 'none';
   }
 }
 
-function drawParticle(p) {
-  ctx.beginPath();
-  ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-  ctx.fillStyle = p.color;
-  ctx.globalAlpha = p.opacity;
-  ctx.shadowBlur = 10;
-  ctx.shadowColor = p.color;
-  ctx.fill();
-  ctx.globalAlpha = 1;
+function entrar() {
+  alert('Login realizado com sucesso!');
+  // Pode redirecionar para página principal
+  window.location.href = 'Home.html';
 }
 
-function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach(p => {
-    p.x += p.speedX;
-    p.y += p.speedY;
-    if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-    if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
-    drawParticle(p);
-  });
-  requestAnimationFrame(animate);
-}
-
-window.addEventListener('resize', setup);
-setup();
-animate();
-
-// Lógica de login
-document.addEventListener('DOMContentLoaded', () => {
-  const loginButton = document.getElementById('submit-button');
-  const alertBox = document.getElementById('loginAlert');
-
-  loginButton.addEventListener('click', () => {
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
-
-    if (username && password) {
-      window.location.href = '../menu.html';
-    } else {
-      alertBox.style.display = 'block';
-    }
-  });
-});
+// Exemplo de teste: simula a leitura após 2 segundos
+setTimeout(() => {
+  simularLeituraCracha("12345");
+}, 2000);

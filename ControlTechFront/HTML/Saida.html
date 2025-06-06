@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Saída - SENAI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="../CSS/Saida.css">
+  <script src="../JS/Saida.js" defer></script>
+</head>
+<body onload="focusInput()">
+
+
+    <header>
+        <div class="logo">SENAI - ControlTech</div>
+        <nav>
+          <a href="Ferramentas.html">Ferramentas 🛠️</a>
+          <a href="Ajuda.html">Ajuda 🆘</a>
+          <a href="Saida.html">Saída ❌</a>
+        </nav>
+      </header>
+
+  <div class="container">
+    <div class="saida-box">
+      <h2>Aproxime seu crachá para registrar a saída</h2>
+      <input type="text" id="crachaInput" oninput="lerCracha()" autofocus />
+      <div class="info" id="dadosAluno">
+        Aguardando leitura do crachá...
+      </div>
+      <button id="confirmarBtn" onclick="registrarSaida()">Confirmar Saída</button>
+    </div>
+  </div>
+
+  <footer class="">
+    &copy; 2025 SENAI. Todos os direitos reservados.
+  </footer>
+</body>
+</html>
