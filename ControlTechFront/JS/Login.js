@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById('fecharPopup').addEventListener('click', () => {
     // @ts-ignore
     document.getElementById('popup').classList.add('hidden');
-    window.location.href = 'Ferramentas.html';
+    window.location.href = '/HTML/Ferramentas.html';
   });
 
   // Simula leitura do crachá após 2 segundos
@@ -53,3 +53,15 @@ document.addEventListener("DOMContentLoaded", () => {
     simularLeituraCracha("12345");
   }, 2000);
 });
+
+var container = document.getElementById('container')
+var innerHTML = ''
+for(var i=0; i<15; ++i){
+  innerHTML += '<div class="row">'
+  for(var j=0; j<20; ++j){
+    innerHTML += '<div class="hexagon"></div>'
+  }
+  innerHTML += '</div>'
+}
+// @ts-ignore
+container.innerHTML = innerHTML

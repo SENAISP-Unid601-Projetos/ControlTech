@@ -1,114 +1,97 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ajuda - SENAI App</title>
-  <link rel="stylesheet" href="/ControlTechFront/CSS/Ajuda.css">
-  <!-- Adicionando Font Awesome para ícones -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* Estilos para o header */
-    header {
-      background-color: #004b8d;
-      color: white;
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .logo {
-      font-size: 1.6rem;
-      font-weight: 600;
-    }
-
-    nav {
-      display: flex;
-      gap: 1rem;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      background-color: #0061c0;
-      border-radius: 8px;
-      transition: background-color 0.3s;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    nav a:hover {
-      background-color: #111112;
-    }
-
-    nav a i {
-      font-size: 1.2rem;
-    }
-  </style>
-  <script src="/ControlTechFront/JS/Ajuda.js" defer></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Ajuda - SENAI ControlTech</title>
+    <!-- Adicionando Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Adicionando a mesma fonte das outras páginas -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/CSS/Ajuda.css">
+    <script src="/JS/Ajuda.js" defer></script>
 </head>
 <body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>ControlTech</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="Ferramentas.html">
+                    <i class="fas fa-tools"></i>
+                    <span>Ferramentas</span>
+                </a>
+                <a href="Devolver.html">
+                    <i class="fas fa-undo"></i>
+                    <span>Devolver</span>
+                </a>
+                <a href="Ajuda.html" class="active">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Ajuda</span>
+                </a>
+                <a href="Saida.html" class="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </a>
+            </nav>
+        </aside>
 
- <header>
-    <div class="logo">SENAI - ControlTech</div>
-    <nav>
-      <a href="Ferramentas.html"><i class="fas fa-tools"></i> Ferramentas</a>
-      <a href="Ajuda.html"><i class="fas fa-question-circle"></i> Ajuda</a>
-       <a href="Devolver.html" class="active"><i class="fas fa-sign-out-alt"></i>Devolver</a>
-      <a href="Saida.html" class="active"><i class="fas fa-sign-out-alt"></i> Saída</a>
-    </nav>
-  </header>
+        <main class="main-content">
+            <div class="ajuda-box">
+                <h2>Central de Ajuda</h2>
+                <p>Encontre respostas para as perguntas mais frequentes abaixo:</p>
+                
+                <div class="faq">
+                    <div class="faq-item">
+                        <h3>Como faço login no sistema?</h3>
+                        <p>Para acessar o sistema, clique em "Login" no menu superior e insira suas credenciais fornecidas pelo SENAI.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Esqueci minha senha. O que devo fazer?</h3>
+                        <p>Clique em "Esqueci minha senha" na página de login e siga as instruções para redefinir sua senha.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Como posso entrar em contato com o suporte?</h3>
+                        <p>Você pode entrar em contato com o suporte através do e-mail suporte@senaiapp.com.br ou pelo telefone (11) 1234-5678.</p>
+                    </div>
+                </div>
 
-  <div class="container">
-    <h2>Central de Ajuda</h2>
-    <p>Encontre respostas para as perguntas mais frequentes abaixo:</p>
-
-    <div class="faq">
-      <div class="faq-item">
-        <h3>Como faço login no sistema?</h3>
-        <p>Para acessar o sistema, clique em "Login" no menu superior e insira suas credenciais fornecidas pelo SENAI.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Esqueci minha senha. O que devo fazer?</h3>
-        <p>Clique em "Esqueci minha senha" na página de login e siga as instruções para redefinir sua senha.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Como posso entrar em contato com o suporte?</h3>
-        <p>Você pode entrar em contato com o suporte através do e-mail suporte@senaiapp.com.br ou pelo telefone (11) 1234-5678.</p>
-      </div>
+                <!-- Formulário para relatar problema -->
+                <form id="formAjuda">
+                    <h3>Relate seu problema</h3>
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required />
+                    
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required />
+                    
+                    <label for="problema">Descreva o problema:</label>
+                    <textarea id="problema" name="problema" placeholder="Descreva seu problema aqui..." required></textarea>
+                    
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+        </main>
     </div>
 
-    <!-- Formulário para relatar problema -->
-    <form id="formAjuda">
-      <h3>Relate seu problema</h3>
-      <label for="nome">Nome:</label>
-      <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required />
-
-      <label for="email">E-mail:</label>
-      <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required />
-
-      <label for="problema">Descreva o problema:</label>
-      <textarea id="problema" name="problema" placeholder="Descreva seu problema aqui..." required></textarea>
-
-      <button type="submit">Enviar</button>
-    </form>
-  </div>
-
-  <footer>
-    &copy; 2025 SENAI. Todos os direitos reservados.
-  </footer>
-
-  <!-- POP-UP -->
-  <div class="popup" id="popupAjuda">
-    <div class="popup-content">
-      <p id="mensagemPopup"></p>
-      <button onclick="fecharPopup()">OK</button>
+    <!-- POP-UP -->
+    <div class="popup" id="popupAjuda">
+        <div class="popup-content">
+            <p id="mensagemPopup"></p>
+            <button onclick="fecharPopup()">OK</button>
+        </div>
     </div>
-  </div>
+    <script src="/ControlTechFront/JS/Ajuda.js" defer></script>
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
 </body>
 </html>
