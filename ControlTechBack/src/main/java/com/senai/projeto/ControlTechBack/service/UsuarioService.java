@@ -57,7 +57,6 @@ public class UsuarioService {
         return usuario.map(this::toResponseDTO)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
     }
-
     public UsuarioQrDTO buscarQrPorId(Long id) {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
         return usuario.map(u -> new UsuarioQrDTO(
