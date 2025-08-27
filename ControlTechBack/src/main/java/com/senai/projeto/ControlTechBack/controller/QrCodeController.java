@@ -43,48 +43,34 @@ public class QrCodeController {
     @PostMapping("/ler")
     public ResponseEntity<?> lerQrCode(@RequestParam("file") MultipartFile file) {
         try {
-            System.out.println("Recebendo arquivo para leitura: " + file.getOriginalFilename());
-            System.out.println("Tipo: " + file.getContentType());
-            System.out.println("Tamanho: " + file.getSize() + " bytes");
+            System.out.println("📂 Recebi arquivo: " + file.getOriginalFilename());
 
-            // Validações básicas
-            if (file.isEmpty()) {
-                return ResponseEntity.badRequest().body("Nenhum arquivo enviado");
+            // Salva o arquivo temporariamente
+            File tempFile = File.createTempFile("qrcode", ".png");
+            file.transferTo(tempFile);
+            System.out.println("✅ Arquivo salvo em: " + tempFile.getAbsolutePath());
+
+            // Lê QR Code
+            String conteudo = QRCodeReader.lerQRCode(tempFile.getAbsolutePath()).trim();
+            System.out.println("🔍 Conteúdo lido do QR: [" + conteudo + "]");
+
+            // Tenta converter para Long (se couber)
+            try {
+                Long id = Long.parseLong(conteudo);
+                UsuarioOutputDTO usuario = usuarioService.buscarPorId(id);
+                return ResponseEntity.ok(usuario);
+            } catch (NumberFormatException e) {
+                // Se não couber em Long, tratamos como código/string
+                System.out.println("⚠️ Valor não cabe em Long, tratando como String...");
+                // Aqui você pode buscar o usuário por outro atributo (ex: código externo)
+                // Exemplo: buscarPorCodigo(conteudo)
+                return ResponseEntity.ok("Código lido do QR: " + conteudo);
             }
 
-            if (!file.getContentType().startsWith("image/")) {
-                return ResponseEntity.badRequest().body("O arquivo deve ser uma imagem");
-            }
-
-            // Lê o QR Code
-            String conteudo = QRCodeReader.lerQRCode(file);
-            System.out.println("Conteúdo lido do QR Code: '" + conteudo + "'");
-
-            // Valida se o conteúdo foi lido
-            if (conteudo == null || conteudo.trim().isEmpty()) {
-                return ResponseEntity.badRequest().body("QR Code vazio ou não pôde ser lido");
-            }
-
-            // Valida se é numérico (ID)
-            String conteudoLimpo = conteudo.trim();
-            if (!conteudoLimpo.matches("\\d+")) {
-                return ResponseEntity.badRequest()
-                        .body("QR Code não contém um ID válido. Conteúdo: " + conteudoLimpo);
-            }
-
-            // Converte e busca usuário
-            Long id = Long.parseLong(conteudoLimpo);
-            UsuarioOutputDTO usuario = usuarioService.buscarPorId(id);
-
-            return ResponseEntity.ok(usuario);
-
-        } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().body("Formato de ID inválido no QR Code");
         } catch (Exception e) {
-            System.err.println("Erro ao processar QR Code: " + e.getMessage());
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Erro ao processar QR Code: " + e.getMessage());
+                    .body("❌ Erro ao processar QR Code: " + e.getMessage());
         }
     }
 
