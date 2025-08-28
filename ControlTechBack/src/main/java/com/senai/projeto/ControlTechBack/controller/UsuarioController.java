@@ -26,13 +26,6 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @PostMapping
-    @Operation(summary = "Cria um novo usuário")
-    public ResponseEntity<UsuarioOutputDTO> criarUsuario(@RequestBody com.senai.projeto.ControlTechBack.DTO.UsuarioInputDTO dto) {
-        UsuarioOutputDTO criado = usuarioService.criar(dto);
-        return ResponseEntity.ok(criado);
-    }
-
     @GetMapping
     @Operation(summary = "Lista todos os usuários")
     public ResponseEntity<List<UsuarioOutputDTO>> listarUsuarios() {

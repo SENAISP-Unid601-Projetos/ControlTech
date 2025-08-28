@@ -1,5 +1,6 @@
 package com.senai.projeto.ControlTechBack.controller;
 
+import com.senai.projeto.ControlTechBack.DTO.UsuarioInputDTO;
 import com.senai.projeto.ControlTechBack.DTO.UsuarioOutputDTO;
 import com.senai.projeto.ControlTechBack.QrCode.QRCodeGenerator;
 import com.senai.projeto.ControlTechBack.QrCode.QRCodeReader;
@@ -73,6 +74,37 @@ public class QrCodeController {
                     .body("❌ Erro ao processar QR Code: " + e.getMessage());
         }
     }
+    @PostMapping(value = "/ler-e-criar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> lerEcriarUsuario(
+            @RequestParam("file") MultipartFile file,
+            @RequestPart("usuario") UsuarioInputDTO dto // JSON com nome, perfil, descricao
+    ) {
+        try {
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest().body("Nenhum arquivo enviado");
+            }
+
+            // Salva temporariamente
+            File tempFile = File.createTempFile("qrcode", ".png");
+            file.transferTo(tempFile);
+
+            // Lê o QR Code
+            String qrCode = QRCodeReader.lerQRCode(tempFile.getAbsolutePath()).trim();
+
+            // Cria o usuário com QR Code + dados do JSON
+            UsuarioOutputDTO criado = usuarioService.criar(qrCode, dto);
+
+            // Limpa arquivo temporário
+            tempFile.delete();
+
+            return ResponseEntity.ok(criado);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("Erro ao processar QR Code: " + e.getMessage());
+        }
+    }
+
 
     // ✅ Método alternativo usando arquivo temporário (mantido para compatibilidade)
     @PostMapping("/ler-temp")

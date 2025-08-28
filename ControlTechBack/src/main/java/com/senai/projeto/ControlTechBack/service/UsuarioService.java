@@ -18,16 +18,35 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public UsuarioOutputDTO criar(UsuarioInputDTO dto) {
+    // --- Criar usuário usando QR Code como chave ---
+    // UsuarioService.java
+    public UsuarioOutputDTO criar(String qrCode, UsuarioInputDTO dto) {
+        // Verifica se o QR Code já foi usado
+        if (existePorCodigo(qrCode)) {
+            throw new RuntimeException("❌ QR Code já utilizado");
+        }
+
         Usuario usuario = new Usuario();
         usuario.setNome(dto.getNome());
-        usuario.setPerfil(dto.getPerfil());
-        usuario.setQrCode(dto.getQrCode());
-        usuario.setDescricao(dto.getDescricao() != null ? dto.getDescricao() : ""); // Ensure descricao is set
+        usuario.setPerfil(dto.getPerfil() != null ? dto.getPerfil() : "USUARIO");
+        usuario.setDescricao(dto.getDescricao() != null ? dto.getDescricao() : "");
+        usuario.setQrCode(qrCode); // salva automaticamente o valor do QR Code
 
         Usuario salvo = usuarioRepository.save(usuario);
+        return toOutputDTO(salvo);
+    }
 
-        return toResponseDTO(salvo);
+    public boolean existePorCodigo(String qrCode) {
+        return usuarioRepository.findByQrCode(qrCode).isPresent();
+    }
+    private UsuarioOutputDTO toOutputDTO(Usuario usuario) {
+        UsuarioOutputDTO dto = new UsuarioOutputDTO();
+        dto.setId(usuario.getId());
+        dto.setNome(usuario.getNome());
+        dto.setPerfil(usuario.getPerfil());
+        dto.setDescricao(usuario.getDescricao());
+        dto.setQrCode(usuario.getQrCode());
+        return dto;
     }
 
     public List<UsuarioOutputDTO> listarTodos() {
@@ -66,4 +85,5 @@ public class UsuarioService {
                 u.getDescricao() != null ? u.getDescricao() : ""
         )).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
     }
+
 }
