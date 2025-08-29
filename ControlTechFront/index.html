@@ -6,7 +6,9 @@
 <title>Login SENAI - ControlTech</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/CSS/Login.css" />
-<script src="/JS/Login.js" defer></script>
+<script src="/JS/Login.js" type="module" defer></script>
+
+
 </head>
 <body>
 
@@ -17,14 +19,24 @@
     <section class="login-box">
       <h1>Identificação</h1>
       <p id="statusMsg" class="status">Passe o crachá para entrar</p>
+        <div class="info-aluno" id="infoAluno">
+          <div><strong>ID:</strong> <span id="idAluno"></span></div>
+          <div><strong>Nome:</strong> <span id="nomeAluno"></span></div>
+          <div><strong>Perfil:</strong> <span id="perfilAluno"></span></div>
+          <div><strong>Descrição:</strong> <span id="descricaoAluno"></span></div>
+          <div><strong>QR Code:</strong> <span id="qrCodeAluno"></span></div>
+          <button id="btnEntrar" onclick="entrar()">Entrar</button>
+        </div>
 
-      <div class="info-aluno" id="infoAluno">
-        <div><strong>ID:</strong> <span id="idAluno"></span></div>
-        <div><strong>Nome:</strong> <span id="nomeAluno"></span></div>
-        <div><strong>Data:</strong> <span id="dataAtual"></span></div>
-        <div><strong>Hora:</strong> <span id="horaAtual"></span></div>
-        <button id="btnEntrar" onclick="entrar()">Entrar</button>
-      </div>
+
+
+      <div class="login-metodos">
+        <h3>Login por QR Code</h3>
+        <input type="file" id="qrcodeInput" accept="image/*" />
+        <button id="btnLerQr">Ler QR Code</button>
+
+
+
     </section>
   </main> 
 

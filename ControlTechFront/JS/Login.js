@@ -1,67 +1,61 @@
-function simularLeituraCracha(crachaCodigo) {
-  const alunos = {
-    "12345": { id: "12345", nome: "João da Silva" },
-    "67890": { id: "67890", nome: "Maria Oliveira" },
-    "11111": { id: "11111", nome: "Carlos Souza" }
-  };
+// Login.js
+import { lerQrViaUpload, lerQrViaCodigo, exibirUsuario } from './leitorQrCode.js';
 
-  const aluno = alunos[crachaCodigo];
-  const statusMsg = document.getElementById('statusMsg');
-  const infoAluno = document.getElementById('infoAluno');
-
-  if (aluno) {
-    const agora = new Date();
-    // @ts-ignore
-    document.getElementById('idAluno').textContent = aluno.id;
-    // @ts-ignore
-    document.getElementById('nomeAluno').textContent = aluno.nome;
-    // @ts-ignore
-    document.getElementById('dataAtual').textContent = agora.toLocaleDateString('pt-BR');
-    // @ts-ignore
-    document.getElementById('horaAtual').textContent = agora.toLocaleTimeString('pt-BR');
-    // @ts-ignore
-    statusMsg.textContent = "Crachá lido com sucesso!";
-    // @ts-ignore
-    infoAluno.style.display = 'block';
-  } else {
-    // @ts-ignore
-    statusMsg.textContent = "Crachá não reconhecido. Tente novamente.";
-    // @ts-ignore
-    infoAluno.style.display = 'none';
+// Popula fundo hexagonal
+const container = document.getElementById('container');
+let innerHTML = '';
+for (let i = 0; i < 15; i++) {
+  innerHTML += '<div class="row">';
+  for (let j = 0; j < 20; j++) {
+    innerHTML += '<div class="hexagon"></div>';
   }
+  innerHTML += '</div>';
 }
+container.innerHTML = innerHTML;
 
-function entrar() {
-  // @ts-ignore
+// Função do botão "Entrar" do popup
+export function entrar() {
   const nome = document.getElementById('nomeAluno').textContent;
-  // @ts-ignore
   document.getElementById('popupNome').textContent = nome;
-  // @ts-ignore
   document.getElementById('popup').classList.remove('hidden');
 }
 
+// Fechar popup e redirecionar
 document.addEventListener("DOMContentLoaded", () => {
-  // @ts-ignore
   document.getElementById('fecharPopup').addEventListener('click', () => {
-    // @ts-ignore
     document.getElementById('popup').classList.add('hidden');
     window.location.href = '/HTML/Ferramentas.html';
   });
-
-  // Simula leitura do crachá após 2 segundos
-  setTimeout(() => {
-    simularLeituraCracha("12345");
-  }, 2000);
 });
 
-var container = document.getElementById('container')
-var innerHTML = ''
-for(var i=0; i<15; ++i){
-  innerHTML += '<div class="row">'
-  for(var j=0; j<20; ++j){
-    innerHTML += '<div class="hexagon"></div>'
+// ---------- Upload de QR Code ----------
+document.getElementById('btnLerQr').addEventListener('click', () => {
+  const file = document.getElementById('qrcodeInput').files[0];
+  if (!file) {
+    alert("Selecione um QR Code para leitura!");
+    return;
   }
-  innerHTML += '</div>'
-}
-// @ts-ignore
-container.innerHTML = innerHTML
+
+  lerQrViaUpload(file, exibirUsuario, (err) => {
+    console.error(err);
+    document.getElementById('statusMsg').textContent = "Crachá não reconhecido. Tente novamente.";
+    const infoAluno = document.getElementById('infoAluno');
+    if (infoAluno) infoAluno.style.display = 'none';
+  });
+});
+
+// ---------- Código manual ----------
+document.getElementById('btnEnviarCodigo').addEventListener('click', () => {
+  const codigo = document.getElementById('codigoQr').value.trim();
+  if (!codigo) {
+    alert("Digite o código do QR!");
+    return;
+  }
+
+  lerQrViaCodigo(codigo, exibirUsuario, (err) => {
+    console.error(err);
+    document.getElementById('statusMsg').textContent = "Código não reconhecido. Tente novamente.";
+    const infoAluno = document.getElementById('infoAluno');
+    if (infoAluno) infoAluno.style.display = 'none';
+  });
+});
