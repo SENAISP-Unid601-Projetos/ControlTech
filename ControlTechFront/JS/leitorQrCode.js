@@ -37,7 +37,6 @@ export function exibirUsuario(respostaJson) {
   setText('idAluno', usuario.id);
   setText('nomeAluno', usuario.nome);
   setText('perfilAluno', usuario.perfil);
-  setText('descricaoAluno', usuario.descricao);
   setText('qrCodeAluno', usuario.qrCode);
   setText('dataAtual', agora.toLocaleDateString('pt-BR'));
   setText('horaAtual', agora.toLocaleTimeString('pt-BR'));
