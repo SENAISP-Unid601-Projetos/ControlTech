@@ -1,133 +1,92 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ControlTech - Ajuda</title>
-  <link rel="stylesheet" href="../CSS/styleAjuda.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Ajuda - SENAI ControlTech</title>
+    <!-- Adicionando Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Adicionando a mesma fonte das outras páginas -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/CSS/Ajuda.css">
+    <script src="/JS/Ajuda.js" defer></script>
 </head>
 <body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>ControlTech</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="Ferramentas.html">
+                    <i class="fas fa-tools"></i>
+                    <span>Ferramentas</span>
+                </a>
+                <a href="Devolver.html">
+                    <i class="fas fa-undo"></i>
+                    <span>Devolver</span>
+                </a>
+                <a href="Ajuda.html" class="active">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Ajuda</span>
+                </a>
+                <a href="Saida.html" class="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </a>
+            </nav>
+        </aside>
 
-  <!-- Header -->
-  <header class="header">
-    <span class="controltech-title">ControlTech</span>
-    <nav>
-      <ul>
-        <li><a href="PortalFerramentas.html">PEÇAS EM USO</a></li>
-        <li><a href="Home.html">HOME</a></li>
-        <li><a href="#">AJUDA </a></li>
-        <li><a href="#"></a></li>
-      </ul>
-    </nav>
-  </header>
+        <main class="main-content">
+            <div class="ajuda-box">
+                <h2>Central de Ajuda</h2>
+                <p>Encontre respostas para as perguntas mais frequentes abaixo:</p>
+                
+                <div class="faq">
+                    <div class="faq-item">
+                        <h3>Como faço login no sistema?</h3>
+                        <p>Para acessar o sistema, clique em "Login" no menu superior e insira suas credenciais fornecidas pelo SENAI.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Esqueci minha senha. O que devo fazer?</h3>
+                        <p>Clique em "Esqueci minha senha" na página de login e siga as instruções para redefinir sua senha.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Como posso entrar em contato com o suporte?</h3>
+                        <p>Você pode entrar em contato com o suporte através do e-mail suporte@senaiapp.com.br ou pelo telefone (11) 1234-5678.</p>
+                    </div>
+                </div>
 
-  <!-- Faixa preta com título -->
-  <div class="home-bar">
-    <span>Ajuda e Suporte</span>
-  </div>
-
-  <!-- Conteúdo principal -->
-  <main class="help-support-container">
-
-    <!-- Seção FAQ -->
-    <section class="faq">
-      <h2>Perguntas Frequentes</h2>
-
-      <div class="faq-item">
-        <h3>Como faço login na plataforma?</h3>
-        <p>Você pode acessar a área de login clicando em "ACESSAR" no menu superior. Insira seu usuário e senha cadastrados.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>Esqueci minha senha, e agora?</h3>
-        <p>Na página de login, clique em "Esqueci minha senha" e siga os passos para redefini-la via email.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>Posso cadastrar novas ferramentas?</h3>
-        <p>Sim! Usuários com permissões de administrador podem adicionar, editar e remover ferramentas pelo painel de controle.</p>
-      </div>
-    </section>
-
-    <!-- Informações de contato -->
-    <section class="support-contact">
-      <h2>Contato de Suporte</h2>
-      <p>Se você não encontrou o que procurava, fale conosco:</p>
-      <ul>
-        <li><strong>Email:</strong> suporte@controltech.com</li>
-        <li><strong>Telefone:</strong> (16) 1234-5678</li>
-        <li><strong>Horário de atendimento:</strong> Seg a Sex, 8h às 18h</li>
-      </ul>
-    </section>
-
-    <!-- Formulário de contato -->
-    <section class="contact-form">
-      <h2>Envie sua Dúvida</h2>
-      <p>Preencha o formulário abaixo e entraremos em contato o mais rápido possível.</p>
-
-      <form id="helpForm" class="help-form">
-        <label for="name">Nome:</label>
-        <input type="text" id="name" name="name" placeholder="Digite seu nome" required>
-
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
-
-        <label for="message">Mensagem:</label>
-        <textarea id="message" name="message" placeholder="Descreva sua dúvida ou problema" required></textarea>
-
-        <button type="submit">Enviar</button>
-      </form>
-
-      <p id="responseMessage" style="display:none; color: green;">Sua mensagem foi enviada com sucesso!</p>
-      <p id="errorMessage" style="display:none; color: red;">Erro ao enviar mensagem. Tente novamente.</p>
-    </section>
-
-  </main>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-container">
-      <div class="footer-content">
-
-        <!-- Sobre Nós -->
-        <div class="footer-section footer-section_about">
-          <h3>Sobre Nós</h3>
-          <p>
-            A <strong>Control Tech</strong> é especializada em soluções tecnológicas para a organização e gestão de salas elétricas. 
-            Nosso software permite o controle eficiente de peças e componentes, garantindo produtividade e segurança.
-          </p>
-        </div>
-
-        <!-- Links Úteis -->
-        <div class="footer-section footer-section_links">
-          <h3>Links Úteis</h3>
-          <ul class="footer-links">
-            <li><a href="#">Início</a></li>
-            <li><a href="#">Sobre</a></li>
-            <li><a href="#">Serviços</a></li>
-            <li><a href="#">Contato</a></li>
-          </ul>
-        </div>
-
-        <!-- Contato -->
-        <div class="footer-section footer-contact">
-          <h3>Contato</h3>
-          <span>Email: contato@controltech.com</span>
-          <span>Telefone: (16) 1234-5678</span>
-          <span>Endereço: Rua Exemplo, 123 - São Paulo, SP</span>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <p>&copy; 2025 Control Tech. Todos os direitos reservados.</p>
-      </div>
+                <!-- Formulário para relatar problema -->
+                <form id="formAjuda">
+                    <h3>Relate seu problema</h3>
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required />
+                    
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required />
+                    
+                    <label for="problema">Descreva o problema:</label>
+                    <textarea id="problema" name="problema" placeholder="Descreva seu problema aqui..." required></textarea>
+                    
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+        </main>
     </div>
-  </footer>
 
-  <!-- Scripts -->
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  <script src="../JS/"></script>
-
+        </div>
+    </div>
+    <script src="/ControlTechFront/JS/Ajuda.js" defer></script>
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
 </body>
 </html>
