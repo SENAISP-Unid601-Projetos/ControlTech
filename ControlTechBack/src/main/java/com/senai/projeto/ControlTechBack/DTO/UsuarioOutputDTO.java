@@ -7,6 +7,5 @@ public class UsuarioOutputDTO {
     private long id;
     private String nome;
     private String perfil;
-    private String descricao;
     private String qrCode;
 }

@@ -29,7 +29,6 @@ public class UsuarioService {
         Usuario usuario = new Usuario();
         usuario.setNome(dto.getNome());
         usuario.setPerfil(dto.getPerfil() != null ? dto.getPerfil() : "USUARIO");
-        usuario.setDescricao(dto.getDescricao() != null ? dto.getDescricao() : "");
         usuario.setQrCode(qrCode); // salva automaticamente o valor do QR Code
 
         Usuario salvo = usuarioRepository.save(usuario);
@@ -44,7 +43,6 @@ public class UsuarioService {
         dto.setId(usuario.getId());
         dto.setNome(usuario.getNome());
         dto.setPerfil(usuario.getPerfil());
-        dto.setDescricao(usuario.getDescricao());
         dto.setQrCode(usuario.getQrCode());
         return dto;
     }
@@ -81,8 +79,7 @@ public class UsuarioService {
         return usuario.map(u -> new UsuarioQrDTO(
                 u.getId(),
                 u.getNome(),
-                u.getPerfil(),
-                u.getDescricao() != null ? u.getDescricao() : ""
+                u.getPerfil()
         )).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
     }
 

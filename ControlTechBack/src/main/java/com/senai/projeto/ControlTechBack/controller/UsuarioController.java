@@ -53,23 +53,13 @@ public class UsuarioController {
                 System.out.println("Campo 'perfil' encontrado: " + usuario.getPerfil());
             }
 
-            // Verificar descrição
-            String descricao = usuario.getDescricao() != null && !usuario.getDescricao().isEmpty()
-                    ? usuario.getDescricao() : "";
-            System.out.println("Campo 'descricao': " + (descricao.isEmpty() ? "vazio" : descricao));
-
-            String noteField = descricao.isEmpty()
-                    ? "NOTE:ID: %d\\nPerfil: %s"
-                    : "NOTE:ID: %d\\nPerfil: %s\\nDescricao: %s";
             String textoQr = String.format(
-                    "BEGIN:VCARD\nVERSION:3.0\nN:%s;;;;\nFN:%s\nTITLE:%s\n" + noteField + "\nEND:VCARD",
+                    "BEGIN:VCARD\nVERSION:3.0\nN:%s;;;;\nFN:%s\nTITLE:%s\n" + "\nEND:VCARD",
                     usuario.getNome(),
                     usuario.getNome(),
                     usuario.getPerfil(),
                     usuario.getId(),
-                    usuario.getPerfil(),
-                    descricao.isEmpty() ? new Object[]{} : descricao
-            );
+                    usuario.getPerfil());
 
             // Log do texto para depuração
             System.out.println("Texto do QR Code: " + textoQr);
