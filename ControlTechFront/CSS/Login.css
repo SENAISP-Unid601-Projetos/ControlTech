@@ -59,7 +59,8 @@ body::after {
   align-items: center;
   flex: 1;
   width: 100%;
-  padding: 1rem;
+  padding: 1em;
+  margin-bottom: 12em;
 }
 
 .login-box {
@@ -71,7 +72,6 @@ body::after {
   text-align: center;
   transition: box-shadow 0.3s ease;
   color: #222;
-  position: relative;
   z-index: 2;
 }
 
