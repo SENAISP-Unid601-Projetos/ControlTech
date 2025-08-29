@@ -1,8 +1,8 @@
 package com.senai.projeto.ControlTechBack.service;
 
-
 import com.senai.projeto.ControlTechBack.DTO.UsuarioInputDTO;
 import com.senai.projeto.ControlTechBack.DTO.UsuarioOutputDTO;
+import com.senai.projeto.ControlTechBack.DTO.UsuarioQrDTO;
 import com.senai.projeto.ControlTechBack.entity.Usuario;
 import com.senai.projeto.ControlTechBack.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +23,7 @@ public class UsuarioService {
         usuario.setNome(dto.getNome());
         usuario.setPerfil(dto.getPerfil());
         usuario.setQrCode(dto.getQrCode());
+        usuario.setDescricao(dto.getDescricao() != null ? dto.getDescricao() : ""); // Ensure descricao is set
 
         Usuario salvo = usuarioRepository.save(usuario);
 
@@ -51,4 +52,19 @@ public class UsuarioService {
         return dto;
     }
 
+    public UsuarioOutputDTO buscarPorId(Long id) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        return usuario.map(this::toResponseDTO)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    }
+
+    public UsuarioQrDTO buscarQrPorId(Long id) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        return usuario.map(u -> new UsuarioQrDTO(
+                u.getId(),
+                u.getNome(),
+                u.getPerfil(),
+                u.getDescricao() != null ? u.getDescricao() : ""
+        )).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    }
 }

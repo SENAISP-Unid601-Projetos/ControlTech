@@ -17,6 +17,7 @@ public class Usuario {
     long id;
     String nome;
     String perfil;
+    String descricao;
     String qrCode;
 
 

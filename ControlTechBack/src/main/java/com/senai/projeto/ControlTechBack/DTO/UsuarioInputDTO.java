@@ -6,5 +6,6 @@ import lombok.Data;
 public class UsuarioInputDTO {
     private String nome;
     private String perfil;
+    private String descricao;
     private String qrCode;
 }
