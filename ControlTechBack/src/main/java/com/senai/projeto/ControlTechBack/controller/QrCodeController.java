@@ -2,6 +2,7 @@ package com.senai.projeto.ControlTechBack.controller;
 
 import com.senai.projeto.ControlTechBack.DTO.UsuarioInputDTO;
 import com.senai.projeto.ControlTechBack.DTO.UsuarioOutputDTO;
+import com.senai.projeto.ControlTechBack.DTO.UsuarioQrResponseDTO;
 import com.senai.projeto.ControlTechBack.QrCode.QRCodeGenerator;
 import com.senai.projeto.ControlTechBack.QrCode.QRCodeReader;
 import com.senai.projeto.ControlTechBack.service.UsuarioService;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Base64;
 
 @RestController
 @RequestMapping("/api/qrcode")
@@ -55,18 +57,30 @@ public class QrCodeController {
             String conteudo = QRCodeReader.lerQRCode(tempFile.getAbsolutePath()).trim();
             System.out.println("🔍 Conteúdo lido do QR: [" + conteudo + "]");
 
-            // Tenta converter para Long (se couber)
+            tempFile.delete(); // limpa
+
+            UsuarioOutputDTO usuario;
+
             try {
+                // Se for ID
                 Long id = Long.parseLong(conteudo);
-                UsuarioOutputDTO usuario = usuarioService.buscarPorId(id);
-                return ResponseEntity.ok(usuario);
+                usuario = usuarioService.buscarPorId(id);
             } catch (NumberFormatException e) {
-                // Se não couber em Long, tratamos como código/string
-                System.out.println("⚠️ Valor não cabe em Long, tratando como String...");
-                // Aqui você pode buscar o usuário por outro atributo (ex: código externo)
-                // Exemplo: buscarPorCodigo(conteudo)
-                return ResponseEntity.ok("Código lido do QR: " + conteudo);
+                // Se não for número, tenta como código
+                if (usuarioService.existePorCodigo(conteudo)) {
+                    usuario = usuarioService.buscarPorQrCode(conteudo);
+                } else {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                            .body("❌ Nenhum usuário encontrado para o QR Code: " + conteudo);
+                }
             }
+
+            // Gera a imagem do QR (opcional, pode remover se não quiser devolver)
+            byte[] imagemQr = QRCodeGenerator.gerarQRCodeBytes(conteudo, 300, 300);
+
+            UsuarioQrResponseDTO resposta = new UsuarioQrResponseDTO(usuario);
+
+            return ResponseEntity.ok(resposta);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,6 +88,7 @@ public class QrCodeController {
                     .body("❌ Erro ao processar QR Code: " + e.getMessage());
         }
     }
+
     @PostMapping(value = "/ler-e-criar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> lerEcriarUsuario(
             @RequestParam("file") MultipartFile file,
