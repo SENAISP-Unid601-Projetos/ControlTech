@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Login SENAI - ControlTech</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/CSS/Login.css" />
+<script src="/JS/Login.js" defer></script>
+</head>
+<body>
+
+  <div class="container" id="container"></div>     
+
+
+  <main class="container">
+    <section class="login-box">
+      <h1>Identificação</h1>
+      <p id="statusMsg" class="status">Passe o crachá para entrar</p>
+
+      <div class="info-aluno" id="infoAluno">
+        <div><strong>ID:</strong> <span id="idAluno"></span></div>
+        <div><strong>Nome:</strong> <span id="nomeAluno"></span></div>
+        <div><strong>Data:</strong> <span id="dataAtual"></span></div>
+        <div><strong>Hora:</strong> <span id="horaAtual"></span></div>
+        <button id="btnEntrar" onclick="entrar()">Entrar</button>
+      </div>
+    </section>
+  </main> 
+
+  <div id="popup" class="popup hidden"> 
+    <div class="popup-content">
+      <h2>✅ Login Confirmado</h2>
+      <p>Seja muito bem-vindo(a), <strong id="popupNome"></strong>!</p>
+      <button id="fecharPopup">Continuar</button>
+    </div>
+  </div>
+
+
+
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+
+</body> 
+  <footer>
+    © 2025 SENAI. Todos os direitos reservados.
+  </footer>
+</html>

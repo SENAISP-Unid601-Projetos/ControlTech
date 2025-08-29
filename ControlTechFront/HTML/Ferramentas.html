@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ferramentas - SENAI ControlTech</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/CSS/Ferramenta.css">
+    <script src="/JS/Ferramenta.js" defer></script>
+</head>
+<body>
+
+    <div class="dashboard-container">
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>ControlTech</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="Ferramentas.html" class="active">
+                    <i class="fas fa-tools"></i>
+                    <span>Ferramentas</span>
+                </a>
+                <a href="Devolver.html">
+                    <i class="fas fa-undo"></i>
+                    <span>Devolver</span>
+                </a>
+                <a href="Ajuda.html">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Ajuda</span>
+                </a>
+                <a href="Saida.html" class="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            
+            <header class="main-header">
+                <h1>Selecione a Peça Mecânica</h1>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Pesquisar ferramentas...">
+                    <span class="search-icon-container">
+                        <i class="fas fa-search"></i>
+                    </span>
+                </div>
+            </header>
+
+            <div class="tool-grid" id="toolGrid">
+                <!-- Exemplo de cards de ferramentas -->
+                <div class="tool-card" data-nome="Chave de Fenda">
+                    <img src="https://placehold.co/120x120/004b8d/ffffff?text=Chave+de+Fenda" alt="Chave de Fenda" />
+                    <h3>Chave de Fenda</h3>
+                    <button class="select-btn">Selecionar</button>
+                </div>
+                <div class="tool-card" data-nome="Martelo">
+                    <img src="https://placehold.co/120x120/004b8d/ffffff?text=Martelo" alt="Martelo" />
+                    <h3>Martelo</h3>
+                    <button class="select-btn">Selecionar</button>
+                </div>
+                <!-- Adicione mais cards de ferramentas aqui -->
+            </div>
+        </main>
+    </div>
+
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+    
+</body>
+</html>
