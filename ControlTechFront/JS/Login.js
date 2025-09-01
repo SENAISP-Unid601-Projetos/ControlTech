@@ -1,4 +1,6 @@
 // Login.js
+import './cadastro.js'; // Importa o JS do cadastro
+
 import { lerQrViaUpload, lerQrViaCodigo, exibirUsuario } from './leitorQrCode.js';
 
 // ---------- Fundo hexagonal ----------
@@ -29,11 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
     btnFechar.addEventListener('click', () => {
       const popup = document.getElementById('popup');
       if (popup) popup.classList.add('hidden');
-      // Redireciona para a página Ferramentas.html
       window.location.href = '/HTML/Ferramentas.html';
     });
   }
 });
+
 const btnEntrar = document.getElementById('btnEntrar');
 if (btnEntrar) {
   btnEntrar.addEventListener('click', () => {
@@ -78,3 +80,19 @@ if (btnEnviarCodigo) {
     });
   });
 }
+
+// ---------- Abrir e voltar para cadastro ----------
+const abrirCadastro = document.getElementById('abrirCadastro');
+const cadastroBox = document.getElementById('cadastroBox');
+const loginContainer = document.getElementById('loginContainer');
+const voltarLogin = document.getElementById('voltarLogin');
+
+abrirCadastro.addEventListener('click', () => {
+  loginContainer.classList.add('slide-out');
+  cadastroBox.classList.add('active');
+});
+
+voltarLogin.addEventListener('click', () => {
+  loginContainer.classList.remove('slide-out');
+  cadastroBox.classList.remove('active');
+});

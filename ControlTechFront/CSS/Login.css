@@ -68,11 +68,13 @@ body::after {
   padding: 2rem 3rem;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 58, 117, 0.2);
-  width: 360px;
+  width: 380px;
   text-align: center;
   transition: box-shadow 0.3s ease;
   color: #222;
   z-index: 2;
+  position: relative;
+  overflow: hidden;
 }
 
 .login-box:hover {
@@ -85,7 +87,6 @@ body::after {
   font-size: 2rem;
   color: #003a75; /* azul SENAI */
 }
-
 
 .status {
   font-size: 1rem;
@@ -137,19 +138,6 @@ button#btnEntrar:hover {
   z-index: 999;
 }
 
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 58, 117, 0.6); /* azul semitransparente */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
 .popup.hidden {
   display: none;
 }
@@ -185,7 +173,7 @@ button#btnEntrar:hover {
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.3s ease;
-}   
+}
 
 .popup-content button:hover {
   background-color: #146c00;
@@ -197,4 +185,94 @@ footer {
   font-size: 0.9rem;
   color: #666;
   user-select: none;
+}
+
+/* Link cadastro */
+.link-cadastro {
+  font-size: 0.9rem;
+  color: #003a75;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+/* Slide container */
+.slide-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  min-height: 400px; /* garante altura mínima */
+}
+
+/* Login e Cadastro sobrepostos */
+#loginContainer, .cadastro-box {
+  padding-bottom: 4rem; 
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  z-index: 2;
+}
+
+/* Login padrão */
+#loginContainer {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Login saindo */
+#loginContainer.slide-out {
+  transform: translateX(-100%);
+  opacity: 0;
+  z-index: 1;
+}
+
+/* Cadastro fora da tela */
+.cadastro-box {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 2em;
+  text-align: center;
+  transform: translateX(100%);
+  opacity: 0;
+  z-index: 1;
+}
+
+/* Cadastro entrando */
+.cadastro-box.active {
+  transform: translateX(0);
+  opacity: 1;
+  z-index: 3;
+}
+
+.cadastro-box input {
+  display: block;
+  width: 90%;
+  padding: 0.8rem;
+  margin: 0.5rem auto;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.cadastro-box button {
+  margin-top: 1rem;
+  width: 95%;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+  background-color: #003a75;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cadastro-box button:hover {
+  background-color: #002850;
+}
+.spacer {
+  height: 4rem; /* ou o quanto quiser de espaço extra */
 }

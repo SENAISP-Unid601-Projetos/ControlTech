@@ -7,39 +7,57 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/CSS/Login.css" />
 <script src="/JS/Login.js" type="module" defer></script>
-
-
 </head>
 <body>
 
   <div class="container" id="container"></div>     
 
-
   <main class="container">
     <section class="login-box">
-      <h1>Identificação</h1>
-      <p id="statusMsg" class="status">Passe o crachá para entrar</p>
-        <div class="info-aluno" id="infoAluno">
-          <div><strong>ID:</strong> <span id="idAluno"></span></div>
-          <div><strong>Nome:</strong> <span id="nomeAluno"></span></div>
-          <div><strong>Perfil:</strong> <span id="perfilAluno"></span></div>
-          <div><strong>QR Code:</strong> <span id="qrCodeAluno"></span></div>
-          <button id="btnEntrar">Entrar</button>
+
+      <div class="slide-container">
+
+        <div id="loginContainer">
+          <h1>Identificação</h1>
+          <p id="statusMsg" class="status">Passe o crachá para entrar</p>
+
+          <div class="info-aluno" id="infoAluno">
+            <div><strong>ID:</strong> <span id="idAluno"></span></div>
+            <div><strong>Nome:</strong> <span id="nomeAluno"></span></div>
+            <div><strong>Perfil:</strong> <span id="perfilAluno"></span></div>
+            <div><strong>QR Code:</strong> <span id="qrCodeAluno"></span></div>
+            <button id="btnEntrar">Entrar</button>
+            <div class="spacer"></div>
+          </div>
+
+          <div class="login-metodos">
+            <h3>Login por QR Code</h3>
+            <input type="file" id="qrcodeInput" accept="image/*" />
+            <button id="btnLerQr">Ler QR Code</button>
+          </div>
+
+          <p id="abrirCadastro" class="link-cadastro">Sem registro? <strong>Fazer cadastro</strong></p>
+        </div>
+
+        <div class="cadastro-box" id="cadastroBox">
+          <h3>Cadastro</h3>
+          
+          <input type="file" id="qrcodeInput" accept="image/*" />
+          <input type="text" id="nomeCadastro" placeholder="Nome" />
+          <input type="text" id="perfilCadastro" placeholder="Perfil" />
+          <button id="btnCadastrar">Cadastrar</button>
+          <p id="voltarLogin" class="link-cadastro">Voltar para login</p>
+
+          <p id="statusMsg" style="color:red;"></p>
+          <div class="spacer"></div>
         </div>
 
 
-
-      <div class="login-metodos">
-        <h3>Login por QR Code</h3>
-        <input type="file" id="qrcodeInput" accept="image/*" />
-        <button id="btnLerQr">Ler QR Code</button>
-
-
-
-
+      </div>
     </section>
   </main> 
 
+  <!-- POPUP -->
   <div id="popup" class="popup hidden"> 
     <div class="popup-content">
       <h2>✅ Login Confirmado</h2>
@@ -48,8 +66,7 @@
     </div>
   </div>
 
-
-
+  <!-- VLibras -->
   <div vw class="enabled">
     <div vw-access-button class="active"></div>
     <div vw-plugin-wrapper>
@@ -62,7 +79,7 @@
   </script>
 
 </body> 
-  <footer>
-    © 2025 SENAI. Todos os direitos reservados.
-  </footer>
+<footer>
+  © 2025 SENAI. Todos os direitos reservados.
+</footer>
 </html>
