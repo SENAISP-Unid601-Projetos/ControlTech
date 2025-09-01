@@ -149,4 +149,22 @@ public class QrCodeController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> excluirUsuario(@PathVariable Long id) {
+        try {
+            boolean existe = usuarioService.existePorId(id);
+            if (!existe) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("❌ Usuário não encontrado com ID: " + id);
+            }
+
+            usuarioService.excluir(id); // chama o método do service
+            return ResponseEntity.ok("✅ Usuário excluído com sucesso: ID " + id);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("❌ Erro ao excluir usuário: " + e.getMessage());
+        }
+    }
 }

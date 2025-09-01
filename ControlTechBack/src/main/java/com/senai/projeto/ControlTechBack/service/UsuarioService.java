@@ -20,6 +20,10 @@ public class UsuarioService {
 
     // --- Criar usuário usando QR Code como chave ---
     // UsuarioService.java
+    public boolean existePorId(Long id) {
+        return usuarioRepository.existsById(id);
+    }
+
     public UsuarioOutputDTO criar(String qrCode, UsuarioInputDTO dto) {
         // Verifica se o QR Code já foi usado
         if (existePorCodigo(qrCode)) {
@@ -81,6 +85,12 @@ public class UsuarioService {
                 u.getNome(),
                 u.getPerfil()
         )).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    }
+    public void excluir(Long id) {
+        if (!existePorId(id)) {
+            throw new RuntimeException("Usuário não encontrado para exclusão: ID " + id);
+        }
+        usuarioRepository.deleteById(id);
     }
 
 }
