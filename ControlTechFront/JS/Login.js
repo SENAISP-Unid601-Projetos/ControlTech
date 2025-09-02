@@ -1,9 +1,7 @@
 // Login.js
-import './cadastro.js'; // Importa o JS do cadastro
+import { lerQrViaUpload, exibirUsuario } from './leitorQrCode.js';
 
-import { lerQrViaUpload, lerQrViaCodigo, exibirUsuario } from './leitorQrCode.js';
-
-// ---------- Fundo hexagonal ----------
+// ----- Fundo hexagonal -----
 const container = document.getElementById('container');
 let innerHTML = '';
 for (let i = 0; i < 15; i++) {
@@ -15,84 +13,54 @@ for (let i = 0; i < 15; i++) {
 }
 if (container) container.innerHTML = innerHTML;
 
-// ---------- Função botão "Entrar" do popup ----------
-export function entrar() {
-  const nome = document.getElementById('nomeAluno')?.textContent;
-  const popupNome = document.getElementById('popupNome');
-  if (popupNome) popupNome.textContent = nome ?? "";
-  const popup = document.getElementById('popup');
-  if (popup) popup.classList.remove('hidden');
-}
+// ----- Popup e entrar -----
+const btnEntrar = document.getElementById('btnEntrar');
+const popup = document.getElementById('popup');
+const popupNome = document.getElementById('popupNome');
 
-// ---------- Fechar popup e redirecionar ----------
-document.addEventListener("DOMContentLoaded", () => {
-  const btnFechar = document.getElementById('fecharPopup');
-  if (btnFechar) {
-    btnFechar.addEventListener('click', () => {
-      const popup = document.getElementById('popup');
-      if (popup) popup.classList.add('hidden');
-      window.location.href = '/HTML/Ferramentas.html';
-    });
-  }
+btnEntrar?.addEventListener('click', () => {
+  popupNome.textContent = document.getElementById('nomeAluno').textContent;
+  popup.classList.remove('hidden');
 });
 
-const btnEntrar = document.getElementById('btnEntrar');
-if (btnEntrar) {
-  btnEntrar.addEventListener('click', () => {
-    const nome = document.getElementById('nomeAluno')?.textContent;
-    const popupNome = document.getElementById('popupNome');
-    if (popupNome) popupNome.textContent = nome ?? "";
-    const popup = document.getElementById('popup');
-    if (popup) popup.classList.remove('hidden');
-  });
-}
+document.getElementById('fecharPopup')?.addEventListener('click', () => {
+  popup.classList.add('hidden');
+  window.location.href = '/HTML/Ferramentas.html';
+});
 
-// ---------- Upload de QR Code ----------
-const btnLerQr = document.getElementById('btnLerQr');
-if (btnLerQr) {
-  btnLerQr.addEventListener('click', () => {
-    const file = document.getElementById('qrcodeInput')?.files[0];
-    if (!file) return alert("Selecione um QR Code para leitura!");
-
-    lerQrViaUpload(file, exibirUsuario, (err) => {
-      console.error(err);
-      const statusMsg = document.getElementById('statusMsg');
-      if (statusMsg) statusMsg.textContent = "Crachá não reconhecido. Tente novamente.";
-      const infoAluno = document.getElementById('infoAluno');
-      if (infoAluno) infoAluno.style.display = 'none';
-    });
-  });
-}
-
-// ---------- Código manual ----------
-const btnEnviarCodigo = document.getElementById('btnEnviarCodigo');
-if (btnEnviarCodigo) {
-  btnEnviarCodigo.addEventListener('click', () => {
-    const codigo = document.getElementById('codigoQr')?.value.trim();
-    if (!codigo) return alert("Digite o código do QR!");
-
-    lerQrViaCodigo(codigo, exibirUsuario, (err) => {
-      console.error(err);
-      const statusMsg = document.getElementById('statusMsg');
-      if (statusMsg) statusMsg.textContent = "Código não reconhecido. Tente novamente.";
-      const infoAluno = document.getElementById('infoAluno');
-      if (infoAluno) infoAluno.style.display = 'none';
-    });
-  });
-}
-
-// ---------- Abrir e voltar para cadastro ----------
+// ----- Abrir cadastro -----
 const abrirCadastro = document.getElementById('abrirCadastro');
 const cadastroBox = document.getElementById('cadastroBox');
 const loginContainer = document.getElementById('loginContainer');
 const voltarLogin = document.getElementById('voltarLogin');
 
-abrirCadastro.addEventListener('click', () => {
+abrirCadastro?.addEventListener('click', () => {
   loginContainer.classList.add('slide-out');
   cadastroBox.classList.add('active');
 });
 
-voltarLogin.addEventListener('click', () => {
+voltarLogin?.addEventListener('click', () => {
   loginContainer.classList.remove('slide-out');
   cadastroBox.classList.remove('active');
+});
+
+// ----- Ler QR Code LOGIN -----
+const btnLerQr = document.getElementById('btnLerQr');
+const loginQrInput = document.getElementById('loginQrInput');
+const statusMsgLogin = document.getElementById('statusMsgLogin');
+const infoAluno = document.getElementById('infoAluno');
+
+btnLerQr?.addEventListener('click', () => {
+  const file = loginQrInput.files[0];
+  if (!file) return alert("Selecione um QR Code!");
+
+  lerQrViaUpload(file, (usuario) => {
+    exibirUsuario(usuario);  // preenche campos: idAluno, nomeAluno, perfilAluno, qrCodeAluno
+    statusMsgLogin.textContent = "";
+    infoAluno.style.display = "block";
+  }, (err) => {
+    console.error(err);
+    statusMsgLogin.textContent = "QR Code inválido. Tente novamente.";
+    infoAluno.style.display = "none";
+  });
 });

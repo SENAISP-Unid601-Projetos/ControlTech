@@ -1,35 +1,21 @@
-const crachaInput = document.getElementById('qrcodeInput');
+// Cadastro.js
+const cadastroQrInput = document.getElementById('cadastroQrInput');
 const btnCadastrar = document.getElementById('btnCadastrar');
-const voltarLogin = document.getElementById('voltarLogin');
-const cadastroBox = document.getElementById('cadastroBox');
-const loginContainer = document.getElementById('loginContainer');
-const statusMsg = document.getElementById('statusMsg');
-const abrirCadastro = document.getElementById('abrirCadastro');
+const statusMsgCadastro = document.getElementById('statusMsgCadastro');
+const nomeCadastro = document.getElementById('nomeCadastro');
+const perfilCadastro = document.getElementById('perfilCadastro');
 
-// Abrir cadastro
-abrirCadastro.addEventListener('click', () => {
-  loginContainer.classList.add('slide-out');
-  cadastroBox.classList.add('active');
-});
-
-// Voltar para login
-voltarLogin.addEventListener('click', () => {
-  loginContainer.classList.remove('slide-out');
-  cadastroBox.classList.remove('active');
-});
-
-// Botão cadastrar
-btnCadastrar.addEventListener('click', async () => {
-  const nome = document.getElementById('nomeCadastro').value.trim();
-  const perfil = document.getElementById('perfilCadastro').value.trim();
-  const file = crachaInput.files[0];
+btnCadastrar?.addEventListener('click', async () => {
+  const nome = nomeCadastro.value.trim();
+  const perfil = perfilCadastro.value.trim();
+  const file = cadastroQrInput.files[0];
 
   if (!nome || !perfil || !file) {
-    statusMsg.textContent = "Preencha todos os campos e envie o crachá!";
+    statusMsgCadastro.textContent = "Preencha todos os campos e envie o crachá!";
     return;
   }
 
-  statusMsg.textContent = ""; // Limpa mensagens anteriores
+  statusMsgCadastro.textContent = "";
 
   const usuario = { nome, perfil };
   const formData = new FormData();
@@ -45,16 +31,16 @@ btnCadastrar.addEventListener('click', async () => {
     if (res.ok) {
       const criado = await res.json();
       alert(`Usuário cadastrado com sucesso: ${criado.nome}`);
-      // Limpa formulário
-      document.getElementById('nomeCadastro').value = '';
-      document.getElementById('perfilCadastro').value = '';
-      crachaInput.value = '';
+      // Limpar formulário
+      nomeCadastro.value = '';
+      perfilCadastro.value = '';
+      cadastroQrInput.value = '';
     } else {
       const erro = await res.text();
-      statusMsg.textContent = "Erro ao cadastrar usuário: " + erro;
+      statusMsgCadastro.textContent = "Erro ao cadastrar usuário: " + erro;
     }
   } catch (err) {
     console.error(err);
-    statusMsg.textContent = "Erro de conexão com o servidor.";
+    statusMsgCadastro.textContent = "Erro de conexão com o servidor.";
   }
 });
