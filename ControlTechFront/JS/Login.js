@@ -25,7 +25,13 @@ btnEntrar?.addEventListener('click', () => {
 
 document.getElementById('fecharPopup')?.addEventListener('click', () => {
   popup.classList.add('hidden');
-  window.location.href = '/HTML/Ferramentas.html';
+  // Agora o redirect só acontece se usuário estiver salvo
+  const usuarioLogado = localStorage.getItem("usuarioLogado");
+  if (usuarioLogado) {
+    window.location.href = '/HTML/Ferramentas.html';
+  } else {
+    alert("Faça login com QR Code antes de entrar.");
+  }
 });
 
 // ----- Abrir cadastro -----
@@ -55,24 +61,33 @@ btnLerQr?.addEventListener('click', () => {
   if (!file) return alert("Selecione um QR Code!");
 
   lerQrViaUpload(file, (usuario) => {
-    exibirUsuario(usuario);  // preenche campos: idAluno, nomeAluno, perfilAluno, qrCodeAluno
+    exibirUsuario(usuario);  
+    salvarUsuarioLogado(usuario); // ✅ salva no localStorage
+
     statusMsgLogin.textContent = "";
     infoAluno.style.display = "block";
+
+    // ✅ garante redirecionamento após salvar
+    setTimeout(() => {
+      window.location.href = "/HTML/Ferramentas.html";
+    }, 300);
   }, (err) => {
     console.error(err);
     statusMsgLogin.textContent = "QR Code inválido. Tente novamente.";
     infoAluno.style.display = "none";
   });
 });
-function salvarUsuarioLogado(usuario) {
-    // Salva apenas o ID do usuário
-    localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
-}
-function exibirLoginUsuario(usuario) {
-    document.getElementById("nomeAluno").textContent = usuario.nome;
-    document.getElementById("idAluno").textContent = usuario.id;
-    document.getElementById("perfilAluno").textContent = usuario.perfil;
-    document.getElementById("qrCodeAluno").textContent = usuario.qrCode;
 
-    salvarUsuarioLogado(usuario); // salva usuário completo no localStorage
+// ----- Funções auxiliares -----
+function salvarUsuarioLogado(usuario) {
+  localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+}
+
+function exibirLoginUsuario(usuario) {
+  document.getElementById("nomeAluno").textContent = usuario.nome;
+  document.getElementById("idAluno").textContent = usuario.id;
+  document.getElementById("perfilAluno").textContent = usuario.perfil;
+  document.getElementById("qrCodeAluno").textContent = usuario.qrCode;
+
+  salvarUsuarioLogado(usuario);
 }

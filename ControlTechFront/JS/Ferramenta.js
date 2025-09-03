@@ -1,78 +1,78 @@
+// Ferramentas.js
 document.addEventListener("DOMContentLoaded", async () => {
-    const grid = document.getElementById("toolGrid");
-    const searchInput = document.querySelector(".search-input");
+  const grid = document.getElementById("toolGrid");
+  const searchInput = document.querySelector(".search-input");
 
-    // Recupera usuário logado
-    const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-    if (!usuarioLogado) {
-        alert("Faça login para continuar.");
-        window.location.href = "/index.html"; // redireciona para login
-        return;
+  // Recupera usuário logado
+  const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+  if (!usuarioLogado) {
+    alert("Faça login para continuar.");
+    window.location.href = "/index.html";
+    return;
+  }
+
+  // Exibir nome do usuário no dashboard
+  const nomeUsuarioElem = document.getElementById('nomeUsuario');
+  if (nomeUsuarioElem) nomeUsuarioElem.textContent = usuarioLogado.nome;
+
+  let ferramentas = [];
+  let ferramentasFiltradas = [];
+
+  // Função para buscar as ferramentas do back-end
+  async function carregarFerramentas() {
+    try {
+      const res = await fetch("http://localhost:8080/api/ferramentas");
+      if (!res.ok) throw new Error("Erro ao carregar ferramentas");
+
+      ferramentas = await res.json();
+      ferramentasFiltradas = [...ferramentas];
+      renderizarFerramentas();
+    } catch (err) {
+      console.error(err);
+      grid.innerHTML = `<p>Erro ao carregar ferramentas.</p>`;
+    }
+  }
+
+  // Função para renderizar os cards
+  function renderizarFerramentas() {
+    grid.innerHTML = "";
+
+    if (ferramentasFiltradas.length === 0) {
+      grid.innerHTML = `<p>Nenhuma ferramenta encontrada.</p>`;
+      return;
     }
 
-    // Exibir nome do usuário no dashboard, se houver elemento
-    const nomeUsuarioElem = document.getElementById('nomeUsuario');
-    if (nomeUsuarioElem) nomeUsuarioElem.textContent = usuarioLogado.nome;
+    ferramentasFiltradas.forEach(f => {
+      const card = document.createElement("div");
+      card.classList.add("tool-card");
+      card.setAttribute("data-nome", f.nome);
 
-    let ferramentas = []; // todas as ferramentas
-    let ferramentasFiltradas = []; // resultado da pesquisa
+      card.innerHTML = `
+        <img src="${f.imagemUrl || "https://placehold.co/120x120/004b8d/ffffff?text=Ferramenta"}" alt="${f.nome}" />
+        <h3>${f.nome}</h3>
+        <button class="select-btn">Selecionar</button>
+      `;
 
-    // Função para buscar as ferramentas do back-end
-    async function carregarFerramentas() {
-        try {
-            const res = await fetch("http://localhost:8080/api/ferramentas");
-            if (!res.ok) throw new Error("Erro ao carregar ferramentas");
+      card.querySelector(".select-btn").addEventListener("click", () => {
+        window.location.href = `ferramentaUni.html?id=${f.id}`;
+      });
 
-            ferramentas = await res.json();
-            ferramentasFiltradas = [...ferramentas];
-            renderizarFerramentas();
-        } catch (err) {
-            console.error(err);
-            grid.innerHTML = `<p>Erro ao carregar ferramentas.</p>`;
-        }
-    }
+      grid.appendChild(card);
+    });
+  }
 
-    // Função para renderizar os cards
-    function renderizarFerramentas() {
-        grid.innerHTML = "";
+  // Função para filtrar ferramentas pela pesquisa
+  function filtrarFerramentas() {
+    const termo = searchInput.value.trim().toLowerCase();
+    ferramentasFiltradas = ferramentas.filter(f =>
+      f.nome.toLowerCase().includes(termo)
+    );
+    renderizarFerramentas();
+  }
 
-        if (ferramentasFiltradas.length === 0) {
-            grid.innerHTML = `<p>Nenhuma ferramenta encontrada.</p>`;
-            return;
-        }
+  // Evento de pesquisa
+  searchInput.addEventListener("input", filtrarFerramentas);
 
-        ferramentasFiltradas.forEach(f => {
-            const card = document.createElement("div");
-            card.classList.add("tool-card");
-            card.setAttribute("data-nome", f.nome);
-
-            card.innerHTML = `
-                <img src="${f.imagemUrl || "https://placehold.co/120x120/004b8d/ffffff?text=Ferramenta"}" alt="${f.nome}" />
-                <h3>${f.nome}</h3>
-                <button class="select-btn">Selecionar</button>
-            `;
-
-            // Redirecionar ao clicar em Selecionar
-            card.querySelector(".select-btn").addEventListener("click", () => {
-                window.location.href = `ferramentaUni.html?id=${f.id}`;
-            });
-
-            grid.appendChild(card);
-        });
-    }
-
-    // Função para filtrar ferramentas pela pesquisa
-    function filtrarFerramentas() {
-        const termo = searchInput.value.trim().toLowerCase();
-        ferramentasFiltradas = ferramentas.filter(f =>
-            f.nome.toLowerCase().includes(termo)
-        );
-        renderizarFerramentas();
-    }
-
-    // Evento de pesquisa
-    searchInput.addEventListener("input", filtrarFerramentas);
-
-    // Carrega as ferramentas ao iniciar
-    carregarFerramentas();
+  // Carrega as ferramentas ao iniciar
+  carregarFerramentas();
 });
