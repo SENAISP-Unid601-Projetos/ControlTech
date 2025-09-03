@@ -39,6 +39,18 @@ public class FerramentaQrCodeController {
         FerramentaDTO dto = ferramentaService.buscarPorId(id);
         return dto != null ? ResponseEntity.ok(dto) : ResponseEntity.notFound().build();
     }
+    // ✅ Criar ferramenta com JSON simples (sem QRCode)
+    @PostMapping("/post")
+    public ResponseEntity<?> criarFerramentaJson(@RequestBody FerramentaDTO dto) {
+        try {
+            FerramentaDTO criado = ferramentaService.salvar(dto);
+            return ResponseEntity.ok(criado);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("Erro ao cadastrar ferramenta: " + e.getMessage());
+        }
+    }
+
 
     // ✅ Criar Ferramenta (com QR opcional)
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
