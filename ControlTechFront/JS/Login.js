@@ -64,3 +64,15 @@ btnLerQr?.addEventListener('click', () => {
     infoAluno.style.display = "none";
   });
 });
+function salvarUsuarioLogado(usuario) {
+    // Salva apenas o ID do usuário
+    localStorage.setItem("usuarioId", usuario.id);
+}
+function exibirLoginUsuario(usuario) {
+    document.getElementById("nomeAluno").textContent = usuario.nome;
+    document.getElementById("idAluno").textContent = usuario.id;
+    document.getElementById("perfilAluno").textContent = usuario.perfil;
+    document.getElementById("qrCodeAluno").textContent = usuario.qrCode;
+
+    salvarUsuarioLogado(usuario); // salva ID no localStorage
+}

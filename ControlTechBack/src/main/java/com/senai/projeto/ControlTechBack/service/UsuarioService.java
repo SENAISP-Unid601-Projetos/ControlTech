@@ -3,7 +3,9 @@ package com.senai.projeto.ControlTechBack.service;
 import com.senai.projeto.ControlTechBack.DTO.UsuarioInputDTO;
 import com.senai.projeto.ControlTechBack.DTO.UsuarioOutputDTO;
 import com.senai.projeto.ControlTechBack.DTO.UsuarioQrDTO;
+import com.senai.projeto.ControlTechBack.entity.Ferramenta;
 import com.senai.projeto.ControlTechBack.entity.Usuario;
+import com.senai.projeto.ControlTechBack.repository.FerramentaRepository;
 import com.senai.projeto.ControlTechBack.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,9 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private FerramentaRepository ferramentaRepository;
 
     // --- Criar usuário usando QR Code como chave ---
     // UsuarioService.java
@@ -92,5 +97,11 @@ public class UsuarioService {
         }
         usuarioRepository.deleteById(id);
     }
-
+    public void associarUsuarios(Ferramenta ferramenta, Usuario usuario) {
+        ferramenta.setUsuario(usuario); // Assumindo que Ferramenta tem private Usuario usuario;
+        ferramentaRepository.save(ferramenta);
+    }
+    public Optional<Usuario> buscarEntidadePorId(Long id) {
+        return usuarioRepository.findById(id);
+    }
 }

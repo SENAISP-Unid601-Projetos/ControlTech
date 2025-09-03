@@ -68,7 +68,7 @@ body::after {
   padding: 2rem 3rem;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 58, 117, 0.2);
-  width: 380px;
+  width: 400px;
   text-align: center;
   transition: box-shadow 0.3s ease;
   color: #222;
