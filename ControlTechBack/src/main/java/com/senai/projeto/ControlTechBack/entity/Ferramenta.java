@@ -26,9 +26,9 @@ public class Ferramenta {
 
     private LocalDate dataDevolucao;
 
-    // Relação com usuário
     @ManyToOne
-    @JoinColumn(name = "usuario_id") // garante que FK será criada
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
 }
 

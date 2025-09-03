@@ -66,7 +66,7 @@ btnLerQr?.addEventListener('click', () => {
 });
 function salvarUsuarioLogado(usuario) {
     // Salva apenas o ID do usuário
-    localStorage.setItem("usuarioId", usuario.id);
+    localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
 }
 function exibirLoginUsuario(usuario) {
     document.getElementById("nomeAluno").textContent = usuario.nome;
@@ -74,5 +74,5 @@ function exibirLoginUsuario(usuario) {
     document.getElementById("perfilAluno").textContent = usuario.perfil;
     document.getElementById("qrCodeAluno").textContent = usuario.qrCode;
 
-    salvarUsuarioLogado(usuario); // salva ID no localStorage
+    salvarUsuarioLogado(usuario); // salva usuário completo no localStorage
 }
