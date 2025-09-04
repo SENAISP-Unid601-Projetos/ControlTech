@@ -80,16 +80,30 @@ btnLerQr?.addEventListener('click', () => {
 
 // ----- Funções auxiliares -----
 function salvarUsuarioLogado(usuario) {
-    // Garante que vai salvar com a chave "id"
+    console.log("Usuário recebido do backend:", usuario);
+
+    // pega id em qualquer formato que vier
+    const idUsuario = usuario.id 
+        ?? usuario.usuarioId 
+        ?? usuario.usuario?.id; 
+
+    if (!idUsuario) {
+        alert("Erro: não foi possível identificar o usuário retornado pelo backend.");
+        return;
+    }
+
     const usuarioFormatado = {
-        id: usuario.id ?? usuario.usuarioId, // aceita os dois formatos
-        nome: usuario.nome,
-        perfil: usuario.perfil,
-        qrCode: usuario.qrCode
+        id: idUsuario,
+        nome: usuario.nome ?? usuario.usuario?.nome,
+        perfil: usuario.perfil ?? usuario.usuario?.perfil,
+        qrCode: usuario.qrCode ?? usuario.usuario?.qrCode
     };
+
+    console.log("Usuário salvo no localStorage:", usuarioFormatado);
 
     localStorage.setItem("usuarioLogado", JSON.stringify(usuarioFormatado));
 }
+
 
 function exibirLoginUsuario(usuario) {
     document.getElementById("nomeAluno").textContent = usuario.nome;
