@@ -8,11 +8,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/CSS/Saida.css">
-    <script src="/JS/Saida.js" defer></script>
 </head>
 <body>
     <div class="dashboard-container">
-        <aside class="sidebar">
+        <button class="hamburger-btn" id="hamburger-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <h2>ControlTech</h2>
             </div>
@@ -79,5 +82,6 @@
     <script>
         new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
+    <script src="/JS/Saida.js" defer></script>
 </body>
 </html>

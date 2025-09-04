@@ -5,16 +5,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Ajuda - SENAI ControlTech</title>
-    <!-- Adicionando Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Adicionando a mesma fonte das outras páginas -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/CSS/Ajuda.css">
     <script src="/JS/Ajuda.js" defer></script>
 </head>
 <body>
     <div class="dashboard-container">
-        <aside class="sidebar">
+        <button class="hamburger-btn" id="hamburger-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <h2>ControlTech</h2>
             </div>
@@ -58,7 +60,6 @@
                     </div>
                 </div>
 
-                <!-- Formulário para relatar problema -->
                 <form id="formAjuda">
                     <h3>Relate seu problema</h3>
                     <label for="nome">Nome:</label>
@@ -76,9 +77,7 @@
         </main>
     </div>
 
-        </div>
-    </div>
-    <script src="/ControlTechFront/JS/Ajuda.js" defer></script>
+    
     <div vw class="enabled">
         <div vw-access-button class="active"></div>
         <div vw-plugin-wrapper>
