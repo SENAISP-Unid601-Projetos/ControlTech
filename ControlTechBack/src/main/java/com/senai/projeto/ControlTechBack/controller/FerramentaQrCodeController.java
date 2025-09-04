@@ -1,6 +1,7 @@
 package com.senai.projeto.ControlTechBack.controller;
 
 import com.senai.projeto.ControlTechBack.DTO.FerramentaDTO;
+import com.senai.projeto.ControlTechBack.DTO.FerramentaUsuarioDTO;
 import com.senai.projeto.ControlTechBack.DTO.UsuarioAssociarDTO;
 import com.senai.projeto.ControlTechBack.DTO.UsuarioOutputDTO;
 import com.senai.projeto.ControlTechBack.QrCode.QRCodeGenerator;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/ferramentas")
@@ -139,7 +141,35 @@ public class FerramentaQrCodeController {
     public ResponseEntity<?> usuarioDaFerramenta(@PathVariable Long id) {
         Ferramenta ferramenta = ferramentaService.buscarEntidadePorId(id).orElse(null);
         if (ferramenta == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(ferramenta.getUsuario()); 
+        return ResponseEntity.ok(ferramenta.getUsuario());
+    }
+    @GetMapping("/usuarios/associacao")
+    public ResponseEntity<List<UsuarioOutputDTO>> listarUsuariosAssociados() {
+        List<UsuarioOutputDTO> usuarios = usuarioService.listarUsuariosAssociados();
+        return ResponseEntity.ok(usuarios);
+    }
+    @GetMapping("/com-usuario")
+    public ResponseEntity<List<FerramentaUsuarioDTO>> listarFerramentasComUsuario() {
+        List<FerramentaUsuarioDTO> lista = ferramentaService.listarFerramentasComUsuario();
+        return ResponseEntity.ok(lista);
+    }
+    // Retorna todas as ferramentas associadas a um usuário
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<FerramentaUsuarioDTO>> listarFerramentasDoUsuario(@PathVariable Long usuarioId) {
+        List<FerramentaUsuarioDTO> lista = ferramentaService.listarFerramentasPorUsuario(usuarioId);
+        return ResponseEntity.ok(lista);
+    }
+    @PostMapping("/{id}/devolver")
+    public ResponseEntity<String> devolverFerramenta(@PathVariable Long id) {
+        Ferramenta ferramenta = ferramentaService.buscarEntidadePorId(id).orElse(null);
+        if (ferramenta == null) return ResponseEntity.notFound().build();
+
+        ferramenta.setUsuario(null); // Remove associação
+        ferramenta.setDataDevolucao(null); // Limpa data de devolução, se desejar
+        ferramentaService.salvar(new FerramentaDTO(ferramenta.getId(), ferramenta.getNome(),
+                ferramenta.getDescricao(), ferramenta.getQuantidadeEstoque(), ferramenta.getDataDevolucao()));
+
+        return ResponseEntity.ok("Devolução realizada com sucesso!");
     }
 
 }
