@@ -34,14 +34,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     toolNome.textContent = "Erro ao carregar ferramenta.";
     return;
   }
+console.log("Usuário logado salvo:", usuarioLogado);
 
   // Evento do botão Associar
   btnAssociar.addEventListener("click", async () => {
     try {
+      // pega id do usuário (id ou usuarioId, para compatibilidade)
+      const idUsuario = usuarioLogado.id ?? usuarioLogado.usuario?.id;
+      if (!idUsuario) {
+        alert("Erro: usuário logado inválido. Faça login novamente.");
+        return;
+        
+      }
+
       const assocRes = await fetch(`http://localhost:8080/api/ferramentas/associar/${ferramentaId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ usuarioId: usuarioLogado.id })
+        body: JSON.stringify({ usuarioId: idUsuario })
       });
 
       const text = await assocRes.text();

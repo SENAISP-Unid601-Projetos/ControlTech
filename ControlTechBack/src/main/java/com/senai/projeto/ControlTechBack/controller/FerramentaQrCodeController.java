@@ -135,5 +135,11 @@ public class FerramentaQrCodeController {
                     .body("Erro ao associar: " + e.getMessage());
         }
     }
+    @GetMapping("/{id}/usuario")
+    public ResponseEntity<?> usuarioDaFerramenta(@PathVariable Long id) {
+        Ferramenta ferramenta = ferramentaService.buscarEntidadePorId(id).orElse(null);
+        if (ferramenta == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(ferramenta.getUsuario()); 
+    }
 
 }
