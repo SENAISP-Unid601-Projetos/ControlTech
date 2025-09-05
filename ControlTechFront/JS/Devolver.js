@@ -111,7 +111,11 @@ document.getElementById("devolucaoForm").addEventListener("submit", function(eve
 =======
 >>>>>>> a25c28883dacc198d723d3734c009c1e0680eb0d
 =======
+<<<<<<< HEAD
 >>>>>>> aa0f9a4851dfaa65b32619e58e7af841f76fcb78
+=======
+>>>>>>> a25c28883dacc198d723d3734c009c1e0680eb0d
+>>>>>>> ec0b5682056ac0c7ad2e42c01a91a110681fe2dd
 const BASE_URL = "http://localhost:8080/api/ferramentas"; // Ajuste para a porta do seu backend
 
 function preencherDataHora() {
