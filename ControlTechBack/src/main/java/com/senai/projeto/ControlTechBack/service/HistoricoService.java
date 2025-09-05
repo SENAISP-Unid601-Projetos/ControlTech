@@ -40,4 +40,11 @@ public class HistoricoService {
                 })
                 .collect(Collectors.toList());
     }
+    public void deletarPorId(Long historicoId) {
+        historicoRepository.deleteById(historicoId);
+    }
+    public void deletarPorUsuario(Long usuarioId) {
+        historicoRepository.deleteAllByUsuarioId(usuarioId);
+    }
+
 }

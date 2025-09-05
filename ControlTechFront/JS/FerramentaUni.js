@@ -34,27 +34,38 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    // --- 3. BUSCA E EXIBIÇÃO DOS DADOS DA FERRAMENTA ---
-    try {
-        const res = await fetch(`http://localhost:8080/api/ferramentas/${ferramentaId}`);
-        if (!res.ok) {
-            throw new Error("Ferramenta não encontrada no sistema.");
-        }
-        const ferramenta = await res.json();
+// --- 3. BUSCA E EXIBIÇÃO DOS DADOS DA FERRAMENTA ---
+try {
+    const res = await fetch(`http://localhost:8080/api/ferramentas/${ferramentaId}`);
+    if (!res.ok) {
+        throw new Error("Ferramenta não encontrada no sistema.");
+    }
+    const ferramenta = await res.json();
 
-        toolNome.textContent = ferramenta.nome;
-        toolId.textContent = ferramenta.id;
-        toolDescricao.textContent = ferramenta.descricao || "Sem descrição";
-        toolEstoque.textContent = ferramenta.quantidadeEstoque;
+    toolNome.textContent = ferramenta.nome;
+    toolId.textContent = ferramenta.id;
+    toolDescricao.textContent = ferramenta.descricao || "Sem descrição";
+    toolEstoque.textContent = ferramenta.quantidadeEstoque;
+
+    // 🔹 Mostrar se está associada a um usuário
+    const statusDiv = document.getElementById("statusMsg");
+    if (ferramenta.usuarioNome) {
+    statusMsg.innerHTML = `🟢 Em uso por: <strong>${ferramenta.usuarioNome}</strong>`;
+    statusMsg.style.color = "green";
+    } else {
+        statusMsg.innerHTML = "⚪ Disponível";
+        statusMsg.style.color = "gray";
+    }
 
     } catch (err) {
         console.error("Falha ao buscar dados da ferramenta:", err);
         toolNome.textContent = "Erro ao carregar ferramenta";
         statusMsg.textContent = err.message;
         statusMsg.style.color = "red";
-        btnAssociar.disabled = true; // Desabilita o botão se a ferramenta não carregar
+        btnAssociar.disabled = true;
         return;
     }
+
 
     // --- 4. LÓGICA DO BOTÃO "ASSOCIAR" ---
     btnAssociar.addEventListener("click", async () => {

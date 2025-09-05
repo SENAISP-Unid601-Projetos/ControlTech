@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface HistoricoDevolucaoRepository extends JpaRepository<HistoricoDevolucao, Long> {
     List<HistoricoDevolucao> findByUsuarioId(Long usuarioId);
+    void deleteAllByUsuarioId(Long usuarioId);
+
 }

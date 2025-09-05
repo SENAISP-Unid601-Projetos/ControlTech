@@ -19,4 +19,14 @@ public class HistoricoController {
     public List<HistoricoDevolucaoDTO> listarHistoricoPorUsuario(@PathVariable Long usuarioId) {
         return historicoService.listarPorUsuario(usuarioId);
     }
+    @DeleteMapping("/{historicoId}")
+    public void deletarHistorico(@PathVariable Long historicoId) {
+        historicoService.deletarPorId(historicoId);
+    }
+    // Deletar todo o histórico de devolução de um usuário
+    @DeleteMapping("/usuario/{usuarioId}")
+    public void deletarHistoricoDoUsuario(@PathVariable Long usuarioId) {
+        historicoService.deletarPorUsuario(usuarioId);
+    }
+
 }
