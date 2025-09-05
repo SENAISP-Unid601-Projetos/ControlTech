@@ -156,14 +156,23 @@ public class FerramentaQrCodeController {
         List<FerramentaUsuarioDTO> lista = ferramentaService.listarFerramentasPorUsuario(usuarioId);
         return ResponseEntity.ok(lista);
     }
-    @PostMapping("/ferramentas/{id}/devolver")
-    public ResponseEntity<String> devolver(@PathVariable Long id) {
-        try {
-            ferramentaService.devolverFerramenta(id);
-            return ResponseEntity.ok("Ferramenta devolvida com sucesso.");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    @PostMapping("/{id}/devolver")
+    public ResponseEntity<String> devolverFerramenta(@PathVariable Long id) {
+        Optional<Ferramenta> optional = ferramentaService.buscarEntidadePorId(id);
+        if (optional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Ferramenta não encontrada");
         }
+
+        Ferramenta ferramenta = optional.get();
+
+        // Remove usuário associado e limpa data de devolução
+        ferramenta.setUsuario(null);
+        ferramenta.setDataDevolucao(null);
+
+        ferramentaService.atualizarEntidade(ferramenta); // cria um método no service que salva sem criar nova ferramenta
+
+        return ResponseEntity.ok("Ferramenta devolvida com sucesso!");
     }
 
     @GetMapping("/usuario/cracha/{cracha}")

@@ -153,5 +153,10 @@ public class FerramentaService {
 
         ferramentaRepository.save(ferramenta); // apenas atualiza
     }
+    public void atualizarEntidade(Ferramenta ferramenta) {
+        if (ferramenta != null) {
+            ferramentaRepository.save(ferramenta);
+        }
+    }
 
 }
