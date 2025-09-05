@@ -9,6 +9,7 @@ import com.senai.projeto.ControlTechBack.QrCode.QRCodeReader;
 import com.senai.projeto.ControlTechBack.entity.Ferramenta;
 import com.senai.projeto.ControlTechBack.entity.Usuario;
 import com.senai.projeto.ControlTechBack.service.FerramentaService;
+import com.senai.projeto.ControlTechBack.service.HistoricoService;
 import com.senai.projeto.ControlTechBack.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -31,6 +32,9 @@ public class FerramentaQrCodeController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private HistoricoService historicoService;
     // ✅ Listar todas
     @GetMapping
     public List<FerramentaDTO> listarTodas() {
@@ -157,23 +161,35 @@ public class FerramentaQrCodeController {
         return ResponseEntity.ok(lista);
     }
     @PostMapping("/{id}/devolver")
-    public ResponseEntity<String> devolverFerramenta(@PathVariable Long id) {
-        Optional<Ferramenta> optional = ferramentaService.buscarEntidadePorId(id);
-        if (optional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Ferramenta não encontrada");
+    public ResponseEntity<String> devolver(@PathVariable Long id,
+                                           @RequestParam(required = false) String observacoes) {
+
+        // Buscar a ferramenta
+        Optional<Ferramenta> ferrOpt = ferramentaService.buscarEntidadePorId(id);
+        if (ferrOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ferramenta não encontrada");
         }
 
-        Ferramenta ferramenta = optional.get();
+        Ferramenta ferramenta = ferrOpt.get();
+        Usuario usuario = ferramenta.getUsuario();
 
-        // Remove usuário associado e limpa data de devolução
+        if (usuario == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Ferramenta não está associada a nenhum usuário");
+        }
+
+        // Registrar no histórico de devolução
+        historicoService.registrarDevolucao(ferramenta, usuario, observacoes);
+
+        // Desassociar ferramenta do usuário
         ferramenta.setUsuario(null);
         ferramenta.setDataDevolucao(null);
+        ferramentaService.salvarOuAtualizar(ferramenta); // Método público para salvar alterações
 
-        ferramentaService.atualizarEntidade(ferramenta); // cria um método no service que salva sem criar nova ferramenta
-
-        return ResponseEntity.ok("Ferramenta devolvida com sucesso!");
+        return ResponseEntity.ok("Devolução realizada com sucesso");
     }
+
+
 
     @GetMapping("/usuario/cracha/{cracha}")
     public ResponseEntity<List<FerramentaUsuarioDTO>> listarFerramentasDoUsuarioPorCracha(@PathVariable String cracha) {

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico de Devoluções - ControlTech</title>
+    <link rel="stylesheet" href="/CSS/Historico.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>ControlTech</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="Ferramentas.html"><span>Ferramentas</span></a>
+                <a href="Devolver.html"><span>Devolver</span></a>
+                <a href="Historico.html" class="active"><span>Histórico</span></a>
+                <a href="Ajuda.html"><span>Ajuda</span></a>
+                <a href="Saida.html" class="logout"><span>Sair</span></a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="main-header">
+                <h1>Histórico de Devoluções</h1>
+            </div>
+
+            <div id="historicoContainer" class="tool-grid">
+                <!-- Cards de histórico serão inseridos via JS -->
+            </div>
+            <div id="listaHistorico" class="info-box"></div>
+
+        </main>
+    </div>
+
+    <button class="hamburger-btn">&#9776;</button>
+
+    <script src="/JS/Historico.js" defer></script>
+</body>
+</html>

@@ -1,18 +1,19 @@
-const BASE_URL = "http://localhost:8080/api/ferramentas"; // Ajuste para a porta do seu backend
+const BASE_URL = "http://localhost:8080/api/ferramentas"; // backend Spring Boot
 
+// Preenche data e hora atual
 function preencherDataHora() {
   const agora = new Date();
   document.getElementById("dataAtual").textContent = agora.toLocaleDateString('pt-BR');
   document.getElementById("horaAtual").textContent = agora.toLocaleTimeString('pt-BR');
 }
 
-// Carrega usuário logado
+// Retorna usuário logado do localStorage
 function getUsuarioLogado() {
   const usuario = localStorage.getItem("usuarioLogado");
   return usuario ? JSON.parse(usuario) : null;
 }
 
-// Atualiza informações do usuário na tela
+// Exibe informações do usuário na tela
 function exibirUsuarioLogado(usuario) {
   document.getElementById("funcId").textContent = usuario.id;
   document.getElementById("funcNome").textContent = usuario.nome;
@@ -23,7 +24,7 @@ function exibirUsuarioLogado(usuario) {
   carregarFerramentas(usuario.id);
 }
 
-// Validação do crachá
+// Validação do campo crachá
 document.getElementById("cracha").addEventListener("input", function() {
   this.value = this.value.replace(/\D/g, '');
   if (this.value.length > 5) this.value = this.value.slice(0,5);
@@ -39,12 +40,11 @@ document.getElementById("cracha").addEventListener("change", function() {
 
   if (crachaCodigo.length === 5 && /^\d+$/.test(crachaCodigo)) {
     const usuario = getUsuarioLogado();
-    if (usuario && usuario.id === crachaCodigo) {
+    if (usuario && usuario.id.toString() === crachaCodigo) {
       exibirUsuarioLogado(usuario);
       mensagem.textContent = "Funcionário identificado com sucesso!";
       mensagem.classList.remove("hidden", "msg-error");
       mensagem.classList.add("msg-success");
-      document.getElementById("objeto").focus();
     } else {
       mensagem.textContent = "Crachá não cadastrado ou usuário não logado.";
       mensagem.classList.remove("hidden", "msg-success");
@@ -61,41 +61,28 @@ document.getElementById("cracha").addEventListener("change", function() {
   }
 });
 
-// Manipulador do formulário de devolução
+// Manipulador do formulário de devolução (campo manual)
 document.getElementById("devolucaoForm").addEventListener("submit", function(event) {
   event.preventDefault();
-  const objeto = document.getElementById("objeto").value;
   const mensagem = document.getElementById("mensagem");
   const usuario = getUsuarioLogado();
+  const objeto = document.getElementById("objeto").value.trim();
+  const observacoes = document.getElementById("observacoes").value.trim();
 
   if (!usuario) {
     alert("Usuário não logado.");
     return;
   }
 
-  if (objeto) {
-    fetch(`${BASE_URL}/${objeto}/devolver`, { method: "POST" })
-      .then(res => res.text())
-      .then(msg => {
-        mensagem.textContent = msg;
-        mensagem.classList.remove("hidden", "msg-error");
-        mensagem.classList.add("msg-success");
-        document.getElementById("objeto").value = "";
-        document.getElementById("observacoes").value = "";
-        carregarFerramentas(usuario.id);
-        document.getElementById("objeto").focus();
-      })
-      .catch(err => {
-        console.error(err);
-        mensagem.textContent = "Erro ao devolver o item.";
-        mensagem.classList.remove("hidden", "msg-success");
-        mensagem.classList.add("msg-error");
-      });
-  } else {
+  if (!objeto) {
     mensagem.textContent = "Por favor, informe o item a ser devolvido.";
     mensagem.classList.remove("hidden", "msg-success");
     mensagem.classList.add("msg-error");
+    return;
   }
+
+  // Se quiser usar o ID digitado, é necessário validar/pegar do backend
+  alert("Para devolução segura, use os botões de devolução listados abaixo.");
 });
 
 // Função para carregar ferramentas do usuário
@@ -127,14 +114,19 @@ function carregarFerramentas(usuarioId) {
 
       listaContainer.classList.remove("hidden");
 
+      // Adiciona evento de devolução
       document.querySelectorAll(".btnDevolver").forEach(btn => {
         btn.addEventListener("click", function() {
           const ferramentaId = this.dataset.id;
-          fetch(`${BASE_URL}/${ferramentaId}/devolver`, { method: "POST" })
-            .then(res => res.text())
+          const observacoes = ""; // ou pegar de algum campo se desejar
+          fetch(`${BASE_URL}/${ferramentaId}/devolver?observacoes=${encodeURIComponent(observacoes)}`, { method: "POST" })
+            .then(res => {
+              if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+              return res.text();
+            })
             .then(msg => {
               alert(msg);
-              this.parentElement.remove();
+              this.parentElement.remove(); // remove da lista
             })
             .catch(err => {
               console.error(err);
@@ -151,7 +143,7 @@ function carregarFerramentas(usuarioId) {
     });
 }
 
-// Se já houver usuário logado, pré-carrega
+// Pré-carrega usuário logado
 const usuarioLogado = getUsuarioLogado();
 if (usuarioLogado) {
   document.getElementById("cracha").value = usuarioLogado.id;

@@ -158,5 +158,8 @@ public class FerramentaService {
             ferramentaRepository.save(ferramenta);
         }
     }
+    public Ferramenta salvarOuAtualizar(Ferramenta ferramenta) {
+        return ferramentaRepository.save(ferramenta);
+    }
 
 }
