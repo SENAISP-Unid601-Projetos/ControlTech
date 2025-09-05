@@ -12,7 +12,6 @@ import java.time.LocalDate;
 public class FerramentaUsuarioDTO {
     private Long ferramentaId;
     private String ferramentaNome;
-    private String ferramentaDescricao;
     private Integer quantidadeEstoque;
     private LocalDate dataDevolucao;
 
@@ -20,4 +19,6 @@ public class FerramentaUsuarioDTO {
     private String usuarioNome;
     private String usuarioPerfil;
     private String usuarioQrCode;
+
 }
+
