@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Ajuda - SENAI ControlTech</title>
-    <!-- Adicionando Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Adicionando a mesma fonte das outras páginas -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/CSS/Ajuda.css">
     <script src="/JS/Ajuda.js" defer></script>
 </head>
 <body>
     <div class="dashboard-container">
-        <aside class="sidebar">
+        <button class="hamburger-btn" id="hamburger-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <h2>ControlTech</h2>
             </div>
@@ -44,20 +47,19 @@
                 
                 <div class="faq">
                     <div class="faq-item">
-                        <h3>Como faço login no sistema?</h3>
-                        <p>Para acessar o sistema, clique em "Login" no menu superior e insira suas credenciais fornecidas pelo SENAI.</p>
+                        <h3>Como faço para devolver uma ferramenta?</h3>
+                        <p>Para registrar a devolução de uma ferramenta, vá até a aba "Devolver" no menu lateral. Na página, você poderá escanear o código da ferramenta ou selecioná-la na lista de itens que estão em seu nome. Confirme a devolução para liberar a pendência.</p>
                     </div>
                     <div class="faq-item">
-                        <h3>Esqueci minha senha. O que devo fazer?</h3>
-                        <p>Clique em "Esqueci minha senha" na página de login e siga as instruções para redefinir sua senha.</p>
+                        <h3>Como posso sair do sistema ao final do dia?</h3>
+                        <p>Para encerrar sua sessão com segurança, clique na opção "Sair", localizada no menu lateral. Esta ação garante que seus dados fiquem protegidos e finaliza seu acesso à plataforma.</p>
                     </div>
                     <div class="faq-item">
                         <h3>Como posso entrar em contato com o suporte?</h3>
-                        <p>Você pode entrar em contato com o suporte através do e-mail suporte@senaiapp.com.br ou pelo telefone (11) 1234-5678.</p>
+                        <p>Se as perguntas frequentes não resolveram seu problema, você pode nos enviar uma mensagem através do formulário abaixo ou entrar em contato pelo e-mail suporteSENAI@gmail.com.</p>
                     </div>
                 </div>
 
-                <!-- Formulário para relatar problema -->
                 <form id="formAjuda">
                     <h3>Relate seu problema</h3>
                     <label for="nome">Nome:</label>
@@ -75,9 +77,13 @@
         </main>
     </div>
 
+    <div id="popupAjuda" class="popup">
+        <div class="popup-content">
+            <p id="mensagemPopup"></p>
+            <button onclick="fecharPopup()">Fechar</button>
         </div>
     </div>
-    <script src="/ControlTechFront/JS/Ajuda.js" defer></script>
+    
     <div vw class="enabled">
         <div vw-access-button class="active"></div>
         <div vw-plugin-wrapper>
