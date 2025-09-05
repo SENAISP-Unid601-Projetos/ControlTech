@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -148,28 +150,25 @@ public class FerramentaQrCodeController {
         List<UsuarioOutputDTO> usuarios = usuarioService.listarUsuariosAssociados();
         return ResponseEntity.ok(usuarios);
     }
-    @GetMapping("/com-usuario")
-    public ResponseEntity<List<FerramentaUsuarioDTO>> listarFerramentasComUsuario() {
-        List<FerramentaUsuarioDTO> lista = ferramentaService.listarFerramentasComUsuario();
-        return ResponseEntity.ok(lista);
-    }
     // Retorna todas as ferramentas associadas a um usuário
     @GetMapping("/usuario/{usuarioId}")
     public ResponseEntity<List<FerramentaUsuarioDTO>> listarFerramentasDoUsuario(@PathVariable Long usuarioId) {
         List<FerramentaUsuarioDTO> lista = ferramentaService.listarFerramentasPorUsuario(usuarioId);
         return ResponseEntity.ok(lista);
     }
-    @PostMapping("/{id}/devolver")
-    public ResponseEntity<String> devolverFerramenta(@PathVariable Long id) {
-        Ferramenta ferramenta = ferramentaService.buscarEntidadePorId(id).orElse(null);
-        if (ferramenta == null) return ResponseEntity.notFound().build();
-
-        ferramenta.setUsuario(null); // Remove associação
-        ferramenta.setDataDevolucao(null); // Limpa data de devolução, se desejar
-        ferramentaService.salvar(new FerramentaDTO(ferramenta.getId(), ferramenta.getNome(),
-                ferramenta.getDescricao(), ferramenta.getQuantidadeEstoque(), ferramenta.getDataDevolucao()));
-
-        return ResponseEntity.ok("Devolução realizada com sucesso!");
+    @PostMapping("/ferramentas/{id}/devolver")
+    public ResponseEntity<String> devolver(@PathVariable Long id) {
+        try {
+            ferramentaService.devolverFerramenta(id);
+            return ResponseEntity.ok("Ferramenta devolvida com sucesso.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
+    @GetMapping("/usuario/cracha/{cracha}")
+    public ResponseEntity<List<FerramentaUsuarioDTO>> listarFerramentasDoUsuarioPorCracha(@PathVariable String cracha) {
+        List<FerramentaUsuarioDTO> lista = ferramentaService.listarFerramentasPorCracha(cracha);
+        return ResponseEntity.ok(lista);
+    }
 }
