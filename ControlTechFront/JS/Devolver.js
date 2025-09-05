@@ -1,151 +1,200 @@
-const BASE_URL = "http://localhost:8080/api/ferramentas"; // backend Spring Boot
+const BASE_URL = "http://localhost:8080/api/ferramentas";
 
-// Preenche data e hora atual
-function preencherDataHora() {
-  const agora = new Date();
-  document.getElementById("dataAtual").textContent = agora.toLocaleDateString('pt-BR');
-  document.getElementById("horaAtual").textContent = agora.toLocaleTimeString('pt-BR');
-}
+// ====================== FUNÇÕES AUXILIARES ======================
 
-// Retorna usuário logado do localStorage
+// Busca usuário logado no localStorage
 function getUsuarioLogado() {
-  const usuario = localStorage.getItem("usuarioLogado");
-  return usuario ? JSON.parse(usuario) : null;
+    const usuario = localStorage.getItem("usuarioLogado");
+    return usuario ? JSON.parse(usuario) : null;
 }
 
-// Exibe informações do usuário na tela
+// Preenche data e hora atuais
+function preencherDataHora() {
+    const agora = new Date();
+    document.getElementById("dataAtual").textContent = agora.toLocaleDateString('pt-BR');
+    document.getElementById("horaAtual").textContent = agora.toLocaleTimeString('pt-BR');
+}
+
+// Exibe dados do usuário e ferramentas
 function exibirUsuarioLogado(usuario) {
-  document.getElementById("funcId").textContent = usuario.id;
-  document.getElementById("funcNome").textContent = usuario.nome;
-  preencherDataHora();
-  document.getElementById("infoUsuario").classList.remove("hidden");
-  document.getElementById("devolucaoForm").classList.remove("hidden");
-
-  carregarFerramentas(usuario.id);
+    document.getElementById("funcId").textContent = usuario.id;
+    document.getElementById("funcNome").textContent = usuario.nome;
+    preencherDataHora();
+    document.getElementById("infoUsuario").classList.remove("hidden");
+    document.getElementById("devolucaoForm").classList.remove("hidden");
+    carregarFerramentas(usuario.id);
 }
 
-// Validação do campo crachá
-document.getElementById("cracha").addEventListener("input", function() {
-  this.value = this.value.replace(/\D/g, '');
-  if (this.value.length > 5) this.value = this.value.slice(0,5);
-  if (this.value.length === 5 && !/^\d+$/.test(this.value)) this.classList.add("error-border");
-  else this.classList.remove("error-border");
-});
-
-// Quando o crachá muda
-document.getElementById("cracha").addEventListener("change", function() {
-  const crachaCodigo = this.value.trim();
-  const mensagem = document.getElementById("mensagem");
-  mensagem.classList.add("hidden");
-
-  if (crachaCodigo.length === 5 && /^\d+$/.test(crachaCodigo)) {
-    const usuario = getUsuarioLogado();
-    if (usuario && usuario.id.toString() === crachaCodigo) {
-      exibirUsuarioLogado(usuario);
-      mensagem.textContent = "Funcionário identificado com sucesso!";
-      mensagem.classList.remove("hidden", "msg-error");
-      mensagem.classList.add("msg-success");
-    } else {
-      mensagem.textContent = "Crachá não cadastrado ou usuário não logado.";
-      mensagem.classList.remove("hidden", "msg-success");
-      mensagem.classList.add("msg-error");
-      document.getElementById("infoUsuario").classList.add("hidden");
-      document.getElementById("devolucaoForm").classList.add("hidden");
-    }
-  } else if (crachaCodigo.length > 0) {
-    mensagem.textContent = "O crachá deve conter exatamente 5 dígitos numéricos.";
-    mensagem.classList.remove("hidden", "msg-success");
-    mensagem.classList.add("msg-error");
+// Esconde informações do usuário e formulário
+function esconderInfos() {
     document.getElementById("infoUsuario").classList.add("hidden");
     document.getElementById("devolucaoForm").classList.add("hidden");
-  }
+}
+
+// ====================== INPUT DE CRACHÁ ======================
+
+const crachaInput = document.getElementById("cracha");
+crachaInput.addEventListener("input", function () {
+    this.value = this.value.replace(/\D/g, '').slice(0,5);
 });
 
-// Manipulador do formulário de devolução (campo manual)
-document.getElementById("devolucaoForm").addEventListener("submit", function(event) {
-  event.preventDefault();
-  const mensagem = document.getElementById("mensagem");
-  const usuario = getUsuarioLogado();
-  const objeto = document.getElementById("objeto").value.trim();
-  const observacoes = document.getElementById("observacoes").value.trim();
+crachaInput.addEventListener("change", function () {
+    const crachaCodigo = this.value.trim();
+    const mensagem = document.getElementById("mensagem");
+    mensagem.classList.add("hidden");
 
-  if (!usuario) {
-    alert("Usuário não logado.");
-    return;
-  }
-
-  if (!objeto) {
-    mensagem.textContent = "Por favor, informe o item a ser devolvido.";
-    mensagem.classList.remove("hidden", "msg-success");
-    mensagem.classList.add("msg-error");
-    return;
-  }
-
-  // Se quiser usar o ID digitado, é necessário validar/pegar do backend
-  alert("Para devolução segura, use os botões de devolução listados abaixo.");
+    if (/^\d{5}$/.test(crachaCodigo)) {
+        const usuario = getUsuarioLogado();
+        if (usuario && usuario.id.toString() === crachaCodigo) {
+            exibirUsuarioLogado(usuario);
+            mensagem.textContent = "Funcionário identificado com sucesso!";
+            mensagem.className = "mensagem msg-success";
+        } else {
+            mensagem.textContent = "Crachá não cadastrado ou usuário não logado.";
+            mensagem.className = "mensagem msg-error";
+            esconderInfos();
+        }
+    } else if (crachaCodigo.length > 0) {
+        mensagem.textContent = "O crachá deve conter exatamente 5 dígitos numéricos.";
+        mensagem.className = "mensagem msg-error";
+        esconderInfos();
+    }
 });
 
-// Função para carregar ferramentas do usuário
-function carregarFerramentas(usuarioId) {
-  fetch(`${BASE_URL}/usuario/${usuarioId}`)
-    .then(res => {
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-      return res.json();
-    })
-    .then(ferramentas => {
-      const listaContainer = document.getElementById("listaFerramentas");
-      listaContainer.innerHTML = "";
+// ====================== FORMULÁRIO DE DEVOLUÇÃO ======================
 
-      if (!ferramentas.length) {
-        listaContainer.innerHTML = "<p>Nenhuma ferramenta associada a este usuário.</p>";
-        listaContainer.classList.remove("hidden");
+document.getElementById("devolucaoForm").addEventListener("submit", function(event){
+    event.preventDefault();
+    const usuario = getUsuarioLogado();
+    const objeto = document.getElementById("objeto").value.trim();
+    const observacoes = document.getElementById("observacoes").value.trim();
+    const mensagem = document.getElementById("mensagem");
+
+    if (!usuario) { 
+        alert("Usuário não logado."); 
+        return; 
+    }
+
+    if (!objeto) {
+        mensagem.textContent = "Informe o ID da ferramenta.";
+        mensagem.className = "mensagem msg-error";
         return;
-      }
+    }
 
-      ferramentas.forEach(f => {
-        const div = document.createElement("div");
-        div.className = "ferramenta-item";
-        div.innerHTML = `
-          <p><strong>ID:</strong> ${f.ferramentaId} - <strong>Nome:</strong> ${f.ferramentaNome}</p>
-          <button class="btnDevolver" data-id="${f.ferramentaId}">Devolver</button>
-        `;
-        listaContainer.appendChild(div);
-      });
+    // Chamada real ao backend para devolução manual
+    fetch(`${BASE_URL}/${objeto}/devolver?observacoes=${encodeURIComponent(observacoes)}`, { method: "POST" })
+        .then(res => {
+            if (!res.ok) throw new Error(`Erro HTTP: ${res.status}`);
+            return res.text();
+        })
+        .then(msg => {
+            mensagem.textContent = msg;
+            mensagem.className = "mensagem msg-success";
 
-      listaContainer.classList.remove("hidden");
+            // Limpa inputs
+            document.getElementById("objeto").value = "";
+            document.getElementById("observacoes").value = "";
 
-      // Adiciona evento de devolução
-      document.querySelectorAll(".btnDevolver").forEach(btn => {
-        btn.addEventListener("click", function() {
-          const ferramentaId = this.dataset.id;
-          const observacoes = ""; // ou pegar de algum campo se desejar
-          fetch(`${BASE_URL}/${ferramentaId}/devolver?observacoes=${encodeURIComponent(observacoes)}`, { method: "POST" })
-            .then(res => {
-              if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-              return res.text();
-            })
-            .then(msg => {
-              alert(msg);
-              this.parentElement.remove(); // remove da lista
-            })
-            .catch(err => {
-              console.error(err);
-              alert("Erro ao devolver a ferramenta.");
-            });
+            // Atualiza lista de ferramentas
+            carregarFerramentas(usuario.id);
+        })
+        .catch(err => {
+            console.error(err);
+            mensagem.textContent = "Erro ao devolver a ferramenta.";
+            mensagem.className = "mensagem msg-error";
         });
-      });
-    })
-    .catch(err => {
-      console.error("Erro ao carregar ferramentas:", err);
-      const listaContainer = document.getElementById("listaFerramentas");
-      listaContainer.innerHTML = "<p>Erro ao carregar ferramentas.</p>";
-      listaContainer.classList.remove("hidden");
+});
+
+// ====================== CARREGAR FERRAMENTAS ======================
+
+function carregarFerramentas(usuarioId) {
+    fetch(`${BASE_URL}/usuario/${usuarioId}`)
+        .then(res => {
+            if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+            return res.json();
+        })
+        .then(ferramentas => {
+            const lista = document.getElementById("listaFerramentas");
+            lista.innerHTML = "";
+
+            if (!ferramentas.length) {
+                const divVazia = document.createElement("div");
+                divVazia.className = "lista-vazia";
+                divVazia.textContent = "Nenhuma ferramenta associada a este usuário.";
+                lista.appendChild(divVazia);
+                lista.classList.remove("hidden");
+                return;
+            }
+
+            ferramentas.forEach(f => {
+                const div = document.createElement("div");
+                div.className = "ferramenta-item";
+                div.innerHTML = `
+                    <p><strong>ID:</strong> ${f.ferramentaId}</p>
+                    <p><strong>Nome:</strong> ${f.ferramentaNome}</p>
+                    <p><strong>Observações:</strong> <input type="text" class="obsInput" placeholder="Digite observações"></p>
+                    <button class="btnDevolver" data-id="${f.ferramentaId}">Devolver</button>
+                `;
+                lista.appendChild(div);
+            });
+
+            lista.classList.remove("hidden");
+            ativarModalBotoes();
+        })
+        .catch(err => {
+            console.error("Erro ao carregar ferramentas:", err);
+            const lista = document.getElementById("listaFerramentas");
+            lista.innerHTML = "<p>Erro ao carregar ferramentas.</p>";
+            lista.classList.remove("hidden");
+        });
+}
+
+// ====================== MODAL DE CONFIRMAÇÃO ======================
+
+let ferramentaParaDevolver = null;
+
+function ativarModalBotoes() {
+    document.querySelectorAll(".btnDevolver").forEach(btn => {
+        btn.addEventListener("click", function () {
+            ferramentaParaDevolver = this;
+            document.getElementById("confirmModal").classList.remove("hidden");
+        });
     });
 }
 
-// Pré-carrega usuário logado
+document.getElementById("confirmBtn").addEventListener("click", function(){
+    if (!ferramentaParaDevolver) return;
+
+    const ferramentaId = ferramentaParaDevolver.dataset.id;
+    const observacoes = ferramentaParaDevolver.parentElement.querySelector(".obsInput").value.trim();
+
+    fetch(`${BASE_URL}/${ferramentaId}/devolver?observacoes=${encodeURIComponent(observacoes)}`, { method: "POST" })
+        .then(res => res.text())
+        .then(msg => {
+            const mensagem = document.getElementById("mensagem");
+            mensagem.textContent = msg;
+            mensagem.className = "mensagem msg-success";
+            ferramentaParaDevolver.parentElement.remove();
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Erro ao devolver a ferramenta.");
+        })
+        .finally(() => {
+            document.getElementById("confirmModal").classList.add("hidden");
+            ferramentaParaDevolver = null;
+        });
+});
+
+document.getElementById("cancelBtn").addEventListener("click", function(){
+    document.getElementById("confirmModal").classList.add("hidden");
+    ferramentaParaDevolver = null;
+});
+
+// ====================== AUTO-INICIALIZAÇÃO ======================
+
 const usuarioLogado = getUsuarioLogado();
 if (usuarioLogado) {
-  document.getElementById("cracha").value = usuarioLogado.id;
-  exibirUsuarioLogado(usuarioLogado);
+    crachaInput.value = usuarioLogado.id;
+    exibirUsuarioLogado(usuarioLogado);
 }
