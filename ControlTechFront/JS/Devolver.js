@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Dados dos funcionários cadastrados (mesmos do login)
 const funcionarios = {
     "12345": { id: "12345", nome: "João da Silva" },
@@ -107,6 +108,8 @@ document.getElementById("devolucaoForm").addEventListener("submit", function(eve
     }
 });
 =======
+=======
+>>>>>>> a25c28883dacc198d723d3734c009c1e0680eb0d
 =======
 >>>>>>> a25c28883dacc198d723d3734c009c1e0680eb0d
 const BASE_URL = "http://localhost:8080/api/ferramentas"; // Ajuste para a porta do seu backend
