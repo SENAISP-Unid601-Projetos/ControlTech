@@ -265,4 +265,7 @@ if (usuarioLogado) {
   document.getElementById("cracha").value = usuarioLogado.id;
   exibirUsuarioLogado(usuarioLogado);
 }
+<<<<<<< HEAD
 >>>>>>> d4b8732c88cda30170a99c6688678fbf63556bb1
+=======
+>>>>>>> afc9d98106d0dd65f87edd65be7e6ff3a464e2fd
