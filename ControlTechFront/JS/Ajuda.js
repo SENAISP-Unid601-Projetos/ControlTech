@@ -1,50 +1,66 @@
+// --- CONTROLE DO MENU HAMBÚRGUER (PARA TELAS PEQUENAS) ---
+
 // Seleciona o botão do hambúrguer e a barra lateral
 const hamburgerBtn = document.getElementById('hamburger-btn');
 const sidebar = document.getElementById('sidebar');
 
-// Adiciona o evento de clique ao botão do hambúrguer
+// Adiciona um evento de clique ao botão
 hamburgerBtn.addEventListener('click', () => {
-    // Alterna a classe 'active' na barra lateral
+    // Adiciona ou remove a classe 'active' da barra lateral,
+    // o que faz com que ela apareça ou desapareça (controlado pelo CSS).
     sidebar.classList.toggle('active');
 });
 
-// Lógica do formulário de ajuda
+
+// --- LÓGICA DO FORMULÁRIO DE AJUDA E POP-UP ---
+
+// Seleciona o formulário de ajuda
 const form = document.getElementById('formAjuda');
 
-// @ts-ignore
-form.addEventListener('submit', function(e) {
-    e.preventDefault();
+// Adiciona um evento que dispara quando o formulário é enviado
+form.addEventListener('submit', function(event) {
+    // Impede que a página recarregue ao enviar o formulário
+    event.preventDefault();
 
-    // @ts-ignore
+    // Pega os valores dos campos e remove espaços em branco do início e fim
     const nome = form.nome.value.trim();
-    // @ts-ignore
     const email = form.email.value.trim();
-    // @ts-ignore
     const problema = form.problema.value.trim();
 
+    // Validação simples: verifica se algum campo está vazio
     if (!nome || !email || !problema) {
-        alert('Por favor, preencha todos os campos.');
-        return;
+        alert('Por favor, preencha todos os campos do formulário.');
+        return; // Interrompe a execução se a validação falhar
     }
 
-    mostrarPopup(nome, email);
-    // @ts-ignore
-    form.reset();
+    // Se todos os campos estiverem preenchidos:
+    mostrarPopup(nome, email); // Chama a função para exibir o pop-up de sucesso
+    form.reset(); // Limpa todos os campos do formulário
 });
 
+/**
+ * Função para exibir o pop-up de confirmação.
+ * @param {string} nome - O nome do usuário.
+ * @param {string} email - O e-mail do usuário.
+ */
 function mostrarPopup(nome, email) {
     const popup = document.getElementById('popupAjuda');
     const mensagem = document.getElementById('mensagemPopup');
     
-    // @ts-ignore
-    mensagem.innerHTML = `✅ Obrigado, <strong>${nome}</strong>! Seu problema foi registrado. Entraremos em contato pelo e-mail <strong>${email}</strong>.`;
+    // Monta a mensagem de confirmação personalizada
+    mensagem.innerHTML = `✅ Obrigado, <strong>${nome}</strong>! Seu pedido de ajuda foi registrado. Entraremos em contato pelo e-mail <strong>${email}</strong> em breve.`;
 
-    // @ts-ignore
+    // Altera o estilo do pop-up para 'flex', tornando-o visível
     popup.style.display = 'flex';
 }
 
+/**
+ * Função para fechar o pop-up.
+ * Esta função é chamada pelo botão "Fechar" no HTML: <button onclick="fecharPopup()">
+ */
 function fecharPopup() {
     const popup = document.getElementById('popupAjuda');
-    // @ts-ignore
+    
+    // Altera o estilo do pop-up para 'none', escondendo-o
     popup.style.display = 'none';
 }

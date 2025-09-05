@@ -1,6 +1,7 @@
 package com.senai.projeto.ControlTechBack.service;
 
 import com.senai.projeto.ControlTechBack.DTO.FerramentaDTO;
+import com.senai.projeto.ControlTechBack.DTO.FerramentaUsuarioDTO;
 import com.senai.projeto.ControlTechBack.entity.Ferramenta;
 import com.senai.projeto.ControlTechBack.entity.Usuario;
 import com.senai.projeto.ControlTechBack.repository.FerramentaRepository;
@@ -94,4 +95,57 @@ public class FerramentaService {
         f.setDataDevolucao(dto.getDataDevolucao());
         return f;
     }
+    public List<Usuario> listarUsuariosAssociados() {
+        return ferramentaRepository.findAll()
+                .stream()
+                .map(Ferramenta::getUsuario)
+                .filter(usuario -> usuario != null)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+    public List<FerramentaUsuarioDTO> listarFerramentasComUsuario() {
+        return ferramentaRepository.findAll()
+                .stream()
+                .map(f -> {
+                    FerramentaUsuarioDTO dto = new FerramentaUsuarioDTO();
+                    dto.setFerramentaId(f.getId());
+                    dto.setFerramentaNome(f.getNome());
+                    dto.setFerramentaDescricao(f.getDescricao());
+                    dto.setQuantidadeEstoque(f.getQuantidadeEstoque());
+                    dto.setDataDevolucao(f.getDataDevolucao());
+
+                    if (f.getUsuario() != null) {
+                        dto.setUsuarioId(f.getUsuario().getId());
+                        dto.setUsuarioNome(f.getUsuario().getNome());
+                        dto.setUsuarioPerfil(f.getUsuario().getPerfil());
+                        dto.setUsuarioQrCode(f.getUsuario().getQrCode());
+                    }
+
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+    public List<FerramentaUsuarioDTO> listarFerramentasPorUsuario(Long usuarioId) {
+        return ferramentaRepository.findAll()
+                .stream()
+                .filter(f -> f.getUsuario() != null
+                        && Long.valueOf(f.getUsuario().getId()).equals(usuarioId))
+                .map(f -> {
+                    FerramentaUsuarioDTO dto = new FerramentaUsuarioDTO();
+                    dto.setFerramentaId(f.getId());
+                    dto.setFerramentaNome(f.getNome());
+                    dto.setFerramentaDescricao(f.getDescricao());
+                    dto.setQuantidadeEstoque(f.getQuantidadeEstoque());
+                    dto.setDataDevolucao(f.getDataDevolucao());
+
+                    dto.setUsuarioId(f.getUsuario().getId());
+                    dto.setUsuarioNome(f.getUsuario().getNome());
+                    dto.setUsuarioPerfil(f.getUsuario().getPerfil());
+                    dto.setUsuarioQrCode(f.getUsuario().getQrCode());
+
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
 }

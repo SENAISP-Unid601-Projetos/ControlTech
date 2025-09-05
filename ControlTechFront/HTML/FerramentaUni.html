@@ -1,23 +1,42 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Detalhes da Ferramenta</title>
+    <title>Detalhes da Ferramenta - SENAI ControlTech</title>
+    
+    <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
+    
     <link rel="stylesheet" href="../CSS/FerramentaUni.css" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+
     <div class="container">
         <h1 id="toolNome">Carregando...</h1>
         <p><strong>ID:</strong> <span id="toolId">-</span></p>
         <p><strong>Descrição:</strong> <span id="toolDescricao">-</span></p>
         <p><strong>Estoque:</strong> <span id="toolEstoque">-</span></p>
 
-        <button id="btnAssociar">Associar ao meu usuário</button>
+        <div class="botoes-container">
+            <a href="/HTML/Ferramentas.html" class="btn-voltar">
+                <i class="fas fa-arrow-left"></i> Voltar
+            </a>
+            <button id="btnAssociar" class="btn-principal">Associar ao meu usuário</button>
+        </div>
+        
         <p id="statusMsg"></p>
     </div>
 
+    <div id="confirmationPopup" class="popup-overlay">
+        <div class="popup-content">
+            <p id="popupMessage"></p>
+            <button id="closePopupBtn">Fechar</button>
+        </div>
+    </div>
+
     <script src="../JS/FerramentaUni.js"></script>
+
 </body>
 </html>
