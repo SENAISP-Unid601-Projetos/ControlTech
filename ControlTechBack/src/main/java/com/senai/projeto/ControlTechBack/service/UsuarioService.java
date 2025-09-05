@@ -2,8 +2,9 @@ package com.senai.projeto.ControlTechBack.service;
 
 import com.senai.projeto.ControlTechBack.DTO.UsuarioInputDTO;
 import com.senai.projeto.ControlTechBack.DTO.UsuarioOutputDTO;
-import com.senai.projeto.ControlTechBack.DTO.UsuarioQrDTO;
+import com.senai.projeto.ControlTechBack.entity.Ferramenta;
 import com.senai.projeto.ControlTechBack.entity.Usuario;
+import com.senai.projeto.ControlTechBack.repository.FerramentaRepository;
 import com.senai.projeto.ControlTechBack.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,16 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    // --- Criar usuário usando QR Code como chave ---
-    // UsuarioService.java
+    @Autowired
+    private FerramentaRepository ferramentaRepository;
+
+    // --- Verifica existência por ID ---
+    public boolean existePorId(Long id) {
+        return usuarioRepository.existsById(id);
+    }
+
+    // --- Criar usuário usando QR Code ---
     public UsuarioOutputDTO criar(String qrCode, UsuarioInputDTO dto) {
-        // Verifica se o QR Code já foi usado
         if (existePorCodigo(qrCode)) {
             throw new RuntimeException("❌ QR Code já utilizado");
         }
@@ -29,8 +36,7 @@ public class UsuarioService {
         Usuario usuario = new Usuario();
         usuario.setNome(dto.getNome());
         usuario.setPerfil(dto.getPerfil() != null ? dto.getPerfil() : "USUARIO");
-        usuario.setDescricao(dto.getDescricao() != null ? dto.getDescricao() : "");
-        usuario.setQrCode(qrCode); // salva automaticamente o valor do QR Code
+        usuario.setQrCode(qrCode);
 
         Usuario salvo = usuarioRepository.save(usuario);
         return toOutputDTO(salvo);
@@ -39,51 +45,59 @@ public class UsuarioService {
     public boolean existePorCodigo(String qrCode) {
         return usuarioRepository.findByQrCode(qrCode).isPresent();
     }
+
     private UsuarioOutputDTO toOutputDTO(Usuario usuario) {
-        UsuarioOutputDTO dto = new UsuarioOutputDTO();
-        dto.setId(usuario.getId());
-        dto.setNome(usuario.getNome());
-        dto.setPerfil(usuario.getPerfil());
-        dto.setDescricao(usuario.getDescricao());
-        dto.setQrCode(usuario.getQrCode());
-        return dto;
+        return new UsuarioOutputDTO(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getPerfil(),
+                usuario.getQrCode()
+        );
     }
 
     public List<UsuarioOutputDTO> listarTodos() {
         return usuarioRepository.findAll()
                 .stream()
-                .map(this::toResponseDTO)
+                .map(this::toOutputDTO)
                 .collect(Collectors.toList());
     }
 
     public UsuarioOutputDTO buscarPorQrCode(String qrCode) {
         Optional<Usuario> usuario = usuarioRepository.findByQrCode(qrCode);
-        return usuario.map(this::toResponseDTO)
+        return usuario.map(this::toOutputDTO)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-    }
-
-    private UsuarioOutputDTO toResponseDTO(Usuario usuario) {
-        UsuarioOutputDTO dto = new UsuarioOutputDTO();
-        dto.setId(usuario.getId());
-        dto.setNome(usuario.getNome());
-        dto.setPerfil(usuario.getPerfil());
-        dto.setQrCode(usuario.getQrCode());
-        return dto;
     }
 
     public UsuarioOutputDTO buscarPorId(Long id) {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
-        return usuario.map(this::toResponseDTO)
+        return usuario.map(this::toOutputDTO)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
     }
-    public UsuarioQrDTO buscarQrPorId(Long id) {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
-        return usuario.map(u -> new UsuarioQrDTO(
-                u.getId(),
-                u.getNome(),
-                u.getPerfil(),
-                u.getDescricao() != null ? u.getDescricao() : ""
-        )).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+    public Optional<Usuario> buscarEntidadePorId(Long id) {
+        return usuarioRepository.findById(id);
     }
 
+    public void excluir(Long id) {
+        if (!existePorId(id)) {
+            throw new RuntimeException("Usuário não encontrado para exclusão: ID " + id);
+        }
+        usuarioRepository.deleteById(id);
+    }
+
+    public void associarUsuarios(Ferramenta ferramenta, Usuario usuario) {
+        ferramenta.setUsuario(usuario);
+        ferramentaRepository.save(ferramenta);
+    }
+
+    // --- NOVO: listar usuários associados a ferramentas ---
+    public List<UsuarioOutputDTO> listarUsuariosAssociados() {
+        return ferramentaRepository.findAll()
+                .stream()
+                .map(Ferramenta::getUsuario)
+                .filter(usuario -> usuario != null)
+                .distinct()
+                .map(this::toOutputDTO)
+                .collect(Collectors.toList());
+    }
 }

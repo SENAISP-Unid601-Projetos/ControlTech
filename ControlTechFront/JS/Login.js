@@ -1,69 +1,115 @@
-const canvas = document.getElementById('');
-const ctx = canvas.getContext('2d');
-let particles = [];
+// Login.js
+import { lerQrViaUpload, exibirUsuario } from './leitorQrCode.js';
 
-function randomParticle() {
-  const colors = ['#ff6ec4', '#7873f5', '#4df8f8', '#ffffff'];
-  return {
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    size: Math.random() * 3 + 1,
-    speedX: (Math.random() - 0.5) * 0.5,
-    speedY: (Math.random() - 0.5) * 0.5,
-    color: colors[Math.floor(Math.random() * colors.length)],
-    opacity: Math.random() * 0.5 + 0.3
-  };
-}
-
-function setup() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  particles = [];
-  for (let i = 0; i < 100; i++) {
-    particles.push(randomParticle());
+// ----- Fundo hexagonal -----
+const container = document.getElementById('container');
+let innerHTML = '';
+for (let i = 0; i < 15; i++) {
+  innerHTML += '<div class="row">';
+  for (let j = 0; j < 20; j++) {
+    innerHTML += '<div class="hexagon"></div>';
   }
+  innerHTML += '</div>';
 }
+if (container) container.innerHTML = innerHTML;
 
-function drawParticle(p) {
-  ctx.beginPath();
-  ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-  ctx.fillStyle = p.color;
-  ctx.globalAlpha = p.opacity;
-  ctx.shadowBlur = 10;
-  ctx.shadowColor = p.color;
-  ctx.fill();
-  ctx.globalAlpha = 1;
-}
+// ----- Popup e entrar -----
+const btnEntrar = document.getElementById('btnEntrar');
+const popup = document.getElementById('popup');
+const popupNome = document.getElementById('popupNome');
 
-function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach(p => {
-    p.x += p.speedX;
-    p.y += p.speedY;
-    if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-    if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
-    drawParticle(p);
-  });
-  requestAnimationFrame(animate);
-}
+btnEntrar?.addEventListener('click', () => {
+  popupNome.textContent = document.getElementById('nomeAluno').textContent;
+  popup.classList.remove('hidden');
+});
 
-window.addEventListener('resize', setup);
-setup();
-animate();
+document.getElementById('fecharPopup')?.addEventListener('click', () => {
+  popup.classList.add('hidden');
+  // Agora o redirect só acontece se usuário estiver salvo
+  const usuarioLogado = localStorage.getItem("usuarioLogado");
+  if (usuarioLogado) {
+    window.location.href = '/HTML/Ferramentas.html';
+  } else {
+    alert("Faça login com QR Code antes de entrar.");
+  }
+});
 
-// Lógica de login
-document.addEventListener('DOMContentLoaded', () => {
-  const loginButton = document.getElementById('submit-button');
-  const alertBox = document.getElementById('loginAlert');
+// ----- Abrir cadastro -----
+const abrirCadastro = document.getElementById('abrirCadastro');
+const cadastroBox = document.getElementById('cadastroBox');
+const loginContainer = document.getElementById('loginContainer');
+const voltarLogin = document.getElementById('voltarLogin');
 
-  loginButton.addEventListener('click', () => {
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
+abrirCadastro?.addEventListener('click', () => {
+  loginContainer.classList.add('slide-out');
+  cadastroBox.classList.add('active');
+});
 
-    if (username && password) {
-      window.location.href = '../menu.html';
-    } else {
-      alertBox.style.display = 'block';
-    }
+voltarLogin?.addEventListener('click', () => {
+  loginContainer.classList.remove('slide-out');
+  cadastroBox.classList.remove('active');
+});
+
+// ----- Ler QR Code LOGIN -----
+const btnLerQr = document.getElementById('btnLerQr');
+const loginQrInput = document.getElementById('loginQrInput');
+const statusMsgLogin = document.getElementById('statusMsgLogin');
+const infoAluno = document.getElementById('infoAluno');
+
+btnLerQr?.addEventListener('click', () => {
+  const file = loginQrInput.files[0];
+  if (!file) return alert("Selecione um QR Code!");
+
+  lerQrViaUpload(file, (usuario) => {
+    exibirUsuario(usuario);  
+    salvarUsuarioLogado(usuario); // ✅ salva no localStorage
+
+    statusMsgLogin.textContent = "";
+    infoAluno.style.display = "block";
+
+    // ✅ garante redirecionamento após salvar
+    setTimeout(() => {
+      window.location.href = "/HTML/Ferramentas.html";
+    }, 300);
+  }, (err) => {
+    console.error(err);
+    statusMsgLogin.textContent = "QR Code inválido. Tente novamente.";
+    infoAluno.style.display = "none";
   });
 });
+
+// ----- Funções auxiliares -----
+function salvarUsuarioLogado(usuario) {
+    console.log("Usuário recebido do backend:", usuario);
+
+    // pega id em qualquer formato que vier
+    const idUsuario = usuario.id 
+        ?? usuario.usuarioId 
+        ?? usuario.usuario?.id; 
+
+    if (!idUsuario) {
+        alert("Erro: não foi possível identificar o usuário retornado pelo backend.");
+        return;
+    }
+
+    const usuarioFormatado = {
+        id: idUsuario,
+        nome: usuario.nome ?? usuario.usuario?.nome,
+        perfil: usuario.perfil ?? usuario.usuario?.perfil,
+        qrCode: usuario.qrCode ?? usuario.usuario?.qrCode
+    };
+
+    console.log("Usuário salvo no localStorage:", usuarioFormatado);
+
+    localStorage.setItem("usuarioLogado", JSON.stringify(usuarioFormatado));
+}
+
+
+function exibirLoginUsuario(usuario) {
+    document.getElementById("nomeAluno").textContent = usuario.nome;
+    document.getElementById("idAluno").textContent = usuario.id ?? usuario.usuarioId;
+    document.getElementById("perfilAluno").textContent = usuario.perfil;
+    document.getElementById("qrCodeAluno").textContent = usuario.qrCode;
+
+    salvarUsuarioLogado(usuario); // salva usuário formatado no localStorage
+}
