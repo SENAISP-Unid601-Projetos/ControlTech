@@ -1,63 +1,150 @@
 /* Reset básico */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f5f6fa;
-  color: #2c3e50;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f6fa;
+    color: #2c3e50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 /* Container central */
 .container {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  max-width: 500px;
-  width: 100%;
-  text-align: center;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
 }
 
 /* Título */
 .container h1 {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-  color: #34495e;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #34495e;
 }
 
-/* Descrição */
+/* Parágrafos e detalhes */
 .container p {
-  font-size: 1rem;
-  margin-bottom: 0.8rem;
-  color: #555;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    color: #555;
 }
 
-/* Botão */
-button {
-  margin-top: 1.2rem;
-  padding: 0.8rem 1.5rem;
-  border: none;
-  border-radius: 12px;
-  background: #3498db;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s;
+/* Mensagem de status (para erros) */
+#statusMsg {
+    margin-top: 1rem;
+    font-weight: bold;
+    color: red; /* Cor padrão para erros */
 }
 
-button:hover {
-  background: #2980b9;
-  transform: scale(1.05);
+
+/* --- ATUALIZAÇÃO: ESTILOS PARA OS BOTÕES DE AÇÃO --- */
+
+.botoes-container {
+    display: flex;
+    justify-content: center; /* Centraliza os botões */
+    gap: 1rem; /* Cria um espaço entre os botões */
+    margin-top: 1.5rem;
 }
 
-button:active {
-  transform: scale(0.98);
+/* Estilo base compartilhado pelos botões */
+.btn-principal,
+.btn-voltar {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s;
+    text-decoration: none; /* Remove o sublinhado do link <a> */
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem; /* Espaço entre o ícone e o texto */
+}
+
+.btn-principal:hover,
+.btn-voltar:hover {
+    transform: scale(1.05);
+}
+
+.btn-principal:active,
+.btn-voltar:active {
+    transform: scale(0.98);
+}
+
+/* Cor específica do botão "Associar" */
+.btn-principal {
+    background: #3498db;
+}
+.btn-principal:hover {
+    background: #2980b9;
+}
+
+/* Cor específica do novo botão "Voltar" */
+.btn-voltar {
+    background: #7f8c8d; /* Cinza neutro */
+}
+.btn-voltar:hover {
+    background: #6c7a7d; /* Cinza mais escuro */
+}
+
+
+/* --- ESTILOS PARA O POP-UP DE CONFIRMAÇÃO --- */
+
+.popup-overlay {
+    display: none; /* Começa escondido por padrão */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+.popup-content p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    color: #34495e;
+}
+
+/* O botão do pop-up usa os estilos base, mas com sua cor específica */
+.popup-content button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 12px;
+    background: #3498db;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s;
+}
+
+.popup-content button:hover {
+    background: #2980b9;
+    transform: scale(1.05);
 }
