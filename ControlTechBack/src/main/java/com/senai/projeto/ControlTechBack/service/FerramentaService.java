@@ -1,6 +1,7 @@
 package com.senai.projeto.ControlTechBack.service;
 
 import com.senai.projeto.ControlTechBack.DTO.FerramentaDTO;
+import com.senai.projeto.ControlTechBack.DTO.FerramentaOutputDTO;
 import com.senai.projeto.ControlTechBack.DTO.FerramentaUsuarioDTO;
 import com.senai.projeto.ControlTechBack.entity.Ferramenta;
 import com.senai.projeto.ControlTechBack.entity.Usuario;
@@ -157,6 +158,23 @@ public class FerramentaService {
         if (ferramenta != null) {
             ferramentaRepository.save(ferramenta);
         }
+    }
+    public Ferramenta salvarOuAtualizar(Ferramenta ferramenta) {
+        return ferramentaRepository.save(ferramenta);
+    }
+    public FerramentaOutputDTO toDTO(Ferramenta ferramenta) {
+        FerramentaOutputDTO dto = new FerramentaOutputDTO();
+        dto.setId(ferramenta.getId());
+        dto.setNome(ferramenta.getNome());
+        dto.setDescricao(ferramenta.getDescricao());
+        dto.setQuantidadeEstoque(ferramenta.getQuantidadeEstoque());
+
+        if (ferramenta.getUsuario() != null) {
+            dto.setUsuarioId(ferramenta.getUsuario().getId());
+            dto.setUsuarioNome(ferramenta.getUsuario().getNome());
+        }
+
+        return dto;
     }
 
 }

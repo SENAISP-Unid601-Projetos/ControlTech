@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico de Devoluções - ControlTech</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../CSS/Historico.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>ControlTech</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="Ferramentas.html">
+                    <i class="fas fa-tools"></i>
+                    <span>Ferramentas</span>
+                </a>
+                <a href="Devolver.html">
+                    <i class="fas fa-undo"></i>
+                    <span>Devolver</span>
+                </a>
+                <a href="Ajuda.html">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Ajuda</span>
+                </a>
+                <a href="Historico.html" class="active">
+                    <i class="fas fa-history"></i>
+                    <span>Histórico</span>
+                </a>
+                <a href="Saida.html" class="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <div class="main-header">
+                <h1>Histórico de Devoluções</h1>
+            </div>
+
+            <!-- Container de histórico -->
+            <div id="historicoContainer" class="tool-grid">
+                <!-- Cards de histórico serão inseridos via JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Botão Hamburger -->
+    <button class="hamburger-btn">&#9776;</button>
+
+    <!-- JS -->
+    <script src="/JS/Historico.js" defer></script>
+</body>
+</html>
