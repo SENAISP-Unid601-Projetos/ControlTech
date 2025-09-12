@@ -2,15 +2,15 @@ package com.senai.projeto.ControlTechBack.DTO;
 
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
-public class CadastroDTO {
-
+public class FerramentaOutputDTO {
+    private Long id;
     private String nome;
     private String descricao;
     private int quantidadeEstoque;
-    private Date dataDevolucao;
 
-
+    // 🔹 adicionar o vínculo
+    private Long usuarioId;
+    private String usuarioNome;
 }
+

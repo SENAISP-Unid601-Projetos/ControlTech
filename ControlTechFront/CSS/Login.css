@@ -1,73 +1,360 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
 body, html {
-  height: 100%;
-  font-family: Arial, sans-serif;
-  background-color: #f2f4f7;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #222;
-  margin: 0;
+    height: 100%;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #fff;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
 }
-.login-card {
-  background: #fff;
-  padding: 2rem 2.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
-  min-width: 320px;
-  max-width: 400px;
-  text-align: center;
+
+body::before {
+    content: "";
+    position: fixed;
+    top: -150px;
+    left: -150px;
+    width: 600px;
+    height: 600px;
+    background: linear-gradient(135deg, #003a75 0%, #002850 100%);
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    opacity: 0.15;
+    z-index: 0;
+    filter: blur(80px);
 }
-.login-card h1 {
-  font-weight: 700;
-  margin-bottom: 1.2rem;
-  color: #003a75;
+
+body::after {
+    content: "";
+    position: fixed;
+    bottom: -200px;
+    right: -200px;
+    width: 700px;
+    height: 700px;
+    background: repeating-linear-gradient(
+        45deg,
+        #003a75 0,
+        #003a75 2px,
+        transparent 2px,
+        transparent 10px
+    );
+    opacity: 0.05;
+    z-index: 0;
+    transform: rotate(15deg);
 }
-.login-card p {
-  margin-bottom: 1.5rem;
-  color: #555;
+
+.container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    width: 100%;
+    padding: 1em;
+    margin-bottom: 12em;
 }
+
+.login-box {
+    background-color: #fff;
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 58, 117, 0.2);
+    width: 400px;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+    color: #222;
+    z-index: 2;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-box:hover {
+    box-shadow: 0 6px 30px rgba(0, 58, 117, 0.35);
+}
+
+.login-box h1 {
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    font-size: 2rem;
+    color: #003a75; /* azul SENAI */
+}
+
+.status {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    color: #555;
+    min-height: 1.4rem;
+}
+
 .info-aluno {
-  margin-top: 1.8rem;
-  text-align: left;
-  background: #f9fafb;
-  padding: 1rem 1.5rem;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  color: #222;
-  display: none;
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    margin-top: 1.2rem;
+    font-size: 1rem;
+    color: #222;
+    display: none;
 }
+
 .info-aluno div {
-  margin-bottom: 0.6rem;
+    margin-bottom: 0.8rem;
 }
-.info-aluno label {
-  font-weight: 600;
-  display: inline-block;
-  width: 70px;
-  color: #003a75;
+
+button#btnEntrar {
+    margin-top: 1.5rem;
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #00b41b;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
-button {
-  margin-top: 1.8rem;
-  width: 100%;
-  background-color: #003a75;
-  border: none;
-  padding: 1rem;
-  font-weight: 700;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1.1rem;
-  transition: background-color 0.3s ease;
+
+button#btnEntrar:hover {
+    background-color: #146c00;
 }
-button:hover {
-  background-color: #002950;
+
+/* Pop-up */
+.popup {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
 }
+
+.popup.hidden {
+    display: none;
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 2rem 2.5rem;
+    border-radius: 14px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 58, 117, 0.2);
+    color: #222;
+}
+
+.popup-content h2 {
+    color: #003a75; /* azul SENAI */
+    margin-bottom: 0.8rem;
+}
+
+.popup-content p {
+    color: #555;
+    font-size: 1.1rem;
+    margin-bottom: 1.8rem;
+}
+
+.popup-content button {
+    background-color: #00b41b;
+    border: none;
+    color: #fff;
+    padding: 0.8rem 2.4rem;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.popup-content button:hover {
+    background-color: #146c00;
+}
+
 footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #ccc;
-  color: #333;
-  font-size: 0.9rem;
-  text-align: center;
-  padding: 1rem;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+    user-select: none;
 }
+
+/* Link cadastro */
+.link-cadastro {
+    font-size: 0.9rem;
+    color: #003a75;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+/* Slide container */
+.slide-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    min-height: 400px; /* garante altura mínima */
+}
+
+/* Login e Cadastro sobrepostos */
+#loginContainer, .cadastro-box {
+    padding-bottom: 4rem; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    z-index: 2;
+}
+
+/* Login padrão */
+#loginContainer {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* Login saindo */
+#loginContainer.slide-out {
+    transform: translateX(-100%);
+    opacity: 0;
+    z-index: 1;
+}
+
+/* Cadastro fora da tela */
+.cadastro-box {
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-top: 2em;
+    text-align: center;
+    transform: translateX(100%);
+    opacity: 0;
+    z-index: 1;
+}
+
+/* Cadastro entrando */
+.cadastro-box.active {
+    transform: translateX(0);
+    opacity: 1;
+    z-index: 3;
+}
+
+.cadastro-box input {
+    display: block;
+    width: 90%;
+    padding: 0.8rem;
+    margin: 0.5rem auto;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.cadastro-box button {
+    margin-top: 1rem;
+    width: 95%;
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #003a75;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cadastro-box button:hover {
+    background-color: #002850;
+}
+
+.spacer {
+    height: 4rem;
+}
+
+/* --- NOVO ESTILO DO INPUT FILE --- */
+.custom-file-upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.custom-file-upload input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload .custom-button {
+    background-color: #003a75;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+}
+
+.custom-file-upload .custom-button:hover {
+    background-color: #002850;
+}
+
+.custom-file-upload .file-name {
+    color: #555;
+    font-style: italic;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px; 
+}
+
+/* --- ESTILO DO BOTÃO "LER QR CODE" MELHORADO --- */
+#btnLerQr {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #00b41b; 
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+}
+
+#btnLerQr:hover {
+    background-color: #146c00;
+    transform: translateY(-2px);
+}
+
+#btnLerQr:active {
+    transform: translateY(0);
+}
+
+#btnLerQr.loading {
+    background-color: #ccc;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.custom-file-upload {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+

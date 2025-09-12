@@ -1,41 +1,165 @@
-function simularLeituraCracha(crachaCodigo) {
-  // Dados simulados para diferentes crachás
-  const alunos = {
-    "12345": { id: "12345", nome: "João da Silva" },
-    "67890": { id: "67890", nome: "Maria Oliveira" },
-    "11111": { id: "11111", nome: "Carlos Souza" }
-  };
+// Login.js
+import { lerQrViaUpload, exibirUsuario } from './leitorQrCode.js';
 
-  const aluno = alunos[crachaCodigo];
+// ----- Fundo hexagonal -----
+const container = document.getElementById('container');
+let innerHTML = '';
+for (let i = 0; i < 15; i++) {
+    innerHTML += '<div class="row">';
+    for (let j = 0; j < 20; j++) {
+        innerHTML += '<div class="hexagon"></div>';
+    }
+    innerHTML += '</div>';
+}
+if (container) container.innerHTML = innerHTML;
 
-  const statusMsg = document.getElementById('statusMsg');
-  const infoAluno = document.getElementById('infoAluno');
+// ----- Popup e entrar -----
+const btnEntrar = document.getElementById('btnEntrar');
+const popup = document.getElementById('popup');
+const popupNome = document.getElementById('popupNome');
 
-  if(aluno) {
-    const agora = new Date();
-    const dataFormatada = agora.toLocaleDateString('pt-BR');
-    const horaFormatada = agora.toLocaleTimeString('pt-BR');
+btnEntrar?.addEventListener('click', () => {
+    // @ts-ignore
+    popupNome.textContent = document.getElementById('nomeAluno').textContent;
+    // @ts-ignore
+    popup.classList.remove('hidden');
+});
 
-    document.getElementById('idAluno').textContent = aluno.id;
-    document.getElementById('nomeAluno').textContent = aluno.nome;
-    document.getElementById('dataAtual').textContent = dataFormatada;
-    document.getElementById('horaAtual').textContent = horaFormatada;
+document.getElementById('fecharPopup')?.addEventListener('click', () => {
+    // @ts-ignore
+    popup.classList.add('hidden');
+    const usuarioLogado = localStorage.getItem("usuarioLogado");
+    if (usuarioLogado) {
+        window.location.href = '/HTML/Ferramentas.html';
+    } else {
+        alert("Faça login com QR Code antes de entrar.");
+    }
+});
 
-    statusMsg.textContent = "Crachá lido com sucesso!";
-    infoAluno.style.display = 'block';
-  } else {
-    statusMsg.textContent = "Crachá não reconhecido. Tente novamente.";
-    infoAluno.style.display = 'none';
-  }
+// ----- Abrir cadastro -----
+const abrirCadastro = document.getElementById('abrirCadastro');
+const cadastroBox = document.getElementById('cadastroBox');
+const loginContainer = document.getElementById('loginContainer');
+const voltarLogin = document.getElementById('voltarLogin');
+
+abrirCadastro?.addEventListener('click', () => {
+    // @ts-ignore
+    loginContainer.classList.add('slide-out');
+    // @ts-ignore
+    cadastroBox.classList.add('active');
+});
+
+voltarLogin?.addEventListener('click', () => {
+    // @ts-ignore
+    loginContainer.classList.remove('slide-out');
+    // @ts-ignore
+    cadastroBox.classList.remove('active');
+});
+
+// ----- Ler QR Code LOGIN -----
+const btnLerQr = document.getElementById('btnLerQr');
+const loginQrInput = document.getElementById('loginQrInput');
+const statusMsgLogin = document.getElementById('statusMsgLogin');
+const infoAluno = document.getElementById('infoAluno');
+
+btnLerQr?.addEventListener('click', () => {
+    // @ts-ignore
+    const file = loginQrInput.files[0];
+    if (!file) return alert("Selecione um QR Code!");
+
+    btnLerQr.classList.add('loading');
+    btnLerQr.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
+    
+    // @ts-ignore
+    lerQrViaUpload(file, (usuario) => {
+        btnLerQr.classList.remove('loading');
+        btnLerQr.innerHTML = '<i class="fas fa-qrcode"></i> Ler QR Code';
+
+        exibirUsuario(usuario);  
+        salvarUsuarioLogado(usuario);
+        // @ts-ignore
+        statusMsgLogin.textContent = "";
+        // @ts-ignore
+        infoAluno.style.display = "block";
+
+        setTimeout(() => {
+            window.location.href = "/HTML/Ferramentas.html";
+        }, 300);
+    // @ts-ignore
+    }, (err) => {
+        btnLerQr.classList.remove('loading');
+        btnLerQr.innerHTML = '<i class="fas fa-qrcode"></i> Ler QR Code';
+
+        console.error(err);
+        // @ts-ignore
+        statusMsgLogin.textContent = "QR Code inválido. Tente novamente.";
+        // @ts-ignore
+        infoAluno.style.display = "none";
+    });
+});
+
+// ----- Funções auxiliares -----
+// @ts-ignore
+function salvarUsuarioLogado(usuario) {
+    console.log("Usuário recebido do backend:", usuario);
+    const idUsuario = usuario.id 
+        ?? usuario.usuarioId 
+        ?? usuario.usuario?.id; 
+
+    if (!idUsuario) {
+        alert("Erro: não foi possível identificar o usuário retornado pelo backend.");
+        return;
+    }
+
+    const usuarioFormatado = {
+        id: idUsuario,
+        nome: usuario.nome ?? usuario.usuario?.nome,
+        perfil: usuario.perfil ?? usuario.usuario?.perfil,
+        qrCode: usuario.qrCode ?? usuario.usuario?.qrCode
+    };
+
+    console.log("Usuário salvo no localStorage:", usuarioFormatado);
+    localStorage.setItem("usuarioLogado", JSON.stringify(usuarioFormatado));
 }
 
-function entrar() {
-  alert('Login realizado com sucesso!');
-  // Pode redirecionar para página principal
-  window.location.href = 'Home.html';
+// @ts-ignore
+function exibirLoginUsuario(usuario) {
+    // @ts-ignore
+    document.getElementById("nomeAluno").textContent = usuario.nome;
+    // @ts-ignore
+    document.getElementById("idAluno").textContent = usuario.id ?? usuario.usuarioId;
+    // @ts-ignore
+    document.getElementById("perfilAluno").textContent = usuario.perfil;
+    // @ts-ignore
+    document.getElementById("qrCodeAluno").textContent = usuario.qrCode;
+
+    salvarUsuarioLogado(usuario);
 }
 
-// Exemplo de teste: simula a leitura após 2 segundos
-setTimeout(() => {
-  simularLeituraCracha("12345");
-}, 2000);
+// --- Código para exibir o nome do arquivo no LOGIN ---
+const fileNameDisplay = document.getElementById('fileNameDisplay');
+loginQrInput?.addEventListener('change', () => {
+    // @ts-ignore
+    if (loginQrInput.files.length > 0) {
+        // @ts-ignore
+        fileNameDisplay.textContent = loginQrInput.files[0].name;
+    } else {
+        // @ts-ignore
+        fileNameDisplay.textContent = 'Nenhum arquivo escolhido';
+    }
+});
+
+// --- NOVO CÓDIGO para exibir o nome do arquivo no CADASTRO ---
+const cadastroQrInput = document.getElementById('cadastroQrInput');
+const cadastroFileNameDisplay = document.getElementById('cadastroFileNameDisplay');
+
+cadastroQrInput?.addEventListener('change', () => {
+    // @ts-ignore
+    if (cadastroQrInput.files.length > 0) {
+        // @ts-ignore
+        cadastroFileNameDisplay.textContent = cadastroQrInput.files[0].name;
+    } else {
+        // @ts-ignore
+        cadastroFileNameDisplay.textContent = 'Nenhum arquivo escolhido';
+    }
+});

@@ -1,69 +1,101 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="../CSS/Ajuda.css">
-  <script src="../JS/Ajuda.js" defer></script>
-  <title>Ajuda - SENAI App</title>
+    <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Ajuda - SENAI ControlTech</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/CSS/Ajuda.css">
+    <script src="/JS/Ajuda.js" defer></script>
 </head>
 <body>
+    <div class="dashboard-container">
+        <button class="hamburger-btn" id="hamburger-btn">
+            <i class="fas fa-bars"></i>
+        </button>
 
-  <header>
-    <div class="logo">SENAI - ControlTech</div>
-    <nav>
-      <a href="Ferramentas.html">Ferramentas 🛠️</a>
-      <a href="Ajuda.html">Ajuda 🆘</a>
-      <a href="Saida.html">Saída ❌</a>
-    </nav>
-  </header>
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>ControlTech</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="Ferramentas.html">
+                    <i class="fas fa-tools"></i>
+                    <span>Ferramentas</span>
+                </a>
+                <a href="Devolver.html">
+                    <i class="fas fa-undo"></i>
+                    <span>Devolver</span>
+                </a>
+                <a href="Ajuda.html" class="active">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Ajuda</span>
+                </a>
+                <a href="Historico.html" class="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Historico</span>
+                <a href="Saida.html" class="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </a>
+            </nav>
+        </aside>
 
-  <div class="container">
-    <h2>Central de Ajuda</h2>
-    <p>Encontre respostas para as perguntas mais frequentes abaixo:</p>
+        <main class="main-content">
+            <div class="ajuda-box">
+                <h2>Central de Ajuda</h2>
+                <p>Encontre respostas para as perguntas mais frequentes abaixo:</p>
+                
+                <div class="faq">
+                    <div class="faq-item">
+                        <h3>Como faço para devolver uma ferramenta?</h3>
+                        <p>Para registrar a devolução de uma ferramenta, vá até a aba "Devolver" no menu lateral. Na página, você poderá escanear o código da ferramenta ou selecioná-la na lista de itens que estão em seu nome. Confirme a devolução para liberar a pendência.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Como posso sair do sistema ao final do dia?</h3>
+                        <p>Para encerrar sua sessão com segurança, clique na opção "Sair", localizada no menu lateral. Esta ação garante que seus dados fiquem protegidos e finaliza seu acesso à plataforma.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Como posso entrar em contato com o suporte?</h3>
+                        <p>Se as perguntas frequentes não resolveram seu problema, você pode nos enviar uma mensagem através do formulário abaixo ou entrar em contato pelo e-mail suporteSENAI@gmail.com.</p>
+                    </div>
+                </div>
 
-    <div class="faq">
-      <div class="faq-item">
-        <h3>Como faço login no sistema?</h3>
-        <p>Para acessar o sistema, clique em "Login" no menu superior e insira suas credenciais fornecidas pelo SENAI.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Esqueci minha senha. O que devo fazer?</h3>
-        <p>Clique em "Esqueci minha senha" na página de login e siga as instruções para redefinir sua senha.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Como posso entrar em contato com o suporte?</h3>
-        <p>Você pode entrar em contato com o suporte através do e-mail suporte@senaiapp.com.br ou pelo telefone (11) 1234-5678.</p>
-      </div>
+                <form id="formAjuda">
+                    <h3>Relate seu problema</h3>
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required />
+                    
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required />
+                    
+                    <label for="problema">Descreva o problema:</label>
+                    <textarea id="problema" name="problema" placeholder="Descreva seu problema aqui..." required></textarea>
+                    
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+        </main>
     </div>
 
-    <!-- Formulário para relatar problema -->
-    <form id="formAjuda">
-      <h3>Relate seu problema</h3>
-      <label for="nome">Nome:</label>
-      <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required />
-
-      <label for="email">E-mail:</label>
-      <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required />
-
-      <label for="problema">Descreva o problema:</label>
-      <textarea id="problema" name="problema" placeholder="Descreva seu problema aqui..." required></textarea>
-
-      <button type="submit">Enviar</button>
-    </form>
-  </div>
-
-  <!-- Popup de confirmação -->
-  <div class="popup" id="popupAjuda">
-    <div class="popup-content">
-      <p id="mensagemPopup"></p>
-      <button onclick="fecharPopup()">OK</button>
+    <div id="popupAjuda" class="popup">
+        <div class="popup-content">
+            <p id="mensagemPopup"></p>
+            <button onclick="fecharPopup()">Fechar</button>
+        </div>
     </div>
-  </div>
-
-  <footer>
-    &copy; 2025 SENAI. Todos os direitos reservados.
-  </footer>
-
+    
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
 </body>
 </html>

@@ -7,9 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsuarioOutputDTO {
-    private Long id;
-    private String nome;
-    private String perfil;
-    private String qrCode; // ✅ campo adicionado
+public class UsuarioQrResponseDTO {
+    private UsuarioOutputDTO usuario;
 }
