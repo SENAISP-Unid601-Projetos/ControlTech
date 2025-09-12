@@ -1,68 +1,77 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Login SENAI - ControlTech</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/CSS/Login.css" />
-  <script src="/JS/Login.js" type="module" defer></script>
-  <script src="/JS/Cadastro.js" type="module" defer></script>
+    <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login SENAI - ControlTech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/CSS/Login.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="/JS/Login.js" type="module" defer></script>
+    <script src="/JS/Cadastro.js" type="module" defer></script>
 </head>
 <body>
 
 <div class="container" id="container"></div>
 
 <main class="container">
-  <section class="login-box">
-    <div class="slide-container">
+    <section class="login-box">
+        <div class="slide-container">
 
-      <!-- ===== LOGIN ===== -->
-      <div id="loginContainer">
-        <h1>Identificação</h1>
-        <p id="statusMsgLogin" class="status">Passe o crachá para entrar</p>
+            <div id="loginContainer">
+                <h1>Identificação</h1>
+                <p id="statusMsgLogin" class="status">Passe o crachá para entrar</p>
 
-        <div class="info-aluno" id="infoAluno" style="display:none;">
-          <div><strong>ID:</strong> <span id="idAluno"></span></div>
-          <div><strong>Nome:</strong> <span id="nomeAluno"></span></div>
-          <div><strong>Perfil:</strong> <span id="perfilAluno"></span></div>
-          <div><strong>QR Code:</strong> <span id="qrCodeAluno"></span></div>
-          <button id="btnEntrar">Entrar</button>
+                <div class="info-aluno" id="infoAluno" style="display:none;">
+                    <div><strong>ID:</strong> <span id="idAluno"></span></div>
+                    <div><strong>Nome:</strong> <span id="nomeAluno"></span></div>
+                    <div><strong>Perfil:</strong> <span id="perfilAluno"></span></div>
+                    <div><strong>QR Code:</strong> <span id="qrCodeAluno"></span></div>
+                    <button id="btnEntrar">Entrar</button>
+                </div>
+
+                <div class="login-metodos">
+                    <h3>Login por QR Code</h3>
+                    
+                    <div class="custom-file-upload">
+                        <label for="loginQrInput" class="custom-button">Escolher Arquivo</label>
+                        <input type="file" id="loginQrInput" accept="image/*" />
+                    </div>
+
+                    <button id="btnLerQr">
+                        <i class="fas fa-qrcode"></i> Ler QR Code
+                    </button>
+                </div>
+                
+                <p id="abrirCadastro" class="link-cadastro">Sem registro? <strong>Fazer cadastro</strong></p>
+            </div>
+
+            <div class="cadastro-box" id="cadastroBox">
+                <h3>Cadastro</h3>
+
+                <div class="custom-file-upload">
+                    <label for="cadastroQrInput" class="custom-button">Escolher Arquivo</label>
+                    <input type="file" id="cadastroQrInput" accept="image/*" />
+                </div>
+
+                <input type="text" id="nomeCadastro" placeholder="Nome" />
+                <input type="text" id="perfilCadastro" placeholder="Perfil" />
+                <button id="btnCadastrar">Cadastrar</button>
+                <p id="voltarLogin" class="link-cadastro">Voltar para login</p>
+                <p id="statusMsgCadastro" style="color:red; min-height:1.4rem;"></p>
+            </div>
+
         </div>
-
-        <div class="login-metodos">
-          <h3>Login por QR Code</h3>
-          <input type="file" id="loginQrInput" accept="image/*" />
-          <button id="btnLerQr">Ler QR Code</button>
-        </div>
-
-        <p id="abrirCadastro" class="link-cadastro">Sem registro? <strong>Fazer cadastro</strong></p>
-      </div>
-
-      <!-- ===== CADASTRO ===== -->
-      <div class="cadastro-box" id="cadastroBox">
-        <h3>Cadastro</h3>
-
-        <input type="file" id="cadastroQrInput" accept="image/*" />
-        <input type="text" id="nomeCadastro" placeholder="Nome" />
-        <input type="text" id="perfilCadastro" placeholder="Perfil" />
-        <button id="btnCadastrar">Cadastrar</button>
-        <p id="voltarLogin" class="link-cadastro">Voltar para login</p>
-        <p id="statusMsgCadastro" style="color:red; min-height:1.4rem;"></p>
-      </div>
-
-    </div>
-  </section>
+    </section>
 </main>
 
-<!-- POPUP LOGIN -->
 <div id="popup" class="popup hidden">
-  <div class="popup-content">
-    <h2>✅ Login Confirmado</h2>
-    <p>Seja muito bem-vindo(a), <strong id="popupNome"></strong>!</p>
-    <button id="fecharPopup">Continuar</button>
-  </div>
+    <div class="popup-content">
+        <h2>✅ Login Confirmado</h2>
+        <p>Seja muito bem-vindo(a), <strong id="popupNome"></strong>!</p>
+        <button id="fecharPopup">Continuar</button>
+    </div>
 </div>
 
 </body>

@@ -5,11 +5,11 @@ import { lerQrViaUpload, exibirUsuario } from './leitorQrCode.js';
 const container = document.getElementById('container');
 let innerHTML = '';
 for (let i = 0; i < 15; i++) {
-  innerHTML += '<div class="row">';
-  for (let j = 0; j < 20; j++) {
-    innerHTML += '<div class="hexagon"></div>';
-  }
-  innerHTML += '</div>';
+    innerHTML += '<div class="row">';
+    for (let j = 0; j < 20; j++) {
+        innerHTML += '<div class="hexagon"></div>';
+    }
+    innerHTML += '</div>';
 }
 if (container) container.innerHTML = innerHTML;
 
@@ -19,19 +19,21 @@ const popup = document.getElementById('popup');
 const popupNome = document.getElementById('popupNome');
 
 btnEntrar?.addEventListener('click', () => {
-  popupNome.textContent = document.getElementById('nomeAluno').textContent;
-  popup.classList.remove('hidden');
+    // @ts-ignore
+    popupNome.textContent = document.getElementById('nomeAluno').textContent;
+    // @ts-ignore
+    popup.classList.remove('hidden');
 });
 
 document.getElementById('fecharPopup')?.addEventListener('click', () => {
-  popup.classList.add('hidden');
-  // Agora o redirect só acontece se usuário estiver salvo
-  const usuarioLogado = localStorage.getItem("usuarioLogado");
-  if (usuarioLogado) {
-    window.location.href = '/HTML/Ferramentas.html';
-  } else {
-    alert("Faça login com QR Code antes de entrar.");
-  }
+    // @ts-ignore
+    popup.classList.add('hidden');
+    const usuarioLogado = localStorage.getItem("usuarioLogado");
+    if (usuarioLogado) {
+        window.location.href = '/HTML/Ferramentas.html';
+    } else {
+        alert("Faça login com QR Code antes de entrar.");
+    }
 });
 
 // ----- Abrir cadastro -----
@@ -41,13 +43,17 @@ const loginContainer = document.getElementById('loginContainer');
 const voltarLogin = document.getElementById('voltarLogin');
 
 abrirCadastro?.addEventListener('click', () => {
-  loginContainer.classList.add('slide-out');
-  cadastroBox.classList.add('active');
+    // @ts-ignore
+    loginContainer.classList.add('slide-out');
+    // @ts-ignore
+    cadastroBox.classList.add('active');
 });
 
 voltarLogin?.addEventListener('click', () => {
-  loginContainer.classList.remove('slide-out');
-  cadastroBox.classList.remove('active');
+    // @ts-ignore
+    loginContainer.classList.remove('slide-out');
+    // @ts-ignore
+    cadastroBox.classList.remove('active');
 });
 
 // ----- Ler QR Code LOGIN -----
@@ -57,32 +63,45 @@ const statusMsgLogin = document.getElementById('statusMsgLogin');
 const infoAluno = document.getElementById('infoAluno');
 
 btnLerQr?.addEventListener('click', () => {
-  const file = loginQrInput.files[0];
-  if (!file) return alert("Selecione um QR Code!");
+    // @ts-ignore
+    const file = loginQrInput.files[0];
+    if (!file) return alert("Selecione um QR Code!");
 
-  lerQrViaUpload(file, (usuario) => {
-    exibirUsuario(usuario);  
-    salvarUsuarioLogado(usuario); // ✅ salva no localStorage
+    btnLerQr.classList.add('loading');
+    btnLerQr.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
+    
+    // @ts-ignore
+    lerQrViaUpload(file, (usuario) => {
+        btnLerQr.classList.remove('loading');
+        btnLerQr.innerHTML = '<i class="fas fa-qrcode"></i> Ler QR Code';
 
-    statusMsgLogin.textContent = "";
-    infoAluno.style.display = "block";
+        exibirUsuario(usuario);  
+        salvarUsuarioLogado(usuario);
+        // @ts-ignore
+        statusMsgLogin.textContent = "";
+        // @ts-ignore
+        infoAluno.style.display = "block";
 
-    // ✅ garante redirecionamento após salvar
-    setTimeout(() => {
-      window.location.href = "/HTML/Ferramentas.html";
-    }, 300);
-  }, (err) => {
-    console.error(err);
-    statusMsgLogin.textContent = "QR Code inválido. Tente novamente.";
-    infoAluno.style.display = "none";
-  });
+        setTimeout(() => {
+            window.location.href = "/HTML/Ferramentas.html";
+        }, 300);
+    // @ts-ignore
+    }, (err) => {
+        btnLerQr.classList.remove('loading');
+        btnLerQr.innerHTML = '<i class="fas fa-qrcode"></i> Ler QR Code';
+
+        console.error(err);
+        // @ts-ignore
+        statusMsgLogin.textContent = "QR Code inválido. Tente novamente.";
+        // @ts-ignore
+        infoAluno.style.display = "none";
+    });
 });
 
 // ----- Funções auxiliares -----
+// @ts-ignore
 function salvarUsuarioLogado(usuario) {
     console.log("Usuário recebido do backend:", usuario);
-
-    // pega id em qualquer formato que vier
     const idUsuario = usuario.id 
         ?? usuario.usuarioId 
         ?? usuario.usuario?.id; 
@@ -100,16 +119,47 @@ function salvarUsuarioLogado(usuario) {
     };
 
     console.log("Usuário salvo no localStorage:", usuarioFormatado);
-
     localStorage.setItem("usuarioLogado", JSON.stringify(usuarioFormatado));
 }
 
-
+// @ts-ignore
 function exibirLoginUsuario(usuario) {
+    // @ts-ignore
     document.getElementById("nomeAluno").textContent = usuario.nome;
+    // @ts-ignore
     document.getElementById("idAluno").textContent = usuario.id ?? usuario.usuarioId;
+    // @ts-ignore
     document.getElementById("perfilAluno").textContent = usuario.perfil;
+    // @ts-ignore
     document.getElementById("qrCodeAluno").textContent = usuario.qrCode;
 
-    salvarUsuarioLogado(usuario); // salva usuário formatado no localStorage
+    salvarUsuarioLogado(usuario);
 }
+
+// --- Código para exibir o nome do arquivo no LOGIN ---
+const fileNameDisplay = document.getElementById('fileNameDisplay');
+loginQrInput?.addEventListener('change', () => {
+    // @ts-ignore
+    if (loginQrInput.files.length > 0) {
+        // @ts-ignore
+        fileNameDisplay.textContent = loginQrInput.files[0].name;
+    } else {
+        // @ts-ignore
+        fileNameDisplay.textContent = 'Nenhum arquivo escolhido';
+    }
+});
+
+// --- NOVO CÓDIGO para exibir o nome do arquivo no CADASTRO ---
+const cadastroQrInput = document.getElementById('cadastroQrInput');
+const cadastroFileNameDisplay = document.getElementById('cadastroFileNameDisplay');
+
+cadastroQrInput?.addEventListener('change', () => {
+    // @ts-ignore
+    if (cadastroQrInput.files.length > 0) {
+        // @ts-ignore
+        cadastroFileNameDisplay.textContent = cadastroQrInput.files[0].name;
+    } else {
+        // @ts-ignore
+        cadastroFileNameDisplay.textContent = 'Nenhum arquivo escolhido';
+    }
+});
