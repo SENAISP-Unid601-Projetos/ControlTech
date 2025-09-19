@@ -1,75 +1,90 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    // --- 1. SELEÇÃO DOS ELEMENTOS DO HTML ---
     const params = new URLSearchParams(window.location.search);
     const ferramentaId = params.get("id");
 
-    // Elementos da página
     const toolNome = document.getElementById("toolNome");
     const toolId = document.getElementById("toolId");
     const toolDescricao = document.getElementById("toolDescricao");
     const toolEstoque = document.getElementById("toolEstoque");
     const btnAssociar = document.getElementById("btnAssociar");
-    const statusMsg = document.getElementById("statusMsg"); // Para mensagens de erro
+    const statusMsg = document.getElementById("statusMsg");
 
-    // Elementos do Pop-up de confirmação
     const popup = document.getElementById("confirmationPopup");
     const popupMessage = document.getElementById("popupMessage");
     const closePopupBtn = document.getElementById("closePopupBtn");
 
-    // --- 2. VERIFICAÇÃO DO USUÁRIO LOGADO ---
+    // --- Verifica usuário logado ---
     let usuarioLogado = null;
     try {
         usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
     } catch (e) {
-        console.error("Erro ao ler dados do usuário do localStorage:", e);
+        console.error("Erro ao ler dados do usuário:", e);
     }
 
-    // Pega o ID do usuário (aceita tanto 'id' quanto 'usuarioId' no objeto)
     const idUsuario = usuarioLogado?.id ?? usuarioLogado?.usuarioId;
-    const nomeUsuario = usuarioLogado?.nome ?? 'Usuário'; // Pega o nome do usuário
-
     if (!idUsuario) {
-        alert("Sessão expirada ou inválida. Faça login para continuar.");
-        window.location.href = "/index.html"; // Redireciona para a página de login
+        alert("Sessão expirada. Faça login.");
+        window.location.href = "/index.html";
         return;
     }
 
-// --- 3. BUSCA E EXIBIÇÃO DOS DADOS DA FERRAMENTA ---
-try {
-    const res = await fetch(`http://localhost:8080/api/ferramentas/${ferramentaId}`);
-    if (!res.ok) {
-        throw new Error("Ferramenta não encontrada no sistema.");
-    }
-    const ferramenta = await res.json();
-
-    toolNome.textContent = ferramenta.nome;
-    toolId.textContent = ferramenta.id;
-    toolDescricao.textContent = ferramenta.descricao || "Sem descrição";
-    toolEstoque.textContent = ferramenta.quantidadeEstoque;
-
-    // 🔹 Mostrar se está associada a um usuário
-    const statusDiv = document.getElementById("statusMsg");
-    if (ferramenta.usuarioNome) {
-    statusMsg.innerHTML = `🟢 Em uso por: <strong>${ferramenta.usuarioNome}</strong>`;
-    statusMsg.style.color = "green";
-    } else {
-        statusMsg.innerHTML = "⚪ Disponível";
-        statusMsg.style.color = "gray";
+    // --- Função para atualizar status ---
+    function atualizarStatus(usuarioNome) {
+        if (usuarioNome) {
+            statusMsg.innerHTML = `🟢 Em uso por: <strong>${usuarioNome}</strong>`;
+            statusMsg.style.color = "green";
+        } else {
+            statusMsg.innerHTML = "⚪ Disponível";
+            statusMsg.style.color = "gray";
+        }
     }
 
-    } catch (err) {
-        console.error("Falha ao buscar dados da ferramenta:", err);
-        toolNome.textContent = "Erro ao carregar ferramenta";
-        statusMsg.textContent = err.message;
-        statusMsg.style.color = "red";
-        btnAssociar.disabled = true;
-        return;
+    // --- Carrega os dados da ferramenta ---
+    async function carregarFerramenta() {
+        try {
+            const res = await fetch(`http://localhost:8080/api/ferramentas/${ferramentaId}`);
+            if (!res.ok) throw new Error("Ferramenta não encontrada");
+
+            const ferramenta = await res.json();
+
+            toolNome.textContent = ferramenta.nome;
+            toolId.textContent = ferramenta.id;
+            toolDescricao.textContent = ferramenta.descricao || "Sem descrição";
+            toolEstoque.textContent = ferramenta.quantidadeEstoque;
+
+            // Atualiza status usando GET do usuário associado
+            await atualizarStatusDaFerramenta();
+
+            return ferramenta;
+        } catch (err) {
+            console.error("Erro ao carregar ferramenta:", err);
+            toolNome.textContent = "Erro ao carregar ferramenta";
+            statusMsg.textContent = err.message;
+            statusMsg.style.color = "red";
+            btnAssociar.disabled = true;
+            return null;
+        }
     }
 
+    // --- Buscar usuário associado via GET ---
+    async function atualizarStatusDaFerramenta() {
+        try {
+            const res = await fetch(`http://localhost:8080/api/ferramentas/${ferramentaId}/usuario`);
+            if (!res.ok) throw new Error("Erro ao buscar usuário da ferramenta");
+            const usuario = await res.json();
 
-    // --- 4. LÓGICA DO BOTÃO "ASSOCIAR" ---
+            atualizarStatus(usuario.nome); // nome pode ser null se ninguém estiver usando
+        } catch (err) {
+            console.error(err);
+            statusMsg.textContent = err.message;
+        }
+    }
+
+    let ferramenta = await carregarFerramenta();
+
+    // --- Botão associar ---
     btnAssociar.addEventListener("click", async () => {
-        statusMsg.textContent = ""; // Limpa mensagens de erro antigas
+        statusMsg.textContent = "";
 
         try {
             const assocRes = await fetch(`http://localhost:8080/api/ferramentas/associar/${ferramentaId}`, {
@@ -78,27 +93,36 @@ try {
                 body: JSON.stringify({ usuarioId: idUsuario })
             });
 
-            const respostaTexto = await assocRes.text();
-
-            if (!assocRes.ok) {
-                // Se a resposta não for OK, lança um erro com a mensagem do servidor
-                throw new Error(respostaTexto || "Erro desconhecido do servidor.");
+            let resposta;
+            try {
+                resposta = await assocRes.json();
+            } catch {
+                const texto = await assocRes.text();
+                throw new Error("Resposta inválida do servidor: " + texto);
             }
 
-            // Mostra o pop-up de sucesso
-            popupMessage.innerHTML = `✅ ${respostaTexto}<br>Associado ao usuário: <strong>${nomeUsuario}</strong>`;
+            if (!assocRes.ok) throw new Error(resposta.erro || "Falha ao associar.");
+
+            popupMessage.innerHTML = `✅ Ferramenta <strong>${resposta.ferramentaNome}</strong><br>
+                                      Associada ao usuário: <strong>${resposta.usuarioNome}</strong>`;
             popup.style.display = "flex";
 
+            // Atualiza status imediatamente
+            atualizarStatus(resposta.usuarioNome);
+            ferramenta.usuarioNome = resposta.usuarioNome;
+
         } catch (err) {
-            // Mostra erros da associação na mensagem de status
-            console.error("Falha ao associar ferramenta:", err);
+            console.error("Erro ao associar:", err);
             statusMsg.textContent = `Erro: ${err.message}`;
             statusMsg.style.color = "red";
         }
     });
 
-    // --- 5. LÓGICA PARA FECHAR O POP-UP ---
+    // --- Fechar popup ---
     closePopupBtn.addEventListener("click", () => {
         popup.style.display = "none";
     });
+
+    // --- Atualização automática a cada 5s ---
+    setInterval(atualizarStatusDaFerramenta, 5000);
 });
