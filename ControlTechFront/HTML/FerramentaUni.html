@@ -4,11 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Detalhes da Ferramenta - SENAI ControlTech</title>
-    
+
     <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
-    
     <link rel="stylesheet" href="../CSS/FerramentaUni.css" />
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -23,12 +21,15 @@
             <a href="/HTML/Ferramentas.html" class="btn-voltar">
                 <i class="fas fa-arrow-left"></i> Voltar
             </a>
-            <button id="btnAssociar" class="btn-principal">Associar ao meu usuário</button>
+            <button id="btnAssociar" class="btn-principal">
+                <i class="fas fa-link"></i> Associar ao meu usuário
+            </button>
         </div>
-        
+
         <p id="statusMsg"></p>
     </div>
 
+    <!-- Pop-up -->
     <div id="confirmationPopup" class="popup-overlay">
         <div class="popup-content">
             <p id="popupMessage"></p>
@@ -37,6 +38,5 @@
     </div>
 
     <script src="../JS/FerramentaUni.js"></script>
-
 </body>
 </html>

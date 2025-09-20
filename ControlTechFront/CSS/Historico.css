@@ -8,7 +8,10 @@ body {
     background-color: #f0f2f5;
     color: #333;
 }
-
+.sidebar-nav a i {
+    font-size: 1.5rem; /* Aumenta o tamanho do ícone */
+    margin-right: 15px; /* Adiciona espaço à direita do ícone */
+}
 .dashboard-container {
     display: flex;
     min-height: 100vh;

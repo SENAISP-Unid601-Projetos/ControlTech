@@ -55,8 +55,8 @@ body {
 }
 
 .sidebar-nav a i {
-    font-size: 1.2rem;
-    margin-right: 1rem;
+   font-size: 1.5rem; /* Novo tamanho */
+    margin-right: 15px; /* Novo espaçamento */
 }
 
 /* Estilos para o botão do hambúrguer */
@@ -296,4 +296,10 @@ body {
     .hamburger-btn {
         display: block; /* Mostra o botão do hambúrguer em telas pequenas */
     }
+}
+/* Estilo para os ícones dos itens FAQ */
+.faq-item i {
+    font-size: 1.5rem; /* Aumenta o tamanho do ícone */
+    margin-right: 15px; /* Adiciona espaço à direita do ícone */
+    color: #004b8d; /* Define a cor do ícone */
 }
