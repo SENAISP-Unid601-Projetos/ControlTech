@@ -14,19 +14,27 @@ public class HistoricoController {
     @Autowired
     private HistoricoService historicoService;
 
-    // Listar histórico de um usuário específico
+    // 🔹 Listar histórico de um usuário específico
     @GetMapping("/usuario/{usuarioId}")
     public List<HistoricoDevolucaoDTO> listarHistoricoPorUsuario(@PathVariable Long usuarioId) {
         return historicoService.listarPorUsuario(usuarioId);
     }
+
+    // 🔹 Listar histórico de todos os usuários
+    @GetMapping("/todos")
+    public List<HistoricoDevolucaoDTO> listarHistoricoCompleto() {
+        return historicoService.listarTodos();
+    }
+
+    // 🔹 Deletar histórico por ID
     @DeleteMapping("/{historicoId}")
     public void deletarHistorico(@PathVariable Long historicoId) {
         historicoService.deletarPorId(historicoId);
     }
-    // Deletar todo o histórico de devolução de um usuário
+
+    // 🔹 Deletar todo o histórico de um usuário
     @DeleteMapping("/usuario/{usuarioId}")
     public void deletarHistoricoDoUsuario(@PathVariable Long usuarioId) {
         historicoService.deletarPorUsuario(usuarioId);
     }
-
 }

@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-/* Reaproveitando os estilos do dashboard */
 body {
     font-family: 'Roboto', Arial, sans-serif;
     margin: 0;
@@ -8,15 +7,8 @@ body {
     background-color: #f0f2f5;
     color: #333;
 }
-.sidebar-nav a i {
-    font-size: 1.5rem; /* Aumenta o tamanho do ícone */
-    margin-right: 15px; /* Adiciona espaço à direita do ícone */
-}
-.dashboard-container {
-    display: flex;
-    min-height: 100vh;
-}
 
+/* Sidebar */
 .sidebar {
     width: 250px;
     background-color: #004b8d;
@@ -27,91 +19,70 @@ body {
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     transition: width 0.3s ease;
 }
+.sidebar-header { margin-bottom: 2rem; font-size: 1.5rem; font-weight: 700; text-align: center; }
+.sidebar-nav a { display: flex; align-items: center; padding: 1rem 1.5rem; margin-bottom: 0.5rem; color: #b3cde0; text-decoration: none; border-radius: 8px; transition: background-color 0.3s, color 0.3s; }
+.sidebar-nav a:hover, .sidebar-nav a.active { background-color: #0061c0; color: white; }
+.sidebar-nav a i { font-size: 1.5rem; margin-right: 15px; }
 
-.sidebar-header {
-    margin-bottom: 2rem;
-    font-size: 1.5rem;
-    font-weight: 700;
-    text-align: center;
-}
+/* Main content */
+.dashboard-container { display: flex; min-height: 100vh; }
+.main-content { flex-grow: 1; padding: 2rem; }
+.main-header { background-color: white; padding: 1.5rem 2rem; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 2rem; }
 
-.sidebar-nav a {
-    display: flex;
-    align-items: center;
-    padding: 1rem 1.5rem;
-    margin-bottom: 0.5rem;
-    color: #b3cde0;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.sidebar-nav a:hover,
-.sidebar-nav a.active {
-    background-color: #0061c0;
-    color: white;
-}
-
-.main-content {
-    flex-grow: 1;
-    padding: 2rem;
-}
-
-.main-header {
-    background-color: white;
-    padding: 1.5rem 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    margin-bottom: 2rem;
-}
-
-.tool-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 2rem;
-    padding: 1rem 0;
-}
-
+/* Cards de ferramentas */
+.tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem; padding: 1rem 0; }
 .tool-card {
-    background: white;
+    background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    padding: 1.5rem; text-align: left; border: 1px solid #eee;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.tool-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+.tool-card h3 { margin: 0.5rem 0; font-size: 1.2rem; color: #004b8d; }
+
+/* Cards de histórico */
+/* Cards de histórico melhorados */
+.historico-card {
+    background: #ffffff;                /* branco limpo */
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     padding: 1.5rem;
     text-align: left;
-    border: 1px solid #eee;
-    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 6px solid #004b8d;    /* destaque visual à esquerda */
+    transition: transform 0.2s, box-shadow 0.2s, border-left-color 0.3s;
+    margin-bottom: 1rem;
 }
 
-.tool-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+.historico-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    border-left-color: #0061c0;
 }
 
-.tool-card h3 {
+.historico-card h3 {
     margin: 0.5rem 0;
     font-size: 1.2rem;
     color: #004b8d;
 }
 
-.hamburger-btn {
-    display: none;
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 101;
-    background: #004b8d;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    border-radius: 5px;
+.historico-card p {
+    margin: 4px 0;
+    color: #555;
+    font-size: 0.95rem;
 }
 
+.historico-card p strong {
+    color: #000;
+}
+
+/* Observações em itálico */
+.historico-card .observacoes {
+    font-style: italic;
+    color: #777;
+}
+
+/* Responsivo */
 @media (max-width: 768px) {
-    .dashboard-container { flex-direction: column; }
-    .sidebar { position: fixed; top: 0; left: -250px; height: 100vh; z-index: 100; }
-    .sidebar.active { left: 0; }
-    .hamburger-btn { display: block; }
-    .tool-grid { gap: 1rem; }
+    .historico-card {
+        padding: 1rem;
+    }
 }

@@ -1,8 +1,9 @@
-const BASE_URL = "http://localhost:8080/api/historico"; // Ajuste para seu backend
+const BASE_URL = "http://localhost:8080/api/historico";
 
-// Função para carregar histórico do usuário
-function carregarHistorico(usuarioId) {
-  fetch(`${BASE_URL}/usuario/${usuarioId}`)
+function carregarHistorico(usuarioId = null) {
+  const url = usuarioId ? `${BASE_URL}/usuario/${usuarioId}` : `${BASE_URL}/todos`;
+
+  fetch(url)
     .then(res => {
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
       return res.json();
@@ -18,13 +19,19 @@ function carregarHistorico(usuarioId) {
 
       historicos.forEach(h => {
         const card = document.createElement("div");
-        card.className = "tool-card";
+        card.classList.add("historico-card");
+
+        const data = new Date(h.dataDevolucao);
+        const dataFormatada = data.toLocaleDateString('pt-BR');
+        const horaFormatada = data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
         card.innerHTML = `
           <h3>${h.nomeFerramenta}</h3>
           <p><strong>Usuário:</strong> ${h.nomeUsuario}</p>
-          <p><strong>Data da Devolução:</strong> ${new Date(h.dataDevolucao).toLocaleDateString('pt-BR')}</p>
+          <p><strong>Data da Devolução:</strong> ${dataFormatada} às ${horaFormatada}</p>
           <p><strong>Observações:</strong> ${h.observacoes || '-'}</p>
         `;
+
         historicoContainer.appendChild(card);
       });
     })
@@ -34,25 +41,22 @@ function carregarHistorico(usuarioId) {
     });
 }
 
-// Carregar usuário logado
 function getUsuarioLogado() {
   const usuario = localStorage.getItem("usuarioLogado");
   return usuario ? JSON.parse(usuario) : null;
 }
 
-// Inicialização
 document.addEventListener("DOMContentLoaded", () => {
   const usuario = getUsuarioLogado();
-  if (usuario) {
-    carregarHistorico(usuario.id);
-  } else {
-    document.getElementById("historicoContainer").innerHTML = "<p>Usuário não logado.</p>";
-  }
+  const btnUsuario = document.getElementById("btnUsuario");
+  const btnTodos = document.getElementById("btnTodos");
 
-  // Botão hamburguer
+  if (usuario && btnUsuario) btnUsuario.addEventListener("click", () => carregarHistorico(usuario.id));
+  if (btnTodos) btnTodos.addEventListener("click", () => carregarHistorico());
+
+  carregarHistorico();
+
   const hamburger = document.querySelector(".hamburger-btn");
   const sidebar = document.querySelector(".sidebar");
-  hamburger.addEventListener("click", () => {
-    sidebar.classList.toggle("active");
-  });
+  if (hamburger) hamburger.addEventListener("click", () => sidebar.classList.toggle("active"));
 });

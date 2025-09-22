@@ -3,6 +3,7 @@ package com.senai.projeto.ControlTechBack.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -12,7 +13,9 @@ public class HistoricoDevolucao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate dataDevolucao;
+    @Column(name = "data_devolucao")
+    private LocalDateTime dataDevolucao;
+
     private String observacoes;
 
     @ManyToOne
