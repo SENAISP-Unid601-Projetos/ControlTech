@@ -60,3 +60,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebar = document.querySelector(".sidebar");
   if (hamburger) hamburger.addEventListener("click", () => sidebar.classList.toggle("active"));
 });
+document.addEventListener("DOMContentLoaded", () => {
+    const usuario = getUsuarioLogado(); // garante que usuario está definido
+    const btnUsuario = document.getElementById("btnUsuario");
+    const btnTodos = document.getElementById("btnTodos");
+
+    function setActiveButton(activeBtn) {
+        [btnUsuario, btnTodos].forEach(btn => btn.classList.remove("active"));
+        activeBtn.classList.add("active");
+    }
+
+    if (usuario && btnUsuario) {   // só adiciona evento se usuario existir
+        btnUsuario.addEventListener("click", () => {
+            carregarHistorico(usuario.id);
+            setActiveButton(btnUsuario);
+        });
+    }
+
+    if (btnTodos) {
+        btnTodos.addEventListener("click", () => {
+            carregarHistorico();
+            setActiveButton(btnTodos);
+        });
+    }
+});

@@ -86,3 +86,27 @@ body {
         padding: 1rem;
     }
 }
+/* Botões de seleção do histórico */
+/* Botões de seleção do histórico - versão simples */
+.select-btn {
+    background-color: #004b8d;  /* cor principal do dashboard */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.select-btn:hover {
+    background-color: #0061c0;  /* cor mais clara ao passar o mouse */
+}
+
+.select-btn.active {
+    background-color: #0080ff;  /* cor diferente para botão ativo */
+    color: white;
+}
+
