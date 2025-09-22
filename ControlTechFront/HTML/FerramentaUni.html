@@ -10,33 +10,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-
     <div class="container">
-        <h1 id="toolNome">Carregando...</h1>
-        <p><strong>ID:</strong> <span id="toolId">-</span></p>
-        <p><strong>Descrição:</strong> <span id="toolDescricao">-</span></p>
-        <p><strong>Estoque:</strong> <span id="toolEstoque">-</span></p>
+    <h1 id="toolNome">Carregando...</h1>
+    <p><strong>ID:</strong> <span id="toolId">-</span></p>
+    <p><strong>Descrição:</strong> <span id="toolDescricao">-</span></p>
+    <p><strong>Estoque:</strong> <span id="toolEstoque">-</span></p>
 
-        <div class="botoes-container">
-            <a href="/HTML/Ferramentas.html" class="btn-voltar">
-                <i class="fas fa-arrow-left"></i> Voltar
-            </a>
-            <button id="btnAssociar" class="btn-principal">
-                <i class="fas fa-link"></i> Associar ao meu usuário
-            </button>
-        </div>
-
-        <p id="statusMsg"></p>
+    <div class="botoes-container">
+        <a href="/HTML/Ferramentas.html" class="btn-voltar">
+            <i class="fas fa-arrow-left"></i> Voltar
+        </a>
+        <button id="btnAssociar" class="btn-principal">
+            <i class="fas fa-link"></i> Associar ao meu usuário
+        </button>
     </div>
 
-    <!-- Pop-up -->
+    <p id="statusMsg"></p>
+    </div>
     <div id="confirmationPopup" class="popup-overlay">
         <div class="popup-content">
             <p id="popupMessage"></p>
             <button id="closePopupBtn">Fechar</button>
         </div>
     </div>
-
     <script src="../JS/FerramentaUni.js"></script>
 </body>
 </html>
