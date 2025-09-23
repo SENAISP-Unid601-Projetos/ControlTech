@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 /* Estilos Gerais */
 body {
@@ -6,6 +7,7 @@ body {
     padding: 0;
     background-color: #f0f2f5;
     color: #333;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 /* Container do Dashboard */
@@ -22,8 +24,8 @@ body {
     padding: 2rem 1.5rem;
     display: flex;
     flex-direction: column;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    transition: left 0.3s ease-in-out;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s ease-in-out, background-color 0.3s;
 }
 
 .sidebar-header {
@@ -31,6 +33,46 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
     text-align: center;
+}
+
+/* Novo: Estilos para o perfil do usuário na sidebar */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+.user-profile i {
+    font-size: 2.5rem;
+    color: #b3cde0;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.user-details span {
+    font-size: 0.9rem;
+    color: #b3cde0;
+    opacity: 0.8;
+}
+
+.user-details h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .sidebar-nav {
@@ -56,13 +98,19 @@ body {
 }
 
 .sidebar-nav a i {
-    font-size: 1.5rem; /* Aumenta o tamanho do ícone */
-    margin-right: 15px; /* Adiciona espaço à direita do ícone */
+    font-size: 1.2rem;
+    margin-right: 1rem;
+}
+
+.settings-btn {
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
 }
 
 /* Estilos para o botão do hambúrguer */
 .hamburger-btn {
-    display: none; /* Inicia escondido em telas grandes */
+    display: none;
     position: fixed;
     top: 20px;
     left: 20px;
@@ -102,7 +150,7 @@ body {
     max-width: 450px;
     position: relative;
     overflow: hidden;
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease, background-color 0.3s, color 0.3s;
 }
 
 .saida-box:hover {
@@ -116,12 +164,14 @@ body {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    transition: color 0.3s;
 }
 
 .instructions {
     color: #666;
     margin-bottom: 1.5rem;
     font-size: 0.95rem;
+    transition: color 0.3s;
 }
 
 .scanner-animation {
@@ -155,7 +205,7 @@ body {
     font-size: 1rem;
     text-align: center;
     margin: 1rem 0;
-    transition: border-color 0.3s;
+    transition: border-color 0.3s, background-color 0.3s, color 0.3s;
     background-color: #f8f9fa;
 }
 
@@ -174,17 +224,20 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .placeholder {
     color: #777;
     text-align: center;
+    transition: color 0.3s;
 }
 
 .placeholder i {
     font-size: 2rem;
     margin-bottom: 0.5rem;
     color: #ccc;
+    transition: color 0.3s;
 }
     
 .btn-primary {
@@ -223,10 +276,12 @@ body {
     justify-content: center;
     gap: 1rem;
     font-size: 0.9rem;
+    transition: color 0.3s;
 }
 
 .time-display i {
     color: #004b8d;
+    transition: color 0.3s;
 }
 
 .notification {
@@ -257,6 +312,143 @@ body {
     background-color: #dc3545;
 }
 
+/* Estilos para o botão de Configurações na sidebar */
+.settings-btn {
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+}
+
+/* Estilos do Popup de Tema - Ajustados para o novo design */
+.theme-popup {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 280px;
+    padding: 1rem;
+    z-index: 99;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s;
+    text-align: center;
+}
+
+.theme-popup.visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.theme-popup.hidden {
+    display: none;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s;
+}
+
+.popup-header h4 {
+    margin: 0;
+    color: #004b8d;
+}
+
+.popup-header .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #888;
+    cursor: pointer;
+}
+
+.popup-content-config {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.config-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.config-label {
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
+    transition: color 0.3s;
+}
+
+.divider {
+    width: 80%;
+    height: 1px;
+    background-color: #ddd;
+    margin: 1rem 0;
+    transition: background-color 0.3s;
+}
+
+.theme-toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2.5rem;
+    color: #004b8d;
+    transition: transform 0.3s ease;
+    width: 60px;
+    height: 60px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.theme-toggle-btn:hover {
+    transform: scale(1.1);
+}
+
+.theme-toggle-btn .fa-sun,
+.theme-toggle-btn .fa-moon {
+    position: absolute;
+    transition: opacity 0.3s ease;
+}
+
+.theme-toggle-btn .fa-moon {
+    opacity: 0;
+}
+
+.theme-status, .lang-status {
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
+    transition: color 0.3s;
+}
+
+.lang-toggle-btn {
+    background: #0061c0;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.lang-toggle-btn:hover {
+    background-color: #004b8d;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
     .dashboard-container {
@@ -266,7 +458,7 @@ body {
     .sidebar {
         position: fixed;
         top: 0;
-        left: -250px; /* Esconde a barra lateral fora da tela */
+        left: -250px;
         height: 100vh;
         width: 250px;
         padding: 2rem 1.5rem;
@@ -276,7 +468,11 @@ body {
     }
 
     .sidebar.active {
-        left: 0; /* Move a barra lateral para dentro da tela quando a classe 'active' é adicionada */
+        left: 0;
+    }
+    
+    .user-profile {
+        display: none; /* Esconde o perfil do usuário em telas menores */
     }
     
     .sidebar-header {
@@ -303,6 +499,118 @@ body {
     }
 
     .hamburger-btn {
-        display: block; /* Mostra o botão do hambúrguer em telas pequenas */
+        display: block;
     }
+}
+
+/* Estilos do Tema Escuro */
+body.dark-theme {
+    background-color: #2c2c2c;
+    color: #f0f2f5;
+}
+
+body.dark-theme .sidebar {
+    background-color: #1a1a1a;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .user-profile {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-theme .user-profile i {
+    color: #ccc;
+}
+
+body.dark-theme .user-details span {
+    color: #b3cde0;
+}
+
+body.dark-theme .user-details h4 {
+    color: #fff;
+}
+
+body.dark-theme .sidebar-header {
+    color: #fff;
+}
+
+body.dark-theme .sidebar-nav a {
+    color: #ccc;
+}
+
+body.dark-theme .sidebar-nav a:hover,
+body.dark-theme .sidebar-nav a.active {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-theme .saida-box {
+    background-color: #444;
+    color: #f0f2f5;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .saida-box h2 {
+    color: #b3cde0;
+}
+
+body.dark-theme .instructions {
+    color: #ccc;
+}
+
+body.dark-theme #crachaInput {
+    background-color: #555;
+    color: #f0f2f5;
+    border-color: #666;
+}
+
+body.dark-theme .info-card {
+    background-color: #555;
+    color: #f0f2f5;
+}
+
+body.dark-theme .placeholder {
+    color: #aaa;
+}
+
+body.dark-theme .placeholder i {
+    color: #888;
+}
+
+body.dark-theme .time-display {
+    color: #ccc;
+}
+
+body.dark-theme .time-display i {
+    color: #b3cde0;
+}
+
+/* Tema escuro para o pop-up de configurações */
+body.dark-theme .theme-popup {
+    background-color: #444;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    color: #f0f2f5;
+}
+
+body.dark-theme .popup-header h4 {
+    color: #b3cde0;
+}
+
+body.dark-theme .popup-content-config .config-label,
+body.dark-theme .theme-status,
+body.dark-theme .lang-status {
+    color: #ccc;
+}
+
+body.dark-theme .divider {
+    background-color: #555;
+}
+
+body.dark-theme .theme-toggle-btn .fa-sun {
+    opacity: 0;
+}
+
+body.dark-theme .theme-toggle-btn .fa-moon {
+    opacity: 1;
+    color: #f1c40f;
 }

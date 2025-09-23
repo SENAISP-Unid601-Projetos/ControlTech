@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Ajuda - SENAI ControlTech</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ajuda - ControlTech</title>
+    <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/CSS/Ajuda.css">
+    <link rel="stylesheet" href="/CSS/Ajuda.css"/>
     <script src="/JS/Ajuda.js" defer></script>
 </head>
 <body>
@@ -20,82 +20,98 @@
             <div class="sidebar-header">
                 <h2>ControlTech</h2>
             </div>
+
+            <div class="user-profile">
+                <i class="fas fa-user-circle"></i>
+                <div class="user-details">
+                    <span id="welcome-message">Olá,</span>
+                    <h4 id="user-name">Usuário</h4>
+                </div>
+            </div>
+
             <nav class="sidebar-nav">
-                <a href="Ferramentas.html">
+                <a href="Ferramentas.html" id="nav-tools">
                     <i class="fas fa-tools"></i>
                     <span>Ferramentas</span>
                 </a>
-                <a href="Devolver.html">
+                <a href="Devolver.html" id="nav-return">
                     <i class="fas fa-undo"></i>
                     <span>Devolver</span>
                 </a>
-                <a href="Ajuda.html" class="active">
+                <a href="Ajuda.html" class="active" id="nav-help">
                     <i class="fas fa-question-circle"></i>
                     <span>Ajuda</span>
                 </a>
-                <a href="Historico.html" class="logout">
+                <a href="Historico.html" id="nav-history">
                     <i class="fas fa-history"></i>
-                    <span>Historico</span>
-                <a href="Saida.html" class="logout">
+                    <span>Histórico</span>
+                </a>
+                <a href="Saida.html" class="logout" id="nav-exit">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Sair</span>
+                </a>
+                <a href="#" class="settings-btn" id="settings-btn">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
                 </a>
             </nav>
         </aside>
 
         <main class="main-content">
-            <div class="ajuda-box">
-                <h2>Central de Ajuda</h2>
-                <p>Encontre respostas para as perguntas mais frequentes abaixo:</p>
-                
-                <div class="faq">
-                    <div class="faq-item">
-                        <h3>Como faço para devolver uma ferramenta?</h3>
-                        <p>Para registrar a devolução de uma ferramenta, vá até a aba "Devolver" no menu lateral. Na página, você poderá escanear o código da ferramenta ou selecioná-la na lista de itens que estão em seu nome. Confirme a devolução para liberar a pendência.</p>
-                    </div>
-                    <div class="faq-item">
-                        <h3>Como posso sair do sistema ao final do dia?</h3>
-                        <p>Para encerrar sua sessão com segurança, clique na opção "Sair", localizada no menu lateral. Esta ação garante que seus dados fiquem protegidos e finaliza seu acesso à plataforma.</p>
-                    </div>
-                    <div class="faq-item">
-                        <h3>Como posso entrar em contato com o suporte?</h3>
-                        <p>Se as perguntas frequentes não resolveram seu problema, você pode nos enviar uma mensagem através do formulário abaixo ou entrar em contato pelo e-mail suporteSENAI@gmail.com.</p>
-                    </div>
+            <h1 id="page-title">Ajuda</h1>
+            <div class="help-container">
+                <div class="card">
+                    <h2 id="card-title-1">Como Emprestar uma Ferramenta?</h2>
+                    <p id="card-text-1">
+                        Vá para a página **"Ferramentas"**, clique no botão **"Emprestar"** da ferramenta desejada. Preencha seu número de crachá e confirme o empréstimo.
+                    </p>
                 </div>
-
-                <form id="formAjuda">
-                    <h3>Relate seu problema</h3>
-                    <label for="nome">Nome:</label>
-                    <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required />
-                    
-                    <label for="email">E-mail:</label>
-                    <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required />
-                    
-                    <label for="problema">Descreva o problema:</label>
-                    <textarea id="problema" name="problema" placeholder="Descreva seu problema aqui..." required></textarea>
-                    
-                    <button type="submit">Enviar</button>
-                </form>
+                <div class="card">
+                    <h2 id="card-title-2">Como Devolver uma Ferramenta?</h2>
+                    <p id="card-text-2">
+                        Na página **"Devolver"**, insira o número do seu crachá e o ID da ferramenta que você deseja devolver. Clique em **"Devolver Ferramenta"** para finalizar.
+                    </p>
+                </div>
+                <div class="card">
+                    <h2 id="card-title-3">Como Vejo meu Histórico?</h2>
+                    <p id="card-text-3">
+                        Acesse a página **"Histórico"**. Insira seu número de crachá no campo de busca para visualizar todas as ferramentas que você já emprestou e devolveu.
+                    </p>
+                </div>
+                <div class="card">
+                    <h2 id="card-title-4">Problemas ou Dúvidas?</h2>
+                    <p id="card-text-4">
+                        Se a sua dúvida não foi respondida, entre em contato com o suporte técnico para assistência.
+                    </p>
+                </div>
             </div>
         </main>
     </div>
 
-    <div id="popupAjuda" class="popup">
-        <div class="popup-content">
-            <p id="mensagemPopup"></p>
-            <button onclick="fecharPopup()">Fechar</button>
+    <div class="theme-popup hidden" id="theme-popup">
+        <div class="popup-header">
+            <h4 id="settings-popup-title">Configurações</h4>
+            <button class="close-btn" id="close-popup-btn">&times;</button>
+        </div>
+        <div class="popup-content-config">
+            <div class="config-section">
+                <p class="config-label" id="theme-label">Alternar Tema:</p>
+                <button id="theme-toggle-btn" class="theme-toggle-btn">
+                    <i class="fas fa-sun" id="sun-icon"></i>
+                    <i class="fas fa-moon" id="moon-icon"></i>
+                </button>
+                <p class="theme-status" id="theme-status">Tema Claro</p>
+            </div>
+            <div class="divider"></div>
+            <div class="config-section">
+                <p class="config-label" id="lang-label">Alternar Idioma:</p>
+                <button id="lang-toggle-btn" class="lang-toggle-btn">
+                    <span>PT</span>
+                </button>
+                <p class="lang-status" id="lang-status">Português</p>
+            </div>
         </div>
     </div>
-    
-    <div vw class="enabled">
-        <div vw-access-button class="active"></div>
-        <div vw-plugin-wrapper>
-            <div class="vw-plugin-top-wrapper"></div>
-        </div>
-    </div>
-    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-    <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
-    </script>
+
 </body>
 </html>

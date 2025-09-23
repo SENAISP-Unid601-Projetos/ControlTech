@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 /* Estilos Gerais */
 body {
     font-family: 'Roboto', Arial, sans-serif;
@@ -5,6 +7,7 @@ body {
     padding: 0;
     background-color: #f0f2f5;
     color: #333;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 /* Container do Dashboard */
@@ -21,8 +24,8 @@ body {
     padding: 2rem 1.5rem;
     display: flex;
     flex-direction: column;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    transition: left 0.3s ease-in-out;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s ease-in-out, background-color 0.3s;
 }
 
 .sidebar-header {
@@ -30,6 +33,46 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
     text-align: center;
+}
+
+/* Novo: Estilos para o perfil do usuário na sidebar */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+.user-profile i {
+    font-size: 2.5rem;
+    color: #b3cde0;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.user-details span {
+    font-size: 0.9rem;
+    color: #b3cde0;
+    opacity: 0.8;
+}
+
+.user-details h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .sidebar-nav {
@@ -55,13 +98,19 @@ body {
 }
 
 .sidebar-nav a i {
-   font-size: 1.5rem; /* Novo tamanho */
-    margin-right: 15px; /* Novo espaçamento */
+    font-size: 1.2rem;
+    margin-right: 1rem;
 }
 
-/* Estilos para o botão do hambúrguer */
+.settings-btn {
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+}
+
+/* Botão Hamburger */
 .hamburger-btn {
-    display: none; /* Inicia escondido em telas grandes */
+    display: none;
     position: fixed;
     top: 20px;
     left: 20px;
@@ -84,163 +133,183 @@ body {
 .main-content {
     flex-grow: 1;
     padding: 2rem;
-    display: flex;
-    justify-content: center;
 }
 
-.ajuda-box {
-    background-color: #fff;
-    padding: 2rem 3rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    width: 100%;
-    max-width: 700px;
-    text-align: left;
-    transition: box-shadow 0.3s ease;
-}
-    
-.ajuda-box:hover {
-    box-shadow: 0 6px 30px rgba(0, 58, 117, 0.35);
-}
-
-.ajuda-box h2 {
-    margin-bottom: 0.5rem;
-    font-weight: 700;
+/* Título principal da página */
+#page-title {
+    color: #004b8d;
     font-size: 2rem;
-    color: #004b8d;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    transition: color 0.3s;
+    text-align: center;
 }
 
-.ajuda-box p {
-    margin-bottom: 1.5rem;
+/* Estilos dos cartões de ajuda */
+.help-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem 0;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    width: 90%;
+    max-width: 600px;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+    color: #004b8d;
+    transition: color 0.3s;
+}
+
+.card p {
     color: #555;
+    line-height: 1.6;
+    transition: color 0.3s;
 }
 
-.faq {
-    margin-top: 1rem;
-    width: 100%;
-}
-
-.faq-item {
-    background: #f8f9fa;
-    border-radius: 8px;
+/* Popup de Configurações */
+.theme-popup {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 280px;
     padding: 1rem;
+    z-index: 99;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s;
+    text-align: center;
+}
+
+.theme-popup.visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.theme-popup.hidden {
+    display: none;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
     margin-bottom: 1rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    border: 1px solid #e9ecef;
+    transition: border-color 0.3s;
 }
 
-.faq-item h3 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.2rem;
-    color: #004b8d;
-}
-
-#formAjuda {
-    margin-top: 2rem;
-    padding: 0;
-    box-shadow: none;
-}
-
-#formAjuda h3 {
+.popup-header h4 {
     margin: 0;
     color: #004b8d;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
 }
 
-#formAjuda label {
-    display: block;
-    font-weight: 600;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-    color: #004b8d;
-}
-
-#formAjuda input, 
-#formAjuda textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-family: 'Roboto', Arial, sans-serif;
-    transition: border-color 0.2s;
-    box-sizing: border-box;
-    resize: vertical;
-}
-    
-#formAjuda input:focus, 
-#formAjuda textarea:focus {
-    outline: none;
-    border-color: #004b8d;
-}
-    
-#formAjuda button {
-    background-color: #0061c0;
-    color: white;
+.popup-header .close-btn {
+    background: none;
     border: none;
-    padding: 1rem;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: bold;
+    font-size: 1.5rem;
+    color: #888;
     cursor: pointer;
-    width: 100%;
-    transition: background-color 0.3s ease;
-    margin-top: 1.5rem;
 }
 
-#formAjuda button:hover {
-    background-color: #004b8d;
+.popup-content-config {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
 
-/* POP-UP ESTILO AZUL SENAI (CORRIGIDO) */
-.popup {
-    display: none;
-    position: fixed;
-    top: 0; 
-    left: 0;
-    width: 100%; 
-    height: 100%;
+.config-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.config-label {
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
+    transition: color 0.3s;
+}
+
+.divider {
+    width: 80%;
+    height: 1px;
+    background-color: #ddd;
+    margin: 1rem 0;
+    transition: background-color 0.3s;
+}
+
+.theme-toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2.5rem;
+    color: #004b8d;
+    transition: transform 0.3s ease;
+    width: 60px;
+    height: 60px;
+    position: relative;
+    display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
-    background-color: rgba(0,0,0,0.5);
 }
 
-.popup-content {
-    background-color: #fff;
-    padding: 25px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 0 15px rgba(0, 58, 117, 0.4);
-    text-align: center;
-    color: #003a75;
-    font-family: 'Roboto', Arial, sans-serif;
+.theme-toggle-btn:hover {
+    transform: scale(1.1);
 }
 
-.popup-content p {
-    margin-bottom: 20px;
-    font-size: 1.1rem;
+.theme-toggle-btn .fa-sun,
+.theme-toggle-btn .fa-moon {
+    position: absolute;
+    transition: opacity 0.3s ease;
 }
 
-.popup-content strong {
-    color: #004b8d;
+.theme-toggle-btn .fa-moon {
+    opacity: 0;
 }
 
-.popup-content button {
-    background-color: #004b8d;
+.theme-status, .lang-status {
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
+    transition: color 0.3s;
+}
+
+.lang-toggle-btn {
+    background: #0061c0;
     color: white;
     border: none;
-    padding: 10px 24px;
-    border-radius: 50px;
-    cursor: pointer;
+    border-radius: 8px;
+    padding: 10px 20px;
     font-size: 1rem;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.popup-content button:hover {
-    background-color: #003366;
+.lang-toggle-btn:hover {
+    background-color: #004b8d;
 }
 
 /* Responsividade */
@@ -248,30 +317,29 @@ body {
     .dashboard-container {
         flex-direction: column;
     }
-    
+
     .sidebar {
         position: fixed;
         top: 0;
-        left: -250px; /* Esconde a barra lateral fora da tela */
+        left: -250px;
         height: 100vh;
         width: 250px;
         padding: 2rem 1.5rem;
         transition: left 0.3s ease-in-out;
         z-index: 100;
-        box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
     }
 
     .sidebar.active {
-        left: 0; /* Move a barra lateral para dentro da tela quando a classe 'active' é adicionada */
+        left: 0;
     }
     
-    .sidebar-header {
-        text-align: left;
+    .user-profile {
+        display: none; /* Esconde o perfil do usuário em telas menores */
     }
 
-    .sidebar-nav {
-        flex-direction: column;
-        display: flex;
+    .hamburger-btn {
+        display: block;
     }
 
     .main-content {
@@ -280,26 +348,92 @@ body {
         padding: 1rem;
     }
 
-    .ajuda-box {
-        padding: 1.5rem;
-    }
-    
-    .ajuda-box h2 {
+    #page-title {
         font-size: 1.5rem;
     }
-    
-    #formAjuda button {
-        padding: 0.8rem;
-        font-size: 1rem;
-    }
-    
-    .hamburger-btn {
-        display: block; /* Mostra o botão do hambúrguer em telas pequenas */
-    }
 }
-/* Estilo para os ícones dos itens FAQ */
-.faq-item i {
-    font-size: 1.5rem; /* Aumenta o tamanho do ícone */
-    margin-right: 15px; /* Adiciona espaço à direita do ícone */
-    color: #004b8d; /* Define a cor do ícone */
+
+/* Estilos do Tema Escuro */
+body.dark-theme {
+    background-color: #2c2c2c;
+    color: #f0f2f5;
+}
+
+body.dark-theme .sidebar {
+    background-color: #1a1a1a;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .user-profile {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-theme .user-profile i {
+    color: #ccc;
+}
+
+body.dark-theme .user-details span {
+    color: #b3cde0;
+}
+
+body.dark-theme .user-details h4 {
+    color: #fff;
+}
+
+body.dark-theme .sidebar-nav a {
+    color: #ccc;
+}
+
+body.dark-theme .sidebar-nav a:hover,
+body.dark-theme .sidebar-nav a.active {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-theme #page-title {
+    color: #fff;
+}
+
+body.dark-theme .card {
+    background-color: #444;
+    border-color: #666;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .card h2 {
+    color: #b3cde0;
+}
+
+body.dark-theme .card p {
+    color: #ccc;
+}
+
+/* Tema escuro para os pop-ups */
+body.dark-theme .theme-popup {
+    background-color: #444;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    color: #f0f2f5;
+}
+
+body.dark-theme .popup-header h4 {
+    color: #b3cde0;
+}
+
+body.dark-theme .popup-content-config .config-label,
+body.dark-theme .theme-status,
+body.dark-theme .lang-status {
+    color: #ccc;
+}
+
+body.dark-theme .divider {
+    background-color: #555;
+}
+
+body.dark-theme .theme-toggle-btn .fa-sun {
+    opacity: 0;
+}
+
+body.dark-theme .theme-toggle-btn .fa-moon {
+    opacity: 1;
+    color: #f1c40f;
 }
