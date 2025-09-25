@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/CSS/Saida.css">
+    <script src="/JS/Saida.js" defer></script>
 </head>
 <body>
     <div class="dashboard-container">
@@ -19,25 +20,39 @@
             <div class="sidebar-header">
                 <h2>ControlTech</h2>
             </div>
+            
+            <div class="user-profile">
+                <i class="fas fa-user-circle"></i>
+                <div class="user-details">
+                    <span id="welcome-message">Olá,</span>
+                    <h4 id="user-name">Usuário</h4>
+                </div>
+            </div>
+
             <nav class="sidebar-nav">
-                <a href="Ferramentas.html">
+                <a href="Ferramentas.html" id="nav-tools">
                     <i class="fas fa-tools"></i>
                     <span>Ferramentas</span>
                 </a>
-                <a href="Devolver.html">
+                <a href="Devolver.html" id="nav-return">
                     <i class="fas fa-undo"></i>
                     <span>Devolver</span>
                 </a>
-                <a href="Ajuda.html">
+                <a href="Ajuda.html" id="nav-help">
                     <i class="fas fa-question-circle"></i>
                     <span>Ajuda</span>
                 </a>
-                <a href="Historico.html" class="logout">
+                <a href="Historico.html" id="nav-history">
                     <i class="fas fa-history"></i>
-                    <span>Historico</span>
-                <a href="Saida.html" class="active">
+                    <span>Histórico</span>
+                </a>
+                <a href="Saida.html" class="active" id="nav-exit">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Sair</span>
+                </a>
+                <a href="#" class="settings-btn" id="settings-btn">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
                 </a>
             </nav>
         </aside>
@@ -47,20 +62,20 @@
                 <div class="scanner-animation" id="scannerAnimation">
                     <div class="laser"></div>
                 </div>
-                <h2><i class="fas fa-id-card"></i> Aproxime seu crachá</h2>
-                <p class="instructions">Posicione o crachá próximo ao leitor para registrar sua saída</p>
+                <h2 id="saida-title"><i class="fas fa-id-card"></i> Aproxime seu crachá</h2>
+                <p class="instructions" id="saida-instructions">Posicione o crachá próximo ao leitor para registrar sua saída</p>
                 
                 <input type="text" id="crachaInput" autocomplete="off" placeholder="Número do crachá (auto preenchido)" readonly />
                 
                 <div class="info-card" id="dadosAluno">
                     <div class="placeholder">
                         <i class="fas fa-user-graduate"></i>
-                        <p>Aguardando leitura do crachá...</p>
+                        <p id="placeholder-text">Aguardando leitura do crachá...</p>
                     </div>
                 </div>
                 
                 <button id="confirmarBtn" class="btn-primary" disabled>
-                    <i class="fas fa-check-circle"></i> Confirmar Saída
+                    <i class="fas fa-check-circle"></i> <span id="confirm-btn-text">Confirmar Saída</span>
                 </button>
                 
                 <div class="time-display">
@@ -73,6 +88,31 @@
             <div class="notification" id="notification"></div>
         </main>
     </div>
+    
+    <div class="theme-popup hidden" id="theme-popup">
+        <div class="popup-header">
+            <h4 id="settings-popup-title">Configurações</h4>
+            <button class="close-btn" id="close-popup-btn">&times;</button>
+        </div>
+        <div class="popup-content-config">
+            <div class="config-section">
+                <p class="config-label" id="theme-label">Alternar Tema:</p>
+                <button id="theme-toggle-btn" class="theme-toggle-btn">
+                    <i class="fas fa-sun" id="sun-icon"></i>
+                    <i class="fas fa-moon" id="moon-icon"></i>
+                </button>
+                <p class="theme-status" id="theme-status">Tema Claro</p>
+            </div>
+            <div class="divider"></div>
+            <div class="config-section">
+                <p class="config-label" id="lang-label">Alternar Idioma:</p>
+                <button id="lang-toggle-btn" class="lang-toggle-btn">
+                    <span>PT</span>
+                </button>
+                <p class="lang-status" id="lang-status">Português</p>
+            </div>
+        </div>
+    </div>
 
     <div vw class="enabled">
         <div vw-access-button class="active"></div>
@@ -80,11 +120,10 @@
             <div class="vw-plugin-top-wrapper"></div>
         </div>
     </div>
-    
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
         new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
-    <script src="/JS/Saida.js" defer></script>
+    
 </body>
 </html>

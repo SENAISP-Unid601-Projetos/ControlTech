@@ -1,18 +1,16 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ferramentas - SENAI ControlTech</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Ferramentas - ControlTech</title>
+    <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/CSS/Ferramenta.css">
+    <link rel="stylesheet" href="/CSS/Ferramenta.css"/>
     <script src="/JS/Ferramenta.js" defer></script>
 </head>
 <body>
-
     <div class="dashboard-container">
         <button class="hamburger-btn" id="hamburger-btn">
             <i class="fas fa-bars"></i>
@@ -22,59 +20,94 @@
             <div class="sidebar-header">
                 <h2>ControlTech</h2>
             </div>
+            
+            <div class="user-profile">
+                <i class="fas fa-user-circle"></i>
+                <div class="user-details">
+                    <span id="welcome-message">Olá,</span>
+                    <h4 id="user-name">Usuário</h4>
+                </div>
+            </div>
+
             <nav class="sidebar-nav">
-                <a href="Ferramentas.html" class="active">
+                <a href="Ferramentas.html" class="active" id="nav-tools">
                     <i class="fas fa-tools"></i>
                     <span>Ferramentas</span>
                 </a>
-                <a href="Devolver.html">
+                <a href="Devolver.html" id="nav-return">
                     <i class="fas fa-undo"></i>
                     <span>Devolver</span>
                 </a>
-                <a href="Ajuda.html">
+                <a href="Ajuda.html" id="nav-help">
                     <i class="fas fa-question-circle"></i>
                     <span>Ajuda</span>
                 </a>
-                <a href="Historico.html" class="logout">
+                <a href="Historico.html" id="nav-history">
                     <i class="fas fa-history"></i>
-                    <span>Historico</span>
-                </a><a href="Saida.html" class="logout">
+                    <span>Histórico</span>
+                </a>
+                <a href="Saida.html" class="logout" id="nav-exit">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Sair</span>
+                </a>
+                <a href="#" class="settings-btn" id="settings-btn">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
                 </a>
             </nav>
         </aside>
 
         <main class="main-content">
-            
-            <header class="main-header">
-                <h1>Selecione seu Componente</h1>
-                <div class="search-container">
-                    <input type="text" class="search-input" placeholder="Pesquisar ferramentas...">
-                    <span class="search-icon-container">
-                        <i class="fas fa-search"></i>
-                    </span>
+            <h1 id="page-title">Ferramentas Disponíveis</h1>
+
+            <div class="tool-grid" id="tool-grid">
                 </div>
-            </header>
-
-            <div class="tool-grid" id="toolGrid">
-
-                
-
-            </div>
         </main>
     </div>
 
-    <div vw class="enabled">
-        <div vw-access-button class="active"></div>
-        <div vw-plugin-wrapper>
-            <div class="vw-plugin-top-wrapper"></div>
+    <div id="emprestimo-popup" class="popup-container hidden">
+        <div class="popup-box">
+            <button class="close-btn" id="close-emprestimo-popup">&times;</button>
+            <h2 id="emprestimo-title">Empréstimo de Ferramenta</h2>
+            <p id="emprestimo-tool-name"></p>
+            <form id="emprestimo-form">
+                <div class="form-group">
+                    <label for="cracha-input" id="label-cracha">Número do Crachá:</label>
+                    <input type="text" id="cracha-input" required />
+                </div>
+                <div class="form-group">
+                    <label for="observacoes-input" id="label-observacoes">Observações (opcional):</label>
+                    <textarea id="observacoes-input"></textarea>
+                </div>
+                <button type="submit" id="btn-emprestar">Emprestar Ferramenta</button>
+            </form>
         </div>
     </div>
-    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-    <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
-    </script>
-    
+
+    <div class="theme-popup hidden" id="theme-popup">
+        <div class="popup-header">
+            <h4 id="settings-popup-title">Configurações</h4>
+            <button class="close-btn" id="close-popup-btn">&times;</button>
+        </div>
+        <div class="popup-content-config">
+            <div class="config-section">
+                <p class="config-label" id="theme-label">Alternar Tema:</p>
+                <button id="theme-toggle-btn" class="theme-toggle-btn">
+                    <i class="fas fa-sun" id="sun-icon"></i>
+                    <i class="fas fa-moon" id="moon-icon"></i>
+                </button>
+                <p class="theme-status" id="theme-status">Tema Claro</p>
+            </div>
+            <div class="divider"></div>
+            <div class="config-section">
+                <p class="config-label" id="lang-label">Alternar Idioma:</p>
+                <button id="lang-toggle-btn" class="lang-toggle-btn">
+                    <span>PT</span>
+                </button>
+                <p class="lang-status" id="lang-status">Português</p>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

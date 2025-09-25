@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 /* Estilos Gerais */
 body {
     font-family: 'Roboto', Arial, sans-serif;
@@ -5,6 +7,7 @@ body {
     padding: 0;
     background-color: #f0f2f5;
     color: #333;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 /* Container do Dashboard */
@@ -21,8 +24,8 @@ body {
     padding: 2rem 1.5rem;
     display: flex;
     flex-direction: column;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    transition: width 0.3s ease;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s ease-in-out, background-color 0.3s;
 }
 
 .sidebar-header {
@@ -30,6 +33,46 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
     text-align: center;
+}
+
+/* Novo: Estilos para o perfil do usuário na sidebar */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+.user-profile i {
+    font-size: 2.5rem;
+    color: #b3cde0;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.user-details span {
+    font-size: 0.9rem;
+    color: #b3cde0;
+    opacity: 0.8;
+}
+
+.user-details h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .sidebar-nav {
@@ -55,13 +98,19 @@ body {
 }
 
 .sidebar-nav a i {
-    font-size: 1.5rem; /* Aumenta o tamanho do ícone */
-    margin-right: 15px; /* Adiciona espaço à direita do ícone */
+    font-size: 1.2rem;
+    margin-right: 1rem;
 }
 
-/* Estilos para o botão do hambúrguer */
+.settings-btn {
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+}
+
+/* Botão Hamburger */
 .hamburger-btn {
-    display: none; /* Inicia escondido em telas grandes */
+    display: none;
     position: fixed;
     top: 20px;
     left: 20px;
@@ -86,26 +135,16 @@ body {
     padding: 2rem;
 }
 
-.main-header {
-    background-color: white;
-    padding: 1.5rem 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    margin-bottom: 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.main-header h1 {
-    font-size: 2rem;
+/* Título principal da página */
+#page-title {
     color: #004b8d;
-    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    transition: color 0.3s;
 }
 
-/* Layout em Grid para as Ferramentas */
+/* Grade de Ferramentas */
 .tool-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -113,26 +152,25 @@ body {
     padding: 1rem 0;
 }
 
-/* Cards de Ferramentas */
 .tool-card {
     background: white;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     padding: 1.5rem;
     text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
     border: 1px solid #eee;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s;
 }
 
 .tool-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 .tool-card img {
-    width: 120px;
-    height: 120px;
-    object-fit: contain;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
     margin-bottom: 1rem;
 }
 
@@ -140,59 +178,266 @@ body {
     margin: 0.5rem 0;
     font-size: 1.2rem;
     color: #004b8d;
+    transition: color 0.3s;
 }
 
-.select-btn {
+.tool-card p {
+    color: #555;
+    margin: 0.25rem 0;
+    font-size: 0.95rem;
+    transition: color 0.3s;
+}
+
+.tool-card .status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+.status.disponivel {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status.emprestado {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.tool-card button {
     background-color: #0061c0;
     color: white;
     border: none;
-    padding: 0.8rem 1.5rem;
+    padding: 0.75rem 1.5rem;
     border-radius: 50px;
     cursor: pointer;
-    width: 100%;
+    font-size: 1rem;
     font-weight: bold;
-    transition: background-color 0.3s;
     margin-top: 1rem;
+    transition: background-color 0.3s ease;
 }
 
-.select-btn:hover {
+.tool-card button:hover {
     background-color: #004b8d;
 }
 
-/* Estilos para a barra de pesquisa */
-#poda {
-    position: relative;
+.tool-card button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
-.search-container {
-    position: relative;
+/* Pop-up de empréstimo */
+.popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
 }
 
-.search-input {
-    width: 300px;
-    padding: 10px 40px 10px 15px;
+.popup-box {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.popup-box h2 {
+    margin-top: 0;
+    color: #004b8d;
+    transition: color 0.3s;
+}
+
+.popup-box p {
+    margin: 0.5rem 0 1.5rem;
+    font-weight: bold;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.popup-box form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #555;
+    text-align: left;
+    transition: color 0.3s;
+}
+
+.popup-box form input,
+.popup-box form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1.5rem;
     border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+}
+
+.popup-box form button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
     border-radius: 50px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
-.search-input:focus {
-    outline: none;
-    border-color: #0061c0;
-    box-shadow: 0 0 5px rgba(0, 97, 192, 0.5);
+.popup-box form button:hover {
+    background-color: #218838;
 }
 
-.search-icon-container {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #aaa;
+.popup-container.hidden {
+    display: none;
+}
+
+/* Popup de Configurações */
+.theme-popup {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 280px;
+    padding: 1rem;
+    z-index: 99;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s;
+    text-align: center;
+}
+
+.theme-popup.visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.theme-popup.hidden {
+    display: none;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s;
+}
+
+.popup-header h4 {
+    margin: 0;
+    color: #004b8d;
+}
+
+.popup-header .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #888;
     cursor: pointer;
 }
 
-/* Responsividade para telas menores */
+.popup-content-config {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.config-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.config-label {
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
+    transition: color 0.3s;
+}
+
+.divider {
+    width: 80%;
+    height: 1px;
+    background-color: #ddd;
+    margin: 1rem 0;
+    transition: background-color 0.3s;
+}
+
+.theme-toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2.5rem;
+    color: #004b8d;
+    transition: transform 0.3s ease;
+    width: 60px;
+    height: 60px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.theme-toggle-btn:hover {
+    transform: scale(1.1);
+}
+
+.theme-toggle-btn .fa-sun,
+.theme-toggle-btn .fa-moon {
+    position: absolute;
+    transition: opacity 0.3s ease;
+}
+
+.theme-toggle-btn .fa-moon {
+    opacity: 0;
+}
+
+.theme-status, .lang-status {
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
+    transition: color 0.3s;
+}
+
+.lang-toggle-btn {
+    background: #0061c0;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.lang-toggle-btn:hover {
+    background-color: #004b8d;
+}
+
+/* Responsividade */
 @media (max-width: 768px) {
     .dashboard-container {
         flex-direction: column;
@@ -201,51 +446,166 @@ body {
     .sidebar {
         position: fixed;
         top: 0;
-        left: -250px; /* Esconde a barra lateral fora da tela */
+        left: -250px;
         height: 100vh;
         width: 250px;
         padding: 2rem 1.5rem;
         transition: left 0.3s ease-in-out;
         z-index: 100;
-        box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
     }
-    
+
     .sidebar.active {
-        left: 0; /* Move a barra lateral para dentro da tela quando a classe 'active' é adicionada */
-    }
-
-    .sidebar-header {
-        text-align: left;
-    }
-
-    .sidebar-nav {
-        flex-direction: column;
-        display: flex; /* Garante que a nav esteja visível na barra lateral */
-    }
-
-    .main-content {
-        padding: 1rem;
-    }
-
-    .main-header {
-        padding: 1rem;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .search-input {
-        width: 100%;
+        left: 0;
     }
     
-    .tool-grid {
-        gap: 1rem;
-    }
-    
-    .tool-card {
-        padding: 1rem;
+    .user-profile {
+        display: none; /* Esconde o perfil do usuário em telas menores */
     }
 
     .hamburger-btn {
-        display: block; /* Mostra o botão do hambúrguer em telas pequenas */
+        display: block;
     }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 1rem;
+    }
+
+    #page-title {
+        font-size: 1.5rem;
+    }
+
+    .tool-grid {
+        gap: 1rem;
+    }
+}
+
+/* Estilos do Tema Escuro */
+body.dark-theme {
+    background-color: #2c2c2c;
+    color: #f0f2f5;
+}
+
+body.dark-theme .sidebar {
+    background-color: #1a1a1a;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .user-profile {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-theme .user-profile i {
+    color: #ccc;
+}
+
+body.dark-theme .user-details span {
+    color: #b3cde0;
+}
+
+body.dark-theme .user-details h4 {
+    color: #fff;
+}
+
+body.dark-theme .sidebar-nav a {
+    color: #ccc;
+}
+
+body.dark-theme .sidebar-nav a:hover,
+body.dark-theme .sidebar-nav a.active {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-theme #page-title {
+    color: #fff;
+}
+
+body.dark-theme .tool-card {
+    background-color: #555;
+    border-color: #666;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .tool-card h3 {
+    color: #b3cde0;
+}
+
+body.dark-theme .tool-card p {
+    color: #ccc;
+}
+
+body.dark-theme .status.disponivel {
+    background-color: #216a30;
+    color: #d4edda;
+}
+
+body.dark-theme .status.emprestado {
+    background-color: #8b3c43;
+    color: #f8d7da;
+}
+
+body.dark-theme .tool-card button {
+    background-color: #004b8d;
+}
+
+body.dark-theme .tool-card button:hover {
+    background-color: #003a7a;
+}
+
+/* Tema escuro para os pop-ups */
+body.dark-theme .popup-box {
+    background-color: #444;
+}
+
+body.dark-theme .popup-box h2 {
+    color: #b3cde0;
+}
+
+body.dark-theme .popup-box p,
+body.dark-theme .popup-box form label {
+    color: #ccc;
+}
+
+body.dark-theme .popup-box form input,
+body.dark-theme .popup-box form textarea {
+    background-color: #555;
+    color: #fff;
+    border-color: #666;
+}
+
+body.dark-theme .popup-box form input::placeholder,
+body.dark-theme .popup-box form textarea::placeholder {
+    color: #ccc;
+}
+
+body.dark-theme .theme-popup {
+    background-color: #444;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    color: #f0f2f5;
+}
+
+body.dark-theme .popup-header h4 {
+    color: #b3cde0;
+}
+
+body.dark-theme .popup-content-config .config-label,
+body.dark-theme .theme-status,
+body.dark-theme .lang-status {
+    color: #ccc;
+}
+
+body.dark-theme .divider {
+    background-color: #555;
+}
+
+body.dark-theme .theme-toggle-btn .fa-sun {
+    opacity: 0;
+}
+
+body.dark-theme .theme-toggle-btn .fa-moon {
+    opacity: 1;
+    color: #f1c40f;
 }
