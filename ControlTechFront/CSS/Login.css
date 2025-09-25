@@ -358,3 +358,7 @@ footer {
     margin-bottom: 1rem;
 }
 
+/* Estilo adicional para diferenciar */
+#popupCadastro .popup-content {
+  border-top: 5px solid #4CAF50;
+}

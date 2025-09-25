@@ -30,11 +30,19 @@ btnCadastrar?.addEventListener('click', async () => {
 
     if (res.ok) {
       const criado = await res.json();
-      alert(`Usuário cadastrado com sucesso: ${criado.nome}`);
+
       // Limpar formulário
       nomeCadastro.value = '';
       perfilCadastro.value = '';
       cadastroQrInput.value = '';
+
+      // === Mostrar popup de cadastro ===
+      const popupCadastro = document.getElementById("popupCadastro");
+      const popupNomeCadastro = document.getElementById("popupNomeCadastro");
+      if (popupCadastro && popupNomeCadastro) {
+        popupNomeCadastro.textContent = criado.nome;
+        popupCadastro.classList.remove("hidden");
+      }
     } else {
       const erro = await res.text();
       statusMsgCadastro.textContent = "Erro ao cadastrar usuário: " + erro;
@@ -43,4 +51,9 @@ btnCadastrar?.addEventListener('click', async () => {
     console.error(err);
     statusMsgCadastro.textContent = "Erro de conexão com o servidor.";
   }
+});
+
+// === Fechar popup ===
+document.getElementById("fecharPopupCadastro")?.addEventListener("click", () => {
+  document.getElementById("popupCadastro").classList.add("hidden");
 });
