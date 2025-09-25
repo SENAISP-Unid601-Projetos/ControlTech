@@ -60,4 +60,8 @@ public class HistoricoService {
         dto.setObservacoes(h.getObservacoes());
         return dto;
     }
+
+    public void deletarTodos() {
+        historicoRepository.deleteAll();
+    }
 }

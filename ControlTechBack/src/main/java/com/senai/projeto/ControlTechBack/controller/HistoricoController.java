@@ -37,4 +37,10 @@ public class HistoricoController {
     public void deletarHistoricoDoUsuario(@PathVariable Long usuarioId) {
         historicoService.deletarPorUsuario(usuarioId);
     }
+    // Excluir todo o histórico do sistema (todos os usuários)
+    @DeleteMapping("/todos")
+    public void deletarTodos() {
+        historicoService.deletarTodos();
+    }
+
 }
