@@ -36,7 +36,7 @@ document.getElementById('fecharPopup')?.addEventListener('click', () => {
     }
 });
 
-// ----- Abrir cadastro -----
+// ----- Abrir cadastro (Lógica de Transição de Tela) -----
 const abrirCadastro = document.getElementById('abrirCadastro');
 const cadastroBox = document.getElementById('cadastroBox');
 const loginContainer = document.getElementById('loginContainer');
@@ -65,7 +65,11 @@ const infoAluno = document.getElementById('infoAluno');
 btnLerQr?.addEventListener('click', () => {
     // @ts-ignore
     const file = loginQrInput.files[0];
-    if (!file) return alert("Selecione um QR Code!");
+    if (!file) {
+        // @ts-ignore
+        fileNameLoginStatus.textContent = "Selecione um arquivo de QR Code!"; // Alerta no status
+        return;
+    }
 
     btnLerQr.classList.add('loading');
     btnLerQr.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
@@ -75,15 +79,18 @@ btnLerQr?.addEventListener('click', () => {
         btnLerQr.classList.remove('loading');
         btnLerQr.innerHTML = '<i class="fas fa-qrcode"></i> Ler QR Code';
 
-        exibirUsuario(usuario);  
+        exibirUsuario(usuario);  
         salvarUsuarioLogado(usuario);
         // @ts-ignore
         statusMsgLogin.textContent = "";
         // @ts-ignore
         infoAluno.style.display = "block";
+        // @ts-ignore
+        fileNameLoginStatus.textContent = "Pronto para entrar!"; // Confirmação de leitura
 
         setTimeout(() => {
-            window.location.href = "/HTML/Ferramentas.html";
+            // Removendo redirecionamento automático
+            // window.location.href = "/HTML/Ferramentas.html"; 
         }, 300);
     // @ts-ignore
     }, (err) => {
@@ -95,10 +102,12 @@ btnLerQr?.addEventListener('click', () => {
         statusMsgLogin.textContent = "QR Code inválido. Tente novamente.";
         // @ts-ignore
         infoAluno.style.display = "none";
+        // @ts-ignore
+        fileNameLoginStatus.textContent = "Erro na leitura do arquivo."; // Status de erro
     });
 });
 
-// ----- Funções auxiliares -----
+// ----- Funções auxiliares (salvar e exibir) -----
 // @ts-ignore
 function salvarUsuarioLogado(usuario) {
     console.log("Usuário recebido do backend:", usuario);
@@ -136,30 +145,21 @@ function exibirLoginUsuario(usuario) {
     salvarUsuarioLogado(usuario);
 }
 
-// --- Código para exibir o nome do arquivo no LOGIN ---
-const fileNameDisplay = document.getElementById('fileNameDisplay');
+// ========================================================
+// ✅ CÓDIGO INSERIDO: Exibir nome do arquivo de forma CENTRALIZADA
+// ========================================================
+const fileNameLoginStatus = document.getElementById('fileNameLoginStatus'); // Referência ao novo elemento <p>
+
 loginQrInput?.addEventListener('change', () => {
     // @ts-ignore
-    if (loginQrInput.files.length > 0) {
+    if (loginQrInput.files && loginQrInput.files.length > 0) {
         // @ts-ignore
-        fileNameDisplay.textContent = loginQrInput.files[0].name;
+        fileNameLoginStatus.textContent = `Arquivo "${loginQrInput.files[0].name}" carregado.`;
+        // Você pode adicionar um estilo temporário para destacar que foi carregado:
+        // fileNameLoginStatus.style.color = '#00b41b';
     } else {
         // @ts-ignore
-        fileNameDisplay.textContent = 'Nenhum arquivo escolhido';
-    }
-});
-
-// --- NOVO CÓDIGO para exibir o nome do arquivo no CADASTRO ---
-const cadastroQrInput = document.getElementById('cadastroQrInput');
-const cadastroFileNameDisplay = document.getElementById('cadastroFileNameDisplay');
-
-cadastroQrInput?.addEventListener('change', () => {
-    // @ts-ignore
-    if (cadastroQrInput.files.length > 0) {
-        // @ts-ignore
-        cadastroFileNameDisplay.textContent = cadastroQrInput.files[0].name;
-    } else {
-        // @ts-ignore
-        cadastroFileNameDisplay.textContent = 'Nenhum arquivo escolhido';
+        fileNameLoginStatus.textContent = 'Nenhum arquivo selecionado';
+        // fileNameLoginStatus.style.color = '#888';
     }
 });
