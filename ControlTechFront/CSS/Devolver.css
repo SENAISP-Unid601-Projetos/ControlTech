@@ -340,3 +340,155 @@ textarea:focus {
     font-weight: 500;
     grid-column: 1 / -1; /* Faz ocupar toda a largura do grid */
 }
+/* === ADIÇÕES PARA PERFIL, CONFIGURAÇÕES E TEMA ESCURO === */
+
+/* Estilos do perfil do usuário */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+.user-profile i {
+    font-size: 2.5rem;
+    color: #b3cde0;
+    transition: color 0.3s;
+}
+.user-details {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.user-details span {
+    font-size: 0.9rem;
+    color: #b3cde0;
+    opacity: 0.8;
+    transition: color 0.3s;
+}
+.user-details h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+    transition: color 0.3s;
+}
+
+/* Botão de Configurações */
+.settings-btn {
+    margin-top: auto;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.settings-btn:hover {
+    background-color: #0061c0 !important;
+}
+
+/* Popup de Configurações (Mesmo estilo da página Ferramentas) */
+.theme-popup {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 280px;
+    padding: 1rem;
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s;
+    text-align: center;
+}
+.theme-popup.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition-delay: 0s;
+}
+.theme-popup.hidden { display: none; } /* Fallback */
+
+.popup-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; transition: border-color 0.3s; }
+.popup-header h4 { margin: 0; color: #004b8d; transition: color 0.3s; }
+.popup-header .close-btn { background: none; border: none; font-size: 1.5rem; color: #888; cursor: pointer; transition: color 0.3s; }
+.popup-content-config { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.config-section { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.config-label { margin: 0; font-size: 1rem; color: #555; transition: color 0.3s; }
+.divider { width: 80%; height: 1px; background-color: #ddd; margin: 0.5rem 0; transition: background-color 0.3s; }
+.theme-toggle-btn { background: none; border: none; cursor: pointer; font-size: 2.5rem; color: #004b8d; transition: transform 0.3s ease, color 0.3s; width: 60px; height: 60px; position: relative; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+.theme-toggle-btn:hover { transform: scale(1.1); }
+.theme-toggle-btn .fa-sun, .theme-toggle-btn .fa-moon { position: absolute; transition: opacity 0.3s ease, transform 0.3s ease; }
+.theme-toggle-btn .fa-moon { opacity: 0; transform: translateY(10px); }
+.theme-toggle-btn .fa-sun { opacity: 1; transform: translateY(0); }
+.theme-status, .lang-status { margin: 0; font-size: 1rem; color: #555; transition: color 0.3s; }
+.lang-toggle-btn { background: #0061c0; color: white; border: none; border-radius: 8px; padding: 10px 20px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background-color 0.3s; }
+.lang-toggle-btn:hover { background-color: #004b8d; }
+
+/* Esconde perfil em mobile */
+@media (max-width: 768px) {
+    .user-profile {
+        display: none;
+    }
+}
+
+/* === ESTILOS DO TEMA ESCURO === */
+body.dark-theme {
+    background-color: #2c2c2c;
+    color: #f0f2f5;
+}
+
+body.dark-theme .sidebar { background-color: #1a1a1a; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); }
+body.dark-theme .user-profile { background-color: rgba(255, 255, 255, 0.05); }
+body.dark-theme .user-profile i { color: #ccc; }
+body.dark-theme .user-details span { color: #b3cde0; }
+body.dark-theme .user-details h4 { color: #fff; }
+body.dark-theme .sidebar-nav a { color: #ccc; }
+body.dark-theme .sidebar-nav a:hover, body.dark-theme .sidebar-nav a.active { background-color: #333; color: #fff; }
+body.dark-theme .hamburger-btn { background: #1a1a1a; color: #f0f2f5; }
+body.dark-theme .settings-btn { background-color: rgba(255, 255, 255, 0.1); }
+body.dark-theme .settings-btn:hover { background-color: #333 !important; }
+
+body.dark-theme .devolucao-box { background-color: #333; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); }
+body.dark-theme .devolucao-box h1 { color: #b3cde0; }
+body.dark-theme .info-box { background: #444; color: #f0f2f5; }
+body.dark-theme .info-box label { color: #ccc; }
+body.dark-theme .input-field, body.dark-theme textarea { background-color: #555; color: #fff; border-color: #666; box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2); }
+body.dark-theme .input-field::placeholder, body.dark-theme textarea::placeholder { color: #999; }
+body.dark-theme .input-field:focus, body.dark-theme textarea:focus { border-color: #0061c0; box-shadow: 0 0 6px rgba(37, 99, 235, 0.5); }
+body.dark-theme .mensagem.msg-success { background-color: #1f4d3a; color: #a3e9c7; } /* Verde escuro */
+body.dark-theme .mensagem.msg-error { background-color: #5f2120; color: #f9bdbb; } /* Vermelho escuro */
+
+body.dark-theme .ferramenta-item { background: #444; border-color: #555; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
+body.dark-theme .ferramenta-item:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+body.dark-theme .ferramenta-item p { color: #ccc; }
+body.dark-theme .ferramenta-item p strong { color: #f0f2f5; }
+body.dark-theme .ferramenta-item .obsInput { background-color: #555; color: #fff; border: 1px solid #666; }
+body.dark-theme .ferramenta-item .obsInput::placeholder { color: #999; }
+body.dark-theme .btnDevolver { background-color: #0061c0; }
+body.dark-theme .btnDevolver:hover { background-color: #004b8d; }
+body.dark-theme .lista-vazia { background: #3a3a3a; border-color: #555; color: #aaa; }
+
+body.dark-theme .modal-content { background-color: #444; color: #f0f2f5; }
+body.dark-theme .modal-btn-confirm { background-color: #0061c0; }
+body.dark-theme .modal-btn-cancel { background-color: #777; color: #fff; }
+
+/* Tema escuro para o popup de config */
+body.dark-theme .theme-popup { background-color: #444; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); color: #f0f2f5; }
+body.dark-theme .popup-header { border-bottom: 1px solid #555; }
+body.dark-theme .popup-header h4 { color: #b3cde0; }
+body.dark-theme .popup-header .close-btn { color: #aaa; }
+body.dark-theme .popup-content-config .config-label, body.dark-theme .theme-status, body.dark-theme .lang-status { color: #ccc; }
+body.dark-theme .divider { background-color: #555; }
+body.dark-theme .theme-toggle-btn { color: #b3cde0; }
+body.dark-theme .theme-toggle-btn .fa-sun { opacity: 0; transform: translateY(-10px); }
+body.dark-theme .theme-toggle-btn .fa-moon { opacity: 1; transform: translateY(0); color: #f1c40f; }
+body.dark-theme .lang-toggle-btn { background-color: #0061c0; }
+body.dark-theme .lang-toggle-btn:hover { background-color: #004b8d; }

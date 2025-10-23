@@ -1,16 +1,25 @@
+/* === ESTILOS ORIGINAIS DA MAIN + ADIÇÕES DE TEMA/IDIOMA === */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
+/* Estilos Gerais */
 body {
     font-family: 'Roboto', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(to bottom, #f0f2f5, #e2e6ea); /* fundo mais interessante */
+    background: linear-gradient(to bottom, #f0f2f5, #e2e6ea); /* Fundo original */
     color: #333;
+    transition: background-color 0.3s, color 0.3s; /* Transição para tema */
 }
 
-/* Sidebar */
+/* Container do Dashboard */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Barra Lateral */
 .sidebar {
-    position: relative;
+    position: relative; /* Mudado de volta para relative */
     width: 250px;
     background-color: #004b8d;
     color: white;
@@ -18,7 +27,7 @@ body {
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    transition: width 0.3s ease;
+    transition: width 0.3s ease, left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s; /* Adicionado left e transições de tema */
 }
 
 .sidebar-header {
@@ -27,6 +36,13 @@ body {
     font-weight: 700;
     text-align: center;
 }
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Adicionado para empurrar config para baixo */
+}
+
 .sidebar-nav a {
     display: flex;
     align-items: center;
@@ -37,40 +53,51 @@ body {
     border-radius: 8px;
     transition: background-color 0.3s, color 0.3s;
 }
+
 .sidebar-nav a:hover,
 .sidebar-nav a.active {
     background-color: #0061c0;
     color: white;
 }
+
 .sidebar-nav a i {
     font-size: 1.5rem;
     margin-right: 15px;
 }
 
-/* Main content */
-.dashboard-container {
-    display: flex;
-    min-height: 100vh;
-}
+/* Conteúdo Principal */
 .main-content {
     flex-grow: 1;
     padding: 2rem;
+    transition: background-color 0.3s; /* Adicionado */
 }
+
 .main-header {
     background-color: white;
     padding: 1.5rem 2rem;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     margin-bottom: 2rem;
+    display: flex; /* Adicionado para alinhar botões */
+    justify-content: space-between; /* Adicionado */
+    align-items: center; /* Adicionado */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Adicionado */
 }
 
-/* Botões de seleção */
+.main-header h1 { /* Adicionado para consistência */
+    margin: 0;
+    font-size: 2rem;
+    color: #004b8d;
+    transition: color 0.3s;
+}
+
+/* Botões de seleção (Original) */
 .select-btn {
     background-color: #004b8d;
     color: white;
     border: none;
     padding: 10px 20px;
-    margin-right: 10px;
+    margin-left: 10px; /* Ajustado de margin-right */
     border-radius: 8px;
     font-size: 0.95rem;
     font-weight: 600;
@@ -82,70 +109,78 @@ body {
     background-color: #0061c0;
 }
 
-.select-btn.active {
+.select-btn.active { /* Estilo do botão ativo */
     background-color: #0080ff;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
 }
 
-/* Cards de ferramentas */
-.tool-grid {
+/* Container de Histórico (Original - Grid) */
+.historico-grid { /* Renomeado de .tool-grid */
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Ajustado minmax */
     gap: 2rem;
     padding: 1rem 0;
 }
-.tool-card {
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    padding: 1.5rem;
-    text-align: left;
-    border: 1px solid #eee;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-.tool-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-}
-.tool-card h3 {
-    margin: 0.5rem 0;
-    font-size: 1.2rem;
-    color: #004b8d;
-}
 
-/* Cards de histórico */
+/* Cards de histórico (Original) */
 .historico-card {
     background: #ffffff;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     border-left: 6px solid #004b8d;
     padding: 1.5rem;
-    margin-bottom: 1rem;
-    transition: transform 0.2s, box-shadow 0.2s, border-left-color 0.3s;
+    margin-bottom: 0; /* Removido margin-bottom, gap cuida disso */
+    transition: transform 0.2s, box-shadow 0.2s, border-left-color 0.3s, background-color 0.3s; /* Adicionado background */
 }
+
 .historico-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(0,0,0,0.12);
     border-left-color: #0061c0;
 }
+
 .historico-card h3 {
-    margin: 0.5rem 0;
+    margin: 0 0 0.8rem 0; /* Ajustado margin */
     font-size: 1.2rem;
     color: #004b8d;
-}
-.historico-card p {
-    margin: 4px 0;
-    color: #555;
-    font-size: 0.95rem;
-}
-.historico-card p strong {
-    color: #000;
-}
-.historico-card .observacoes {
-    font-style: italic;
-    color: #777;
+    transition: color 0.3s; /* Adicionado */
 }
 
-/* Hamburger */
+.historico-card p {
+    margin: 6px 0; /* Ajustado margin */
+    color: #555;
+    font-size: 0.95rem;
+    transition: color 0.3s; /* Adicionado */
+}
+
+.historico-card p strong {
+    color: #333; /* Ajustado */
+    transition: color 0.3s; /* Adicionado */
+    margin-right: 5px; /* Espaço após o label */
+}
+
+.historico-card .observacoes { /* Classe específica para observações */
+    margin-top: 10px;
+    font-style: italic;
+    color: #777;
+    transition: color 0.3s; /* Adicionado */
+}
+
+/* Mensagem de lista vazia ou erro */
+.historico-grid p.lista-vazia,
+.historico-grid p.mensagem.msg-error {
+    grid-column: 1 / -1; /* Ocupa toda a largura do grid */
+    text-align: center;
+    padding: 2rem;
+    margin-top: 1rem;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    color: #777;
+    background-color: #f9f9f9;
+}
+
+
+/* Hamburger (Original) */
 .hamburger-btn {
     display: none;
     position: fixed;
@@ -159,9 +194,47 @@ body {
     font-size: 1.5rem;
     cursor: pointer;
     border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s; /* Adicionado */
+}
+.hamburger-btn i { /* Estilo para o ícone */
+     font-size: 1.5rem;
 }
 
-/* Responsivo */
+
+/* === ADIÇÕES PARA PERFIL, CONFIGURAÇÕES E TEMA ESCURO === */
+
+/* Estilos do perfil do usuário */
+.user-profile { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; background-color: rgba(255, 255, 255, 0.1); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); transition: background-color 0.3s; }
+.user-profile i { font-size: 2.5rem; color: #b3cde0; transition: color 0.3s; }
+.user-details { display: flex; flex-direction: column; text-align: left; }
+.user-details span { font-size: 0.9rem; color: #b3cde0; opacity: 0.8; transition: color 0.3s; }
+.user-details h4 { margin: 0; font-size: 1.1rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; transition: color 0.3s; }
+
+/* Botão de Configurações */
+.settings-btn { margin-top: auto; background-color: rgba(0, 0, 0, 0.2); }
+.settings-btn:hover { background-color: #0061c0 !important; }
+
+/* Popup de Configurações */
+.theme-popup { position: fixed; bottom: 20px; left: 20px; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); width: 280px; padding: 1rem; z-index: 99; opacity: 0; visibility: hidden; transform: translateY(20px); transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s; text-align: center; }
+.theme-popup.visible { opacity: 1; visibility: visible; transform: translateY(0); transition-delay: 0s; }
+.theme-popup.hidden { display: none; }
+.popup-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; transition: border-color 0.3s; }
+.popup-header h4 { margin: 0; color: #004b8d; transition: color 0.3s; }
+.popup-header .close-btn { background: none; border: none; font-size: 1.5rem; color: #888; cursor: pointer; transition: color 0.3s; }
+.popup-content-config { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.config-section { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.config-label { margin: 0; font-size: 1rem; color: #555; transition: color 0.3s; }
+.divider { width: 80%; height: 1px; background-color: #ddd; margin: 0.5rem 0; transition: background-color 0.3s; }
+.theme-toggle-btn { background: none; border: none; cursor: pointer; font-size: 2.5rem; color: #004b8d; transition: transform 0.3s ease, color 0.3s; width: 60px; height: 60px; position: relative; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+.theme-toggle-btn:hover { transform: scale(1.1); }
+.theme-toggle-btn .fa-sun, .theme-toggle-btn .fa-moon { position: absolute; transition: opacity 0.3s ease, transform 0.3s ease; }
+.theme-toggle-btn .fa-moon { opacity: 0; transform: translateY(10px); }
+.theme-toggle-btn .fa-sun { opacity: 1; transform: translateY(0); }
+.theme-status, .lang-status { margin: 0; font-size: 1rem; color: #555; transition: color 0.3s; }
+.lang-toggle-btn { background: #0061c0; color: white; border: none; border-radius: 8px; padding: 10px 20px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background-color 0.3s; }
+.lang-toggle-btn:hover { background-color: #004b8d; }
+
+/* Responsivo (Original + Esconder perfil) */
 @media (max-width: 768px) {
     .dashboard-container {
         flex-direction: column;
@@ -172,6 +245,7 @@ body {
         left: -250px;
         height: 100vh;
         z-index: 100;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.5); /* Sombra mais forte no mobile */
     }
     .sidebar.active {
         left: 0;
@@ -179,7 +253,56 @@ body {
     .hamburger-btn {
         display: block;
     }
-    .tool-grid {
+    .user-profile { /* Esconde perfil em mobile */
+        display: none;
+    }
+    .main-content {
+        padding: 4rem 1rem 1rem 1rem; /* Padding superior para header */
+    }
+    .historico-grid {
+        grid-template-columns: 1fr; /* Uma coluna em mobile */
         gap: 1rem;
     }
 }
+
+/* === ESTILOS DO TEMA ESCURO === */
+body.dark-theme { background: #2c2c2c; color: #f0f2f5; }
+body.dark-theme .sidebar { background-color: #1a1a1a; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); }
+body.dark-theme .user-profile { background-color: rgba(255, 255, 255, 0.05); }
+body.dark-theme .user-profile i { color: #ccc; }
+body.dark-theme .user-details span { color: #b3cde0; }
+body.dark-theme .user-details h4 { color: #fff; }
+body.dark-theme .sidebar-nav a { color: #ccc; }
+body.dark-theme .sidebar-nav a:hover, body.dark-theme .sidebar-nav a.active { background-color: #333; color: #fff; }
+body.dark-theme .hamburger-btn { background: #1a1a1a; color: #f0f2f5; }
+body.dark-theme .settings-btn { background-color: rgba(255, 255, 255, 0.1); }
+body.dark-theme .settings-btn:hover { background-color: #333 !important; }
+
+body.dark-theme .main-header { background-color: #333; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); }
+body.dark-theme .main-header h1 { color: #b3cde0; }
+body.dark-theme .select-btn { background-color: #0061c0; }
+body.dark-theme .select-btn:hover { background-color: #004b8d; }
+body.dark-theme .select-btn.active { background-color: #0080ff; }
+
+body.dark-theme .historico-card { background: #444; border-left-color: #0061c0; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); }
+body.dark-theme .historico-card:hover { border-left-color: #0080ff; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3); }
+body.dark-theme .historico-card h3 { color: #b3cde0; }
+body.dark-theme .historico-card p { color: #ccc; }
+body.dark-theme .historico-card p strong { color: #f0f2f5; }
+body.dark-theme .historico-card .observacoes { color: #aaa; }
+body.dark-theme .historico-grid p.lista-vazia,
+body.dark-theme .historico-grid p.mensagem.msg-error { background-color: #3a3a3a; border-color: #555; color: #aaa; }
+
+
+/* Tema escuro para o popup de config */
+body.dark-theme .theme-popup { background-color: #444; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); color: #f0f2f5; }
+body.dark-theme .popup-header { border-bottom: 1px solid #555; }
+body.dark-theme .popup-header h4 { color: #b3cde0; }
+body.dark-theme .popup-header .close-btn { color: #aaa; }
+body.dark-theme .popup-content-config .config-label, body.dark-theme .theme-status, body.dark-theme .lang-status { color: #ccc; }
+body.dark-theme .divider { background-color: #555; }
+body.dark-theme .theme-toggle-btn { color: #b3cde0; }
+body.dark-theme .theme-toggle-btn .fa-sun { opacity: 0; transform: translateY(-10px); }
+body.dark-theme .theme-toggle-btn .fa-moon { opacity: 1; transform: translateY(0); color: #f1c40f; }
+body.dark-theme .lang-toggle-btn { background-color: #0061c0; }
+body.dark-theme .lang-toggle-btn:hover { background-color: #004b8d; }
