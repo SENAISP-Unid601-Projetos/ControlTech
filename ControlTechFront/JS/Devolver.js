@@ -1,16 +1,28 @@
 // Dicionário de traduções
 const translations = {
     'pt': {
-        'pageTitle': 'Devolver Ferramenta',
+        'pageTitle': 'Devolução de Itens - SENAI',
         'sidebarTools': 'Ferramentas',
         'sidebarReturn': 'Devolver',
         'sidebarHelp': 'Ajuda',
         'sidebarHistory': 'Histórico',
         'sidebarExit': 'Sair',
         'sidebarSettings': 'Configurações',
-        'labelCracha': 'Número do Crachá:',
-        'labelFerramentaId': 'ID da Ferramenta:',
-        'btnDevolver': 'Devolver Ferramenta',
+        'formTitle': 'Devolução de Itens',
+        'labelIdFunc': 'ID do Funcionário:',
+        'labelNomeFunc': 'Nome:',
+        'labelData': 'Data:',
+        'labelHorario': 'Horário:',
+        'listaVazia': 'Nenhuma ferramenta associada a este usuário.',
+        'btnDevolver': 'Devolver',
+        'obsPlaceholder': 'Observações (opcional)',
+        'modalText': 'Tem certeza que deseja devolver esta ferramenta?',
+        'modalBtnSim': 'Sim',
+        'modalBtnCancelar': 'Cancelar',
+        'msgSucessoDevolucao': 'Devolução registrada com sucesso!',
+        'msgErroDevolver': 'Erro ao devolver a ferramenta.',
+        'msgErroCarregar': 'Erro ao carregar ferramentas.',
+        'msgNaoLogado': 'Faça login para ver suas ferramentas.',
         'settingsPopupTitle': 'Configurações',
         'themeLabel': 'Alternar Tema:',
         'themeStatusLight': 'Tema Claro',
@@ -21,16 +33,28 @@ const translations = {
         'welcomeMessage': 'Olá,'
     },
     'en': {
-        'pageTitle': 'Return Tool',
+        'pageTitle': 'Item Return - SENAI',
         'sidebarTools': 'Tools',
         'sidebarReturn': 'Return',
         'sidebarHelp': 'Help',
         'sidebarHistory': 'History',
         'sidebarExit': 'Exit',
         'sidebarSettings': 'Settings',
-        'labelCracha': 'Badge Number:',
-        'labelFerramentaId': 'Tool ID:',
-        'btnDevolver': 'Return Tool',
+        'formTitle': 'Item Return',
+        'labelIdFunc': 'Employee ID:',
+        'labelNomeFunc': 'Name:',
+        'labelData': 'Date:',
+        'labelHorario': 'Time:',
+        'listaVazia': 'No tools associated with this user.',
+        'btnDevolver': 'Return',
+        'obsPlaceholder': 'Observations (optional)',
+        'modalText': 'Are you sure you want to return this tool?',
+        'modalBtnSim': 'Yes',
+        'modalBtnCancelar': 'Cancel',
+        'msgSucessoDevolucao': 'Return registered successfully!',
+        'msgErroDevolver': 'Error returning the tool.',
+        'msgErroCarregar': 'Error loading tools.',
+        'msgNaoLogado': 'Log in to see your tools.',
         'settingsPopupTitle': 'Settings',
         'themeLabel': 'Toggle Theme:',
         'themeStatusLight': 'Light Theme',
@@ -43,49 +67,99 @@ const translations = {
 };
 
 // --- FUNÇÕES DE LÓGICA DE TEMA E IDIOMA ---
+
 const updateTranslations = (lang) => {
-    const trans = translations[lang];
+    const currentLang = translations[lang] ? lang : 'pt';
+    const trans = translations[currentLang];
+    if (!trans) return console.error("Traduções não encontradas para:", currentLang);
 
-    document.title = trans.pageTitle;
-    
-    // Traduzir a barra lateral (navbar)
-    document.getElementById('nav-tools').querySelector('span').textContent = trans.sidebarTools;
-    document.getElementById('nav-return').querySelector('span').textContent = trans.sidebarReturn;
-    document.getElementById('nav-help').querySelector('span').textContent = trans.sidebarHelp;
-    document.getElementById('nav-history').querySelector('span').textContent = trans.sidebarHistory;
-    document.getElementById('nav-exit').querySelector('span').textContent = trans.sidebarExit;
-    document.getElementById('settings-btn').querySelector('span').textContent = trans.sidebarSettings;
+    document.documentElement.lang = currentLang === 'pt' ? 'pt-BR' : 'en';
+    document.title = trans.pageTitle || 'Devolução - SENAI';
 
-    // Traduzir o conteúdo principal
-    document.getElementById('page-title').textContent = trans.pageTitle;
-    document.getElementById('label-cracha-devolver').textContent = trans.labelCracha;
-    document.getElementById('label-ferramenta-id-devolver').textContent = trans.labelFerramentaId;
-    document.getElementById('btn-devolver').textContent = trans.btnDevolver;
+    const setText = (id, key) => {
+        const element = document.getElementById(id);
+        if (element) element.textContent = trans[key] || '';
+        else console.warn(`Elemento ID '${id}' não encontrado.`);
+    };
+    const setSpanText = (id, key) => {
+        const element = document.getElementById(id)?.querySelector('span');
+        if (element) element.textContent = trans[key] || '';
+        else console.warn(`Span dentro do ID '${id}' não encontrado.`);
+    };
 
-    // Traduzir o pop-up de configurações
-    document.getElementById('settings-popup-title').textContent = trans.settingsPopupTitle;
-    document.getElementById('theme-label').textContent = trans.themeLabel;
-    document.getElementById('lang-label').textContent = trans.langLabel;
+    // Barra lateral
+    setSpanText('nav-tools', 'sidebarTools');
+    setSpanText('nav-return', 'sidebarReturn');
+    setSpanText('nav-help', 'sidebarHelp');
+    setSpanText('nav-history', 'sidebarHistory');
+    setSpanText('nav-exit', 'sidebarExit');
+    setSpanText('settings-btn', 'sidebarSettings');
 
-    // Atualizar o status do tema e idioma
-    updateThemeStatus(document.body.classList.contains('dark-theme') ? 'dark' : 'light', lang);
-    updateLanguageStatus(lang);
-    displayUserName(lang); // Atualiza a mensagem de boas-vindas
+    // Conteúdo Principal
+    setText('form-title', 'formTitle');
+    setText('label-id-func', 'labelIdFunc');
+    setText('label-nome-func', 'labelNomeFunc');
+    setText('label-data', 'labelData');
+    setText('label-horario', 'labelHorario');
+
+    // Modal
+    setText('modal-text', 'modalText');
+    setText('confirmBtn', 'modalBtnSim');
+    setText('cancelBtn', 'modalBtnCancelar');
+
+    // Popup Configurações
+    setText('settings-popup-title', 'settingsPopupTitle');
+    setText('theme-label', 'themeLabel');
+    setText('lang-label', 'langLabel');
+
+    // Atualiza textos de status
+    updateThemeStatusText(document.body.classList.contains('dark-theme') ? 'dark' : 'light', currentLang);
+    updateLanguageStatusText(currentLang);
+    displayUserName(currentLang);
+
+    // Recarrega lista de ferramentas para traduzir botões/placeholders
+    const usuario = getUsuarioLogado();
+    if (usuario && typeof carregarFerramentas === 'function') {
+        carregarFerramentas(usuario.id);
+    } else {
+        // Limpa a lista ou mostra mensagem se não estiver logado
+        const lista = document.getElementById("listaFerramentas");
+        if (lista) lista.innerHTML = `<div class="lista-vazia">${trans.msgNaoLogado}</div>`;
+    }
 };
 
 const saveTheme = (theme) => {
     localStorage.setItem('theme', theme);
-    updateThemeStatus(theme, localStorage.getItem('lang') || 'pt');
+    const currentLang = localStorage.getItem('lang') || 'pt';
+    updateThemeStatusText(theme, currentLang);
+    updateThemeToggleButtonVisuals(theme);
 };
 
 const loadTheme = () => {
     const savedTheme = localStorage.getItem('theme') || 'light';
+    const currentLang = localStorage.getItem('lang') || 'pt';
     document.body.classList.toggle('dark-theme', savedTheme === 'dark');
-    updateThemeStatus(savedTheme, localStorage.getItem('lang') || 'pt');
+    updateThemeStatusText(savedTheme, currentLang);
+    updateThemeToggleButtonVisuals(savedTheme);
 };
 
-const updateThemeStatus = (activeTheme, lang) => {
-    document.getElementById('theme-status').textContent = activeTheme === 'dark' ? translations[lang].themeStatusDark : translations[lang].themeStatusLight;
+const updateThemeStatusText = (activeTheme, lang) => {
+    const themeStatusEl = document.getElementById('theme-status');
+    const trans = translations[lang];
+    if (themeStatusEl && trans) {
+        themeStatusEl.textContent = activeTheme === 'dark' ? (trans.themeStatusDark || 'Tema Escuro') : (trans.themeStatusLight || 'Tema Claro');
+    }
+};
+
+const updateThemeToggleButtonVisuals = (activeTheme) => {
+    const sunIcon = document.querySelector('#theme-toggle-btn .fa-sun');
+    const moonIcon = document.querySelector('#theme-toggle-btn .fa-moon');
+    if (sunIcon && moonIcon) {
+        sunIcon.style.opacity = activeTheme === 'dark' ? '0' : '1';
+        sunIcon.style.transform = activeTheme === 'dark' ? 'translateY(-10px)' : 'translateY(0)';
+        moonIcon.style.opacity = activeTheme === 'dark' ? '1' : '0';
+        moonIcon.style.transform = activeTheme === 'dark' ? 'translateY(0)' : 'translateY(10px)';
+    }
 };
 
 const saveLanguage = (lang) => {
@@ -98,102 +172,279 @@ const loadLanguage = () => {
     updateTranslations(savedLang);
 };
 
-const updateLanguageStatus = (activeLang) => {
-    document.getElementById('lang-toggle-btn').querySelector('span').textContent = activeLang.toUpperCase();
-    document.getElementById('lang-status').textContent = activeLang === 'pt' ? translations.pt.langStatusPT : translations.en.langStatusEN;
+const updateLanguageStatusText = (activeLang) => {
+    const langToggleBtnSpan = document.getElementById('lang-toggle-btn')?.querySelector('span');
+    const langStatusEl = document.getElementById('lang-status');
+    if (langToggleBtnSpan) langToggleBtnSpan.textContent = activeLang.toUpperCase();
+    if (langStatusEl) {
+        const transPt = translations.pt;
+        const transEn = translations.en;
+        if (transPt && transEn) {
+            langStatusEl.textContent = activeLang === 'pt' ? (transPt.langStatusPT || 'Português') : (transEn.langStatusEN || 'English');
+        }
+    }
 };
 
-// --- FUNÇÕES DE LÓGICA DA PÁGINA ---
-
-const BASE_URL = 'http://localhost:8080/api';
-
-// Função para exibir o nome do usuário no cabeçalho
 function displayUserName(lang) {
-    const userInfo = JSON.parse(localStorage.getItem('usuarioLogado'));
     const welcomeMessage = document.getElementById('welcome-message');
     const userNameElement = document.getElementById('user-name');
+    const trans = translations[lang];
+    let userInfo = null;
+    try {
+        const storedUser = localStorage.getItem('usuarioLogado');
+        if (storedUser) userInfo = JSON.parse(storedUser);
+    } catch (e) { console.error("Erro ao ler usuarioLogado:", e); }
 
-    if (userInfo && userInfo.nome) {
-        welcomeMessage.textContent = translations[lang].welcomeMessage;
-        userNameElement.textContent = userInfo.nome;
-    } else {
-        welcomeMessage.textContent = 'Olá,';
-        userNameElement.textContent = 'Usuário';
+    if (welcomeMessage && userNameElement && trans) {
+        const defaultUserName = (lang === 'pt' ? 'Usuário' : 'User');
+        welcomeMessage.textContent = trans.welcomeMessage || (lang === 'pt' ? 'Olá,' : 'Hello,');
+        userNameElement.textContent = (userInfo && userInfo.nome) ? userInfo.nome : defaultUserName;
     }
 }
 
-// Gerencia o formulário de devolução
-const devolverForm = document.getElementById('devolver-form');
+// --- LÓGICA PRINCIPAL DA PÁGINA ---
 
-devolverForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
+const BASE_URL = "http://localhost:8080/api/ferramentas"; // URL base da API
 
-    const cracha = document.getElementById('cracha-devolver').value;
-    const ferramentaId = document.getElementById('ferramenta-id-devolver').value;
-
+// Pega usuário logado (se houver)
+function getUsuarioLogado() {
     try {
-        const response = await fetch(`${BASE_URL}/devolucoes`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ usuarioId: cracha, ferramentaId: ferramentaId })
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(errorText || 'Erro ao registrar devolução.');
-        }
-
-        alert('Devolução registrada com sucesso!');
-        devolverForm.reset();
-    } catch (error) {
-        console.error('Erro ao devolver ferramenta:', error);
-        alert(`Erro: ${error.message}`);
+        const usuario = localStorage.getItem("usuarioLogado");
+        return usuario ? JSON.parse(usuario) : null;
+    } catch (e) {
+        console.error("Erro ao parsear usuarioLogado:", e);
+        return null;
     }
+}
+
+// Preenche data e hora atuais na info box
+function preencherDataHora() {
+    const agora = new Date();
+    const dataEl = document.getElementById("dataAtual");
+    const horaEl = document.getElementById("horaAtual");
+    if (dataEl) dataEl.textContent = agora.toLocaleDateString('pt-BR');
+    if (horaEl) horaEl.textContent = agora.toLocaleTimeString('pt-BR');
+}
+
+// Mostra informações do usuário e carrega suas ferramentas
+function exibirUsuarioLogado(usuario) {
+    const funcIdEl = document.getElementById("funcId");
+    const funcNomeEl = document.getElementById("funcNome");
+    const infoUsuarioDiv = document.getElementById("infoUsuario");
+
+    if (funcIdEl) funcIdEl.textContent = usuario.id;
+    if (funcNomeEl) funcNomeEl.textContent = usuario.nome;
+    preencherDataHora(); // Atualiza data/hora
+
+    if (infoUsuarioDiv) infoUsuarioDiv.classList.remove("hidden");
+
+    // Chama a função para carregar as ferramentas DESTE usuário
+    if (typeof carregarFerramentas === 'function') {
+        carregarFerramentas(usuario.id);
+    }
+}
+
+// Carrega e exibe a lista de ferramentas associadas ao usuário
+function carregarFerramentas(usuarioId) {
+    const lista = document.getElementById("listaFerramentas");
+    const currentLang = localStorage.getItem('lang') || 'pt';
+    const trans = translations[currentLang];
+
+    if (!lista || !trans) return console.error("Elemento #listaFerramentas ou traduções não encontrados.");
+
+    // Faz a requisição à API para buscar ferramentas do usuário
+    fetch(`${BASE_URL}/usuario/${usuarioId}`)
+        .then(res => {
+            if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+            return res.json();
+        })
+        .then(ferramentas => {
+            lista.innerHTML = ""; // Limpa a lista anterior
+
+            if (!ferramentas || ferramentas.length === 0) {
+                // Mostra mensagem se não houver ferramentas
+                lista.innerHTML = `<div class="lista-vazia">${trans.listaVazia}</div>`;
+                lista.classList.remove("hidden"); // Garante que a mensagem seja visível
+                return;
+            }
+
+            // Cria um card para cada ferramenta
+            ferramentas.forEach(f => {
+                const div = document.createElement("div");
+                div.className = "ferramenta-item";
+
+                // Formata data de empréstimo (se existir)
+                const dataPegoFormatada = f.dataPego // Assumindo que a API retorna 'dataPego'
+                    ? new Date(f.dataPego).toLocaleString('pt-BR')
+                    : (currentLang === 'pt' ? 'Não registrado' : 'Not recorded');
+
+                // Cria o HTML do card
+                div.innerHTML = `
+                    <p><strong>ID:</strong> ${f.ferramentaId || 'N/A'}</p>
+                    <p><strong>Nome:</strong> ${f.ferramentaNome || (currentLang === 'pt' ? 'Nome Ind.' : 'Name Unav.')}</p>
+                    <p class="obs-container">
+                       <label for="obs-${f.ferramentaId}" class="sr-only">Observações</label> <input type="text" id="obs-${f.ferramentaId}" class="obsInput" placeholder="${trans.obsPlaceholder}">
+                    </p>
+                    <button class="btnDevolver" data-id="${f.ferramentaId}">${trans.btnDevolver}</button>
+                `;
+                lista.appendChild(div);
+            });
+
+            lista.classList.remove("hidden"); // Mostra a lista
+            ativarModalBotoes(); // Ativa os botões "Devolver" dos cards
+        })
+        .catch(err => {
+            console.error("Erro ao carregar ferramentas:", err);
+            lista.innerHTML = `<p class="mensagem msg-error">${trans.msgErroCarregar}</p>`; // Mostra erro
+            lista.classList.remove("hidden");
+        });
+}
+
+
+// --- LÓGICA DO MODAL DE CONFIRMAÇÃO ---
+let ferramentaParaDevolver = null; // Guarda referência ao botão clicado
+
+// Adiciona listener aos botões "Devolver" da lista
+function ativarModalBotoes() {
+    document.querySelectorAll(".btnDevolver").forEach(btn => {
+        // Remove listener antigo para evitar duplicação (caso a lista seja recarregada)
+        btn.replaceWith(btn.cloneNode(true));
+    });
+     // Adiciona listener aos botões clonados
+    document.querySelectorAll(".btnDevolver").forEach(btn => {
+        btn.addEventListener("click", function () {
+            ferramentaParaDevolver = this; // Guarda o botão que foi clicado
+            const modal = document.getElementById("confirmModal");
+            if (modal) modal.classList.remove("hidden"); // Mostra o modal
+        });
+    });
+}
+
+// Evento do botão "Sim" do modal
+document.getElementById("confirmBtn")?.addEventListener("click", function () {
+    if (!ferramentaParaDevolver) return; // Sai se não houver botão guardado
+
+    const ferramentaId = ferramentaParaDevolver.dataset.id;
+    // Pega o input de observações DENTRO do card pai do botão
+    const parentCard = ferramentaParaDevolver.closest('.ferramenta-item');
+    const observacoesInput = parentCard?.querySelector(".obsInput");
+    const observacoes = observacoesInput?.value.trim() || ""; // Pega valor ou string vazia
+    const currentLang = localStorage.getItem('lang') || 'pt';
+    const trans = translations[currentLang];
+    const mensagemDiv = document.getElementById("mensagem");
+
+    // Mostra mensagem de processando (opcional)
+    if(mensagemDiv) {
+        mensagemDiv.textContent = currentLang === 'pt' ? 'Processando devolução...' : 'Processing return...';
+        mensagemDiv.className = 'mensagem info'; // Use uma classe CSS 'info' se tiver
+        mensagemDiv.classList.remove('hidden');
+    }
+
+    // Faz a requisição POST para a API de devolução
+    fetch(`${BASE_URL}/${ferramentaId}/devolver?observacoes=${encodeURIComponent(observacoes)}`, { method: "POST" })
+        .then(async res => { // Usa async para poder ler o corpo do erro
+            if (!res.ok) {
+                 // Tenta ler a mensagem de erro do backend
+                let errorMsg = trans.msgErroDevolver;
+                try {
+                    const errorText = await res.text();
+                    if(errorText) errorMsg += `: ${errorText}`;
+                } catch(e) {/* Ignora erro ao ler corpo */}
+                throw new Error(errorMsg); // Lança erro com a mensagem
+            }
+            return res.text(); // Pega a mensagem de sucesso do backend
+        })
+        .then(msg => { // Sucesso
+            if (mensagemDiv) {
+                mensagemDiv.textContent = msg || trans.msgSucessoDevolucao; // Usa msg da API ou tradução
+                mensagemDiv.className = "mensagem msg-success";
+            }
+            // Remove o card da ferramenta devolvida da lista
+            parentCard?.remove();
+
+            // Verifica se a lista ficou vazia após remover o item
+            const lista = document.getElementById("listaFerramentas");
+            if (lista && lista.children.length === 0) {
+                 lista.innerHTML = `<div class="lista-vazia">${trans.listaVazia}</div>`;
+            }
+        })
+        .catch(err => { // Erro
+            console.error("Erro na devolução:", err);
+            if (mensagemDiv) {
+                mensagemDiv.textContent = err.message; // Mostra mensagem de erro específica
+                mensagemDiv.className = "mensagem msg-error";
+            }
+        })
+        .finally(() => { // Sempre executa, mesmo com erro
+            const modal = document.getElementById("confirmModal");
+            if (modal) modal.classList.add("hidden"); // Esconde o modal
+            ferramentaParaDevolver = null; // Limpa a referência
+        });
+});
+
+// Evento do botão "Cancelar" do modal
+document.getElementById("cancelBtn")?.addEventListener("click", function () {
+    const modal = document.getElementById("confirmModal");
+    if (modal) modal.classList.add("hidden"); // Esconde o modal
+    ferramentaParaDevolver = null; // Limpa a referência
 });
 
 
-// Inicialização
+// --- INICIALIZAÇÃO GERAL ---
 document.addEventListener("DOMContentLoaded", () => {
+    // Referências
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const sidebar = document.getElementById('sidebar');
+    const mensagemDiv = document.getElementById("mensagem");
     const settingsBtn = document.getElementById('settings-btn');
     const themePopup = document.getElementById('theme-popup');
     const closePopupBtn = document.getElementById('close-popup-btn');
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const langToggleBtn = document.getElementById('lang-toggle-btn');
 
-    // Inicializa tema, idioma e exibe o nome do usuário
+    // Inicializa Tema e Idioma
     loadTheme();
-    loadLanguage();
-    displayUserName(localStorage.getItem('lang') || 'pt');
+    loadLanguage(); // Isso chama updateTranslations > displayUserName > carregarFerramentas
 
-    // Eventos do menu hambúrguer
-    hamburgerBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
-    });
+    // Evento Hamburger
+    hamburgerBtn?.addEventListener('click', () => sidebar?.classList.toggle('active'));
 
-    // Eventos do pop-up de configurações
-    settingsBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        themePopup.classList.toggle('visible');
-        themePopup.classList.toggle('hidden');
-    });
-
-    closePopupBtn.addEventListener('click', () => {
-        themePopup.classList.add('hidden');
-        themePopup.classList.remove('visible');
-    });
-
-    themeToggleBtn.addEventListener('click', () => {
-        const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        document.body.classList.toggle('dark-theme');
-        saveTheme(newTheme);
-    });
-
-    langToggleBtn.addEventListener('click', () => {
+    // Verifica se está logado e exibe info/lista
+    const usuarioLogado = getUsuarioLogado();
+    if (usuarioLogado) {
+        exibirUsuarioLogado(usuarioLogado);
+    } else {
+        // Mostra mensagem se não estiver logado
         const currentLang = localStorage.getItem('lang') || 'pt';
-        const newLang = currentLang === 'pt' ? 'en' : 'pt';
-        saveLanguage(newLang);
+        const trans = translations[currentLang];
+        if (mensagemDiv && trans) {
+            mensagemDiv.textContent = trans.msgNaoLogado;
+            mensagemDiv.className = "mensagem msg-error";
+            mensagemDiv.classList.remove('hidden');
+        }
+        // Garante que a lista esteja visível para mostrar a mensagem
+        const lista = document.getElementById("listaFerramentas");
+        if(lista) lista.classList.remove("hidden");
+    }
+
+    // Eventos do Popup de Configurações
+    settingsBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        themePopup?.classList.toggle('visible');
+        themePopup?.classList.toggle('hidden', !themePopup.classList.contains('visible'));
     });
-});
+    closePopupBtn?.addEventListener('click', () => {
+        themePopup?.classList.remove('visible');
+        themePopup?.classList.add('hidden');
+    });
+    themeToggleBtn?.addEventListener('click', () => {
+        const isDark = document.body.classList.contains('dark-theme');
+        saveTheme(isDark ? 'light' : 'dark'); // Salva e atualiza visual
+        document.body.classList.toggle('dark-theme'); // Aplica a classe ao body
+    });
+    langToggleBtn?.addEventListener('click', () => {
+        const currentLang = localStorage.getItem('lang') || 'pt';
+        saveLanguage(currentLang === 'pt' ? 'en' : 'pt'); // Salva e atualiza UI
+    });
+
+}); // Fim do DOMContentLoaded  

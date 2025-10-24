@@ -13,8 +13,9 @@ const translations = {
         'inputPlaceholder': 'Número do crachá (auto preenchido)',
         'placeholderText': 'Aguardando leitura do crachá...',
         'confirmBtnText': 'Confirmar Saída',
+        'confirmingBtnText': 'Confirmando...', // Novo
         'successSaida': '✅ Saída registrada com sucesso para',
-        'userNotFound': '❌ Erro: Usuário não encontrado no sistema.',
+        'userNotFound': '❌ Erro: Usuário não encontrado no sistema.', // Não usado diretamente, mas pode ser útil
         'alreadyExited': '❌ Você já registrou sua saída hoje.',
         'errorSaida': '❌ Erro ao registrar saída. Tente novamente.',
         'settingsPopupTitle': 'Configurações',
@@ -40,8 +41,9 @@ const translations = {
         'inputPlaceholder': 'Badge number (auto-filled)',
         'placeholderText': 'Awaiting badge scan...',
         'confirmBtnText': 'Confirm Exit',
+        'confirmingBtnText': 'Confirming...', // New
         'successSaida': '✅ Exit successfully registered for',
-        'userNotFound': '❌ Error: User not found in the system.',
+        'userNotFound': '❌ Error: User not found in the system.', // Not used directly
         'alreadyExited': '❌ You have already registered your exit today.',
         'errorSaida': '❌ Error registering exit. Please try again.',
         'settingsPopupTitle': 'Settings',
@@ -57,234 +59,257 @@ const translations = {
 };
 
 // --- FUNÇÕES DE LÓGICA DE TEMA E IDIOMA ---
+// (Copie EXATAMENTE as mesmas funções do JS/Ferramenta.js ou JS/Devolver.js)
 const updateTranslations = (lang) => {
+    const currentLang = translations[lang] ? lang : 'pt';
+    const trans = translations[currentLang];
+    if (!trans) return console.error("Traduções não encontradas:", currentLang);
+
+    document.documentElement.lang = currentLang === 'pt' ? 'pt-BR' : 'en';
+    document.title = trans.pageTitle || 'Saída - SENAI';
+
+    const setText = (id, key, isHTML = false) => {
+        const element = document.getElementById(id);
+        if (element) {
+            if (isHTML) element.innerHTML = trans[key] || '';
+            else element.textContent = trans[key] || '';
+        } else console.warn(`Elemento ID '${id}' não encontrado.`);
+    };
+    const setPlaceholder = (id, key) => { /* ... (igual Ferramenta.js) ... */ const e=document.getElementById(id); if(e) e.placeholder=trans[key]||''; else console.warn(`ID '${id}' placeholder não encontrado.`); };
+    const setSpanText = (id, key) => { /* ... (igual Ferramenta.js) ... */ const e=document.getElementById(id)?.querySelector('span'); if(e) e.textContent=trans[key]||''; else console.warn(`Span ID '${id}' não encontrado.`); };
+
+
+    // Barra lateral
+    setSpanText('nav-tools', 'sidebarTools');
+    setSpanText('nav-return', 'sidebarReturn');
+    setSpanText('nav-help', 'sidebarHelp');
+    setSpanText('nav-history', 'sidebarHistory');
+    setSpanText('nav-exit', 'sidebarExit');
+    setSpanText('settings-btn', 'sidebarSettings');
+
+    // Conteúdo Principal
+    setText('saida-title', 'saidaTitle', true); // Mantém ícone
+    setText('saida-instructions', 'saidaInstructions');
+    setPlaceholder('crachaInput', 'inputPlaceholder');
+    setText('placeholder-text', 'placeholderText'); // Texto dentro do card placeholder
+    setText('confirm-btn-text', 'confirmBtnText'); // Span dentro do botão confirmar
+
+    // Popup Configurações
+    setText('settings-popup-title', 'settingsPopupTitle');
+    setText('theme-label', 'themeLabel');
+    setText('lang-label', 'langLabel');
+
+    // Atualiza textos de status
+    updateThemeStatusText(document.body.classList.contains('dark-theme') ? 'dark' : 'light', currentLang);
+    updateLanguageStatusText(currentLang);
+    displayUserName(currentLang);
+    // Não precisa recarregar dados aqui, só traduzir UI
+};
+const saveTheme = (theme) => { localStorage.setItem('theme', theme); const cl = localStorage.getItem('lang') || 'pt'; updateThemeStatusText(theme, cl); updateThemeToggleButtonVisuals(theme); };
+const loadTheme = () => { const st = localStorage.getItem('theme') || 'light'; const cl = localStorage.getItem('lang') || 'pt'; document.body.classList.toggle('dark-theme', st === 'dark'); updateThemeStatusText(st, cl); updateThemeToggleButtonVisuals(st); };
+const updateThemeStatusText = (at, l) => { const ts = document.getElementById('theme-status'); const tr = translations[l]; if (ts && tr) ts.textContent = at === 'dark' ? (tr.themeStatusDark || 'Escuro') : (tr.themeStatusLight || 'Claro'); };
+const updateThemeToggleButtonVisuals = (at) => { const si = document.querySelector('#theme-toggle-btn .fa-sun'); const mi = document.querySelector('#theme-toggle-btn .fa-moon'); if (si && mi) { si.style.opacity = at === 'dark' ? '0' : '1'; si.style.transform = at === 'dark' ? 'translateY(-10px)' : 'translateY(0)'; mi.style.opacity = at === 'dark' ? '1' : '0'; mi.style.transform = at === 'dark' ? 'translateY(0)' : 'translateY(10px)'; }};
+const saveLanguage = (lang) => { localStorage.setItem('lang', lang); updateTranslations(lang); };
+const loadLanguage = () => { const sl = localStorage.getItem('lang') || 'pt'; updateTranslations(sl); };
+const updateLanguageStatusText = (al) => { const lts = document.getElementById('lang-toggle-btn')?.querySelector('span'); const ls = document.getElementById('lang-status'); if (lts) lts.textContent = al.toUpperCase(); if (ls) { const tp = translations.pt; const te = translations.en; if (tp && te) ls.textContent = al === 'pt' ? (tp.langStatusPT || 'PT') : (te.langStatusEN || 'EN'); }};
+function displayUserName(lang) { const wm = document.getElementById('welcome-message'); const une = document.getElementById('user-name'); const tr = translations[lang]; let ui = null; try { const su = localStorage.getItem('usuarioLogado'); if (su) ui = JSON.parse(su); } catch (e) { console.error(e); } if (wm && une && tr) { const du = (lang === 'pt' ? 'Usuário' : 'User'); wm.textContent = tr.welcomeMessage || '?'; une.textContent = (ui && ui.nome) ? ui.nome : du; }};
+
+// --- LÓGICA ORIGINAL DA PÁGINA (PRESERVADA E INTEGRADA) ---
+
+// Função para exibir notificações (já existia, atualizada para traduções)
+function showNotification(messageKey, isSuccess = true, userName = '') {
+    const notification = document.getElementById('notification');
+    const lang = localStorage.getItem('lang') || 'pt';
     const trans = translations[lang];
+    let message = trans[messageKey] || messageKey; // Usa tradução ou a chave como fallback
 
-    document.title = trans.pageTitle;
-    
-    document.getElementById('nav-tools').querySelector('span').textContent = trans.sidebarTools;
-    document.getElementById('nav-return').querySelector('span').textContent = trans.sidebarReturn;
-    document.getElementById('nav-help').querySelector('span').textContent = trans.sidebarHelp;
-    document.getElementById('nav-history').querySelector('span').textContent = trans.sidebarHistory;
-    document.getElementById('nav-exit').querySelector('span').textContent = trans.sidebarExit;
-    document.getElementById('settings-btn').querySelector('span').textContent = trans.sidebarSettings;
+    if (messageKey === 'successSaida' && userName) {
+        message = `${message} ${userName}`; // Adiciona nome à mensagem de sucesso
+    }
 
-    document.getElementById('saida-title').textContent = trans.saidaTitle;
-    document.getElementById('saida-instructions').textContent = trans.saidaInstructions;
-    document.getElementById('crachaInput').placeholder = trans.inputPlaceholder;
-    document.getElementById('placeholder-text').textContent = trans.placeholderText;
-    document.getElementById('confirm-btn-text').textContent = trans.confirmBtnText;
+    if (notification) {
+        notification.textContent = message;
+        notification.className = 'notification show ' + (isSuccess ? 'success' : 'error');
 
-    document.getElementById('settings-popup-title').textContent = trans.settingsPopupTitle;
-    document.getElementById('theme-label').textContent = trans.themeLabel;
-    document.getElementById('lang-label').textContent = trans.langLabel;
-
-    updateThemeStatus(document.body.classList.contains('dark-theme') ? 'dark' : 'light', lang);
-    updateLanguageStatus(lang);
-    displayUserName(lang); // Adicionado para atualizar o nome na barra lateral
-};
-
-const saveTheme = (theme) => {
-    localStorage.setItem('theme', theme);
-    updateThemeStatus(theme, localStorage.getItem('lang') || 'pt');
-};
-
-const loadTheme = () => {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.body.classList.toggle('dark-theme', savedTheme === 'dark');
-    updateThemeStatus(savedTheme, localStorage.getItem('lang') || 'pt');
-};
-
-const updateThemeStatus = (activeTheme, lang) => {
-    document.getElementById('theme-status').textContent = activeTheme === 'dark' ? translations[lang].themeStatusDark : translations[lang].themeStatusLight;
-};
-
-const saveLanguage = (lang) => {
-    localStorage.setItem('lang', lang);
-    updateTranslations(lang);
-};
-
-const loadLanguage = () => {
-    const savedLang = localStorage.getItem('lang') || 'pt';
-    updateTranslations(savedLang);
-};
-
-const updateLanguageStatus = (activeLang) => {
-    document.getElementById('lang-toggle-btn').querySelector('span').textContent = activeLang.toUpperCase();
-    document.getElementById('lang-status').textContent = activeLang === 'pt' ? translations.pt.langStatusPT : translations.en.langStatusEN;
-};
-
-// --- FUNÇÕES DE LÓGICA DA PÁGINA ---
-
-// Função para exibir o nome do usuário no cabeçalho
-function displayUserName(lang) {
-    const userInfo = JSON.parse(localStorage.getItem('usuarioLogado'));
-    const welcomeMessage = document.getElementById('welcome-message');
-    const userNameElement = document.getElementById('user-name');
-
-    if (userInfo && userInfo.nome) {
-        welcomeMessage.textContent = translations[lang].welcomeMessage;
-        userNameElement.textContent = userInfo.nome;
-    } else {
-        welcomeMessage.textContent = 'Olá,';
-        userNameElement.textContent = 'Usuário';
+        // Esconde a notificação após 5 segundos
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 5000);
     }
 }
 
-// Função para exibir notificações
-function showNotification(message, isSuccess = true) {
-    const notification = document.getElementById('notification');
-    notification.textContent = message;
-    notification.className = 'notification show ' + (isSuccess ? 'success' : 'error');
-    
-    setTimeout(() => {
-        notification.classList.remove('show');
-    }, 5000);
-}
-
-// Atualiza a hora e a data a cada segundo
+// Atualiza a hora e a data (já existia)
 function updateTime() {
     const now = new Date();
-    const time = now.toLocaleTimeString('pt-BR');
-    const date = now.toLocaleDateString('pt-BR');
-    document.getElementById('currentTime').textContent = time;
-    document.getElementById('currentDate').textContent = date;
-}
-setInterval(updateTime, 1000);
+    const timeEl = document.getElementById('currentTime');
+    const dateEl = document.getElementById('currentDate');
+    const lang = localStorage.getItem('lang') || 'pt'; // Usar idioma para formatação
+    const locale = lang === 'pt' ? 'pt-BR' : 'en-US';
 
-// Exibe os dados do usuário no card
-function displayUserData(user, lang) {
+    if(timeEl) timeEl.textContent = now.toLocaleTimeString(locale);
+    if(dateEl) dateEl.textContent = now.toLocaleDateString(locale);
+}
+
+
+// Exibe os dados do usuário no card (atualizada)
+function displayUserData(user) {
     const infoCard = document.getElementById('dadosAluno');
+    const placeholder = document.getElementById('placeholder-container');
+    const confirmarBtn = document.getElementById('confirmarBtn');
+    const crachaInput = document.getElementById('crachaInput');
+    const scannerAnimation = document.getElementById('scannerAnimation');
+
+    if (!infoCard || !placeholder || !confirmarBtn || !crachaInput || !scannerAnimation) return;
+
+    // Monta o HTML com os dados do usuário
     infoCard.innerHTML = `
-        <h3 style="color: #004b8d; margin-bottom: 0.5rem;">${user.nome}</h3>
-        <p><strong>ID:</strong> ${user.id}</p>
-        <p><strong>Perfil:</strong> ${user.perfil}</p>
-        <p><strong>QR Code:</strong> ${user.qrCode}</p>
-    `;
-    document.getElementById('confirmarBtn').disabled = false;
-    document.getElementById('crachaInput').value = user.id;
+        <h3 style="color: #004b8d; margin-bottom: 0.5rem;">${user.nome || 'N/A'}</h3>
+        <p><strong>ID:</strong> ${user.id || 'N/A'}</p>
+        <p><strong>Perfil:</strong> ${user.perfil || 'N/A'}</p>
+        `;
+    placeholder.style.display = 'none'; // Esconde placeholder
+    infoCard.style.display = 'block'; // Mostra card
+    confirmarBtn.disabled = false; // Habilita botão
+    crachaInput.value = user.id || ''; // Preenche input (somente leitura)
+    scannerAnimation.style.display = 'none'; // Esconde animação
 }
 
-// Simula a leitura do crachá (crachá é o próprio usuário logado)
+// Simula a leitura do crachá (usando usuário logado)
 function simularLeituraCracha() {
     const lang = localStorage.getItem('lang') || 'pt';
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    const usuarioLogado = getUsuarioLogado(); // Pega do localStorage
 
     if (!usuarioLogado || !usuarioLogado.id) {
-        showNotification(translations[lang].notLoggedError, false);
+        showNotification('notLoggedError', false);
+        // Redireciona para login após 3 segundos
         setTimeout(() => {
-            window.location.href = '/HTML/login.html';
+            window.location.href = '/index.html'; // Corrigido para index.html
         }, 3000);
         return;
     }
 
-    displayUserData(usuarioLogado, lang);
-    document.getElementById('scannerAnimation').style.display = 'none';
+    // Exibe os dados do usuário logado
+    displayUserData(usuarioLogado);
 }
 
-// Simula o registro de saída no "backend"
+// Simula o registro de saída
 async function registrarSaida() {
     const lang = localStorage.getItem('lang') || 'pt';
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    const trans = translations[lang];
+    const usuarioLogado = getUsuarioLogado();
     const confirmarBtn = document.getElementById('confirmarBtn');
+    const confirmBtnTextSpan = document.getElementById('confirm-btn-text'); // Span do texto
 
     if (!usuarioLogado || !usuarioLogado.id) {
-        showNotification(translations[lang].notLoggedError, false);
-        setTimeout(() => {
-            window.location.href = '/HTML/login.html';
-        }, 3000);
+        showNotification('notLoggedError', false);
+        setTimeout(() => window.location.href = '/index.html', 3000);
         return;
     }
+    if (!confirmarBtn || !confirmBtnTextSpan) return; // Verifica se botão e span existem
 
     confirmarBtn.disabled = true;
-    confirmarBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${translations[lang]['confirmBtnText']}`;
+    confirmBtnTextSpan.textContent = trans.confirmingBtnText; // Muda texto para "Confirmando..."
+    confirmarBtn.querySelector('i')?.classList.replace('fa-check-circle', 'fa-spinner'); // Troca ícone
+    confirmarBtn.querySelector('i')?.classList.add('fa-spin');
 
-    // Simulação de chamada de API
+
+    // Simulação de chamada de API (mantida como exemplo)
+    // No seu caso, você pode fazer uma chamada real para um endpoint de logout/registro de saída
     const response = await new Promise(resolve => {
         setTimeout(() => {
             const now = new Date();
-            const lastExit = localStorage.getItem('lastExitDate');
+            // Verifica se já saiu hoje (exemplo de lógica, pode adaptar)
+            const lastExit = localStorage.getItem(`lastExit_${usuarioLogado.id}`);
             const today = now.toISOString().slice(0, 10);
 
             if (lastExit === today) {
-                resolve({ success: false, message: translations[lang].alreadyExited });
+                resolve({ success: false, messageKey: 'alreadyExited' });
             } else {
-                localStorage.setItem('lastExitDate', today);
-                resolve({ success: true, message: translations[lang].successSaida + ' ' + usuarioLogado.nome });
+                localStorage.setItem(`lastExit_${usuarioLogado.id}`, today); // Marca saída para hoje
+                resolve({ success: true, messageKey: 'successSaida', userName: usuarioLogado.nome });
             }
-        }, 1500); // 1.5 segundos para simular a requisição
+        }, 1500); // 1.5 segundos de simulação
     });
 
     if (response.success) {
-        showNotification(response.message, true);
-        localStorage.removeItem('usuarioLogado'); // Deslogar o usuário após a saída
+        showNotification(response.messageKey, true, response.userName);
+        localStorage.removeItem('usuarioLogado'); // Desloga o usuário
+        // Redireciona para login após 3 segundos
         setTimeout(() => {
-            window.location.href = '/HTML/login.html';
+            window.location.href = '/index.html';
         }, 3000);
     } else {
-        showNotification(response.message, false);
+        showNotification(response.messageKey, false);
+        // Reabilita o botão em caso de erro
+        confirmarBtn.disabled = false;
+        confirmBtnTextSpan.textContent = trans.confirmBtnText; // Restaura texto
+        confirmarBtn.querySelector('i')?.classList.replace('fa-spinner', 'fa-check-circle');
+        confirmarBtn.querySelector('i')?.classList.remove('fa-spin');
     }
-
-    confirmarBtn.disabled = false;
-    confirmarBtn.innerHTML = `<i class="fas fa-check-circle"></i> <span id="confirm-btn-text">${translations[lang].confirmBtnText}</span>`;
+    // Não precisa restaurar botão aqui se sucesso redireciona
 }
 
-// --- EVENT LISTENERS E INICIALIZAÇÃO ---
+// Pega usuário logado
+function getUsuarioLogado() {
+    try {
+        const usuario = localStorage.getItem("usuarioLogado");
+        return usuario ? JSON.parse(usuario) : null;
+    } catch (e) {
+        console.error("Erro ao parsear usuarioLogado:", e);
+        return null;
+    }
+}
+
+// --- INICIALIZAÇÃO E EVENT LISTENERS ---
 document.addEventListener("DOMContentLoaded", () => {
-    // Referências dos elementos
+    // Referências
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const sidebar = document.getElementById('sidebar');
-    const crachaInput = document.getElementById('crachaInput');
     const confirmarBtn = document.getElementById('confirmarBtn');
     const settingsBtn = document.getElementById('settings-btn');
     const themePopup = document.getElementById('theme-popup');
     const closePopupBtn = document.getElementById('close-popup-btn');
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const langToggleBtn = document.getElementById('lang-toggle-btn');
-    
-    // Inicializa tema, idioma e nome do usuário
+
+    // Inicializa Tema e Idioma
     loadTheme();
-    loadLanguage();
+    loadLanguage(); // Isso chama updateTranslations > displayUserName
 
-    // Eventos do menu hambúrguer
-    hamburgerBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
-    });
+    // Simula a leitura do crachá automaticamente ao carregar a página
+    simularLeituraCracha();
 
-    // Eventos do pop-up de configurações
-    settingsBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        themePopup.classList.toggle('visible');
-        themePopup.classList.toggle('hidden');
-    });
+    // Atualiza hora/data
+    updateTime();
+    const timerInterval = setInterval(updateTime, 1000); // Guarda o ID do intervalo
 
-    closePopupBtn.addEventListener('click', () => {
-        themePopup.classList.add('hidden');
-        themePopup.classList.remove('visible');
-    });
+    // Evento Hamburger
+    hamburgerBtn?.addEventListener('click', () => sidebar?.classList.toggle('active'));
 
-    themeToggleBtn.addEventListener('click', () => {
-        const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        document.body.classList.toggle('dark-theme');
-        saveTheme(newTheme);
-    });
-
-    langToggleBtn.addEventListener('click', () => {
-        const currentLang = localStorage.getItem('lang') || 'pt';
-        const newLang = currentLang === 'pt' ? 'en' : 'pt';
-        saveLanguage(newLang);
-    });
-
-    // Simula a leitura do crachá ao pressionar "Enter" no input
-    crachaInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-            simularLeituraCracha();
-        }
-    });
-
-    // Registra a saída ao clicar no botão
-    confirmarBtn.addEventListener('click', () => {
+    // Evento Botão Confirmar Saída
+    confirmarBtn?.addEventListener('click', () => {
+        clearInterval(timerInterval); // Para o relógio ao tentar sair
         registrarSaida();
     });
-});
+
+    // Eventos Popup Configurações
+    settingsBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        themePopup?.classList.toggle('visible');
+        themePopup?.classList.toggle('hidden', !themePopup.classList.contains('visible'));
+    });
+    closePopupBtn?.addEventListener('click', () => {
+        themePopup?.classList.remove('visible');
+        themePopup?.classList.add('hidden');
+    });
+    themeToggleBtn?.addEventListener('click', () => {
+        const isDark = document.body.classList.contains('dark-theme');
+        saveTheme(isDark ? 'light' : 'dark');
+        document.body.classList.toggle('dark-theme');
+    });
+    langToggleBtn?.addEventListener('click', () => {
+        const currentLang = localStorage.getItem('lang') || 'pt';
+        saveLanguage(currentLang === 'pt' ? 'en' : 'pt');
+    });
+
+}); // Fim do DOMContentLoaded
