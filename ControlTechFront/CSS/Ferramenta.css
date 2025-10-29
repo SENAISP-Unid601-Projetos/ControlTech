@@ -230,7 +230,6 @@ body {
 
 /* Botão de Configurações */
 .settings-btn {
-    margin-top: auto; /* Alinha na parte inferior */
     background-color: rgba(0, 0, 0, 0.2);
 }
 .settings-btn:hover {
