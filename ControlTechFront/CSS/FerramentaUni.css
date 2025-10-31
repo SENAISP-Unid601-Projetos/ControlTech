@@ -13,6 +13,7 @@ body {
     background: linear-gradient(135deg, #f0f2f5 0%, #e6edf5 50%, #d9e7f7 100%);
     position: relative;
     overflow: hidden;
+    transition: background-color 0.3s, color 0.3s;
 }
 body::before {
     content: "";
@@ -26,10 +27,109 @@ body::before {
     z-index: 0;
 }
 
-/* Container principal centralizado */
+/* Container do Dashboard (Para a integração da sidebar) */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    z-index: 1; /* Garante que fique acima do padrão */
+}
+
+/* Barra Lateral (Copiada do Ferramenta.css/Historico.css) */
+.sidebar {
+    width: 250px;
+    background-color: #004b8d;
+    color: white;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    transition: left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+
+.sidebar-header {
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; 
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #b3cde0;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a.active {
+    background-color: #0061c0;
+    color: white;
+}
+
+.sidebar-nav a i {
+    font-size: 1.5rem;
+    margin-right: 15px;
+}
+
+/* Estilos do perfil do usuário */
+.user-profile { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; background-color: rgba(255, 255, 255, 0.1); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); transition: background-color 0.3s; }
+.user-profile i { font-size: 2.5rem; color: #b3cde0; transition: color 0.3s; }
+.user-details { display: flex; flex-direction: column; text-align: left; }
+.user-details span { font-size: 0.9rem; color: #b3cde0; opacity: 0.8; transition: color 0.3s; }
+.user-details h4 { margin: 0; font-size: 1.1rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; transition: color 0.3s; }
+
+/* Botão de Configurações */
+.settings-btn {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.settings-btn:hover {
+    background-color: #0061c0 !important;
+}
+
+/* Estilos para o botão do hambúrguer */
+.hamburger-btn {
+    display: none; 
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 101;
+    background: #004b8d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+/* Conteúdo Principal */
+.main-content {
+    flex-grow: 1;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s; 
+}
+
+
+/* Container principal centralizado (FerramentaUni.html content) */
 .container {
     position: relative;
-    z-index: 1; /* Garante que fica acima do padrão */
     background: white;
     padding: 2rem;
     border-radius: 16px;
@@ -38,6 +138,7 @@ body::before {
     width: 100%;
     text-align: center;
     animation: fadeIn 0.6s ease-in-out;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 /* Título */
@@ -45,6 +146,7 @@ body::before {
     font-size: 2rem;
     margin-bottom: 1rem;
     color: #004b8d;
+    transition: color 0.3s;
 }
 
 /* Detalhes da Ferramenta */
@@ -52,13 +154,46 @@ body::before {
     font-size: 1rem;
     margin-bottom: 0.8rem;
     color: #555;
+    transition: color 0.3s;
+}
+.container p strong {
+    color: #333;
+    transition: color 0.3s;
+}
+
+/* Imagem da Ferramenta */
+.image-container {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #eee;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+#toolImage {
+    max-width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: contain;
 }
 
 /* Mensagem de status */
 #statusMsg {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    padding: 0.8rem;
+    border-radius: 8px;
     font-weight: bold;
-    color: red;
+    color: #333; /* Cor base */
+    background-color: #eee;
+    transition: background-color 0.3s, color 0.3s;
+}
+#statusMsg[style*="green"] {
+    background-color: #d4edda;
+    color: #155724;
+}
+#statusMsg[style*="red"] {
+    background-color: #f8d7da;
+    color: #721c24;
 }
 
 /* Botões */
@@ -66,7 +201,7 @@ body::before {
     display: flex;
     justify-content: center;
     gap: 1rem;
-    margin-top: 1.5rem;
+    margin-top: 2rem;
 }
 
 .btn-principal,
@@ -81,6 +216,7 @@ body::before {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 /* Botão principal */
@@ -90,7 +226,12 @@ body::before {
 }
 .btn-principal:hover {
     background: #004b8d;
-    transform: scale(1.05);
+    transform: translateY(-2px);
+}
+.btn-principal:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
 }
 
 /* Botão voltar */
@@ -100,10 +241,10 @@ body::before {
 }
 .btn-voltar:hover {
     background: #5f6e6e;
-    transform: scale(1.05);
+    transform: translateY(-2px);
 }
 
-/* Pop-up */
+/* Pop-up (Confirmação) */
 .popup-overlay {
     display: none;
     position: fixed;
@@ -125,12 +266,18 @@ body::before {
     text-align: center;
     max-width: 400px;
     width: 90%;
+    transition: background-color 0.3s;
 }
 
 .popup-content p {
     font-size: 1.1rem;
     margin-bottom: 1.5rem;
     color: #34495e;
+    transition: color 0.3s;
+}
+.popup-content p strong {
+    color: #004b8d;
+    transition: color 0.3s;
 }
 
 .popup-content button {
@@ -141,6 +288,7 @@ body::before {
     color: white;
     font-size: 1rem;
     cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .popup-content button:hover {
@@ -150,4 +298,222 @@ body::before {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- POPUP DE CONFIGURAÇÕES (Tema/Idioma) (Copiado de Ferramenta.css) --- */
+.theme-popup { position: fixed; bottom: 20px; left: 20px; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); width: 280px; padding: 1rem; z-index: 99; opacity: 0; visibility: hidden; transform: translateY(20px); transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s; text-align: center; }
+.theme-popup.visible { opacity: 1; visibility: visible; transform: translateY(0); transition-delay: 0s; }
+.theme-popup.hidden { display: none; }
+.popup-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; transition: border-color 0.3s; }
+.popup-header h4 { margin: 0; color: #004b8d; transition: color 0.3s; }
+.popup-header .close-btn { background: none; border: none; font-size: 1.5rem; color: #888; cursor: pointer; transition: color 0.3s; }
+.popup-content-config { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.config-section { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.config-label { margin: 0; font-size: 1rem; color: #555; transition: color 0.3s; }
+.divider { width: 80%; height: 1px; background-color: #ddd; margin: 0.5rem 0; transition: background-color 0.3s; }
+.theme-toggle-btn { background: none; border: none; cursor: pointer; font-size: 2.5rem; color: #004b8d; transition: transform 0.3s ease, color 0.3s; width: 60px; height: 60px; position: relative; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+.theme-toggle-btn:hover { transform: scale(1.1); }
+.theme-toggle-btn .fa-sun, .theme-toggle-btn .fa-moon { position: absolute; transition: opacity 0.3s ease, transform 0.3s ease; }
+.theme-toggle-btn .fa-moon { opacity: 0; transform: translateY(10px); }
+.theme-toggle-btn .fa-sun { opacity: 1; transform: translateY(0); }
+.theme-status, .lang-status { margin: 0; font-size: 1rem; color: #555; transition: color 0.3s; }
+.lang-toggle-btn { background: #0061c0; color: white; border: none; border-radius: 8px; padding: 10px 20px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background-color 0.3s; }
+.lang-toggle-btn:hover { background-color: #004b8d; }
+
+
+/* --- RESPONSIVIDADE (Copiado de Ferramenta.css) --- */
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -250px;
+        height: 100vh;
+        z-index: 100;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+    }
+    .sidebar.active {
+        left: 0;
+    }
+    .sidebar-header {
+        text-align: left;
+    }
+    .user-profile { 
+        display: none;
+    }
+    .main-content {
+        padding: 4rem 1rem 1rem 1rem; 
+        margin-left: 0;
+    }
+    .hamburger-btn {
+        display: block;
+    }
+    .container {
+        padding: 1.5rem;
+    }
+    .botoes-container {
+        flex-direction: column;
+    }
+    .btn-principal,
+    .btn-voltar {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+
+/* === ESTILOS DO TEMA ESCURO (Copiado de Ferramenta.css e adaptado) === */
+body.dark-theme {
+    background: #2c2c2c;
+    color: #f0f2f5;
+}
+body.dark-theme::before {
+    background-image: radial-gradient(rgba(179, 205, 224, 0.05) 1px, transparent 1px);
+}
+
+body.dark-theme .sidebar {
+    background-color: #1a1a1a;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+}
+body.dark-theme .user-profile {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+body.dark-theme .user-profile i {
+    color: #ccc;
+}
+body.dark-theme .user-details span {
+    color: #b3cde0;
+}
+body.dark-theme .user-details h4 {
+    color: #fff;
+}
+body.dark-theme .sidebar-nav a {
+    color: #ccc;
+}
+body.dark-theme .sidebar-nav a:hover,
+body.dark-theme .sidebar-nav a.active {
+    background-color: #333;
+    color: #fff;
+}
+body.dark-theme .hamburger-btn {
+    background: #1a1a1a;
+    color: #f0f2f5;
+}
+body.dark-theme .settings-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+body.dark-theme .settings-btn:hover {
+     background-color: #333 !important;
+}
+
+body.dark-theme .container {
+    background: #333;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+body.dark-theme .container h1 {
+    color: #b3cde0;
+}
+body.dark-theme .container p {
+    color: #ccc;
+}
+body.dark-theme .container p strong {
+    color: #f0f2f5;
+}
+
+body.dark-theme .image-container {
+    background-color: #444;
+    border-color: #555;
+}
+
+body.dark-theme #statusMsg {
+    background-color: #555;
+    color: #ccc;
+}
+body.dark-theme #statusMsg[style*="green"] {
+    background-color: #1a3c22;
+    color: #a3e9c7;
+}
+body.dark-theme #statusMsg[style*="red"] {
+    background-color: #5c2c2f;
+    color: #f9bdbb;
+}
+
+body.dark-theme .btn-principal {
+    background: #0061c0;
+}
+body.dark-theme .btn-principal:hover {
+    background: #004b8d;
+}
+body.dark-theme .btn-principal:disabled {
+    background-color: #555;
+}
+
+body.dark-theme .btn-voltar {
+    background: #5f6e6e;
+}
+body.dark-theme .btn-voltar:hover {
+    background: #4a5757;
+}
+
+body.dark-theme .popup-content {
+    background: #444;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+body.dark-theme .popup-content p {
+    color: #ccc;
+}
+body.dark-theme .popup-content p strong {
+    color: #b3cde0;
+}
+body.dark-theme .popup-content button {
+    background: #0061c0;
+}
+body.dark-theme .popup-content button:hover {
+    background: #004b8d;
+}
+
+
+/* Tema escuro para o popup de config */
+body.dark-theme .theme-popup {
+    background-color: #444;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    color: #f0f2f5;
+}
+body.dark-theme .popup-header {
+    border-bottom: 1px solid #555;
+}
+body.dark-theme .popup-header h4 {
+    color: #b3cde0;
+}
+body.dark-theme .popup-header .close-btn {
+    color: #aaa;
+}
+body.dark-theme .popup-content-config .config-label,
+body.dark-theme .theme-status,
+body.dark-theme .lang-status {
+    color: #ccc;
+}
+body.dark-theme .divider {
+    background-color: #555;
+}
+body.dark-theme .theme-toggle-btn {
+    color: #b3cde0;
+}
+body.dark-theme .theme-toggle-btn .fa-sun {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+body.dark-theme .theme-toggle-btn .fa-moon {
+    opacity: 1;
+    transform: translateY(0);
+    color: #f1c40f;
+}
+body.dark-theme .lang-toggle-btn {
+    background-color: #0061c0;
+}
+body.dark-theme .lang-toggle-btn:hover {
+    background-color: #004b8d;
 }
