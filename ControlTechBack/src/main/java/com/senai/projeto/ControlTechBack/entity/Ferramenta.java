@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -25,10 +26,10 @@ public class Ferramenta {
 
 
     private LocalDate dataDevolucao;
+    private LocalDateTime dataAssociacao; // NOVO CAMPO
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
 }
-

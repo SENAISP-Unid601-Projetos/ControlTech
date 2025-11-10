@@ -196,6 +196,30 @@ body::before {
     color: #721c24;
 }
 
+/* --- Estilos para o Cronômetro (time-elapsed) --- */
+.time-info {
+    margin-top: 1rem;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: #f0f8ff; /* Azul claro */
+    border: 1px solid #b3cde0;
+    font-weight: 500;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.time-info i {
+    color: #004b8d;
+}
+
+#chronometer-display {
+    font-weight: bold;
+    color: #0061c0;
+}
 /* Botões */
 .botoes-container {
     display: flex;
@@ -475,6 +499,18 @@ body.dark-theme .popup-content button:hover {
     background: #004b8d;
 }
 
+/* Tema escuro para o cronômetro (adicionado ao final do bloco body.dark-theme) */
+body.dark-theme .time-info {
+    background-color: #3a3f44;
+    border-color: #555;
+    color: #ccc;
+}
+body.dark-theme .time-info i {
+    color: #b3cde0;
+}
+body.dark-theme #chronometer-display {
+    color: #a4c5e1;
+}
 
 /* Tema escuro para o popup de config */
 body.dark-theme .theme-popup {

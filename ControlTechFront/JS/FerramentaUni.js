@@ -26,7 +26,10 @@ const translations = {
         'langLabel': 'Alternar Idioma:',
         'langStatusPT': 'Português',
         'langStatusEN': 'Inglês',
-        'welcomeMessage': 'Olá,'
+        'welcomeMessage': 'Olá,',
+        // NOVAS CHAVES
+        'timeElapsedLabel': 'Tempo em Uso:',
+        'timeDisplayInitial': '--:--:--',
     },
     'en': {
         'pageTitle': 'Tool Details - ControlTech',
@@ -54,11 +57,64 @@ const translations = {
         'langLabel': 'Toggle Language:',
         'langStatusPT': 'Portuguese',
         'langStatusEN': 'English',
-        'welcomeMessage': 'Hello,'
+        'welcomeMessage': 'Hello,',
+        // NOVAS CHAVES
+        'timeElapsedLabel': 'Time in Use:',
+        'timeDisplayInitial': '--:--:--',
     }
 };
 
-// --- FUNÇÕES DE UTILIDADE DE TEMA E IDIOMA (Movidas para escopo global) ---
+// --- FUNÇÕES DE UTILIDADE DE TEMA E IDIOMA ---
+
+// Variável para armazenar o ID do intervalo do cronômetro
+let cronometroIntervalId = null;
+
+// NOVO: Função para formatar segundos em HH:MM:SS
+function formatarTempo(totalSeconds) {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    return [hours, minutes, seconds]
+        .map(t => t.toString().padStart(2, '0'))
+        .join(':');
+}
+
+// NOVO: Função para iniciar o cronômetro
+function iniciarCronometro(timestampAssociacao) {
+    const chronometerDisplay = document.getElementById('chronometer-display');
+    const timeElapsedContainer = document.getElementById('time-elapsed');
+    const dataAssociacao = new Date(timestampAssociacao);
+
+    if (!chronometerDisplay || !timeElapsedContainer) return;
+
+    // 1. Limpa qualquer cronômetro anterior
+    if (cronometroIntervalId) {
+        clearInterval(cronometroIntervalId);
+    }
+    
+    // 2. Função de atualização
+    function atualizarCronometro() {
+        const now = new Date();
+        const diffMs = now.getTime() - dataAssociacao.getTime();
+        const diffSeconds = Math.floor(diffMs / 1000);
+        
+        // Evita tempo negativo (caso data futura, embora não deva ocorrer)
+        if (diffSeconds < 0) return; 
+
+        chronometerDisplay.textContent = formatarTempo(diffSeconds);
+    }
+
+    // Executa a primeira vez imediatamente
+    atualizarCronometro();
+    
+    // Inicia o intervalo de 1 segundo
+    cronometroIntervalId = setInterval(atualizarCronometro, 1000);
+    
+    // Mostra o cronômetro
+    timeElapsedContainer.classList.remove('hidden');
+}
+
 
 const setText = (id, key, trans) => {
     const element = document.getElementById(id);
@@ -109,6 +165,10 @@ const updateTranslations = (lang) => {
     setText('btn-associar-text', 'btnAssociar', trans);
     setText('popup-btn-fechar', 'popupBtnFechar', trans);
 
+    // NOVO: Traduções do cronômetro
+    setText('time-elapsed-label', 'timeElapsedLabel', trans);
+    // setText('chronometer-display', 'timeDisplayInitial', trans); // Não é necessário traduzir o valor inicial, pois o cronômetro começa imediatamente
+
     // Popup Configurações
     setText('settings-popup-title', 'settingsPopupTitle', trans);
     setText('theme-label', 'themeLabel', trans);
@@ -119,14 +179,8 @@ const updateTranslations = (lang) => {
     updateLanguageStatusText(currentLang);
     displayUserName(currentLang);
     
-    // Atualiza o status da ferramenta na tela (caso já tenha carregado)
-    const currentStatusMsg = document.getElementById("statusMsg").textContent;
-    const nomeUsuario = currentStatusMsg.split(':').pop()?.trim();
-    if (nomeUsuario && nomeUsuario !== 'Available' && nomeUsuario !== 'Disponível' && nomeUsuario.length > 0) {
-         document.getElementById("statusMsg").innerHTML = `${trans.statusEmUso}<strong>${nomeUsuario}</strong>`;
-    } else {
-        document.getElementById("statusMsg").innerHTML = trans.statusDisponivel;
-    }
+    // Forçamos a atualização do status para que o cronômetro e a mensagem sejam traduzidos
+    atualizarStatusDaFerramenta();
 };
 
 const saveTheme = (theme) => { localStorage.setItem('theme', theme); const cl = localStorage.getItem('lang') || 'pt'; updateThemeStatusText(theme, cl); updateThemeToggleButtonVisuals(theme); };
@@ -141,11 +195,59 @@ function displayUserName(lang) { const wm = document.getElementById('welcome-mes
 
 // --- LÓGICA PRINCIPAL DA PÁGINA ---
 
-document.addEventListener("DOMContentLoaded", async () => {
-    // Referências do HTML (incluindo as novas)
-    const params = new URLSearchParams(window.location.search);
-    const ferramentaId = params.get("id");
+// --- Função ATUALIZADA para atualizar status (traduzida e com cronômetro) ---
+function atualizarStatus(usuarioNome, dataAssociacao) { // Recebe dataAssociacao
+    const statusMsg = document.getElementById("statusMsg");
+    const btnAssociar = document.getElementById("btnAssociar");
+    const timeElapsedContainer = document.getElementById('time-elapsed');
+    const lang = localStorage.getItem('lang') || 'pt';
+    const trans = translations[lang];
 
+    if (cronometroIntervalId) {
+        clearInterval(cronometroIntervalId);
+        cronometroIntervalId = null;
+    }
+    if(timeElapsedContainer) timeElapsedContainer.classList.add('hidden');
+
+    if (usuarioNome) {
+        if (statusMsg) statusMsg.innerHTML = `${trans.statusEmUso}<strong>${usuarioNome}</strong>`;
+        if (statusMsg) statusMsg.style.color = "green"; 
+        if (btnAssociar) btnAssociar.disabled = true; 
+        
+        // NOVO: Inicia o cronômetro se houver data de associação
+        if (dataAssociacao) {
+            iniciarCronometro(dataAssociacao);
+        }
+    } else {
+        if (statusMsg) statusMsg.innerHTML = trans.statusDisponivel;
+        if (statusMsg) statusMsg.style.color = "gray"; 
+        if (btnAssociar) btnAssociar.disabled = false; 
+    }
+}
+
+// --- Buscar usuário associado via GET (ATUALIZADA para pegar a data) ---
+async function atualizarStatusDaFerramenta() {
+    const ferramentaId = new URLSearchParams(window.location.search).get("id");
+    const lang = localStorage.getItem('lang') || 'pt';
+    try {
+        const res = await fetch(`http://localhost:8080/api/ferramentas/${ferramentaId}/usuario`);
+        if (!res.ok) throw new Error(lang === 'pt' ? "Erro ao buscar usuário da ferramenta" : "Error fetching tool user");
+        
+        // A API agora retorna UsuarioStatusDTO com dataAssociacao
+        const usuarioStatus = await res.json(); 
+
+        // Passa o nome e o timestamp para a função de atualização
+        atualizarStatus(usuarioStatus.nome, usuarioStatus.dataAssociacao); 
+    } catch (err) {
+        console.error(err);
+        // Em caso de erro de conexão, assume que não está em uso
+        atualizarStatus(null, null); 
+    }
+}
+
+// --- Carrega os dados da ferramenta (ATUALIZADA) ---
+async function carregarFerramenta() {
+    const ferramentaId = new URLSearchParams(window.location.search).get("id");
     const toolNome = document.getElementById("toolNome");
     const toolId = document.getElementById("toolId");
     const toolDescricao = document.getElementById("toolDescricao");
@@ -153,11 +255,49 @@ document.addEventListener("DOMContentLoaded", async () => {
     const toolImage = document.getElementById("toolImage"); 
     const btnAssociar = document.getElementById("btnAssociar");
     const statusMsg = document.getElementById("statusMsg");
+    const lang = localStorage.getItem('lang') || 'pt';
+    const trans = translations[lang];
+
+    try {
+        const res = await fetch(`http://localhost:8080/api/ferramentas/${ferramentaId}`);
+        if (!res.ok) throw new Error(trans.erroCarregar);
+
+        const ferramenta = await res.json();
+
+        // IMPLEMENTAÇÃO DAS VERIFICAÇÕES DE NULIDADE AQUI
+        if (toolNome) toolNome.textContent = ferramenta.nome;
+        if (toolId) toolId.textContent = ferramenta.id;
+        if (toolDescricao) toolDescricao.textContent = ferramenta.descricao || (lang === 'pt' ? 'Sem descrição' : 'No description');
+        if (toolEstoque) toolEstoque.textContent = ferramenta.quantidadeEstoque;
+        if (toolImage) toolImage.src = ferramenta.imagemUrl || '/img/tools.png'; 
+
+        // Atualiza status usando GET do usuário associado
+        await atualizarStatusDaFerramenta();
+
+        return ferramenta;
+    } catch (err) {
+        console.error("Erro ao carregar ferramenta:", err);
+        // IMPLEMENTAÇÃO DAS VERIFICAÇÕES DE NULIDADE AQUI
+        if (toolNome) toolNome.textContent = trans.erroCarregar;
+        if (statusMsg) statusMsg.textContent = err.message;
+        if (statusMsg) statusMsg.style.color = "red";
+        if (btnAssociar) btnAssociar.disabled = true;
+        return null;
+    }
+}
+
+
+document.addEventListener("DOMContentLoaded", async () => {
+    // Referências do HTML (incluindo as novas)
+    const params = new URLSearchParams(window.location.search);
+    const ferramentaId = params.get("id");
+
+    const btnAssociar = document.getElementById("btnAssociar");
+    const statusMsg = document.getElementById("statusMsg");
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const sidebar = document.getElementById('sidebar');
 
     const popup = document.getElementById("confirmationPopup");
-    const popupMessage = document.getElementById("popupMessage");
     const closePopupBtn = document.getElementById("closePopupBtn");
     const settingsBtn = document.getElementById('settings-btn');
     const themePopup = document.getElementById('theme-popup');
@@ -165,6 +305,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const langToggleBtn = document.getElementById('lang-toggle-btn');
 
+    
     // Inicializa Tema e Idioma (antes de carregar os dados)
     loadTheme();
     loadLanguage(); // Isso chama updateTranslations > displayUserName
@@ -187,66 +328,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    // --- Função para atualizar status (traduzida) ---
-    function atualizarStatus(usuarioNome) {
-        if (usuarioNome) {
-            statusMsg.innerHTML = `${trans.statusEmUso}<strong>${usuarioNome}</strong>`;
-            statusMsg.style.color = "green"; 
-            btnAssociar.disabled = true; 
-        } else {
-            statusMsg.innerHTML = trans.statusDisponivel;
-            statusMsg.style.color = "gray"; 
-            btnAssociar.disabled = false; 
-        }
-    }
-
-    // --- Carrega os dados da ferramenta ---
-    async function carregarFerramenta() {
-        try {
-            const res = await fetch(`http://localhost:8080/api/ferramentas/${ferramentaId}`);
-            if (!res.ok) throw new Error(trans.erroCarregar);
-
-            const ferramenta = await res.json();
-
-            toolNome.textContent = ferramenta.nome;
-            toolId.textContent = ferramenta.id;
-            toolDescricao.textContent = ferramenta.descricao || (lang === 'pt' ? 'Sem descrição' : 'No description');
-            toolEstoque.textContent = ferramenta.quantidadeEstoque;
-            toolImage.src = ferramenta.imagemUrl || '/img/tools.png'; 
-
-            // Atualiza status usando GET do usuário associado
-            await atualizarStatusDaFerramenta();
-
-            return ferramenta;
-        } catch (err) {
-            console.error("Erro ao carregar ferramenta:", err);
-            toolNome.textContent = trans.erroCarregar;
-            statusMsg.textContent = err.message;
-            statusMsg.style.color = "red";
-            btnAssociar.disabled = true;
-            return null;
-        }
-    }
-
-    // --- Buscar usuário associado via GET ---
-    async function atualizarStatusDaFerramenta() {
-        try {
-            const res = await fetch(`http://localhost:8080/api/ferramentas/${ferramentaId}/usuario`);
-            if (!res.ok) throw new Error(lang === 'pt' ? "Erro ao buscar usuário da ferramenta" : "Error fetching tool user");
-            const usuario = await res.json();
-
-            atualizarStatus(usuario.nome); 
-        } catch (err) {
-            console.error(err);
-            statusMsg.textContent = err.message;
-        }
-    }
-
     let ferramenta = await carregarFerramenta();
 
-    // --- Botão associar ---
+    // --- Botão associar (ATUALIZADO para usar a data de associação do retorno) ---
     btnAssociar?.addEventListener("click", async () => {
-        statusMsg.textContent = "";
+        if (statusMsg) statusMsg.textContent = "";
 
         try {
             const assocRes = await fetch(`http://localhost:8080/api/ferramentas/associar/${ferramentaId}`, {
@@ -257,6 +343,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             let resposta;
             try {
+                // A API agora retorna um Map (JSON)
                 resposta = await assocRes.json();
             } catch {
                 const texto = await assocRes.text();
@@ -272,17 +359,19 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
             popup.style.display = "flex";
 
-            // Atualiza status imediatamente
-            atualizarStatus(resposta.usuarioNome);
+            // Atualiza status imediatamente (usando o novo campo dataAssociacao)
+            atualizarStatus(resposta.usuarioNome, resposta.dataAssociacao);
             ferramenta.usuarioNome = resposta.usuarioNome;
 
         } catch (err) {
             console.error("Erro ao associar:", err);
-            statusMsg.textContent = `${lang === 'pt' ? 'Erro' : 'Error'}: ${err.message}`;
-            statusMsg.style.color = "red";
+            if (statusMsg) {
+                statusMsg.textContent = `${lang === 'pt' ? 'Erro' : 'Error'}: ${err.message}`;
+                statusMsg.style.color = "red";
+            }
         }
     });
-
+    
     // --- Fechar popup de confirmação ---
     closePopupBtn?.addEventListener("click", () => {
         popup.style.display = "none";

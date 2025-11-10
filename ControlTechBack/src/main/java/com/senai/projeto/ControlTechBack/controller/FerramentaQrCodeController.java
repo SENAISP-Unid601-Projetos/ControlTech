@@ -114,6 +114,7 @@ public class FerramentaQrCodeController {
             return ResponseEntity.internalServerError().build();
         }
     }
+    // ATUALIZADO: Retorna a dataAssociacao
     @PostMapping("/associar/{id}")
     public ResponseEntity<Map<String, Object>> associarUsuario(
             @PathVariable Long id,
@@ -139,16 +140,17 @@ public class FerramentaQrCodeController {
         Usuario usuario = optUsuario.get();
 
         try {
-            // ⚠️ Service deve apenas executar a lógica, não retornar String
+            // Service deve apenas executar a lógica, não retornar String
             ferramentaService.associarUsuario(ferramenta, usuario);
 
-            // ✅ Sempre retorna JSON com dados claros
+            // ATUALIZADO: Retorna a dataAssociacao para o Front-end
             return ResponseEntity.ok(Map.of(
                     "mensagem", "Associado com sucesso!",
                     "ferramentaId", ferramenta.getId(),
                     "ferramentaNome", ferramenta.getNome(),
                     "usuarioId", usuario.getId(),
-                    "usuarioNome", usuario.getNome()
+                    "usuarioNome", usuario.getNome(),
+                    "dataAssociacao", ferramenta.getDataAssociacao() // NOVO CAMPO
             ));
 
         } catch (Exception e) {
@@ -159,6 +161,7 @@ public class FerramentaQrCodeController {
         }
     }
 
+    // ATUALIZADO: Retorna a dataAssociacao
     @GetMapping("/{id}/usuario")
     public ResponseEntity<UsuarioStatusDTO> usuarioDaFerramenta(@PathVariable Long id) {
         Optional<Ferramenta> ferrOpt = ferramentaService.buscarEntidadePorId(id);
@@ -168,12 +171,17 @@ public class FerramentaQrCodeController {
         Usuario usuario = ferramenta.getUsuario();
 
         if (usuario == null) {
-            // Retorna DTO com campos nulos
-            return ResponseEntity.ok(new UsuarioStatusDTO(null, null, null));
+            // Retorna DTO com campos nulos e dataAssociacao nula
+            return ResponseEntity.ok(new UsuarioStatusDTO(null, null, null, null)); // dataAssociacao nula
         }
 
-        // Retorna DTO com dados do usuário
-        UsuarioStatusDTO dto = new UsuarioStatusDTO(usuario.getId(), usuario.getNome(), usuario.getPerfil());
+        // Retorna DTO com dados do usuário e a data de associação
+        UsuarioStatusDTO dto = new UsuarioStatusDTO(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getPerfil(),
+                ferramenta.getDataAssociacao() // NOVO CAMPO
+        );
         return ResponseEntity.ok(dto);
     }
 
@@ -190,6 +198,7 @@ public class FerramentaQrCodeController {
         return ResponseEntity.ok(lista);
     }
 
+    // ATUALIZADO: Limpa a dataAssociacao
     @PostMapping("/{id}/devolver")
     public ResponseEntity<String> devolver(@PathVariable Long id,
                                            @RequestParam(required = false) String observacoes) {
@@ -214,6 +223,7 @@ public class FerramentaQrCodeController {
         // Desassociar ferramenta do usuário
         ferramenta.setUsuario(null);
         ferramenta.setDataDevolucao(null);
+        ferramenta.setDataAssociacao(null); // NOVO: Limpa a data de associação
         ferramentaService.salvarOuAtualizar(ferramenta); // Método público para salvar alterações
 
         return ResponseEntity.ok("Devolução realizada com sucesso");
