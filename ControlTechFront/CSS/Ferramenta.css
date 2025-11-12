@@ -5,7 +5,9 @@ body {
     padding: 0;
     background-color: #f0f2f5;
     color: #333;
-    transition: background-color 0.3s, color 0.3s; /* Adicionado para tema */
+    transition: background-color 0.3s, color 0.3s; 
+    /* CORREÇÃO 1: Impede que o conteúdo posicionado à esquerda (como a sidebar) crie rolagem horizontal. */
+    overflow-x: hidden; 
 }
 
 /* Container do Dashboard */
@@ -23,7 +25,7 @@ body {
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    transition: left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s; /* Atualizado */
+    transition: left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s; 
 }
 
 .sidebar-header {
@@ -86,7 +88,7 @@ body {
 .main-content {
     flex-grow: 1;
     padding: 2rem;
-    transition: background-color 0.3s; /* Adicionado para tema */
+    transition: background-color 0.3s; 
 }
 
 .main-header {
@@ -100,14 +102,14 @@ body {
     align-items: center;
     flex-wrap: wrap;
     gap: 1rem;
-    transition: background-color 0.3s, box-shadow 0.3s; /* Adicionado para tema */
+    transition: background-color 0.3s, box-shadow 0.3s; 
 }
 
 .main-header h1 {
     font-size: 2rem;
     color: #004b8d;
     margin: 0;
-    transition: color 0.3s; /* Adicionado para tema */
+    transition: color 0.3s; 
 }
 
 /* Layout em Grid para as Ferramentas */
@@ -125,7 +127,7 @@ body {
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     padding: 1.5rem;
     text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s, border-color 0.3s; /* Adicionado */
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s, border-color 0.3s; 
     border: 1px solid #eee;
 }
 
@@ -145,7 +147,7 @@ body {
     margin: 0.5rem 0;
     font-size: 1.2rem;
     color: #004b8d;
-    transition: color 0.3s; /* Adicionado */
+    transition: color 0.3s; 
 }
 
 /* Estilos para a barra de pesquisa */
@@ -160,8 +162,8 @@ body {
     border-radius: 50px;
     font-size: 1rem;
     transition: all 0.3s ease;
-    background-color: #fff; /* Adicionado */
-    color: #333; /* Adicionado */
+    background-color: #fff; 
+    color: #333; 
 }
 
 .search-input:focus {
@@ -170,7 +172,7 @@ body {
     box-shadow: 0 0 5px rgba(0, 97, 192, 0.5);
 }
 
-.search-input::placeholder { /* Adicionado */
+.search-input::placeholder { 
     color: #aaa;
     transition: color 0.3s;
 }
@@ -178,12 +180,12 @@ body {
 
 .search-icon-container {
     position: absolute;
-    right: 15px; /* Ajustado */
+    right: 15px; 
     top: 50%;
     transform: translateY(-50%);
     color: #aaa;
-    cursor: text; /* Mudar cursor para texto */
-    transition: color 0.3s; /* Adicionado */
+    cursor: text; 
+    transition: color 0.3s; 
 }
 
 /* === ADIÇÕES PARA PERFIL, STATUS, CONFIGURAÇÕES E TEMA ESCURO === */
@@ -266,7 +268,7 @@ body {
     cursor: pointer;
     width: 100%;
     font-weight: bold;
-    transition: background-color 0.3s, opacity 0.3s; /* Adicionado */
+    transition: background-color 0.3s, opacity 0.3s; 
     margin-top: 1rem;
 }
 .select-btn:hover {
@@ -363,7 +365,7 @@ body {
     cursor: pointer;
     font-size: 2.5rem;
     color: #004b8d;
-    transition: transform 0.3s ease, color 0.3s; /* Adicionado color */
+    transition: transform 0.3s ease, color 0.3s; 
     width: 60px;
     height: 60px;
     position: relative;
@@ -420,7 +422,8 @@ body {
     .sidebar {
         position: fixed;
         top: 0;
-        left: -250px;
+        /* CORREÇÃO CRÍTICA: Move a barra lateral mais para a esquerda (300px) para garantir que a sombra não vaze */
+        left: -300px;
         height: 100vh;
         z-index: 100;
         box-shadow: 2px 0 5px rgba(0,0,0,0.5);
@@ -562,44 +565,44 @@ body.dark-theme .select-btn:disabled {
 
 
 /* Tema escuro para o popup de config */
-body.dark-theme .theme-popup {
+.dark-theme .theme-popup {
     background-color: #444;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     color: #f0f2f5;
 }
-body.dark-theme .popup-header {
+.dark-theme .popup-header {
     border-bottom: 1px solid #555;
 }
-body.dark-theme .popup-header h4 {
+.dark-theme .popup-header h4 {
     color: #b3cde0;
 }
-body.dark-theme .popup-header .close-btn {
+.dark-theme .popup-header .close-btn {
     color: #aaa;
 }
-body.dark-theme .popup-content-config .config-label,
-body.dark-theme .theme-status,
-body.dark-theme .lang-status {
+.dark-theme .popup-content-config .config-label,
+.dark-theme .theme-status,
+.dark-theme .lang-status {
     color: #ccc;
 }
-body.dark-theme .divider {
+.dark-theme .divider {
     background-color: #555;
 }
-body.dark-theme .theme-toggle-btn {
+.dark-theme .theme-toggle-btn {
     color: #b3cde0; /* Cor dos ícones no dark mode */
 }
 /* Animação do botão de tema dark */
-body.dark-theme .theme-toggle-btn .fa-sun {
+.dark-theme .theme-toggle-btn .fa-sun {
     opacity: 0;
     transform: translateY(-10px);
 }
-body.dark-theme .theme-toggle-btn .fa-moon {
+.dark-theme .theme-toggle-btn .fa-moon {
     opacity: 1;
     transform: translateY(0);
     color: #f1c40f; /* Cor da lua */
 }
-body.dark-theme .lang-toggle-btn {
+.dark-theme .lang-toggle-btn {
     background-color: #0061c0; /* Mantem azul */
 }
-body.dark-theme .lang-toggle-btn:hover {
+.dark-theme .lang-toggle-btn:hover {
     background-color: #004b8d;
 }
