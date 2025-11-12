@@ -186,7 +186,7 @@ body {
     margin-bottom: 0.5rem;
     color: #ccc;
 }
-    
+
 .btn-primary {
     width: 100%;
     padding: 1rem;
@@ -204,11 +204,11 @@ body {
     justify-content: center;
     gap: 0.5rem;
 }
-    
+
 .btn-primary:hover {
     background-color: #004b8d;
 }
-    
+
 .btn-primary:disabled {
     background-color: #ccc;
     cursor: not-allowed;
@@ -262,7 +262,7 @@ body {
     .dashboard-container {
         flex-direction: column;
     }
-    
+
     .sidebar {
         position: fixed;
         top: 0;
@@ -278,7 +278,7 @@ body {
     .sidebar.active {
         left: 0; /* Move a barra lateral para dentro da tela quando a classe 'active' é adicionada */
     }
-    
+
     .sidebar-header {
         text-align: left;
     }

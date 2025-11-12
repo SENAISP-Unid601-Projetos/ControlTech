@@ -143,7 +143,7 @@ textarea {
     background-color: #fff;
     transition: all 0.2s ease-in-out;
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
-    box-sizing: border-box; 
+    box-sizing: border-box;
     color: #333; /* Adicionado para tema */
 }
 
@@ -199,7 +199,7 @@ textarea:focus {
 }
 
 .ferramenta-item:hover {
-    transform: translateY(-4px); 
+    transform: translateY(-4px);
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     border-top-color: #0061c0;
 }
@@ -213,7 +213,7 @@ textarea:focus {
 }
 
 /* Estilo para o Nome da Ferramenta */
-.ferramenta-item p:nth-child(2) { 
+.ferramenta-item p:nth-child(2) {
     font-size: 1.15rem;
     font-weight: bold;
     color: #004b8d;
@@ -423,11 +423,11 @@ textarea:focus {
     .dashboard-container {
         flex-direction: column;
     }
-    
+
     .sidebar {
         position: fixed;
         top: 0;
-        left: -250px; 
+        left: -250px;
         height: 100vh;
         width: 250px;
         padding: 2rem 1.5rem;
@@ -437,9 +437,9 @@ textarea:focus {
     }
 
     .sidebar.active {
-        left: 0; 
+        left: 0;
     }
-    
+
     .sidebar-header {
         text-align: left;
     }
@@ -458,13 +458,13 @@ textarea:focus {
     .devolucao-box {
         padding: 1.5rem;
     }
-    
+
     .devolucao-box h1 {
         font-size: 1.5rem;
     }
-    
+
     .hamburger-btn {
-        display: block; 
+        display: block;
     }
     .user-profile {
         display: none;
@@ -499,42 +499,42 @@ body.dark-theme .mensagem.msg-success { background-color: #1f4d3a; color: #a3e9c
 body.dark-theme .mensagem.msg-error { background-color: #5f2120; color: #f9bdbb; } /* Vermelho escuro */
 
 /* Estilos de Card de Devolução (Dark Mode Aprimorado) */
-body.dark-theme .ferramenta-item { 
-    background: #444; 
-    border-color: #555; 
+body.dark-theme .ferramenta-item {
+    background: #444;
+    border-color: #555;
     border-top-color: #0061c0; /* Mantém o destaque azul no dark mode */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 body.dark-theme .ferramenta-item:hover {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
     border-top-color: #0080ff;
 }
-body.dark-theme .ferramenta-item p { 
-    color: #ccc; 
+body.dark-theme .ferramenta-item p {
+    color: #ccc;
 }
-body.dark-theme .ferramenta-item p strong { 
-    color: #f0f2f5; 
+body.dark-theme .ferramenta-item p strong {
+    color: #f0f2f5;
 }
 body.dark-theme .ferramenta-item p:nth-child(2) {
     color: #b3cde0; /* Cor de destaque para o nome */
 }
 
-body.dark-theme .obsInput { 
-    background-color: #555; 
-    color: #fff; 
-    border: 1px solid #666; 
+body.dark-theme .obsInput {
+    background-color: #555;
+    color: #fff;
+    border: 1px solid #666;
 }
-body.dark-theme .obsInput::placeholder { 
-    color: #999; 
+body.dark-theme .obsInput::placeholder {
+    color: #999;
 }
 body.dark-theme .obsInput:focus {
     border-color: #0061c0;
 }
-body.dark-theme .btnDevolver { 
-    background-color: #0061c0; 
+body.dark-theme .btnDevolver {
+    background-color: #0061c0;
 }
-body.dark-theme .btnDevolver:hover { 
-    background-color: #004b8d; 
+body.dark-theme .btnDevolver:hover {
+    background-color: #004b8d;
 }
 body.dark-theme .lista-vazia { background: #3a3a3a; border-color: #555; color: #aaa; }
 

@@ -59,7 +59,7 @@ body::before {
 .sidebar-nav {
     display: flex;
     flex-direction: column;
-    flex-grow: 1; 
+    flex-grow: 1;
 }
 
 .sidebar-nav a {
@@ -101,7 +101,7 @@ body::before {
 
 /* Estilos para o botão do hambúrguer */
 .hamburger-btn {
-    display: none; 
+    display: none;
     position: fixed;
     top: 20px;
     left: 20px;
@@ -123,7 +123,7 @@ body::before {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background-color 0.3s; 
+    transition: background-color 0.3s;
 }
 
 
@@ -365,11 +365,11 @@ body::before {
     .sidebar-header {
         text-align: left;
     }
-    .user-profile { 
+    .user-profile {
         display: none;
     }
     .main-content {
-        padding: 4rem 1rem 1rem 1rem; 
+        padding: 4rem 1rem 1rem 1rem;
         margin-left: 0;
     }
     .hamburger-btn {

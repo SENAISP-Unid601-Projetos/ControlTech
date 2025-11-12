@@ -98,7 +98,7 @@ body {
     text-align: left;
     transition: box-shadow 0.3s ease;
 }
-    
+
 .ajuda-box:hover {
     box-shadow: 0 6px 30px rgba(0, 58, 117, 0.35);
 }
@@ -156,7 +156,7 @@ body {
     color: #004b8d;
 }
 
-#formAjuda input, 
+#formAjuda input,
 #formAjuda textarea {
     width: 100%;
     padding: 0.75rem;
@@ -167,13 +167,13 @@ body {
     box-sizing: border-box;
     resize: vertical;
 }
-    
-#formAjuda input:focus, 
+
+#formAjuda input:focus,
 #formAjuda textarea:focus {
     outline: none;
     border-color: #004b8d;
 }
-    
+
 #formAjuda button {
     background-color: #0061c0;
     color: white;
@@ -196,9 +196,9 @@ body {
 .popup {
     display: none;
     position: fixed;
-    top: 0; 
+    top: 0;
     left: 0;
-    width: 100%; 
+    width: 100%;
     height: 100%;
     justify-content: center;
     align-items: center;
@@ -248,7 +248,7 @@ body {
     .dashboard-container {
         flex-direction: column;
     }
-    
+
     .sidebar {
         position: fixed;
         top: 0;
@@ -264,7 +264,7 @@ body {
     .sidebar.active {
         left: 0; /* Move a barra lateral para dentro da tela quando a classe 'active' é adicionada */
     }
-    
+
     .sidebar-header {
         text-align: left;
     }
@@ -283,16 +283,16 @@ body {
     .ajuda-box {
         padding: 1.5rem;
     }
-    
+
     .ajuda-box h2 {
         font-size: 1.5rem;
     }
-    
+
     #formAjuda button {
         padding: 0.8rem;
         font-size: 1rem;
     }
-    
+
     .hamburger-btn {
         display: block; /* Mostra o botão do hambúrguer em telas pequenas */
     }
