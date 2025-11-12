@@ -211,7 +211,11 @@ body {
 .user-details h4 { margin: 0; font-size: 1.1rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; transition: color 0.3s; }
 
 /* Botão de Configurações */
+<<<<<<< HEAD
 .settings-btn { background-color: rgba(0, 0, 0, 0.2); }
+=======
+.settings-btn {background-color: rgba(0, 0, 0, 0.2); }
+>>>>>>> 72bec4c0ef03a4d2a147ee1ea7281f498d0a57ff
 .settings-btn:hover { background-color: #0061c0 !important; }
 
 /* Popup de Configurações */

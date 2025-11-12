@@ -2,25 +2,36 @@
 
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body, html {
-    height: 100%;
-    margin: 0;
+    /* 🛑 ATUALIZADO: Usamos min-height para garantir que o body cubra a tela, mesmo com overflow-y */
+    min-height: 100vh;
+    height: auto; /* Deixa o height ser adaptável */
+    
+    margin: 0; 
+    padding: 0;
     font-family: 'Inter', sans-serif;
     background: #fff;
     color: #222;
+    
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+    justify-content: center; /* Mantém a centralização vertical */
+    align-items: center; /* Mantém a centralização horizontal */
+    
+    overflow-x: hidden; 
+    width: 100vw; 
+    
     position: relative;
 }
 
+/* Efeitos de fundo (Padrão para Desktop) */
 body::before {
     content: "";
-    position: fixed;
+    position: fixed; 
     top: -150px;
     left: -150px;
     width: 600px;
@@ -30,11 +41,12 @@ body::before {
     opacity: 0.15;
     z-index: 0;
     filter: blur(80px);
+    pointer-events: none; 
 }
 
 body::after {
     content: "";
-    position: fixed;
+    position: fixed; 
     bottom: -200px;
     right: -200px;
     width: 700px;
@@ -49,6 +61,7 @@ body::after {
     opacity: 0.05;
     z-index: 0;
     transform: rotate(15deg);
+    pointer-events: none; 
 }
 
 .container {
@@ -56,11 +69,13 @@ body::after {
     z-index: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
-    flex: 1;
+    /* 🛑 ATUALIZADO: Alinha o conteúdo mais para o topo do espaço disponível */
+    align-items: flex-start; 
+    flex: 1; /* Permite que o container ocupe o espaço vertical */
     width: 100%;
+    max-width: 100vw; 
     padding: 1em;
-    margin-bottom: 12em;
+    margin-bottom: 0;
 }
 
 .login-box {
@@ -69,12 +84,15 @@ body::after {
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 58, 117, 0.2);
     width: 400px;
+    max-width: 90%; 
     text-align: center;
     transition: box-shadow 0.3s ease;
     color: #222;
     z-index: 2;
     position: relative;
-    overflow: hidden;
+    overflow: hidden; 
+    /* 🛑 CORREÇÃO PRINCIPAL PARA SUBIR: Margem superior para empurrar o box para baixo do topo, mas mantendo-o na metade superior */
+    margin: 10vh auto 0 auto; 
 }
 
 .login-box:hover {
@@ -85,7 +103,7 @@ body::after {
     margin-bottom: 1.5rem;
     font-weight: 700;
     font-size: 2rem;
-    color: #003a75; /* azul SENAI */
+    color: #003a75;
 }
 
 .status {
@@ -107,6 +125,7 @@ body::after {
 
 .info-aluno div {
     margin-bottom: 0.8rem;
+    text-align: left;
 }
 
 button#btnEntrar {
@@ -136,6 +155,7 @@ button#btnEntrar:hover {
     justify-content: center;
     align-items: center;
     z-index: 999;
+    padding: 1rem;
 }
 
 .popup.hidden {
@@ -147,13 +167,14 @@ button#btnEntrar:hover {
     padding: 2rem 2.5rem;
     border-radius: 14px;
     width: 320px;
+    max-width: 90%;
     text-align: center;
     box-shadow: 0 0 20px rgba(0, 58, 117, 0.2);
     color: #222;
 }
 
 .popup-content h2 {
-    color: #003a75; /* azul SENAI */
+    color: #003a75;
     margin-bottom: 0.8rem;
 }
 
@@ -179,14 +200,6 @@ button#btnEntrar:hover {
     background-color: #146c00;
 }
 
-footer {
-    text-align: center;
-    padding: 1rem;
-    font-size: 0.9rem;
-    color: #666;
-    user-select: none;
-}
-
 /* Link cadastro */
 .link-cadastro {
     font-size: 0.9rem;
@@ -199,10 +212,11 @@ footer {
 .slide-container {
     position: relative;
     width: 100%;
+    max-width: 100vw;
     overflow: hidden;
     display: flex;
     flex-direction: row;
-    min-height: 400px; /* garante altura mínima */
+    min-height: 400px;
 }
 
 /* Login e Cadastro sobrepostos */
@@ -212,24 +226,22 @@ footer {
     top: 0;
     left: 0;
     width: 100%;
+    max-width: 100%; 
     transition: transform 0.5s ease, opacity 0.5s ease;
     z-index: 2;
 }
 
-/* Login padrão */
 #loginContainer {
     transform: translateX(0);
     opacity: 1;
 }
 
-/* Login saindo */
 #loginContainer.slide-out {
     transform: translateX(-100%);
     opacity: 0;
     z-index: 1;
 }
 
-/* Cadastro fora da tela */
 .cadastro-box {
     background: #f9fafb;
     border-radius: 10px;
@@ -241,7 +253,6 @@ footer {
     z-index: 1;
 }
 
-/* Cadastro entrando */
 .cadastro-box.active {
     transform: translateX(0);
     opacity: 1;
@@ -250,7 +261,7 @@ footer {
 
 .cadastro-box input {
     display: block;
-    width: 90%;
+    width: 95%;
     padding: 0.8rem;
     margin: 0.5rem auto;
     border-radius: 8px;
@@ -259,7 +270,7 @@ footer {
 
 .cadastro-box button {
     margin-top: 1rem;
-    width: 95%;
+    width: 100%;
     padding: 1rem;
     border: none;
     border-radius: 10px;
@@ -274,17 +285,15 @@ footer {
     background-color: #002850;
 }
 
-.spacer {
-    height: 4rem;
-}
-
-/* --- NOVO ESTILO DO INPUT FILE --- */
+/* --- ESTILO DO INPUT FILE --- */
 .custom-file-upload {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1rem;
     margin-bottom: 1rem;
+    flex-wrap: wrap; 
+    padding: 0 0.5rem;
 }
 
 .custom-file-upload input[type="file"] {
@@ -317,7 +326,7 @@ footer {
     max-width: 180px; 
 }
 
-/* --- ESTILO DO BOTÃO "LER QR CODE" MELHORADO --- */
+/* --- ESTILO DO BOTÃO "LER QR CODE" --- */
 #btnLerQr {
     width: 100%;
     padding: 1rem;
@@ -350,15 +359,79 @@ footer {
     pointer-events: none;
 }
 
-.custom-file-upload {
-    display: flex;
-    align-items: center;
-    justify-content: center; 
-    gap: 1rem;
-    margin-bottom: 1rem;
+/* Estilo adicional para diferenciar popup cadastro */
+#popupCadastro .popup-content {
+    border-top: 5px solid #4CAF50;
 }
 
-/* Estilo adicional para diferenciar */
-#popupCadastro .popup-content {
-  border-top: 5px solid #4CAF50;
+/* ==================================================================================== */
+/* 📱 MEDIA QUERY PARA RESPONSIVIDADE (Celulares e Tablets Pequenos) */
+/* ==================================================================================== */
+@media (max-width: 600px) {
+    /* 🛑 CORREÇÃO FINAL: Remove elementos de fundo no mobile para evitar o overflow-x */
+    body::before, body::after {
+        content: none;
+    }
+
+    body {
+        overflow-y: auto; 
+        justify-content: flex-start; /* Permite que o conteúdo suba */
+        padding-top: 2rem;
+    }
+
+    .container {
+        padding: 0.5em; 
+    }
+
+    .login-box {
+        width: 100%; 
+        max-width: 340px; 
+        padding: 1.5rem; 
+        /* 🛑 ATUALIZADO: Margem superior fixa no mobile para garantir que não fique colado ao topo */
+        margin: 2rem auto 1rem auto; 
+    }
+
+    .login-box h1 {
+        font-size: 1.7rem;
+    }
+
+    /* Empilhamento dos elementos de upload */
+    .custom-file-upload {
+        flex-direction: column; 
+        gap: 0.5rem;
+    }
+
+    .custom-file-upload .custom-button {
+        width: 100%;
+        text-align: center;
+        padding: 0.75rem 1rem;
+    }
+    
+    .custom-file-upload .file-name {
+        max-width: 100%;
+        white-space: normal;
+    }
+
+    #btnLerQr, button#btnEntrar {
+        font-size: 1rem;
+        padding: 0.8rem;
+    }
+
+    .info-aluno {
+        padding: 1rem;
+    }
+    
+    /* Pop-up */
+    .popup-content {
+        max-width: 90%;
+        padding: 2rem 1.5rem;
+    }
+
+    .link-cadastro {
+        font-size: 0.85rem;
+    }
+
+    .slide-container {
+        min-height: 380px; 
+    }
 }

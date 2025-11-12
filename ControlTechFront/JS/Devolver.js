@@ -447,4 +447,8 @@ document.addEventListener("DOMContentLoaded", () => {
         saveLanguage(currentLang === 'pt' ? 'en' : 'pt'); // Salva e atualiza UI
     });
 
+<<<<<<< HEAD
 }); // Fim do DOMContentLoaded
+=======
+}); // Fim do DOMContentLoaded  
+>>>>>>> 72bec4c0ef03a4d2a147ee1ea7281f498d0a57ff
