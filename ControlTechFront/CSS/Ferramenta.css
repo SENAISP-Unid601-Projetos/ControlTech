@@ -6,7 +6,7 @@ body {
     background-color: #f0f2f5;
     color: #333;
     transition: background-color 0.3s, color 0.3s; 
-    /* CORREÇÃO 1: Impede que o conteúdo posicionado à esquerda (como a sidebar) crie rolagem horizontal. */
+    /* CORREÇÃO MANTIDA: Impede que o conteúdo posicionado à esquerda (como a sidebar) crie rolagem horizontal. */
     overflow-x: hidden; 
 }
 
@@ -422,7 +422,7 @@ body {
     .sidebar {
         position: fixed;
         top: 0;
-        /* CORREÇÃO CRÍTICA: Move a barra lateral mais para a esquerda (300px) para garantir que a sombra não vaze */
+        /* MANTIDO: Left mais agressivo para não mostrar sombra */
         left: -300px;
         height: 100vh;
         z-index: 100;
@@ -450,6 +450,11 @@ body {
         padding: 1rem;
         flex-direction: column;
         align-items: stretch; /* Faz input ocupar largura */
+    }
+
+    /* CORREÇÃO APLICADA: Força o search-container a ocupar 100% da largura do main-header */
+    .search-container {
+        width: 100%; 
     }
 
     .search-input {
