@@ -1,7 +1,9 @@
 package com.senai.projeto.ControlTechBack.service;
 
 import com.senai.projeto.ControlTechBack.DTO.FerramentaDTO;
+import com.senai.projeto.ControlTechBack.DTO.FerramentaUsuarioDTO;
 import com.senai.projeto.ControlTechBack.entity.Ferramenta;
+import com.senai.projeto.ControlTechBack.entity.Usuario;
 import com.senai.projeto.ControlTechBack.repository.FerramentaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.time.LocalDate;
 
 @Service
 public class FerramentaService {
@@ -16,38 +19,64 @@ public class FerramentaService {
     @Autowired
     private FerramentaRepository ferramentaRepository;
 
+    // LISTAR TODAS AS FERRAMENTAS (DTO)
     public List<FerramentaDTO> listarTodas() {
-        return ferramentaRepository.findAll().stream()
+        return ferramentaRepository.findAll()
+                .stream()
                 .map(this::converterParaDTO)
                 .collect(Collectors.toList());
     }
 
+    // BUSCAR ENTIDADE COMPLETA
+    public Optional<Ferramenta> buscarEntidadePorId(Long id) {
+        return ferramentaRepository.findById(id);
+    }
+
+    // BUSCAR POR ID RETORNANDO DTO
     public FerramentaDTO buscarPorId(Long id) {
-        Optional<Ferramenta> ferramenta = ferramentaRepository.findById(id);
-        return ferramenta.map(this::converterParaDTO).orElse(null);
+        return ferramentaRepository.findById(id)
+                .map(this::converterParaDTO)
+                .orElse(null);
     }
 
-    public FerramentaDTO salvar(FerramentaDTO ferramentaDTO) {
-        Ferramenta ferramenta = converterParaEntidade(ferramentaDTO);
-        Ferramenta ferramentaSalva = ferramentaRepository.save(ferramenta);
-        return converterParaDTO(ferramentaSalva);
+    // BUSCAR POR QRCODE
+
+    // SALVAR NOVA FERRAMENTA
+    public FerramentaDTO salvar(FerramentaDTO dto) {
+        Ferramenta ferramenta = converterParaEntidade(dto);
+        Ferramenta salva = ferramentaRepository.save(ferramenta);
+        return converterParaDTO(salva);
     }
 
-    public FerramentaDTO atualizar(Long id, FerramentaDTO ferramentaDTO) {
-        Ferramenta ferramentaExistente = ferramentaRepository.findById(id)
+    // ATUALIZAR FERRAMENTA EXISTENTE
+    public FerramentaDTO atualizar(Long id, FerramentaDTO dto) {
+        Ferramenta existente = ferramentaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Ferramenta não encontrada"));
-        ferramentaExistente.setNome(ferramentaDTO.getNome());
-        ferramentaExistente.setDescricao(ferramentaDTO.getDescricao());
-        ferramentaExistente.setQuantidadeEstoque(ferramentaDTO.getQuantidadeEstoque());
-        ferramentaExistente.setDataDevolucao(ferramentaDTO.getDataDevolucao());
-        Ferramenta ferramentaAtualizada = ferramentaRepository.save(ferramentaExistente);
-        return converterParaDTO(ferramentaAtualizada);
+        existente.setNome(dto.getNome());
+        existente.setDescricao(dto.getDescricao());
+        existente.setQuantidadeEstoque(dto.getQuantidadeEstoque());
+        existente.setDataDevolucao(dto.getDataDevolucao());
+        Ferramenta atualizada = ferramentaRepository.save(existente);
+        return converterParaDTO(atualizada);
     }
 
+    // DELETAR FERRAMENTA
     public void deletar(Long id) {
         ferramentaRepository.deleteById(id);
     }
 
+
+    public void associarUsuario(Ferramenta ferramenta, Usuario usuario) {
+        if (ferramenta == null || usuario == null) {
+            throw new RuntimeException("Ferramenta ou usuário não podem ser nulos");
+        }
+
+        ferramenta.setUsuario(usuario);
+        if (ferramenta.getDataDevolucao() == null) {
+            ferramenta.setDataDevolucao(LocalDate.now().plusDays(7));
+        }
+        ferramentaRepository.save(ferramenta);
+    }
     private FerramentaDTO converterParaDTO(Ferramenta ferramenta) {
         FerramentaDTO dto = new FerramentaDTO();
         dto.setId(ferramenta.getId());
@@ -59,11 +88,70 @@ public class FerramentaService {
     }
 
     private Ferramenta converterParaEntidade(FerramentaDTO dto) {
-        Ferramenta ferramenta = new Ferramenta();
-        ferramenta.setNome(dto.getNome());
-        ferramenta.setDescricao(dto.getDescricao());
-        ferramenta.setQuantidadeEstoque(dto.getQuantidadeEstoque());
-        ferramenta.setDataDevolucao(dto.getDataDevolucao());
-        return ferramenta;
+        Ferramenta f = new Ferramenta();
+        f.setNome(dto.getNome());
+        f.setDescricao(dto.getDescricao());
+        f.setQuantidadeEstoque(dto.getQuantidadeEstoque());
+        f.setDataDevolucao(dto.getDataDevolucao());
+        return f;
     }
+    public List<Usuario> listarUsuariosAssociados() {
+        return ferramentaRepository.findAll()
+                .stream()
+                .map(Ferramenta::getUsuario)
+                .filter(usuario -> usuario != null)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+    public List<FerramentaUsuarioDTO> listarFerramentasPorUsuario(Long usuarioId) {
+        return ferramentaRepository.findAll()
+                .stream()
+                .filter(f -> f.getUsuario() != null)
+                .filter(f -> f.getUsuario().getId() == usuarioId) // <- correção
+                .map(f -> {
+                    FerramentaUsuarioDTO dto = new FerramentaUsuarioDTO();
+                    dto.setFerramentaId(f.getId());
+                    dto.setFerramentaNome(f.getNome());
+                    dto.setQuantidadeEstoque(f.getQuantidadeEstoque());
+                    dto.setDataDevolucao(f.getDataDevolucao());
+
+                    dto.setUsuarioId(f.getUsuario().getId());
+                    dto.setUsuarioNome(f.getUsuario().getNome());
+                    dto.setUsuarioPerfil(f.getUsuario().getPerfil());
+                    dto.setUsuarioQrCode(f.getUsuario().getQrCode());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+    public List<FerramentaUsuarioDTO> listarFerramentasPorCracha(String cracha) {
+        return ferramentaRepository.findAll()
+                .stream()
+                .filter(f -> f.getUsuario() != null && f.getUsuario().getQrCode().equals(cracha))
+                .map(f -> {
+                    FerramentaUsuarioDTO dto = new FerramentaUsuarioDTO();
+                    dto.setFerramentaId(f.getId());
+                    dto.setFerramentaNome(f.getNome());
+                    dto.setQuantidadeEstoque(f.getQuantidadeEstoque());
+                    dto.setDataDevolucao(f.getDataDevolucao());
+
+                    dto.setUsuarioId(f.getUsuario().getId());
+                    dto.setUsuarioNome(f.getUsuario().getNome());
+                    dto.setUsuarioPerfil(f.getUsuario().getPerfil());
+                    dto.setUsuarioQrCode(f.getUsuario().getQrCode());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+    public void devolverFerramenta(Long ferramentaId) {
+        Ferramenta ferramenta = ferramentaRepository.findById(ferramentaId)
+                .orElseThrow(() -> new RuntimeException("Ferramenta não encontrada"));
+
+        // Remove o usuário associado
+        ferramenta.setUsuario(null);
+        // Opcional: atualiza data de devolução para hoje
+        ferramenta.setDataDevolucao(LocalDate.now());
+
+        ferramentaRepository.save(ferramenta); // apenas atualiza
+    }
+
 }

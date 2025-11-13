@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Devolução de Itens - SENAI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/CSS/Devolver.css">
+    <script src="/JS/Devolver.js" defer></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <button class="hamburger-btn" id="hamburger-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>ControlTech</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="Ferramentas.html">
+                    <i class="fas fa-tools"></i>
+                    <span>Ferramentas</span>
+                </a>
+                <a href="Devolver.html" class="active">
+                    <i class="fas fa-undo"></i>
+                    <span>Devolver</span>
+                </a>
+                <a href="Ajuda.html">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Ajuda</span>
+                </a>
+                <a href="Saida.html" class="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="devolucao-box">
+                <h1>Devolução de Itens</h1>
+                
+                <div class="info-box">
+                    <div>
+                        <label for="cracha" class="block text-sm font-medium text-gray-700">Passe o crachá do funcionário (apenas números)</label>
+                        <input type="text" id="cracha" name="cracha" 
+                            placeholder="Aproxime o crachá ou digite o código" 
+                            class="input-field" 
+                            required
+                            maxlength="5"
+                            pattern="\d+"
+                            title="Digite apenas números (5 dígitos)" />
+                    </div>
+                </div>
+
+                <div id="infoUsuario" class="info-box hidden">
+                    <p><strong>ID do Funcionário:</strong> <span id="funcId"></span></p>
+                    <p><strong>Nome:</strong> <span id="funcNome"></span></p>
+                    <p><strong>Data:</strong> <span id="dataAtual"></span></p>
+                    <p><strong>Horário:</strong> <span id="horaAtual"></span></p>
+                </div>
+
+                <form id="devolucaoForm" class="hidden">
+                    <div>
+                        <label for="objeto" class="block text-sm font-medium text-gray-700">Objeto ou ID do item a ser devolvido</label>
+                        <input type="text" id="objeto" name="objeto" placeholder="Ex: Livro de Mecânica ou ID 1234" class="input-field" required />
+                    </div>
+
+                    <div>
+                        <label for="observacoes" class="block text-sm font-medium text-gray-700">Observações</label>
+                        <textarea id="observacoes" name="observacoes" rows="3" class="input-field"></textarea>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="submit-button">Confirmar Devolução</button>
+                    </div>
+                </form>
+                <div id="mensagem" class="mensagem hidden"></div>
+            </div>
+            <div id="listaFerramentas" class="info-box hidden"></div>
+        </main>
+    </div>
+
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+</body>
+</html>

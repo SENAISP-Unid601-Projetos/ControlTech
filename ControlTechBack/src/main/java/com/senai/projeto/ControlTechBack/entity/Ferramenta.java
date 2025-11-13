@@ -1,29 +1,34 @@
 package com.senai.projeto.ControlTechBack.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-@Data
 @Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Ferramenta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String nome;
-
     private String descricao;
+    private Integer quantidadeEstoque;
 
-    @Column(nullable = false)
-    private int quantidadeEstoque;
 
-    private Date dataCadastro;
+    private LocalDate dataDevolucao;
 
-    private Date dataDevolucao;
-
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
 }
+
