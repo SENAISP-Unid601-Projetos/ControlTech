@@ -1,10 +1,18 @@
-/* Estilos Gerais */
+/* === ESTILOS GERAIS === */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Roboto', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f2f5;
+    /* Usando o gradiente ou cor sólida */
+    background-color: #f0f2f5; 
     color: #333;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 /* Container do Dashboard */
@@ -13,8 +21,9 @@ body {
     min-height: 100vh;
 }
 
-/* Barra Lateral */
+/* Barra Lateral (Sidebar) */
 .sidebar {
+    position: relative; 
     width: 250px;
     background-color: #004b8d;
     color: white;
@@ -22,7 +31,7 @@ body {
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    transition: left 0.3s ease-in-out;
+    transition: left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s;
 }
 
 .sidebar-header {
@@ -32,9 +41,22 @@ body {
     text-align: center;
 }
 
+/* Estilos do Perfil do Usuário */
+.user-profile {
+    display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; margin-bottom: 1.5rem;
+    border-radius: 8px; background-color: rgba(255, 255, 255, 0.1); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+.user-profile i { font-size: 2.5rem; color: #b3cde0; transition: color 0.3s; }
+.user-details { display: flex; flex-direction: column; text-align: left; }
+.user-details span { font-size: 0.9rem; color: #b3cde0; opacity: 0.8; transition: color 0.3s; }
+.user-details h4 { margin: 0; font-size: 1.1rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; transition: color 0.3s; }
+
+
 .sidebar-nav {
     display: flex;
     flex-direction: column;
+    flex-grow: 1; /* Permite que o nav-bar cresça para empurrar o settings-btn para baixo */
 }
 
 .sidebar-nav a {
@@ -55,13 +77,22 @@ body {
 }
 
 .sidebar-nav a i {
-   font-size: 1.5rem; /* Novo tamanho */
-    margin-right: 15px; /* Novo espaçamento */
+    font-size: 1.5rem;
+    margin-right: 15px; 
+}
+
+/* Botão de Configurações */
+.settings-btn {
+    margin-top: auto; /* Empurra para o final do sidebar-nav */
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.settings-btn:hover {
+    background-color: #0061c0 !important;
 }
 
 /* Estilos para o botão do hambúrguer */
 .hamburger-btn {
-    display: none; /* Inicia escondido em telas grandes */
+    display: none; 
     position: fixed;
     top: 20px;
     left: 20px;
@@ -86,7 +117,10 @@ body {
     padding: 2rem;
     display: flex;
     justify-content: center;
+    align-items: flex-start; /* Alinha o conteúdo ao topo */
 }
+
+/* === ESTILOS ESPECÍFICOS DA AJUDA === */
 
 .ajuda-box {
     background-color: #fff;
@@ -96,11 +130,11 @@ body {
     width: 100%;
     max-width: 700px;
     text-align: left;
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease, background-color 0.3s;
 }
 
 .ajuda-box:hover {
-    box-shadow: 0 6px 30px rgba(0, 58, 117, 0.35);
+    box-shadow: 0 6px 30px rgba(0, 58, 117, 0.15); /* Sombra mais sutil */
 }
 
 .ajuda-box h2 {
@@ -108,11 +142,13 @@ body {
     font-weight: 700;
     font-size: 2rem;
     color: #004b8d;
+    transition: color 0.3s;
 }
 
 .ajuda-box p {
     margin-bottom: 1.5rem;
     color: #555;
+    transition: color 0.3s;
 }
 
 .faq {
@@ -127,18 +163,30 @@ body {
     margin-bottom: 1rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     border: 1px solid #e9ecef;
+    transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 
 .faq-item h3 {
+    display: flex; /* Para alinhar o ícone e o texto */
+    align-items: center;
     margin: 0 0 0.5rem 0;
     font-size: 1.2rem;
     color: #004b8d;
+    transition: color 0.3s;
 }
 
+.faq-item i {
+    font-size: 1.2rem; 
+    margin-right: 15px; 
+    color: #004b8d; 
+    transition: color 0.3s;
+}
+
+/* --- Estilos do Formulário de Ajuda --- */
 #formAjuda {
     margin-top: 2rem;
-    padding: 0;
-    box-shadow: none;
+    padding-top: 2rem;
+    border-top: 1px dashed #ddd; /* Separador visual */
 }
 
 #formAjuda h3 {
@@ -146,6 +194,7 @@ body {
     color: #004b8d;
     font-size: 1.5rem;
     margin-bottom: 1rem;
+    transition: color 0.3s;
 }
 
 #formAjuda label {
@@ -154,6 +203,7 @@ body {
     margin-top: 1rem;
     margin-bottom: 0.5rem;
     color: #004b8d;
+    transition: color 0.3s;
 }
 
 #formAjuda input,
@@ -163,7 +213,7 @@ body {
     border: 1px solid #d1d5db;
     border-radius: 8px;
     font-family: 'Roboto', Arial, sans-serif;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, background-color 0.3s, color 0.3s;
     box-sizing: border-box;
     resize: vertical;
 }
@@ -192,7 +242,7 @@ body {
     background-color: #004b8d;
 }
 
-/* POP-UP ESTILO AZUL SENAI (CORRIGIDO) */
+/* === POP-UP DE AJUDA/FORMULÁRIO === */
 .popup {
     display: none;
     position: fixed;
@@ -216,6 +266,7 @@ body {
     text-align: center;
     color: #003a75;
     font-family: 'Roboto', Arial, sans-serif;
+    transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
 }
 
 .popup-content p {
@@ -243,141 +294,19 @@ body {
     background-color: #003366;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-    .dashboard-container {
-        flex-direction: column;
-    }
+/* === POPUP DE CONFIGURAÇÕES (TEMA/IDIOMA) === */
 
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: -250px; /* Esconde a barra lateral fora da tela */
-        height: 100vh;
-        width: 250px;
-        padding: 2rem 1.5rem;
-        transition: left 0.3s ease-in-out;
-        z-index: 100;
-        box-shadow: 2px 0 5px rgba(0,0,0,0.5);
-    }
-
-    .sidebar.active {
-        left: 0; /* Move a barra lateral para dentro da tela quando a classe 'active' é adicionada */
-    }
-
-    .sidebar-header {
-        text-align: left;
-    }
-
-    .sidebar-nav {
-        flex-direction: column;
-        display: flex;
-    }
-
-    .main-content {
-        margin-left: 0;
-        width: 100%;
-        padding: 1rem;
-    }
-
-    .ajuda-box {
-        padding: 1.5rem;
-    }
-
-    .ajuda-box h2 {
-        font-size: 1.5rem;
-    }
-
-    #formAjuda button {
-        padding: 0.8rem;
-        font-size: 1rem;
-    }
-
-    .hamburger-btn {
-        display: block; /* Mostra o botão do hambúrguer em telas pequenas */
-    }
-}
-/* Estilo para os ícones dos itens FAQ */
-.faq-item i {
-    font-size: 1.5rem; /* Aumenta o tamanho do ícone */
-    margin-right: 15px; /* Adiciona espaço à direita do ícone */
-    color: #004b8d; /* Define a cor do ícone */
-}
-/* === ADIÇÕES PARA PERFIL, CONFIGURAÇÕES E TEMA ESCURO === */
-
-/* Estilos do perfil do usuário */
-.user-profile {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.5rem;
-    margin-bottom: 1.5rem;
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s;
-}
-.user-profile i {
-    font-size: 2.5rem;
-    color: #b3cde0;
-    transition: color 0.3s;
-}
-.user-details {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-}
-.user-details span {
-    font-size: 0.9rem;
-    color: #b3cde0;
-    opacity: 0.8;
-    transition: color 0.3s;
-}
-.user-details h4 {
-    margin: 0;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #fff;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 150px;
-    transition: color 0.3s;
-}
-
-/* Botão de Configurações */
-.settings-btn {
-    margin-top: auto;
-    background-color: rgba(0, 0, 0, 0.2);
-}
-.settings-btn:hover {
-    background-color: #0061c0 !important;
-}
-
-/* Popup de Configurações (Mesmo estilo das outras páginas) */
 .theme-popup {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    width: 280px;
-    padding: 1rem;
-    z-index: 99;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px);
+    position: fixed; bottom: 20px; left: 20px; background-color: #fff; border-radius: 12px; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); width: 280px; padding: 1rem; z-index: 99; 
+    opacity: 0; visibility: hidden; transform: translateY(20px); 
     transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s;
     text-align: center;
 }
 .theme-popup.visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    transition-delay: 0s;
+    opacity: 1; visibility: visible; transform: translateY(0); transition-delay: 0s;
 }
-.theme-popup.hidden { display: none; } /* Fallback */
+.theme-popup.hidden { display: none; } /* Fallback / Inicial */
 
 .popup-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; transition: border-color 0.3s; }
 .popup-header h4 { margin: 0; color: #004b8d; transition: color 0.3s; }
@@ -395,10 +324,60 @@ body {
 .lang-toggle-btn { background: #0061c0; color: white; border: none; border-radius: 8px; padding: 10px 20px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background-color 0.3s; }
 .lang-toggle-btn:hover { background-color: #004b8d; }
 
-/* Esconde perfil em mobile */
+
+/* === RESPONSIVIDADE === */
 @media (max-width: 768px) {
+    .dashboard-container {
+        display: block;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -250px; 
+        height: 100vh;
+        width: 250px;
+        padding: 2rem 1.5rem;
+        transition: left 0.3s ease-in-out;
+        z-index: 100;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+    }
+
+    .sidebar.active {
+        left: 0; 
+    }
+    
     .user-profile {
         display: none;
+    }
+
+    .main-content {
+        padding: 1rem;
+        padding-top: 5.5rem; /* Ajusta espaço para o hamburger */
+    }
+
+    .ajuda-box {
+        padding: 1.5rem;
+        max-width: 100%;
+    }
+
+    .ajuda-box h2 {
+        font-size: 1.5rem;
+    }
+
+    #formAjuda button {
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+
+    .hamburger-btn {
+        display: block; 
+    }
+    
+    /* Reposiciona o popup de configurações para a direita */
+    .theme-popup {
+        left: auto; 
+        right: 20px;
     }
 }
 
@@ -420,9 +399,13 @@ body.dark-theme .settings-btn { background-color: rgba(255, 255, 255, 0.1); }
 body.dark-theme .settings-btn:hover { background-color: #333 !important; }
 
 body.dark-theme .ajuda-box { background-color: #333; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); }
-body.dark-theme .ajuda-box h2, body.dark-theme .ajuda-box h3, body.dark-theme .faq-item h3, body.dark-theme #formAjuda h3, body.dark-theme #formAjuda label { color: #b3cde0; }
-body.dark-theme .ajuda-box p, body.dark-theme .faq-item p { color: #ccc; }
+body.dark-theme .ajuda-box h2, body.dark-theme .ajuda-box h3, body.dark-theme #formAjuda h3, body.dark-theme #formAjuda label { color: #b3cde0; }
+body.dark-theme .ajuda-box p { color: #ccc; }
+
 body.dark-theme .faq-item { background: #444; border-color: #555; }
+body.dark-theme .faq-item i { color: #b3cde0; }
+body.dark-theme .faq-item h3 { color: #b3cde0; }
+
 body.dark-theme #formAjuda input, body.dark-theme #formAjuda textarea { background-color: #555; color: #fff; border-color: #666; }
 body.dark-theme #formAjuda input::placeholder, body.dark-theme #formAjuda textarea::placeholder { color: #999; }
 body.dark-theme #formAjuda input:focus, body.dark-theme #formAjuda textarea:focus { border-color: #0061c0; }
