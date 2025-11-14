@@ -1,6 +1,4 @@
-// JS/Ferramenta.js (Integrando lógica de FerramentaUni.js)
 
-// Dicionário de traduções (Certifique-se que 'emUsoPor' existe)
 const translations = {
     'pt': {
         'pageTitle': 'Ferramentas - SENAI ControlTech',
@@ -11,7 +9,7 @@ const translations = {
         'sidebarExit': 'Sair',
         'sidebarSettings': 'Configurações',
         'headerTitle': 'Selecione seu Componente',
-        'searchInputPlaceholder': 'Pesquisar ferramentas...',
+        'searchInputPlaceholder': 'Pesquisar Ferramentas',
         'selectButton': 'Selecionar',
         'disponivel': 'Disponível',
         'emprestado': 'Emprestado', // Fallback

@@ -63,20 +63,19 @@ body {
     margin-right: 15px;
 }
 
-/* Estilos para o botão do hambúrguer */
 .hamburger-btn {
     display: none;
     position: fixed;
-    top: 20px;
-    left: 20px;
+    top: 6px;
+    left: 6px;
     z-index: 101;
     background: #004b8d;
     color: white;
     border: none;
-    padding: 10px 15px;
-    font-size: 1.5rem;
+    padding: 8px 11px;
+    font-size: 1.1rem;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 6px;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -84,10 +83,9 @@ body {
     background: #0061c0;
 }
 
-/* Conteúdo Principal */
 .main-content {
     flex-grow: 1;
-    padding: 2rem;
+    padding: 20rem;
     transition: background-color 0.3s; 
 }
 
@@ -106,13 +104,12 @@ body {
 }
 
 .main-header h1 {
-    font-size: 2rem;
+    font-size: 1.9rem;
     color: #004b8d;
     margin: 0;
     transition: color 0.3s; 
 }
 
-/* Layout em Grid para as Ferramentas */
 .tool-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -151,19 +148,14 @@ body {
 }
 
 /* Estilos para a barra de pesquisa */
-.search-container {
-    position: relative;
-}
-
 .search-input {
-    width: 300px;
-    padding: 10px 40px 10px 15px;
+    padding: 10px 1px 10px;
     border: 1px solid #ddd;
     border-radius: 50px;
-    font-size: 1rem;
+    font-size: 1.1rem;
     transition: all 0.3s ease;
     background-color: #fff; 
-    color: #333; 
+    color: #000000; 
 }
 
 .search-input:focus {
