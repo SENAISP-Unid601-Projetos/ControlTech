@@ -611,3 +611,18 @@ body.dark-theme .select-btn:disabled {
 .dark-theme .lang-toggle-btn:hover {
     background-color: #004b8d;
 }
+@media (max-width: 768px) {
+
+    .main-header {
+        flex-direction: column;
+        align-items: stretch; 
+    }
+    .search-container {
+        width: 100%; 
+    }
+
+    .search-input {
+        width: 100%; 
+        box-sizing: border-box; /* Impede que o padding quebre o layout */
+    }
+}
