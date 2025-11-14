@@ -16,7 +16,7 @@ const translations = {
         'confirmingBtnText': 'Confirmando...', // Novo
         'successSaida': '✅ Saída registrada com sucesso para',
         'userNotFound': '❌ Erro: Usuário não encontrado no sistema.', // Não usado diretamente, mas pode ser útil
-        'alreadyExited': '❌ Você já registrou sua saída hoje.',
+        'alreadyExited': '❌ Você já registrou sua saída hoje.', // Chave mantida (embora não usada na nova lógica)
         'errorSaida': '❌ Erro ao registrar saída. Tente novamente.',
         'settingsPopupTitle': 'Configurações',
         'themeLabel': 'Alternar Tema:',
@@ -59,7 +59,7 @@ const translations = {
 };
 
 // --- FUNÇÕES DE LÓGICA DE TEMA E IDIOMA ---
-// (Copie EXATAMENTE as mesmas funções do JS/Ferramenta.js ou JS/Devolver.js)
+// (Estas funções estão corretas e foram mantidas)
 const updateTranslations = (lang) => {
     const currentLang = translations[lang] ? lang : 'pt';
     const trans = translations[currentLang];
@@ -75,8 +75,8 @@ const updateTranslations = (lang) => {
             else element.textContent = trans[key] || '';
         } else console.warn(`Elemento ID '${id}' não encontrado.`);
     };
-    const setPlaceholder = (id, key) => { /* ... (igual Ferramenta.js) ... */ const e=document.getElementById(id); if(e) e.placeholder=trans[key]||''; else console.warn(`ID '${id}' placeholder não encontrado.`); };
-    const setSpanText = (id, key) => { /* ... (igual Ferramenta.js) ... */ const e=document.getElementById(id)?.querySelector('span'); if(e) e.textContent=trans[key]||''; else console.warn(`Span ID '${id}' não encontrado.`); };
+    const setPlaceholder = (id, key) => { const e=document.getElementById(id); if(e) e.placeholder=trans[key]||''; else console.warn(`ID '${id}' placeholder não encontrado.`); };
+    const setSpanText = (id, key) => { const e=document.getElementById(id)?.querySelector('span'); if(e) e.textContent=trans[key]||''; else console.warn(`Span ID '${id}' não encontrado.`); };
 
 
     // Barra lateral
@@ -103,7 +103,6 @@ const updateTranslations = (lang) => {
     updateThemeStatusText(document.body.classList.contains('dark-theme') ? 'dark' : 'light', currentLang);
     updateLanguageStatusText(currentLang);
     displayUserName(currentLang);
-    // Não precisa recarregar dados aqui, só traduzir UI
 };
 const saveTheme = (theme) => { localStorage.setItem('theme', theme); const cl = localStorage.getItem('lang') || 'pt'; updateThemeStatusText(theme, cl); updateThemeToggleButtonVisuals(theme); };
 const loadTheme = () => { const st = localStorage.getItem('theme') || 'light'; const cl = localStorage.getItem('lang') || 'pt'; document.body.classList.toggle('dark-theme', st === 'dark'); updateThemeStatusText(st, cl); updateThemeToggleButtonVisuals(st); };
@@ -116,34 +115,33 @@ function displayUserName(lang) { const wm = document.getElementById('welcome-mes
 
 // --- LÓGICA ORIGINAL DA PÁGINA (PRESERVADA E INTEGRADA) ---
 
-// Função para exibir notificações (já existia, atualizada para traduções)
+// Função para exibir notificações (mantida)
 function showNotification(messageKey, isSuccess = true, userName = '') {
     const notification = document.getElementById('notification');
     const lang = localStorage.getItem('lang') || 'pt';
     const trans = translations[lang];
-    let message = trans[messageKey] || messageKey; // Usa tradução ou a chave como fallback
+    let message = trans[messageKey] || messageKey;
 
     if (messageKey === 'successSaida' && userName) {
-        message = `${message} ${userName}`; // Adiciona nome à mensagem de sucesso
+        message = `${message} ${userName}`;
     }
 
     if (notification) {
         notification.textContent = message;
         notification.className = 'notification show ' + (isSuccess ? 'success' : 'error');
 
-        // Esconde a notificação após 5 segundos
         setTimeout(() => {
             notification.classList.remove('show');
         }, 5000);
     }
 }
 
-// Atualiza a hora e a data (já existia)
+// Atualiza a hora e a data (mantida)
 function updateTime() {
     const now = new Date();
     const timeEl = document.getElementById('currentTime');
     const dateEl = document.getElementById('currentDate');
-    const lang = localStorage.getItem('lang') || 'pt'; // Usar idioma para formatação
+    const lang = localStorage.getItem('lang') || 'pt';
     const locale = lang === 'pt' ? 'pt-BR' : 'en-US';
 
     if(timeEl) timeEl.textContent = now.toLocaleTimeString(locale);
@@ -151,7 +149,7 @@ function updateTime() {
 }
 
 
-// Exibe os dados do usuário no card (atualizada)
+// Exibe os dados do usuário no card (mantida)
 function displayUserData(user) {
     const infoCard = document.getElementById('dadosAluno');
     const placeholder = document.getElementById('placeholder-container');
@@ -161,39 +159,38 @@ function displayUserData(user) {
 
     if (!infoCard || !placeholder || !confirmarBtn || !crachaInput || !scannerAnimation) return;
 
-    // Monta o HTML com os dados do usuário
     infoCard.innerHTML = `
         <h3 style="color: #004b8d; margin-bottom: 0.5rem;">${user.nome || 'N/A'}</h3>
         <p><strong>ID:</strong> ${user.id || 'N/A'}</p>
         <p><strong>Perfil:</strong> ${user.perfil || 'N/A'}</p>
         `;
-    placeholder.style.display = 'none'; // Esconde placeholder
-    infoCard.style.display = 'block'; // Mostra card
-    confirmarBtn.disabled = false; // Habilita botão
-    crachaInput.value = user.id || ''; // Preenche input (somente leitura)
-    scannerAnimation.style.display = 'none'; // Esconde animação
+    placeholder.style.display = 'none';
+    infoCard.style.display = 'block';
+    confirmarBtn.disabled = false;
+    crachaInput.value = user.id || '';
+    scannerAnimation.style.display = 'none';
 }
 
-// Simula a leitura do crachá (usando usuário logado)
+// Simula a leitura do crachá (mantida)
 function simularLeituraCracha() {
     const lang = localStorage.getItem('lang') || 'pt';
-    const usuarioLogado = getUsuarioLogado(); // Pega do localStorage
+    const usuarioLogado = getUsuarioLogado(); 
 
     if (!usuarioLogado || !usuarioLogado.id) {
         showNotification('notLoggedError', false);
-        // Redireciona para login após 3 segundos
         setTimeout(() => {
-            window.location.href = '/index.html'; // Corrigido para index.html
+            window.location.href = '/index.html';
         }, 3000);
         return;
     }
 
-    // Exibe os dados do usuário logado
     displayUserData(usuarioLogado);
 }
 
-// Simula o registro de saída
-async function registrarSaida() {
+// ### FUNÇÃO REGISTRAR SAÍDA ATUALIZADA ###
+// Removemos a simulação de API (Promise, setTimeout, lastExit check)
+// Agora ela apenas desloga e redireciona.
+function registrarSaida() {
     const lang = localStorage.getItem('lang') || 'pt';
     const trans = translations[lang];
     const usuarioLogado = getUsuarioLogado();
@@ -205,51 +202,27 @@ async function registrarSaida() {
         setTimeout(() => window.location.href = '/index.html', 3000);
         return;
     }
-    if (!confirmarBtn || !confirmBtnTextSpan) return; // Verifica se botão e span existem
+    if (!confirmarBtn || !confirmBtnTextSpan) return; 
 
+    // 1. Mudar visual para "Confirmando..."
     confirmarBtn.disabled = true;
-    confirmBtnTextSpan.textContent = trans.confirmingBtnText; // Muda texto para "Confirmando..."
-    confirmarBtn.querySelector('i')?.classList.replace('fa-check-circle', 'fa-spinner'); // Troca ícone
+    confirmBtnTextSpan.textContent = trans.confirmingBtnText; 
+    confirmarBtn.querySelector('i')?.classList.replace('fa-check-circle', 'fa-spinner');
     confirmarBtn.querySelector('i')?.classList.add('fa-spin');
 
+    // 2. Mostrar notificação de sucesso imediatamente
+    showNotification('successSaida', true, usuarioLogado.nome);
+    
+    // 3. Remover o login do localStorage
+    localStorage.removeItem('usuarioLogado'); 
 
-    // Simulação de chamada de API (mantida como exemplo)
-    // No seu caso, você pode fazer uma chamada real para um endpoint de logout/registro de saída
-    const response = await new Promise(resolve => {
-        setTimeout(() => {
-            const now = new Date();
-            // Verifica se já saiu hoje (exemplo de lógica, pode adaptar)
-            const lastExit = localStorage.getItem(`lastExit_${usuarioLogado.id}`);
-            const today = now.toISOString().slice(0, 10);
-
-            if (lastExit === today) {
-                resolve({ success: false, messageKey: 'alreadyExited' });
-            } else {
-                localStorage.setItem(`lastExit_${usuarioLogado.id}`, today); // Marca saída para hoje
-                resolve({ success: true, messageKey: 'successSaida', userName: usuarioLogado.nome });
-            }
-        }, 1500); // 1.5 segundos de simulação
-    });
-
-    if (response.success) {
-        showNotification(response.messageKey, true, response.userName);
-        localStorage.removeItem('usuarioLogado'); // Desloga o usuário
-        // Redireciona para login após 3 segundos
-        setTimeout(() => {
-            window.location.href = '/index.html';
-        }, 3000);
-    } else {
-        showNotification(response.messageKey, false);
-        // Reabilita o botão em caso de erro
-        confirmarBtn.disabled = false;
-        confirmBtnTextSpan.textContent = trans.confirmBtnText; // Restaura texto
-        confirmarBtn.querySelector('i')?.classList.replace('fa-spinner', 'fa-check-circle');
-        confirmarBtn.querySelector('i')?.classList.remove('fa-spin');
-    }
-    // Não precisa restaurar botão aqui se sucesso redireciona
+    // 4. Redirecionar para o Início (Login) após 2 segundos
+    setTimeout(() => {
+        window.location.href = '/index.html';
+    }, 2000); // 2 segundos para o usuário ler a notificação
 }
 
-// Pega usuário logado
+// Pega usuário logado (mantida)
 function getUsuarioLogado() {
     try {
         const usuario = localStorage.getItem("usuarioLogado");
@@ -289,7 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Evento Botão Confirmar Saída
     confirmarBtn?.addEventListener('click', () => {
         clearInterval(timerInterval); // Para o relógio ao tentar sair
-        registrarSaida();
+        registrarSaida(); // Chama a nova função (mais simples)
     });
 
     // Eventos Popup Configurações
