@@ -1,3 +1,4 @@
+
 // Login.js
 import { lerQrViaUpload, exibirUsuario } from './leitorQrCode.js';
 import { API_BASE_URL } from './apiConfig.js'; // Importa URL
