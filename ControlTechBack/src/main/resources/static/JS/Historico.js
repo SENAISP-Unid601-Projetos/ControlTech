@@ -1,4 +1,3 @@
-
 // Dicionário de traduções
 const translations = {
     'pt': {

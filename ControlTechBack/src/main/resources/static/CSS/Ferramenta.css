@@ -5,9 +5,7 @@ body {
     padding: 0;
     background-color: #f0f2f5;
     color: #333;
-    transition: background-color 0.3s, color 0.3s; 
-    /* CORREÇÃO MANTIDA: Impede que o conteúdo posicionado à esquerda (como a sidebar) crie rolagem horizontal. */
-    overflow-x: hidden; 
+    transition: background-color 0.3s, color 0.3s; /* Adicionado para tema */
 }
 
 /* Container do Dashboard */
@@ -25,7 +23,7 @@ body {
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    transition: left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s; 
+    transition: left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s; /* Atualizado */
 }
 
 .sidebar-header {
@@ -88,7 +86,7 @@ body {
 .main-content {
     flex-grow: 1;
     padding: 2rem;
-    transition: background-color 0.3s; 
+    transition: background-color 0.3s; /* Adicionado para tema */
 }
 
 .main-header {
@@ -102,14 +100,14 @@ body {
     align-items: center;
     flex-wrap: wrap;
     gap: 1rem;
-    transition: background-color 0.3s, box-shadow 0.3s; 
+    transition: background-color 0.3s, box-shadow 0.3s; /* Adicionado para tema */
 }
 
 .main-header h1 {
     font-size: 2rem;
     color: #004b8d;
     margin: 0;
-    transition: color 0.3s; 
+    transition: color 0.3s; /* Adicionado para tema */
 }
 
 /* Layout em Grid para as Ferramentas */
@@ -127,7 +125,7 @@ body {
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     padding: 1.5rem;
     text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s, border-color 0.3s; 
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s, border-color 0.3s; /* Adicionado */
     border: 1px solid #eee;
 }
 
@@ -147,7 +145,7 @@ body {
     margin: 0.5rem 0;
     font-size: 1.2rem;
     color: #004b8d;
-    transition: color 0.3s; 
+    transition: color 0.3s; /* Adicionado */
 }
 
 /* Estilos para a barra de pesquisa */
@@ -162,8 +160,8 @@ body {
     border-radius: 50px;
     font-size: 1rem;
     transition: all 0.3s ease;
-    background-color: #fff; 
-    color: #333; 
+    background-color: #fff; /* Adicionado */
+    color: #333; /* Adicionado */
 }
 
 .search-input:focus {
@@ -172,7 +170,7 @@ body {
     box-shadow: 0 0 5px rgba(0, 97, 192, 0.5);
 }
 
-.search-input::placeholder { 
+.search-input::placeholder { /* Adicionado */
     color: #aaa;
     transition: color 0.3s;
 }
@@ -180,12 +178,12 @@ body {
 
 .search-icon-container {
     position: absolute;
-    right: 15px; 
+    right: 15px; /* Ajustado */
     top: 50%;
     transform: translateY(-50%);
     color: #aaa;
-    cursor: text; 
-    transition: color 0.3s; 
+    cursor: text; /* Mudar cursor para texto */
+    transition: color 0.3s; /* Adicionado */
 }
 
 /* === ADIÇÕES PARA PERFIL, STATUS, CONFIGURAÇÕES E TEMA ESCURO === */
@@ -268,7 +266,7 @@ body {
     cursor: pointer;
     width: 100%;
     font-weight: bold;
-    transition: background-color 0.3s, opacity 0.3s; 
+    transition: background-color 0.3s, opacity 0.3s; /* Adicionado */
     margin-top: 1rem;
 }
 .select-btn:hover {
@@ -365,7 +363,7 @@ body {
     cursor: pointer;
     font-size: 2.5rem;
     color: #004b8d;
-    transition: transform 0.3s ease, color 0.3s; 
+    transition: transform 0.3s ease, color 0.3s; /* Adicionado color */
     width: 60px;
     height: 60px;
     position: relative;
@@ -422,8 +420,7 @@ body {
     .sidebar {
         position: fixed;
         top: 0;
-        /* MANTIDO: Left mais agressivo para não mostrar sombra */
-        left: -300px;
+        left: -250px;
         height: 100vh;
         z-index: 100;
         box-shadow: 2px 0 5px rgba(0,0,0,0.5);
@@ -450,11 +447,6 @@ body {
         padding: 1rem;
         flex-direction: column;
         align-items: stretch; /* Faz input ocupar largura */
-    }
-
-    /* CORREÇÃO APLICADA: Força o search-container a ocupar 100% da largura do main-header */
-    .search-container {
-        width: 100%; 
     }
 
     .search-input {
@@ -570,44 +562,44 @@ body.dark-theme .select-btn:disabled {
 
 
 /* Tema escuro para o popup de config */
-.dark-theme .theme-popup {
+body.dark-theme .theme-popup {
     background-color: #444;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     color: #f0f2f5;
 }
-.dark-theme .popup-header {
+body.dark-theme .popup-header {
     border-bottom: 1px solid #555;
 }
-.dark-theme .popup-header h4 {
+body.dark-theme .popup-header h4 {
     color: #b3cde0;
 }
-.dark-theme .popup-header .close-btn {
+body.dark-theme .popup-header .close-btn {
     color: #aaa;
 }
-.dark-theme .popup-content-config .config-label,
-.dark-theme .theme-status,
-.dark-theme .lang-status {
+body.dark-theme .popup-content-config .config-label,
+body.dark-theme .theme-status,
+body.dark-theme .lang-status {
     color: #ccc;
 }
-.dark-theme .divider {
+body.dark-theme .divider {
     background-color: #555;
 }
-.dark-theme .theme-toggle-btn {
+body.dark-theme .theme-toggle-btn {
     color: #b3cde0; /* Cor dos ícones no dark mode */
 }
 /* Animação do botão de tema dark */
-.dark-theme .theme-toggle-btn .fa-sun {
+body.dark-theme .theme-toggle-btn .fa-sun {
     opacity: 0;
     transform: translateY(-10px);
 }
-.dark-theme .theme-toggle-btn .fa-moon {
+body.dark-theme .theme-toggle-btn .fa-moon {
     opacity: 1;
     transform: translateY(0);
     color: #f1c40f; /* Cor da lua */
 }
-.dark-theme .lang-toggle-btn {
+body.dark-theme .lang-toggle-btn {
     background-color: #0061c0; /* Mantem azul */
 }
-.dark-theme .lang-toggle-btn:hover {
+body.dark-theme .lang-toggle-btn:hover {
     background-color: #004b8d;
 }

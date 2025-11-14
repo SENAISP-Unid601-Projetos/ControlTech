@@ -1,4 +1,3 @@
-
 // Login.js
 import { lerQrViaUpload, exibirUsuario } from './leitorQrCode.js';
 import { API_BASE_URL } from './apiConfig.js'; // Importa URL
@@ -198,9 +197,6 @@ document.getElementById('btnToggleCameraLogin')?.addEventListener('click', () =>
 
 function handleLoginSuccess(qrCodeContent) {
     if (statusMsgLogin) statusMsgLogin.textContent = "Processando QR Code lido...";
-    
-    // NOVO: Referência ao novo container de controles
-    const loginControls = document.getElementById('loginControls');
 
     // CORREÇÃO CRÍTICA: Mapeamento para o novo endpoint GET
     fetch(`${API_BASE_URL}/api/usuarios/por-codigo/${qrCodeContent}`)
@@ -212,17 +208,16 @@ function handleLoginSuccess(qrCodeContent) {
         })
         .then(usuario => {
             // @ts-ignore
+            exibirUsuario({ usuario: usuario }); // Passa no formato esperado por exibirUsuario
+            // @ts-ignore
             salvarUsuarioLogado({ usuario: usuario });
 
-            // ** NOVO: OCULTA OS CONTROLES ANTIGOS **
-            if (loginControls) loginControls.style.display = 'none';
-
-            // @ts-ignore
-            exibirUsuario({ usuario: usuario }); // Exibe info-aluno (que contém o btnEntrar)
-
-            if (statusMsgLogin) statusMsgLogin.textContent = "Login bem-sucedido! Clique em 'Entrar' para continuar.";
+            if (statusMsgLogin) statusMsgLogin.textContent = "Login bem-sucedido! Redirecionando...";
             if (infoAluno) infoAluno.style.display = "block";
 
+            setTimeout(() => {
+                window.location.href = "/HTML/Ferramentas.html";
+            }, 300);
         })
         .catch(err => {
             console.error("Erro ao fazer login por QR:", err);
@@ -247,9 +242,6 @@ btnLerQrUpload?.addEventListener('click', () => {
 
     btnLerQrUpload.classList.add('loading');
     btnLerQrUpload.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
-    
-    // NOVO: Referência ao novo container de controles
-    const loginControls = document.getElementById('loginControls');
 
     // CORRIGIDO: Chama a função que faz o fetch com a URL pública
     // @ts-ignore
@@ -257,16 +249,17 @@ btnLerQrUpload?.addEventListener('click', () => {
         btnLerQrUpload.classList.remove('loading');
         btnLerQrUpload.innerHTML = '<i class="fas fa-qrcode"></i> Ler QR Code por Arquivo';
 
-        // ** NOVO: OCULTA OS CONTROLES ANTIGOS **
-        if (loginControls) loginControls.style.display = 'none';
-
         // @ts-ignore
         exibirUsuario(usuario);
         // @ts-ignore
         salvarUsuarioLogado(usuario);
 
-        if (statusMsgLogin) statusMsgLogin.textContent = "Login bem-sucedido! Clique em 'Entrar' para continuar.";
+        if (statusMsgLogin) statusMsgLogin.textContent = "";
         if (infoAluno) infoAluno.style.display = "block";
+
+        setTimeout(() => {
+            window.location.href = "/HTML/Ferramentas.html";
+        }, 300);
     // @ts-ignore
     }, (err) => {
         btnLerQrUpload.classList.remove('loading');

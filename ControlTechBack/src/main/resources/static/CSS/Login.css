@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
 * {
@@ -13,11 +12,13 @@ body, html {
     color: #222;
     display: flex;
     flex-direction: column;
-    /* MANTIDO: Alinha ao topo para posicionar a caixa mais para cima */
-    justify-content: flex-start; 
+    justify-content: center;
     align-items: center;
-    overflow-x: hidden; 
+    /* Remover overflow: hidden se o conteúdo for maior que a tela do navegador */
+    overflow-x: hidden; /* Permite rolagem vertical do body, mas esconde horizontal */
     position: relative;
+
+    /* Adiciona uma altura mínima para o body para que o container possa usar 100% */
     min-height: 100vh;
 }
 
@@ -59,15 +60,12 @@ body::after {
     z-index: 1;
     display: flex;
     justify-content: center;
-    /* MANTIDO: Padding para mover a caixa para baixo, conforme seu pedido */
-    padding-top: 200px; 
-    
-    flex: 0; 
-    
+    align-items: center;
+    flex: 1;
     width: 100%;
-    padding: 3em;
+    padding: 1em;
+    /* CORREÇÃO: Removido margin-bottom para não cortar o rodapé em telas menores */
     margin-bottom: 0;
-    min-width: 0; 
 }
 
 .login-box {
@@ -75,18 +73,16 @@ body::after {
     padding: 2rem 3rem;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 58, 117, 0.2);
-    width: 90%; 
-    max-width: 450px; 
+    width: 400px;
     text-align: center;
     transition: box-shadow 0.3s ease;
     color: #222;
     z-index: 2;
     position: relative;
 
-    min-height: 400px; 
-    overflow-y: auto; 
-    /* MANTIDO: Remove o arrasto/deslize lateral */
-    overflow-x: hidden; 
+    /* CORREÇÃO CRÍTICA: Aumentamos a altura mínima e permitimos rolagem interna para acomodar o cadastro */
+    min-height: 580px; /* Aumentado para acomodar o conteúdo */
+    overflow-y: auto; /* Permite rolagem vertical se o conteúdo interno exceder */
 }
 
 .login-box:hover {
@@ -107,52 +103,23 @@ body::after {
     min-height: 1.4rem;
 }
 
-/* --- NOVO ESTILO PARA INFO DO ALUNO --- */
 .info-aluno {
     background: #f9fafb;
     border-radius: 10px;
-    padding: 1.5rem; /* Aumenta um pouco o padding interno */
-    margin-top: 1.5rem;
+    padding: 1rem 1.5rem;
+    margin-top: 1.2rem;
     font-size: 1rem;
     color: #222;
     display: none;
-    text-align: left;
-    /* Efeito visual mais agradável */
-    box-shadow: 0 2px 8px rgba(0, 58, 117, 0.1); 
-    border-left: 5px solid #003a75; /* Barra azul na lateral */
 }
 
 .info-aluno div {
     margin-bottom: 0.8rem;
-    /* NOVO: Usa flexbox para alinhar ícone e texto */
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    border-bottom: 1px dashed #eee; /* Linha tracejada para separar itens */
-    padding-bottom: 0.6rem;
 }
-
-.info-aluno div:last-child {
-    margin-bottom: 0;
-    border-bottom: none; /* Remove linha do último item */
-    padding-bottom: 0;
-}
-
-/* Estilo para os ícones */
-.info-aluno i {
-    color: #003a75;
-    font-size: 1.1rem;
-    min-width: 1.2rem; /* Garante que todos os ícones tenham o mesmo espaço */
-}
-/* --- FIM NOVO ESTILO --- */
-
 
 button#btnEntrar {
-    /* CORREÇÃO MANTIDA: Diminui o tamanho do botão e o centraliza */
-    width: 80%; 
-    max-width: 300px;
-    margin: 1.5rem auto 0 auto;
-    
+    margin-top: 1.5rem;
+    width: 100%;
     padding: 1rem;
     border: none;
     border-radius: 10px;
@@ -162,7 +129,6 @@ button#btnEntrar {
     font-size: 1.1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    display: block; /* Garante que o margin: auto funcione */
 }
 
 button#btnEntrar:hover {
@@ -241,24 +207,31 @@ footer {
 .slide-container {
     position: relative;
     width: 100%;
+    /* Removido overflow: hidden para que o login-box lide com o overflow */
     display: flex;
     flex-direction: row;
+    /* Removido min-height fixo */
 }
 
 /* Login e Cadastro sobrepostos */
 #loginContainer, .cadastro-box {
+    /* CORREÇÃO: Alterado de absolute para permitir o layout flexível */
     position: relative;
 
     padding-bottom: 4rem;
+    /* Removido top: 0 e left: 0 */
 
+    /* CORREÇÃO: Deixa o flex container gerenciar a largura */
     width: 100%;
 
+    /* CORREÇÃO: Resetando o transform e opacity para o estado base */
     transform: none;
     opacity: 1;
 
     transition: transform 0.5s ease, opacity 0.5s ease;
     z-index: 2;
 
+    /* CORREÇÃO: Usamos o flex-shrink para garantir que eles caibam no slide-container */
     flex-shrink: 0;
 }
 
@@ -280,10 +253,10 @@ footer {
     background: #f9fafb;
     border-radius: 10px;
     padding: 1rem;
-    margin-top: 0; 
+    margin-top: 0; /* Ajustado */
     text-align: center;
 
-    /* Posiciona o cadastro ao lado direito do login */
+    /* CORREÇÃO: Posiciona o cadastro ao lado direito do login */
     transform: translateX(100%);
     opacity: 0;
     z-index: 1;
@@ -305,7 +278,7 @@ footer {
     border: 1px solid #ccc;
 }
 
-/* Botão de cadastro agora ocupa 100% da largura da caixa interna */
+/* CORREÇÃO: Botão de cadastro agora ocupa 100% da largura da caixa interna */
 .cadastro-box button {
     margin-top: 1rem;
     width: 100%;
@@ -327,7 +300,7 @@ footer {
     height: 4rem;
 }
 
-/* --- ESTILO DO INPUT FILE --- */
+/* --- NOVO ESTILO DO INPUT FILE --- */
 .custom-file-upload {
     display: flex;
     align-items: center;
@@ -371,11 +344,7 @@ footer {
 #btnLerQr,
 #btnToggleCameraLogin,
 #btnToggleCameraCadastro {
-    /* MANTIDO: Diminui o tamanho do botão e o centraliza */
-    width: 80%; 
-    max-width: 300px;
-    margin: 1rem auto;
-    
+    width: 100%;
     padding: 1rem;
     border: none;
     border-radius: 10px;
@@ -411,7 +380,7 @@ footer {
     pointer-events: none;
 }
 
-/* Garante que os containers de upload/câmera não fiquem em flex */
+/* CORREÇÃO: Garante que os containers de upload/câmera não fiquem em flex */
 .login-metodos,
 .cadastro-metodos {
     display: block;
@@ -421,29 +390,4 @@ footer {
 /* Estilo adicional para diferenciar */
 #popupCadastro .popup-content {
   border-top: 5px solid #4CAF50;
-}
-
-/* Media Query para dispositivos menores */
-@media (max-width: 450px) {
-    .login-box {
-        padding: 1.5rem 1rem; /* Reduz padding em telas pequenas */
-    }
-    .custom-file-upload {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    .custom-file-upload .file-name {
-        max-width: 100%;
-        display: block;
-        text-align: center;
-    }
-    #btnLerQr,
-    #btnToggleCameraLogin,
-    #btnToggleCameraCadastro,
-    button#btnEntrar {
-        /* Garante que a largura se adapte bem em telas muito pequenas */
-        width: 95%;
-        max-width: none;
-        font-size: 1rem;
-    }
 }

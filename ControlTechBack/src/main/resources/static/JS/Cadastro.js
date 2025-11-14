@@ -1,4 +1,3 @@
-
 // Cadastro.js
 import { API_BASE_URL } from './apiConfig.js';
 // Importa funções de controle de câmera do Login.js
