@@ -1,14 +1,17 @@
-/* === ESTILOS ORIGINAIS DA MAIN + ADIÇÕES DE TEMA/IDIOMA === */
+/* === ESTILOS GERAIS === */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-/* Estilos Gerais */
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Roboto', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(to bottom, #f0f2f5, #e2e6ea); /* Fundo original */
+    background: linear-gradient(to bottom, #f0f2f5, #e2e6ea); 
     color: #333;
-    transition: background-color 0.3s, color 0.3s; /* Transição para tema */
+    transition: background-color 0.3s, color 0.3s; 
 }
 
 /* Container do Dashboard */
@@ -17,9 +20,9 @@ body {
     min-height: 100vh;
 }
 
-/* Barra Lateral */
+/* Barra Lateral (Sidebar) */
 .sidebar {
-    position: relative; /* Mudado de volta para relative */
+    position: relative; 
     width: 250px;
     background-color: #004b8d;
     color: white;
@@ -27,7 +30,8 @@ body {
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    transition: width 0.3s ease, left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s; /* Adicionado left e transições de tema */
+    /* Adicionado left para transição off-canvas */
+    transition: width 0.3s ease, left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s; 
 }
 
 .sidebar-header {
@@ -40,7 +44,7 @@ body {
 .sidebar-nav {
     display: flex;
     flex-direction: column;
-    flex-grow: 1; /* Adicionado para empurrar config para baixo */
+    flex-grow: 1;
 }
 
 .sidebar-nav a {
@@ -65,122 +69,18 @@ body {
     margin-right: 15px;
 }
 
-/* Conteúdo Principal */
-.main-content {
-    flex-grow: 1;
-    padding: 2rem;
-    transition: background-color 0.3s; /* Adicionado */
-}
+/* Perfil do Usuário */
+.user-profile { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; background-color: rgba(255, 255, 255, 0.1); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); transition: background-color 0.3s; }
+.user-profile i { font-size: 2.5rem; color: #b3cde0; transition: color 0.3s; }
+.user-details { display: flex; flex-direction: column; text-align: left; }
+.user-details span { font-size: 0.9rem; color: #b3cde0; opacity: 0.8; transition: color 0.3s; }
+.user-details h4 { margin: 0; font-size: 1.1rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; transition: color 0.3s; }
 
-.main-header {
-    background-color: white;
-    padding: 1.5rem 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    margin-bottom: 2rem;
-    display: flex; /* Adicionado para alinhar botões */
-    justify-content: space-between; /* Adicionado */
-    align-items: center; /* Adicionado */
-    transition: background-color 0.3s, box-shadow 0.3s; /* Adicionado */
-}
+/* Botão de Configurações */
+.settings-btn { background-color: rgba(0, 0, 0, 0.2); }
+.settings-btn:hover { background-color: #0061c0 !important; }
 
-.main-header h1 { /* Adicionado para consistência */
-    margin: 0;
-    font-size: 2rem;
-    color: #004b8d;
-    transition: color 0.3s;
-}
-
-/* Botões de seleção (Original) */
-.select-btn {
-    background-color: #004b8d;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin-left: 10px; /* Ajustado de margin-right */
-    border-radius: 8px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.select-btn:hover {
-    background-color: #0061c0;
-}
-
-.select-btn.active { /* Estilo do botão ativo */
-    background-color: #0080ff;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
-}
-
-/* Container de Histórico (Original - Grid) */
-.historico-grid { /* Renomeado de .tool-grid */
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Ajustado minmax */
-    gap: 2rem;
-    padding: 1rem 0;
-}
-
-/* Cards de histórico (Original) */
-.historico-card {
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    border-left: 6px solid #004b8d;
-    padding: 1.5rem;
-    margin-bottom: 0; /* Removido margin-bottom, gap cuida disso */
-    transition: transform 0.2s, box-shadow 0.2s, border-left-color 0.3s, background-color 0.3s; /* Adicionado background */
-}
-
-.historico-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-    border-left-color: #0061c0;
-}
-
-.historico-card h3 {
-    margin: 0 0 0.8rem 0; /* Ajustado margin */
-    font-size: 1.2rem;
-    color: #004b8d;
-    transition: color 0.3s; /* Adicionado */
-}
-
-.historico-card p {
-    margin: 6px 0; /* Ajustado margin */
-    color: #555;
-    font-size: 0.95rem;
-    transition: color 0.3s; /* Adicionado */
-}
-
-.historico-card p strong {
-    color: #333; /* Ajustado */
-    transition: color 0.3s; /* Adicionado */
-    margin-right: 5px; /* Espaço após o label */
-}
-
-.historico-card .observacoes { /* Classe específica para observações */
-    margin-top: 10px;
-    font-style: italic;
-    color: #777;
-    transition: color 0.3s; /* Adicionado */
-}
-
-/* Mensagem de lista vazia ou erro */
-.historico-grid p.lista-vazia,
-.historico-grid p.mensagem.msg-error {
-    grid-column: 1 / -1; /* Ocupa toda a largura do grid */
-    text-align: center;
-    padding: 2rem;
-    margin-top: 1rem;
-    border: 2px dashed #ccc;
-    border-radius: 8px;
-    color: #777;
-    background-color: #f9f9f9;
-}
-
-
-/* Hamburger (Original) */
+/* Botão Hamburger (Mobile) */
 .hamburger-btn {
     display: none;
     position: fixed;
@@ -194,30 +94,140 @@ body {
     font-size: 1.5rem;
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s; /* Adicionado */
+    transition: background-color 0.3s, color 0.3s; 
 }
-.hamburger-btn i { /* Estilo para o ícone */
-     font-size: 1.5rem;
+.hamburger-btn i {
+    font-size: 1.5rem;
+}
+
+/* Conteúdo Principal */
+.main-content {
+    flex-grow: 1;
+    padding: 2rem;
+    transition: background-color 0.3s; 
+}
+
+.main-header {
+    background-color: white;
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    transition: background-color 0.3s, box-shadow 0.3s; 
+}
+
+.main-header h1 { 
+    margin: 0;
+    font-size: 2rem;
+    color: #004b8d;
+    transition: color 0.3s;
+}
+
+/* Botões de seleção (Filtro) */
+.select-btn {
+    background-color: #004b8d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-left: 10px; 
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.select-btn:hover {
+    background-color: #0061c0;
+}
+
+.select-btn.active { 
+    background-color: #0080ff;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* === ESTILOS ESPECÍFICOS DO HISTÓRICO === */
+
+/* Container de Histórico (Grid) */
+.historico-grid { 
+    display: grid;
+    /* Padrão para telas grandes: 2 colunas ou mais */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    gap: 2rem;
+    padding: 1rem 0;
+}
+
+/* Cards de histórico */
+.historico-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    /* Borda padrão, será substituída pelo JS se tiver status de Empréstimo/Devolução */
+    border-left: 6px solid #004b8d; 
+    padding: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s, border-left-color 0.3s, background-color 0.3s;
+}
+
+.historico-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    border-left-color: #0061c0;
+}
+
+.historico-card h3 {
+    margin: 0 0 0.8rem 0;
+    font-size: 1.4rem; /* Um pouco maior */
+    color: #004b8d;
+    transition: color 0.3s;
+}
+/* Estilos para status (opcional, mas bom para diferenciar no JS) */
+.historico-card h3.status-devolvido {
+    color: #28a745; 
+}
+.historico-card h3.status-emprestado {
+    color: #ffc107; 
 }
 
 
-/* === ADIÇÕES PARA PERFIL, CONFIGURAÇÕES E TEMA ESCURO === */
+.historico-card p {
+    margin: 6px 0;
+    color: #555;
+    font-size: 0.95rem;
+    transition: color 0.3s;
+}
 
-/* Estilos do perfil do usuário */
-.user-profile { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; background-color: rgba(255, 255, 255, 0.1); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); transition: background-color 0.3s; }
-.user-profile i { font-size: 2.5rem; color: #b3cde0; transition: color 0.3s; }
-.user-details { display: flex; flex-direction: column; text-align: left; }
-.user-details span { font-size: 0.9rem; color: #b3cde0; opacity: 0.8; transition: color 0.3s; }
-.user-details h4 { margin: 0; font-size: 1.1rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; transition: color 0.3s; }
+.historico-card p strong {
+    color: #333; 
+    transition: color 0.3s; 
+    margin-right: 5px; 
+}
 
-/* Botão de Configurações */
-.settings-btn { background-color: rgba(0, 0, 0, 0.2); }
-.settings-btn:hover { background-color: #0061c0 !important; }
+.historico-card .observacoes { 
+    margin-top: 10px;
+    font-style: italic;
+    color: #777;
+    transition: color 0.3s; 
+}
 
-/* Popup de Configurações */
+/* Mensagem de lista vazia ou erro */
+.historico-grid p.lista-vazia,
+.historico-grid p.mensagem.msg-error {
+    grid-column: 1 / -1; 
+    text-align: center;
+    padding: 2rem;
+    margin-top: 1rem;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    color: #777;
+    background-color: #f9f9f9;
+}
+
+/* === ESTILOS DO POPUP DE CONFIGURAÇÕES === */
 .theme-popup { position: fixed; bottom: 20px; left: 20px; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); width: 280px; padding: 1rem; z-index: 99; opacity: 0; visibility: hidden; transform: translateY(20px); transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s; text-align: center; }
 .theme-popup.visible { opacity: 1; visibility: visible; transform: translateY(0); transition-delay: 0s; }
-.theme-popup.hidden { display: none; }
 .popup-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; transition: border-color 0.3s; }
 .popup-header h4 { margin: 0; color: #004b8d; transition: color 0.3s; }
 .popup-header .close-btn { background: none; border: none; font-size: 1.5rem; color: #888; cursor: pointer; transition: color 0.3s; }
@@ -234,36 +244,81 @@ body {
 .lang-toggle-btn { background: #0061c0; color: white; border: none; border-radius: 8px; padding: 10px 20px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background-color 0.3s; }
 .lang-toggle-btn:hover { background-color: #004b8d; }
 
-/* Responsivo (Original + Esconder perfil) */
+
+/* === RESPONSIVIDADE PARA TELAS MENORES === */
 @media (max-width: 768px) {
+    /* CORREÇÃO: Necessário para o comportamento off-canvas */
     .dashboard-container {
-        flex-direction: column;
+        display: block; 
     }
+    
+    /* Sidebar Off-Canvas */
     .sidebar {
         position: fixed;
         top: 0;
-        left: -250px;
+        left: -250px; /* Esconde */
         height: 100vh;
         z-index: 100;
-        box-shadow: 2px 0 5px rgba(0,0,0,0.5); /* Sombra mais forte no mobile */
+        box-shadow: 2px 0 5px rgba(0,0,0,0.5); 
     }
     .sidebar.active {
-        left: 0;
+        left: 0; /* Mostra */
     }
+    
     .hamburger-btn {
         display: block;
+        top: 15px;
+        left: 15px;
     }
-    .user-profile { /* Esconde perfil em mobile */
+    
+    .user-profile { 
         display: none;
     }
+    
+    /* Ajusta padding do conteúdo principal para o hamburger */
     .main-content {
-        padding: 4rem 1rem 1rem 1rem; /* Padding superior para header */
+        padding: 1rem; /* Padding base */
+        padding-top: 5.5rem; /* Espaço para o hamburger fixo + header (se necessário) */
     }
+
+    /* Ajusta o header principal */
+    .main-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+    .main-header h1 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .main-header div {
+        display: flex; /* Garante que os botões fiquem lado a lado */
+        width: 100%;
+        justify-content: space-around;
+    }
+    .select-btn {
+        flex-grow: 1;
+        margin: 0 5px;
+        font-size: 0.9rem;
+    }
+
+    /* Uma coluna em mobile para os cards */
     .historico-grid {
-        grid-template-columns: 1fr; /* Uma coluna em mobile */
+        grid-template-columns: 1fr; 
         gap: 1rem;
     }
+    
+    /* Reposiciona o popup de configurações para não colidir com o hamburger */
+    .theme-popup {
+        bottom: 20px;
+        /* Coloca à direita para não esconder atrás do botão hamburger */
+        left: auto; 
+        right: 20px;
+    }
 }
+
 
 /* === ESTILOS DO TEMA ESCURO === */
 body.dark-theme { background: #2c2c2c; color: #f0f2f5; }
@@ -287,6 +342,9 @@ body.dark-theme .select-btn.active { background-color: #0080ff; }
 body.dark-theme .historico-card { background: #444; border-left-color: #0061c0; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); }
 body.dark-theme .historico-card:hover { border-left-color: #0080ff; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3); }
 body.dark-theme .historico-card h3 { color: #b3cde0; }
+body.dark-theme .historico-card h3.status-devolvido { color: #28a745; }
+body.dark-theme .historico-card h3.status-emprestado { color: #ffc107; }
+
 body.dark-theme .historico-card p { color: #ccc; }
 body.dark-theme .historico-card p strong { color: #f0f2f5; }
 body.dark-theme .historico-card .observacoes { color: #aaa; }
