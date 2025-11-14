@@ -12,10 +12,12 @@ body, html {
     color: #222;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* MANTIDO: Alinha ao topo para posicionar a caixa mais para cima */
+    justify-content: flex-start; 
     align-items: center;
-    overflow: hidden;
+    overflow-x: hidden; 
     position: relative;
+    min-height: 100vh;
 }
 
 body::before {
@@ -56,11 +58,15 @@ body::after {
     z-index: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
-    flex: 1;
+    /* MANTIDO: Padding para mover a caixa para baixo, conforme seu pedido */
+    padding-top: 200px; 
+    
+    flex: 0; 
+    
     width: 100%;
-    padding: 1em;
-    margin-bottom: 12em;
+    padding: 3em;
+    margin-bottom: 0;
+    min-width: 0; 
 }
 
 .login-box {
@@ -68,13 +74,18 @@ body::after {
     padding: 2rem 3rem;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 58, 117, 0.2);
-    width: 400px;
+    width: 90%; 
+    max-width: 450px; 
     text-align: center;
     transition: box-shadow 0.3s ease;
     color: #222;
     z-index: 2;
     position: relative;
-    overflow: hidden;
+
+    min-height: 400px; 
+    overflow-y: auto; 
+    /* MANTIDO: Remove o arrasto/deslize lateral */
+    overflow-x: hidden; 
 }
 
 .login-box:hover {
@@ -95,23 +106,52 @@ body::after {
     min-height: 1.4rem;
 }
 
+/* --- NOVO ESTILO PARA INFO DO ALUNO --- */
 .info-aluno {
     background: #f9fafb;
     border-radius: 10px;
-    padding: 1rem 1.5rem;
-    margin-top: 1.2rem;
+    padding: 1.5rem; /* Aumenta um pouco o padding interno */
+    margin-top: 1.5rem;
     font-size: 1rem;
     color: #222;
     display: none;
+    text-align: left;
+    /* Efeito visual mais agradável */
+    box-shadow: 0 2px 8px rgba(0, 58, 117, 0.1); 
+    border-left: 5px solid #003a75; /* Barra azul na lateral */
 }
 
 .info-aluno div {
     margin-bottom: 0.8rem;
+    /* NOVO: Usa flexbox para alinhar ícone e texto */
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-bottom: 1px dashed #eee; /* Linha tracejada para separar itens */
+    padding-bottom: 0.6rem;
 }
 
+.info-aluno div:last-child {
+    margin-bottom: 0;
+    border-bottom: none; /* Remove linha do último item */
+    padding-bottom: 0;
+}
+
+/* Estilo para os ícones */
+.info-aluno i {
+    color: #003a75;
+    font-size: 1.1rem;
+    min-width: 1.2rem; /* Garante que todos os ícones tenham o mesmo espaço */
+}
+/* --- FIM NOVO ESTILO --- */
+
+
 button#btnEntrar {
-    margin-top: 1.5rem;
-    width: 100%;
+    /* CORREÇÃO MANTIDA: Diminui o tamanho do botão e o centraliza */
+    width: 80%; 
+    max-width: 300px;
+    margin: 1.5rem auto 0 auto;
+    
     padding: 1rem;
     border: none;
     border-radius: 10px;
@@ -121,6 +161,7 @@ button#btnEntrar {
     font-size: 1.1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    display: block; /* Garante que o margin: auto funcione */
 }
 
 button#btnEntrar:hover {
@@ -199,51 +240,57 @@ footer {
 .slide-container {
     position: relative;
     width: 100%;
-    overflow: hidden;
     display: flex;
     flex-direction: row;
-    min-height: 400px; /* garante altura mínima */
 }
 
 /* Login e Cadastro sobrepostos */
 #loginContainer, .cadastro-box {
-    padding-bottom: 4rem; 
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
+
+    padding-bottom: 4rem;
+
     width: 100%;
+
+    transform: none;
+    opacity: 1;
+
     transition: transform 0.5s ease, opacity 0.5s ease;
     z-index: 2;
+
+    flex-shrink: 0;
 }
 
-/* Login padrão */
+
+/* Login padrão (Posição inicial 0%) */
 #loginContainer {
     transform: translateX(0);
-    opacity: 1;
 }
 
-/* Login saindo */
+/* Login saindo (Move-se para fora da tela) */
 #loginContainer.slide-out {
     transform: translateX(-100%);
     opacity: 0;
     z-index: 1;
 }
 
-/* Cadastro fora da tela */
+/* Cadastro fora da tela (Começa na posição de 100% da largura, empurrado pelo Login) */
 .cadastro-box {
     background: #f9fafb;
     border-radius: 10px;
     padding: 1rem;
-    margin-top: 2em;
+    margin-top: 0; 
     text-align: center;
+
+    /* Posiciona o cadastro ao lado direito do login */
     transform: translateX(100%);
     opacity: 0;
     z-index: 1;
 }
 
-/* Cadastro entrando */
+/* Cadastro entrando (Move-se para a posição 0% da largura, sobrepondo onde o Login estava) */
 .cadastro-box.active {
-    transform: translateX(0);
+    transform: translateX(-100%); /* Move para a esquerda, cobrindo o antigo login */
     opacity: 1;
     z-index: 3;
 }
@@ -257,9 +304,10 @@ footer {
     border: 1px solid #ccc;
 }
 
+/* Botão de cadastro agora ocupa 100% da largura da caixa interna */
 .cadastro-box button {
     margin-top: 1rem;
-    width: 95%;
+    width: 100%;
     padding: 1rem;
     border: none;
     border-radius: 10px;
@@ -278,7 +326,7 @@ footer {
     height: 4rem;
 }
 
-/* --- NOVO ESTILO DO INPUT FILE --- */
+/* --- ESTILO DO INPUT FILE --- */
 .custom-file-upload {
     display: flex;
     align-items: center;
@@ -314,16 +362,23 @@ footer {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 180px; 
+    max-width: 180px;
 }
 
 /* --- ESTILO DO BOTÃO "LER QR CODE" MELHORADO --- */
-#btnLerQr {
-    width: 100%;
+/* Estilo geral dos botões de ação principal (Login e Cadastro) */
+#btnLerQr,
+#btnToggleCameraLogin,
+#btnToggleCameraCadastro {
+    /* MANTIDO: Diminui o tamanho do botão e o centraliza */
+    width: 80%; 
+    max-width: 300px;
+    margin: 1rem auto;
+    
     padding: 1rem;
     border: none;
     border-radius: 10px;
-    background-color: #00b41b; 
+    background-color: #00b41b;
     color: #fff;
     font-weight: 600;
     font-size: 1.1rem;
@@ -333,14 +388,19 @@ footer {
     align-items: center;
     justify-content: center;
     gap: 0.8rem;
+    margin-top: 1rem;
 }
 
-#btnLerQr:hover {
+#btnLerQr:hover,
+#btnToggleCameraLogin:hover,
+#btnToggleCameraCadastro:hover {
     background-color: #146c00;
     transform: translateY(-2px);
 }
 
-#btnLerQr:active {
+#btnLerQr:active,
+#btnToggleCameraLogin:active,
+#btnToggleCameraCadastro:active {
     transform: translateY(0);
 }
 
@@ -350,11 +410,39 @@ footer {
     pointer-events: none;
 }
 
-.custom-file-upload {
-    display: flex;
-    align-items: center;
-    justify-content: center; 
-    gap: 1rem;
-    margin-bottom: 1rem;
+/* Garante que os containers de upload/câmera não fiquem em flex */
+.login-metodos,
+.cadastro-metodos {
+    display: block;
 }
 
+
+/* Estilo adicional para diferenciar */
+#popupCadastro .popup-content {
+  border-top: 5px solid #4CAF50;
+}
+
+/* Media Query para dispositivos menores */
+@media (max-width: 450px) {
+    .login-box {
+        padding: 1.5rem 1rem; /* Reduz padding em telas pequenas */
+    }
+    .custom-file-upload {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .custom-file-upload .file-name {
+        max-width: 100%;
+        display: block;
+        text-align: center;
+    }
+    #btnLerQr,
+    #btnToggleCameraLogin,
+    #btnToggleCameraCadastro,
+    button#btnEntrar {
+        /* Garante que a largura se adapte bem em telas muito pequenas */
+        width: 95%;
+        max-width: none;
+        font-size: 1rem;
+    }
+}

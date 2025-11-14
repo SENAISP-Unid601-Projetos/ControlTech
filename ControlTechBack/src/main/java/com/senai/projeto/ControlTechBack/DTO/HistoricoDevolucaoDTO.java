@@ -1,13 +1,13 @@
 package com.senai.projeto.ControlTechBack.DTO;
 
 import lombok.Data;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class HistoricoDevolucaoDTO {
     private Long id;
     private String nomeFerramenta;
     private String nomeUsuario;
-    private LocalDate dataDevolucao;
+    private LocalDateTime dataDevolucao; // agora tem data + hora
     private String observacoes;
 }
