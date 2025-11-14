@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR"> <head>
+    <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title id="page-title">Devolução de Itens - SENAI</title> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/CSS/Devolver.css">
+    <script src="/JS/Devolver.js" defer></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <button class="hamburger-btn" id="hamburger-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>ControlTech</h2>
+            </div>
+
+            <div class="user-profile">
+                <i class="fas fa-user-circle"></i>
+                <div class="user-details">
+                    <span id="welcome-message">Olá,</span> <h4 id="user-name">Usuário</h4>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="Ferramentas.html" id="nav-tools">
+                    <i class="fas fa-tools"></i>
+                    <span>Ferramentas</span>
+                </a>
+                <a href="Devolver.html" class="active" id="nav-return">
+                    <i class="fas fa-undo"></i>
+                    <span>Devolver</span>
+                </a>
+                <a href="Ajuda.html" id="nav-help">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Ajuda</span>
+                </a>
+                <a href="Historico.html" id="nav-history"> <i class="fas fa-history"></i>
+                    <span>Histórico</span>
+                </a>
+                <a href="Saida.html" class="logout" id="nav-exit">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </a>
+
+                <a href="#" class="settings-btn" id="settings-btn">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
+                </a>
+                </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="devolucao-box">
+                <h1 id="form-title">Devolução de Itens</h1> <div id="infoUsuario" class="info-box hidden">
+                    <p><strong><span id="label-id-func">ID do Funcionário:</span></strong> <span id="funcId"></span></p> <p><strong><span id="label-nome-func">Nome:</span></strong> <span id="funcNome"></span></p> <p><strong><span id="label-data">Data:</span></strong> <span id="dataAtual"></span></p> <p><strong><span id="label-horario">Horário:</span></strong> <span id="horaAtual"></span></p> </div>
+
+                <div id="mensagem" class="mensagem hidden"></div>
+
+            </div> <div id="listaFerramentas" class="tool-grid hidden">
+                 </div>
+
+            <div id="confirmModal" class="modal hidden">
+                <div class="modal-content">
+                    <p id="modal-text">Tem certeza que deseja devolver esta ferramenta?</p> <button id="confirmBtn" class="modal-btn-confirm">Sim</button> <button id="cancelBtn" class="modal-btn-cancel">Cancelar</button> </div>
+            </div>
+
+        </main> </div> <div class="theme-popup" id="theme-popup"> <div class="popup-header">
+            <h4 id="settings-popup-title">Configurações</h4> <button class="close-btn" id="close-popup-btn">&times;</button>
+        </div>
+        <div class="popup-content-config">
+            <div class="config-section">
+                <p class="config-label" id="theme-label">Alternar Tema:</p> <button id="theme-toggle-btn" class="theme-toggle-btn">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </button>
+                <p class="theme-status" id="theme-status">Tema Claro</p> </div>
+            <div class="divider"></div>
+            <div class="config-section">
+                <p class="config-label" id="lang-label">Alternar Idioma:</p> <button id="lang-toggle-btn" class="lang-toggle-btn">
+                    <span>PT</span>
+                </button>
+                <p class="lang-status" id="lang-status">Português</p> </div>
+        </div>
+    </div>
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+</body>
+</html>
