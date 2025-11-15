@@ -1,4 +1,3 @@
-
 /* Estilos Gerais */
 body {
     font-family: 'Roboto', Arial, sans-serif;
@@ -56,13 +55,13 @@ body {
 }
 
 .sidebar-nav a i {
-    font-size: 1.5rem; /* Aumenta o tamanho do ícone */
-    margin-right: 15px; /* Adiciona espaço à direita do ícone */
+    font-size: 1.5rem;
+    margin-right: 15px;
 }
 
 /* Estilos para o botão do hambúrguer */
 .hamburger-btn {
-    display: none; /* Inicia escondido em telas grandes */
+    display: none;
     position: fixed;
     top: 20px;
     left: 20px;
@@ -259,14 +258,15 @@ body {
 
 /* Responsividade */
 @media (max-width: 768px) {
+    /* !! MUDANÇA: display: block (como no Historico.css) */
     .dashboard-container {
-        flex-direction: column;
+        display: block;
     }
 
     .sidebar {
         position: fixed;
         top: 0;
-        left: -250px; /* Esconde a barra lateral fora da tela */
+        left: -250px;
         height: 100vh;
         width: 250px;
         padding: 2rem 1.5rem;
@@ -276,7 +276,7 @@ body {
     }
 
     .sidebar.active {
-        left: 0; /* Move a barra lateral para dentro da tela quando a classe 'active' é adicionada */
+        left: 0;
     }
 
     .sidebar-header {
@@ -288,10 +288,12 @@ body {
         display: flex;
     }
 
+    /* !! MUDANÇA: Adicionado padding-top (como no Historico.css) */
     .main-content {
         margin-left: 0;
         width: 100%;
         padding: 1rem;
+        padding-top: 5.5rem; /* Espaço para o botão hamburger */
     }
 
     .saida-box {
@@ -303,8 +305,17 @@ body {
     }
 
     .hamburger-btn {
-        display: block; /* Mostra o botão do hambúrguer em telas pequenas */
+        display: block;
     }
+
+    /* !! MUDANÇA: Popup movido para a direita (como no Historico.css) */
+    .theme-popup {
+        bottom: 20px;
+        left: auto;
+        right: 20px;
+    }
+
+    /* !! REMOÇÃO: Estilos do .overlay removidos */
 }
 /* === ADIÇÕES PARA PERFIL, CONFIGURAÇÕES E TEMA ESCURO === */
 
@@ -320,6 +331,7 @@ body {
 .settings-btn:hover { background-color: #0061c0 !important; }
 
 /* Popup de Configurações (Mesmo estilo das outras páginas) */
+/* (A posição 'left: 20px' original é agora controlada pela media query) */
 .theme-popup { position: fixed; bottom: 20px; left: 20px; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); width: 280px; padding: 1rem; z-index: 99; opacity: 0; visibility: hidden; transform: translateY(20px); transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s; text-align: center; }
 .theme-popup.visible { opacity: 1; visibility: visible; transform: translateY(0); transition-delay: 0s; }
 .theme-popup.hidden { display: none; }
@@ -389,3 +401,33 @@ body.dark-theme .theme-toggle-btn .fa-sun { opacity: 0; transform: translateY(-1
 body.dark-theme .theme-toggle-btn .fa-moon { opacity: 1; transform: translateY(0); color: #f1c40f; }
 body.dark-theme .lang-toggle-btn { background-color: #0061c0; }
 body.dark-theme .lang-toggle-btn:hover { background-color: #004b8d; }
+
+
+/* =========================================================
+   AJUSTES FINOS PARA TELEMÓVEIS (Abaixo de 450px)
+========================================================= */
+
+@media (max-width: 450px) {
+    .main-content {
+        /* Ajusta o padding para menos espaço nas laterais */
+        padding: 1rem 1rem;
+        padding-top: 5.5rem; /* Mantém o espaço do hamburger */
+    }
+
+    .saida-box {
+        /* Reduz o padding interno do card */
+        padding: 2rem 1.25rem;
+    }
+    
+    .saida-box h2 {
+        font-size: 1.6rem; 
+    }
+
+    .btn-primary {
+        width: 100%;
+        max-width: none;
+        font-size: 1rem;
+    }
+
+    /* O popup de config já está à direita por causa da regra de 768px */
+}

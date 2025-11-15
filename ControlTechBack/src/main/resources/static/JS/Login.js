@@ -18,34 +18,14 @@ for (let i = 0; i < 15; i++) {
 }
 if (container) container.innerHTML = innerHTML;
 
-// ----- Popup e entrar (mantido) -----
-const btnEntrar = document.getElementById('btnEntrar');
-const popup = document.getElementById('popup');
-const popupNome = document.getElementById('popupNome');
+// ----- Popup e entrar (Lógica de clique removida, pois o login agora é automático) -----
+// const btnEntrar = document.getElementById('btnEntrar');
+// const popup = document.getElementById('popup');
+// const popupNome = document.getElementById('popupNome');
 const statusMsgLogin = document.getElementById('statusMsgLogin');
 const infoAluno = document.getElementById('infoAluno');
 
-btnEntrar?.addEventListener('click', () => {
-    // @ts-ignore
-    popupNome.textContent = document.getElementById('nomeAluno').textContent;
-    // @ts-ignore
-    popup.classList.remove('hidden');
-});
-
-document.getElementById('fecharPopup')?.addEventListener('click', () => {
-    // @ts-ignore
-    popup.classList.add('hidden');
-    const usuarioLogado = localStorage.getItem("usuarioLogado");
-    if (usuarioLogado) {
-        // Para a câmera antes de sair
-        stopCamera('login');
-        window.location.href = '/HTML/Ferramentas.html';
-    } else {
-        alert("Faça login com QR Code antes de entrar.");
-    }
-});
-
-// ----- Abrir cadastro (CORRIGIDO) -----
+// ----- Abrir cadastro (Mantido) -----
 const abrirCadastro = document.getElementById('abrirCadastro');
 const cadastroBox = document.getElementById('cadastroBox');
 const loginContainer = document.getElementById('loginContainer');
@@ -101,6 +81,7 @@ export function stopCamera(mode) {
     }
 }
 
+// ----- Função startCamera (CORRIGIDA E OTIMIZADA) -----
 export function startCamera(mode, onScanSuccess) {
     const readerId = mode === 'login' ? 'reader-login' : 'reader-cadastro';
     const readerContainer = document.getElementById(readerId);
@@ -129,10 +110,17 @@ export function startCamera(mode, onScanSuccess) {
 
     let reader = mode === 'login' ? html5QrCodeLogin : window.html5QrCodeCadastro;
 
+    // --- CORREÇÃO E OTIMIZAÇÃO ---
+    // 1. O 'config' (segundo argumento) agora contém as restrições de vídeo
     const config = {
-        fps: 10,
+        fps: 25, // Mais fluido
         qrbox: { width: 250, height: 250 },
-        disableFlip: false // Importante para leitura de tela
+        disableFlip: false,
+        // As restrições de vídeo (largura/altura) vão AQUI DENTRO
+        videoConstraints: {
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+        }
     };
 
     if (reader) {
@@ -140,37 +128,47 @@ export function startCamera(mode, onScanSuccess) {
         Html5Qrcode.getCameras().then(devices => {
             if (devices && devices.length) {
 
-                // --- LÓGICA REFINADA: Prioriza Câmera Traseira/Externa ---
-                let startSource = devices[0].id; // Fallback: O primeiro dispositivo
+                // 2. O 'startSource' (primeiro argumento) só define a câmera
+                let startSource = devices[0].id; // Fallback: primeira câmera (webcam)
 
                 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
                 if (isMobile) {
-                    // Tenta iniciar com facingMode: environment no mobile para forçar traseira
-                    startSource = { facingMode: { exact: "environment" } };
-                } else {
-                     // No PC, tenta encontrar a câmera que NÃO é a frontal (se houver mais de uma)
-                    const rearCamera = devices.find(device =>
-                        !device.label.toLowerCase().includes('front') &&
-                        !device.label.toLowerCase().includes('user')
-                    );
-
-                    if (rearCamera) {
-                         startSource = rearCamera.id;
-                    } else if (devices.length > 1) {
-                        // Se não encontrou pelo label, usa a última da lista (padrão em muitos Androids/iOS)
-                         startSource = devices[devices.length - 1].id;
-                    }
+                    // Em mobile, pedimos a câmera 'environment' (traseira)
+                    // Este objeto SÓ PODE TER UMA CHAVE (facingMode).
+                    startSource = { facingMode: { ideal: "environment" } };
                 }
-                // --- FIM LÓGICA REFINADA ---
-
-                reader.start(startSource, config, onScanSuccess, (error) => {
-                    // Callback de erro de scanning (ignorado)
-                })
+                
+                // 3. Chamada correta:
+                reader.start(
+                    startSource, // Argumento 1: Qual câmera (string ou {facingMode})
+                    config,      // Argumento 2: Como usá-la (fps, qrbox, width, height)
+                    onScanSuccess,
+                    (error) => {
+                        // Callback de erro de scanning (ignorado)
+                    }
+                )
                 .catch((err) => {
                     console.error("ERRO CRÍTICO ao iniciar câmera:", err);
-                    alert("ERRO: Falha ao iniciar a câmera. Detalhe: " + err);
-                    stopCamera(mode);
+                    
+                    // Se falhar (ex: F12 pedindo 'environment'), tenta de novo com a câmera padrão
+                    if (err.name === "OverconstrainedError" || (err.message && err.message.includes("OverconstrainedError"))) {
+                        console.warn("Falha ao pedir câmera 'environment'. Tentando câmera padrão (webcam).");
+                        reader.start(
+                            devices[0].id, // Tenta a primeira câmera da lista (webcam no F12)
+                            config,
+                            onScanSuccess,
+                            (error) => { /* ... */ }
+                        ).catch(finalErr => {
+                            // Se falhar de novo, informa o usuário.
+                            alert("ERRO: Falha ao iniciar qualquer câmera. Detalhe: " + finalErr.message);
+                            stopCamera(mode);
+                        });
+                    } else {
+                        // Outro erro (ex: permissão negada)
+                        alert("ERRO: Falha ao iniciar câmera. Verifique as permissões. Detalhe: " + err.message);
+                        stopCamera(mode);
+                    }
                 });
             } else {
                 alert("Nenhuma câmera detectada no seu dispositivo. Use a opção 'Escolher Arquivo'.");
@@ -185,7 +183,7 @@ export function startCamera(mode, onScanSuccess) {
 }
 
 
-// ----- Lógica de Login via Câmera (NOVA) -----
+// ----- Lógica de Login via Câmera (ATUALIZADA com redirect) -----
 document.getElementById('btnToggleCameraLogin')?.addEventListener('click', () => {
     // @ts-ignore
     stopCamera('cadastro');
@@ -197,6 +195,9 @@ document.getElementById('btnToggleCameraLogin')?.addEventListener('click', () =>
 
 function handleLoginSuccess(qrCodeContent) {
     if (statusMsgLogin) statusMsgLogin.textContent = "Processando QR Code lido...";
+    
+    // NOVO: Referência ao novo container de controles
+    const loginControls = document.getElementById('loginControls');
 
     // CORREÇÃO CRÍTICA: Mapeamento para o novo endpoint GET
     fetch(`${API_BASE_URL}/api/usuarios/por-codigo/${qrCodeContent}`)
@@ -208,27 +209,33 @@ function handleLoginSuccess(qrCodeContent) {
         })
         .then(usuario => {
             // @ts-ignore
-            exibirUsuario({ usuario: usuario }); // Passa no formato esperado por exibirUsuario
-            // @ts-ignore
             salvarUsuarioLogado({ usuario: usuario });
+
+            // ** NOVO: OCULTA OS CONTROLES ANTIGOS **
+            if (loginControls) loginControls.style.display = 'none';
+
+            // @ts-ignore
+            exibirUsuario({ usuario: usuario }); // Exibe info-aluno (que contém o btnEntrar)
 
             if (statusMsgLogin) statusMsgLogin.textContent = "Login bem-sucedido! Redirecionando...";
             if (infoAluno) infoAluno.style.display = "block";
 
+            // --- ATUALIZAÇÃO: Redireciona automaticamente ---
             setTimeout(() => {
-                window.location.href = "/HTML/Ferramentas.html";
-            }, 300);
+                window.location.href = '/HTML/Ferramentas.html';
+            }, 500); // 500ms para o usuário ver seu nome
+
         })
         .catch(err => {
             console.error("Erro ao fazer login por QR:", err);
             let msgErro = (err.message.includes("404")) ? "Usuário não encontrado." : `QR Code inválido ou não registrado. (${err.message})`;
             if (statusMsgLogin) statusMsgLogin.textContent = msgErro;
             if (infoAluno) infoAluno.style.display = "none";
+            if (loginControls) loginControls.style.display = 'block'; // Mostra controles de novo se falhar
         });
 }
 
-// ----- Lógica de Login via Upload (Botão atualizado e Corrigido) -----
-// CORREÇÃO: Altera a referência para o ID correto do botão no HTML.
+// ----- Lógica de Login via Upload (ATUALIZADA com redirect) -----
 const btnLerQrUpload = document.getElementById('btnLerQr');
 const loginQrInput = document.getElementById('loginQrInput');
 
@@ -242,6 +249,9 @@ btnLerQrUpload?.addEventListener('click', () => {
 
     btnLerQrUpload.classList.add('loading');
     btnLerQrUpload.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
+    
+    // NOVO: Referência ao novo container de controles
+    const loginControls = document.getElementById('loginControls');
 
     // CORRIGIDO: Chama a função que faz o fetch com a URL pública
     // @ts-ignore
@@ -249,17 +259,22 @@ btnLerQrUpload?.addEventListener('click', () => {
         btnLerQrUpload.classList.remove('loading');
         btnLerQrUpload.innerHTML = '<i class="fas fa-qrcode"></i> Ler QR Code por Arquivo';
 
+        // ** NOVO: OCULTA OS CONTROLES ANTIGOS **
+        if (loginControls) loginControls.style.display = 'none';
+
         // @ts-ignore
         exibirUsuario(usuario);
         // @ts-ignore
         salvarUsuarioLogado(usuario);
 
-        if (statusMsgLogin) statusMsgLogin.textContent = "";
+        if (statusMsgLogin) statusMsgLogin.textContent = "Login bem-sucedido! Redirecionando...";
         if (infoAluno) infoAluno.style.display = "block";
 
+        // --- ATUALIZAÇÃO: Redireciona automaticamente ---
         setTimeout(() => {
-            window.location.href = "/HTML/Ferramentas.html";
-        }, 300);
+            window.location.href = '/HTML/Ferramentas.html';
+        }, 500); // 500ms para o usuário ver seu nome
+
     // @ts-ignore
     }, (err) => {
         btnLerQrUpload.classList.remove('loading');

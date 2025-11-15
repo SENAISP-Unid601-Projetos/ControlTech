@@ -1,4 +1,156 @@
 /* Estilos Gerais */
+* {
+    box-sizing: border-box; /* CORREÇÃO ESSENCIAL */
+}
+
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Container do Dashboard */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Barra Lateral */
+.sidebar {
+    width: 250px;
+    background-color: #004b8d;
+    color: white;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    transition: left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s;
+}
+
+/* ... (Mantenha o restante dos estilos da barra lateral e navegação) ... */
+
+/* Estilos para o botão do hambúrguer */
+.hamburger-btn {
+    display: none; /* Inicia escondido em telas grandes */
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 101;
+    background: #004b8d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.hamburger-btn:hover {
+    background: #0061c0;
+}
+
+/* Conteúdo Principal */
+.main-content {
+    flex-grow: 1;
+    padding: 2rem;
+    transition: background-color 0.3s;
+}
+
+.devolucao-box {
+    background-color: #fff;
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    text-align: center;
+    transition: box-shadow 0.3s ease, background-color 0.3s;
+    position: relative;
+    z-index: 2;
+}
+
+/* ... (Mantenha o restante dos estilos de formulário, inputs, botões, modais) ... */
+
+/* Container de ferramentas */
+#listaFerramentas {
+    display: grid;
+    /* Padrão para telas grandes: 2 colunas ou mais */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+/* ... (Mantenha o restante dos estilos de ferramenta-item, user-profile, etc.) ... */
+
+
+/* === RESPONSIVIDADE PARA TELAS MENORES (ATUALIZADA) === */
+@media (max-width: 768px) {
+    /* CORREÇÃO: Força comportamento de bloco para permitir sidebar fixed */
+    .dashboard-container {
+        display: block; 
+    }
+
+    /* Sidebar Off-Canvas */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -250px; /* Esconde */
+        height: 100vh;
+        width: 250px;
+        z-index: 100;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+    }
+
+    .sidebar.active {
+        left: 0; /* Mostra */
+    }
+
+    /* Conteúdo Principal: Necessário ajuste de padding para o hamburger */
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 1rem;
+        padding-top: 5rem; /* Novo: Espaço para o botão hamburger */
+    }
+
+    /* Ajusta a caixa principal em mobile */
+    .devolucao-box {
+        padding: 1.5rem;
+        max-width: 100%; /* Ocupa a largura total */
+        margin: 0 auto; /* Centraliza se a largura for menor que 100% */
+    }
+
+    .devolucao-box h1 {
+        font-size: 1.5rem;
+    }
+
+    /* Mostra o botão hamburger */
+    .hamburger-btn {
+        display: block;
+        top: 15px;
+        left: 15px;
+    }
+    
+    /* Esconde o perfil de usuário na sidebar em mobile */
+    .user-profile {
+        display: none;
+    }
+
+    /* CORREÇÃO: Força o grid a mostrar apenas 1 card por linha */
+    #listaFerramentas {
+        grid-template-columns: 1fr; 
+        gap: 1rem;
+    }
+}
+
+/* === ESTILOS DO TEMA ESCURO (MANTIDOS) === */
+/* ... (Mantenha todo o seu código body.dark-theme aqui) ... */
+/* Estilos Gerais */
 body {
     font-family: 'Roboto', Arial, sans-serif;
     margin: 0;
@@ -370,7 +522,7 @@ textarea:focus {
 
 /* Botão de Configurações */
 .settings-btn {
-    margin-top: auto;
+
     background-color: rgba(0, 0, 0, 0.2);
 }
 .settings-btn:hover {

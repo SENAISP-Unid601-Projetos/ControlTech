@@ -32,28 +32,30 @@
                     <button id="btnEntrar">Entrar</button>
                 </div>
 
-                <div class="login-metodos">
-                    <h3>Login por QR Code</h3>
+                <div id="loginControls"> 
+                    <div class="login-metodos">
+                        <h3>Login por QR Code</h3>
 
-                    <div id="reader-login" style="width: 100%; display: none; margin: 1rem 0;"></div>
+                        <div id="reader-login" style="width: 100%; display: none; margin: 1rem 0;"></div>
 
-                    <div class="custom-file-upload" id="loginUploadControls">
-                        <label for="loginQrInput" class="custom-button">Escolher Arquivo</label>
-                        <input type="file" id="loginQrInput" accept="image/*" />
-                        <span id="fileNameDisplay" class="file-name">Nenhum arquivo escolhido</span>
+                        <div class="custom-file-upload" id="loginUploadControls">
+                            <label for="loginQrInput" class="custom-button">Escolher Arquivo</label>
+                            <input type="file" id="loginQrInput" accept="image/*" />
+                            <span id="fileNameDisplay" class="file-name">Nenhum arquivo escolhido</span>
+                        </div>
+
+                        <button id="btnToggleCameraLogin">
+                            <i class="fas fa-video"></i> Usar Câmera
+                        </button>
+
+                        <button id="btnLerQr">
+                            <i class="fas fa-qrcode"></i> Ler QR Code por Arquivo
+                        </button>
                     </div>
 
-                    <button id="btnToggleCameraLogin">
-                        <i class="fas fa-video"></i> Usar Câmera
-                    </button>
-
-                    <button id="btnLerQr">
-                        <i class="fas fa-qrcode"></i> Ler QR Code por Arquivo
-                    </button>
+                    <p id="abrirCadastro" class="link-cadastro">Sem registro? <strong>Fazer cadastro</strong></p>
                 </div>
-
-                <p id="abrirCadastro" class="link-cadastro">Sem registro? <strong>Fazer cadastro</strong></p>
-            </div>
+                </div>
 
             <div class="cadastro-box" id="cadastroBox">
                 <h3>Cadastro</h3>

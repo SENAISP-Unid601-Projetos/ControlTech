@@ -1,17 +1,23 @@
 <!DOCTYPE html>
-<html lang="pt-BR"> <head>
+<html lang="pt-BR">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Histórico - ControlTech</title> <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
+    <title id="page-title">Histórico - ControlTech</title>
+    
+    <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../CSS/Historico.css">
-    <script src="/JS/Historico.js" defer></script>
+    <link rel="stylesheet" href="../CSS/Historico.css"> 
+    
+    <script src="../JS/Historico.js" defer></script>
 </head>
 <body>
     <div class="dashboard-container">
+        
         <button class="hamburger-btn" id="hamburger-btn">
-            <i class="fas fa-bars"></i> </button>
+            <i class="fas fa-bars"></i>
+        </button>
 
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
@@ -21,11 +27,13 @@
             <div class="user-profile">
                 <i class="fas fa-user-circle"></i>
                 <div class="user-details">
-                    <span id="welcome-message">Olá,</span> <h4 id="user-name">Usuário</h4>
+                    <span id="welcome-message">Olá,</span> 
+                    <h4 id="user-name">Usuário</h4>
                 </div>
             </div>
+            
             <nav class="sidebar-nav">
-                 <a href="Ferramentas.html" id="nav-tools">
+                <a href="Ferramentas.html" id="nav-tools">
                     <i class="fas fa-tools"></i>
                     <span>Ferramentas</span>
                 </a>
@@ -45,42 +53,52 @@
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Sair</span>
                 </a>
-
+                
                 <a href="#" class="settings-btn" id="settings-btn">
                     <i class="fas fa-cog"></i>
                     <span>Configurações</span>
                 </a>
-                </nav>
+            </nav>
         </aside>
 
         <main class="main-content">
             <div class="main-header">
-                <h1 id="header-title">Histórico de Devoluções</h1> <div>
+                <h1 id="header-title">Histórico de Devoluções</h1> 
+                <div>
                     <button id="btnUsuario" class="select-btn">Meu Histórico</button>
                     <button id="btnTodos" class="select-btn">Todos</button>
                 </div>
             </div>
 
-            <div id="historicoContainer" class="historico-grid"> </div>
+            <div id="historicoContainer" class="historico-grid"> 
+                </div>
         </main>
 
-    </div> <div class="theme-popup" id="theme-popup"> <div class="popup-header">
-            <h4 id="settings-popup-title">Configurações</h4> <button class="close-btn" id="close-popup-btn">&times;</button>
+    </div> 
+    
+    <div class="theme-popup hidden" id="theme-popup"> 
+        <div class="popup-header">
+            <h4 id="settings-popup-title">Configurações</h4> 
+            <button class="close-btn" id="close-popup-btn">&times;</button>
         </div>
         <div class="popup-content-config">
             <div class="config-section">
-                <p class="config-label" id="theme-label">Alternar Tema:</p> <button id="theme-toggle-btn" class="theme-toggle-btn">
+                <p class="config-label" id="theme-label">Alternar Tema:</p> 
+                <button id="theme-toggle-btn" class="theme-toggle-btn">
                     <i class="fas fa-sun"></i>
                     <i class="fas fa-moon"></i>
                 </button>
-                <p class="theme-status" id="theme-status">Tema Claro</p> </div>
+                <p class="theme-status" id="theme-status">Tema Claro</p> 
+            </div>
             <div class="divider"></div>
             <div class="config-section">
-                <p class="config-label" id="lang-label">Alternar Idioma:</p> <button id="lang-toggle-btn" class="lang-toggle-btn">
-                    <span>PT</span>
+                <p class="config-label" id="lang-label">Alternar Idioma:</p> 
+                <button id="lang-toggle-btn" class="lang-toggle-btn">
+                    <span id="lang-toggle-status">PT</span>
                 </button>
-                <p class="lang-status" id="lang-status">Português</p> </div>
+                <p class="lang-status" id="lang-status">Português</p> 
+            </div>
         </div>
     </div>
-    </body>
+</body>
 </html>
