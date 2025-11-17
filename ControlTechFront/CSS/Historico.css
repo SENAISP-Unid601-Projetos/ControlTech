@@ -22,16 +22,14 @@ body {
 
 /* Barra Lateral (Sidebar) */
 .sidebar {
-    position: relative; 
-    width: 250px;
+    width: 298px;
     background-color: #004b8d;
     color: white;
     padding: 2rem 1.5rem;
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    /* Adicionado left para transição off-canvas */
-    transition: width 0.3s ease, left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s; 
+    transition: left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s; /* Atualizado para tema */
 }
 
 .sidebar-header {
@@ -44,7 +42,7 @@ body {
 .sidebar-nav {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    flex-grow: 1; /* Adicionado para empurrar config para baixo */
 }
 
 .sidebar-nav a {
@@ -65,9 +63,10 @@ body {
 }
 
 .sidebar-nav a i {
-    font-size: 1.5rem;
-    margin-right: 15px;
+    font-size: 1.5rem; /* Aumenta o tamanho do ícone */
+    margin-right: 15px; /* Adiciona espaço à direita do ícone */
 }
+
 
 /* Perfil do Usuário */
 .user-profile { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; background-color: rgba(255, 255, 255, 0.1); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); transition: background-color 0.3s; }
@@ -245,22 +244,23 @@ body {
 .lang-toggle-btn:hover { background-color: #004b8d; }
 
 
-/* === RESPONSIVIDADE PARA TELAS MENORES === */
+
 @media (max-width: 768px) {
-    /* CORREÇÃO: Necessário para o comportamento off-canvas */
     .dashboard-container {
         display: block; 
     }
     
-    /* Sidebar Off-Canvas */
     .sidebar {
         position: fixed;
         top: 0;
-        left: -250px; /* Esconde */
+        left: -250px;
         height: 100vh;
+        width: 250px;
+        padding: 2rem 1.5rem;
+        transition: left 0.3s ease-in-out;
         z-index: 100;
-        box-shadow: 2px 0 5px rgba(0,0,0,0.5); 
-    }
+        box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+    }   
     .sidebar.active {
         left: 0; /* Mostra */
     }

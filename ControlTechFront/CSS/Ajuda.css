@@ -23,15 +23,14 @@ body {
 
 /* Barra Lateral (Sidebar) */
 .sidebar {
-    position: relative; 
-    width: 250px;
+    width: 298px;
     background-color: #004b8d;
     color: white;
     padding: 2rem 1.5rem;
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    transition: left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s;
+    transition: left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s; 
 }
 
 .sidebar-header {
@@ -40,7 +39,6 @@ body {
     font-weight: 700;
     text-align: center;
 }
-
 /* Estilos do Perfil do Usuário */
 .user-profile {
     display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; margin-bottom: 1.5rem;
@@ -83,7 +81,6 @@ body {
 
 /* Botão de Configurações */
 .settings-btn {
-    margin-top: auto; /* Empurra para o final do sidebar-nav */
     background-color: rgba(0, 0, 0, 0.2);
 }
 .settings-btn:hover {

@@ -27,7 +27,7 @@ body {
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    transition: left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s;
+    transition: left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s; 
 }
 
 /* ... (Mantenha o restante dos estilos da barra lateral e navegação) ... */
@@ -85,12 +85,7 @@ body {
     padding: 1rem 0;
 }
 
-/* ... (Mantenha o restante dos estilos de ferramenta-item, user-profile, etc.) ... */
-
-
-/* === RESPONSIVIDADE PARA TELAS MENORES (ATUALIZADA) === */
 @media (max-width: 768px) {
-    /* CORREÇÃO: Força comportamento de bloco para permitir sidebar fixed */
     .dashboard-container {
         display: block; 
     }
@@ -168,7 +163,7 @@ body {
 
 /* Barra Lateral */
 .sidebar {
-    width: 250px;
+    width: 298px;
     background-color: #004b8d;
     color: white;
     padding: 2rem 1.5rem;
