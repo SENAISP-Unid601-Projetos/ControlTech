@@ -312,6 +312,10 @@ body {
     .hamburger-btn {
         display: block; /* Mostra o botão */
     }
+    .theme-popup {
+        left: auto; 
+        right: 20px;
+    }   
 }
 
 .user-profile { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; background-color: rgba(255, 255, 255, 0.1); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); transition: background-color 0.3s; }
@@ -326,7 +330,7 @@ body {
 
 /* Popup de Configurações (Mesmo estilo das outras páginas) */
 /* (A posição 'left: 20px' original é agora controlada pela media query) */
-.theme-popup { position: fixed; bottom: 20px; left: 20px; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); width: 280px; padding: 1rem; z-index: 99; opacity: 0; visibility: hidden; transform: translateY(20px); transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s; text-align: center; }
+.theme-popup { position: fixed; bottom: 20px; left: 125px; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); width: 240px; padding: 1rem; z-index: 101; opacity: 0; visibility: hidden; transform: translateY(20px); transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s; text-align: center; }
 .theme-popup.visible { opacity: 1; visibility: visible; transform: translateY(0); transition-delay: 0s; }
 .theme-popup.hidden { display: none; }
 .popup-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; transition: border-color 0.3s; }

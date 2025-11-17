@@ -290,8 +290,7 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     width: 280px;
     padding: 1rem;
-    z-index: 99;
-    /* Começa invisível e fora da tela */
+    z-index: 101;
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
@@ -471,6 +470,10 @@ body {
     .hamburger-btn {
         display: block; /* Mostra o botão */
     }
+    .theme-popup {
+        left: auto; 
+        right: 20px;
+    }   
 }
 
 
