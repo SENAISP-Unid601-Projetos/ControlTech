@@ -24,6 +24,7 @@ const translations = {
         'msgErroCarregar': 'Erro ao carregar ferramentas.',
         'msgNaoLogado': 'Faça login para ver suas ferramentas.',
         'msgObsObrigatoria': 'Por favor, preencha o campo de observações.',
+        'tituloAviso': 'Campo Obrigatório',
         'settingsPopupTitle': 'Configurações',
         'themeLabel': 'Alternar Tema:',
         'themeStatusLight': 'Tema Claro',
@@ -57,6 +58,7 @@ const translations = {
         'msgErroCarregar': 'Error loading tools.',
         'msgNaoLogado': 'Log in to see your tools.',
         'msgObsObrigatoria': 'Please fill in the observations field.',
+        'tituloAviso': 'Mandatory Field',
         'settingsPopupTitle': 'Settings',
         'themeLabel': 'Toggle Theme:',
         'themeStatusLight': 'Light Theme',
@@ -81,12 +83,10 @@ const updateTranslations = (lang) => {
     const setText = (id, key) => {
         const element = document.getElementById(id);
         if (element) element.textContent = trans[key] || '';
-        else console.warn(`Elemento ID '${id}' não encontrado.`);
     };
     const setSpanText = (id, key) => {
         const element = document.getElementById(id)?.querySelector('span');
         if (element) element.textContent = trans[key] || '';
-        else console.warn(`Span dentro do ID '${id}' não encontrado.`);
     };
 
     // Barra lateral
@@ -207,6 +207,32 @@ function displayUserName(lang) {
 
 const BASE_URL = "http://localhost:8080/api/ferramentas"; // URL base da API
 
+// ----- ✅ NOVA FUNÇÃO: Exibir Modal Estilizado (Substitui Alert) -----
+function showAlert(titulo, mensagem) {
+    const modal = document.getElementById('alertModal');
+    const titleEl = document.getElementById('alertTitle');
+    const msgEl = document.getElementById('alertMessage');
+    const btnOk = document.getElementById('btnAlertOk');
+    // closeAlertBtn pode não existir no HTML se você não adicionou o botão X, 
+    // então verificamos se ele existe antes de usar
+    const btnClose = document.getElementById('closeAlertBtn'); 
+
+    if (modal && titleEl && msgEl) {
+        titleEl.textContent = titulo;
+        msgEl.textContent = mensagem;
+        modal.classList.remove('hidden');
+        
+        const fechar = () => modal.classList.add('hidden');
+        if (btnOk) btnOk.onclick = fechar;
+        if (btnClose) btnClose.onclick = fechar;
+        
+        modal.onclick = (e) => { if (e.target === modal) fechar(); };
+    } else {
+        // Fallback caso o HTML não tenha sido atualizado com o modal
+        alert(`${titulo}\n\n${mensagem}`);
+    }
+}
+
 // Pega usuário logado (se houver)
 function getUsuarioLogado() {
     try {
@@ -310,7 +336,7 @@ function ativarModalBotoes() {
     });
 }
 
-// Evento do botão "Sim" do modal (Com Validação)
+// Evento do botão "Sim" do modal (Com Validação e ShowAlert)
 document.getElementById("confirmBtn")?.addEventListener("click", function () {
     if (!ferramentaParaDevolver) return;
 
@@ -325,20 +351,25 @@ document.getElementById("confirmBtn")?.addEventListener("click", function () {
 
     // --- VALIDAÇÃO: Campo Obrigatório ---
     if (!observacoes) {
-        alert(trans.msgObsObrigatoria || "A descrição é obrigatória.");
+        // Esconde modal de confirmação primeiro
+        const modalConfirm = document.getElementById("confirmModal");
+        if (modalConfirm) modalConfirm.classList.add("hidden");
         
-        // Fecha o modal para o usuário editar
-        const modal = document.getElementById("confirmModal");
-        if (modal) modal.classList.add("hidden");
+        // Mostra Alerta Estilizado
+        const titulo = trans.tituloAviso || "Campo Obrigatório";
+        const mensagem = trans.msgObsObrigatoria || "A descrição é obrigatória.";
+        showAlert(titulo, mensagem);
         
         // Foca no input e destaca
         if (observacoesInput) {
-            observacoesInput.focus();
             observacoesInput.style.border = "2px solid red";
             // Remove o destaque quando o usuário começar a digitar
             observacoesInput.addEventListener('input', function() {
                 this.style.border = "";
             }, { once: true });
+            
+            // Pequeno delay para focar depois que o modal fechar
+            setTimeout(() => observacoesInput.focus(), 100);
         }
         return; // Interrompe o envio
     }
@@ -349,6 +380,10 @@ document.getElementById("confirmBtn")?.addEventListener("click", function () {
         mensagemDiv.className = 'mensagem info';
         mensagemDiv.classList.remove('hidden');
     }
+
+    // Esconde o modal de confirmação
+    const modal = document.getElementById("confirmModal");
+    if (modal) modal.classList.add("hidden");
 
     fetch(`${BASE_URL}/${ferramentaId}/devolver?observacoes=${encodeURIComponent(observacoes)}`, { method: "POST" })
         .then(async res => {
@@ -379,10 +414,10 @@ document.getElementById("confirmBtn")?.addEventListener("click", function () {
                 mensagemDiv.textContent = err.message;
                 mensagemDiv.className = "mensagem msg-error";
             }
+            // Opcional: também mostrar popup de erro
+            // showAlert("Erro", err.message);
         })
         .finally(() => {
-            const modal = document.getElementById("confirmModal");
-            if (modal) modal.classList.add("hidden");
             ferramentaParaDevolver = null;
         });
 });

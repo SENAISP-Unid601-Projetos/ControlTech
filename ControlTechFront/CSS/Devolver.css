@@ -706,3 +706,19 @@ body.dark-theme .theme-toggle-btn .fa-sun { opacity: 0; transform: translateY(-1
 body.dark-theme .theme-toggle-btn .fa-moon { opacity: 1; transform: translateY(0); color: #f1c40f; }
 body.dark-theme .lang-toggle-btn { background-color: #0061c0; }
 body.dark-theme .lang-toggle-btn:hover { background-color: #004b8d; }
+/* Adicione isso ao FINAL do arquivo */
+
+/* Animação de entrada */
+.bounce-in {
+    animation: bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Garante que o novo modal tenha um z-index maior que tudo */
+#alertModal {
+    z-index: 2000;
+}
