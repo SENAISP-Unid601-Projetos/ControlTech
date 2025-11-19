@@ -41,7 +41,29 @@ public class QrCodeController {
             return ResponseEntity.internalServerError().build();
         }
     }
+    // ✅ NOVO ENDPOINT: Apenas lê o QR Code (para uso no Cadastro)
+    @PostMapping("/decodificar")
+    public ResponseEntity<?> decodificarQrCode(@RequestParam("file") MultipartFile file) {
+        try {
+            // 1. Salva o arquivo temporariamente
+            File tempFile = File.createTempFile("qrcode_temp", ".png");
+            file.transferTo(tempFile);
 
+            // 2. Apenas lê o conteúdo (Texto/Número)
+            String conteudo = QRCodeReader.lerQRCode(tempFile.getAbsolutePath()).trim();
+
+            // 3. Deleta o arquivo temporário
+            tempFile.delete();
+
+            // 4. Retorna o conteúdo num JSON simples
+            // Retorna: { "qrCode": "12345" }
+            return ResponseEntity.ok(java.util.Collections.singletonMap("qrCode", conteudo));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("Erro ao decodificar arquivo: " + e.getMessage());
+        }
+    }
     // ✅ LER QR CODE (usando o endpoint /ler)
     @PostMapping("/ler")
     public ResponseEntity<?> lerQrCode(@RequestParam("file") MultipartFile file) {
