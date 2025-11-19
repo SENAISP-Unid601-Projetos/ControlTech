@@ -1,0 +1,476 @@
+/* Estilos Gerais */
+* {
+    box-sizing: border-box; 
+}
+
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Container do Dashboard */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* --- BARRA LATERAL (NAVBAR) --- */
+.sidebar {
+    position: relative; 
+    width: 298px;
+    background-color: #004b8d;
+    color: white;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    transition: left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s; 
+}
+
+.sidebar-header {
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; 
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #b3cde0;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* REGRA QUE DESTA O ITEM ATIVO (E HOVER) */
+.sidebar-nav a:hover,
+.sidebar-nav a.active {
+    background-color: #0061c0;
+    color: white;
+}
+
+.sidebar-nav a i {
+    font-size: 1.5rem; 
+    margin-right: 15px; 
+}
+
+/* Estilos do perfil do usuário */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+.user-profile i {
+    font-size: 2.5rem;
+    color: #b3cde0;
+    transition: color 0.3s;
+}
+.user-details {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.user-details span {
+    font-size: 0.9rem;
+    color: #b3cde0;
+    opacity: 0.8;
+    transition: color 0.3s;
+}
+.user-details h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+    transition: color 0.3s;
+}
+
+/* Botão de Configurações */
+.settings-btn {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.settings-btn:hover {
+    background-color: #0061c0 !important;
+}
+
+/* Botão Hambúrguer (Fixado no mobile, invisível no desktop) */
+.hamburger-btn {
+    display: none; 
+    position: fixed;
+    top: 15px; 
+    left: 15px; 
+    z-index: 101;
+    background: #004b8d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.hamburger-btn:hover {
+    background: #0061c0;
+}
+
+
+/* --- CONTEÚDO PRINCIPAL (Main Content) --- */
+.main-content {
+    flex-grow: 1;
+    padding: 0; 
+    transition: background-color 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    background-color: #f0f2f5; 
+}
+
+
+/* --- POPUP DE CONFIGURAÇÕES (MANTIDO) --- */
+.theme-popup {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 280px;
+    padding: 1rem;
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s;
+    text-align: center;
+}
+.theme-popup.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition-delay: 0s;
+}
+.theme-popup.hidden { display: none; } 
+
+.popup-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; transition: border-color 0.3s; }
+.popup-header h4 { margin: 0; color: #004b8d; transition: color 0.3s; }
+.popup-header .close-btn { background: none; border: none; font-size: 1.5rem; color: #888; cursor: pointer; transition: color 0.3s; }
+.popup-content-config { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.config-section { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.config-label { margin: 0; font-size: 1rem; color: #555; transition: color 0.3s; }
+.divider { width: 80%; height: 1px; background-color: #ddd; margin: 0.5rem 0; transition: background-color 0.3s; }
+.theme-toggle-btn { background: none; border: none; cursor: pointer; font-size: 2.5rem; color: #004b8d; transition: transform 0.3s ease, color 0.3s; width: 60px; height: 60px; position: relative; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+.theme-toggle-btn:hover { transform: scale(1.1); }
+.theme-toggle-btn .fa-sun, .theme-toggle-btn .fa-moon { position: absolute; transition: opacity 0.3s ease, transform 0.3s ease; }
+.theme-toggle-btn .fa-moon { opacity: 0; transform: translateY(10px); }
+.theme-toggle-btn .fa-sun { opacity: 1; transform: translateY(0); }
+.theme-status, .lang-status { margin: 0; font-size: 1rem; color: #555; transition: color 0.3s; }
+.lang-toggle-btn { background: #0061c0; color: white; border: none; border-radius: 8px; padding: 10px 20px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background-color 0.3s; }
+.lang-toggle-btn:hover { background-color: #004b8d; }
+
+
+/* --- ESTILOS DO TEMA ESCURO (DARKT THEME) --- */
+body.dark-theme {
+    background-color: #2c2c2c;
+    color: #f0f2f5;
+}
+
+body.dark-theme .sidebar { background-color: #1a1a1a; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); }
+body.dark-theme .user-profile { background-color: rgba(255, 255, 255, 0.05); }
+body.dark-theme .user-profile i { color: #ccc; }
+body.dark-theme .user-details span { color: #b3cde0; }
+body.dark-theme .user-details h4 { color: #fff; }
+body.dark-theme .sidebar-nav a { color: #ccc; }
+body.dark-theme .sidebar-nav a:hover, body.dark-theme .sidebar-nav a.active { background-color: #333; color: #fff; }
+body.dark-theme .hamburger-btn { background: #1a1a1a; color: #f0f2f5; }
+body.dark-theme .settings-btn { background-color: rgba(255, 255, 255, 0.1); }
+body.dark-theme .settings-btn:hover { background-color: #333 !important; }
+
+body.dark-theme .main-content { background-color: #2c2c2c; } 
+
+/* Tema escuro para o popup de config */
+body.dark-theme .theme-popup { background-color: #444; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); color: #f0f2f5; }
+body.dark-theme .popup-header { border-bottom: 1px solid #555; }
+body.dark-theme .popup-header h4 { color: #b3cde0; }
+body.dark-theme .popup-header .close-btn { color: #aaa; }
+body.dark-theme .popup-content-config .config-label, body.dark-theme .theme-status, body.dark-theme .lang-status { color: #ccc; }
+body.dark-theme .divider { background-color: #555; }
+body.dark-theme .theme-toggle-btn { color: #b3cde0; }
+body.dark-theme .theme-toggle-btn .fa-sun { opacity: 0; transform: translateY(-10px); }
+body.dark-theme .theme-toggle-btn .fa-moon { opacity: 1; transform: translateY(0); color: #f1c40f; }
+body.dark-theme .lang-toggle-btn { background-color: #0061c0; }
+body.dark-theme .lang-toggle-btn:hover { background-color: #004b8d; }
+
+
+/* --- ESTILOS DO CHATBOT (TELA CHEIA) --- */
+
+.chatbot-window.full-screen-chat {
+    width: 100%;
+    max-width: 900px; 
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0; 
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+    display: flex;
+    flex-direction: column;
+    margin: 0; 
+    padding: 0;
+    background-color: #f9f9f9; 
+}
+
+/* Header */
+.chatbot-header {
+    background-color: #004b8d; 
+    color: white;
+    padding: 15px 20px;
+    display: flex; 
+    justify-content: flex-start;
+    align-items: center;
+    flex-shrink: 0; 
+    border-radius: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15); 
+    z-index: 10;
+}
+
+.bot-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.bot-avatar {
+    font-size: 1.8rem;
+    color: white;
+    background-color: #0061c0;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; 
+}
+.bot-details h4 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+.bot-details span {
+    font-size: 0.8rem;
+    color: #b3cde0; 
+    font-weight: 400;
+}
+
+/* Corpo (Mensagens) */
+.chatbot-body {
+    flex-grow: 1; 
+    padding: 20px;
+    overflow-y: auto;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><rect width="10" height="10" fill="%23f0f2f5"/><circle cx="5" cy="5" r="1" fill="%23e6e6e6"/></svg>'); 
+    background-color: #f0f2f5;
+    padding-bottom: 80px; 
+}
+
+/* --- ALINHAMENTO DAS MENSAGENS --- */
+.message {
+    margin-bottom: 12px;
+    max-width: 75%; 
+    display: flex;
+    flex-direction: column;
+}
+
+/* Mensagens do Bot (Esquerda) */
+.bot-message {
+    align-self: flex-start;
+    margin-right: auto; 
+}
+.bot-message p {
+    background-color: #ffffff; 
+    color: #333;
+    border-radius: 10px 10px 10px 0; 
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+}
+
+/* Mensagens do Usuário (Direita) */
+.user-message {
+    align-self: flex-end;
+    margin-left: auto; 
+}
+.user-message p {
+    background-color: #dcf8c6; 
+    color: #000;
+    border-radius: 10px 10px 0 10px; 
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+}
+
+/* Footer (Input) */
+.chatbot-footer {
+    display: flex;
+    padding: 12px 20px;
+    background-color: #f0f2f5; 
+    flex-shrink: 0;
+    position: sticky; 
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+    z-index: 5;
+}
+.chatbot-footer input {
+    flex-grow: 1;
+    padding: 12px 18px;
+    border: none;
+    background-color: #ffffff;
+    border-radius: 25px;
+    margin-right: 10px;
+    font-size: 1rem;
+    outline: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.chatbot-footer input:focus {
+    box-shadow: 0 0 0 2px #0061c0;
+}
+.chatbot-footer button {
+    background-color: #0061c0; 
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+.chatbot-footer button:hover {
+    background-color: #004b8d;
+}
+
+/* --- ADAPTAÇÃO TEMA ESCURO --- */
+
+body.dark-theme .chatbot-window.full-screen-chat {
+    background-color: #1e1e1e; 
+    box-shadow: 0 0 10px rgba(255,255,255,0.1);
+}
+
+body.dark-theme .chatbot-header {
+    background-color: #1a1a1a; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+body.dark-theme .chatbot-body {
+    background-color: #2c2c2c;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><rect width="10" height="10" fill="%232c2c2c"/><circle cx="5" cy="5" r="1" fill="%23444"/></svg>');
+}
+
+/* Balões no tema escuro */
+body.dark-theme .bot-message p {
+    background-color: #383838; 
+    color: #f0f2f5;
+}
+body.dark-theme .user-message p {
+    background-color: #056162; 
+    color: #f0f2f5; 
+}
+
+body.dark-theme .chatbot-footer {
+    background-color: #1e1e1e;
+    box-shadow: 0 -2px 5px rgba(255, 255, 255, 0.05);
+}
+body.dark-theme .chatbot-footer input {
+    background-color: #444;
+    color: #f0f2f5;
+}
+
+/* --- RESPONSIVIDADE (Mobile) --- */
+
+@media (max-width: 768px) {
+    /* CORREÇÃO CRÍTICA GERAL DO LAYOUT */
+    .dashboard-container { 
+        display: block; 
+        position: relative;
+    }
+    
+    .sidebar { 
+        position: fixed; 
+        top: 0;
+        left: -250px;
+        bottom: 0;
+        z-index: 100; 
+    }
+    .sidebar.active { 
+        left: 0; 
+    }
+    
+    .main-content { 
+        width: 100%; 
+        min-height: 100vh;
+        align-items: stretch; 
+        padding-top: 0;
+    }
+    
+    .user-profile { 
+        display: none; 
+    }
+    
+    /* ORGANIZAÇÃO DO HAMBÚRGUER E HEADER NO MOBILE */
+    .hamburger-btn {
+        display: block;
+        z-index: 101; 
+    }
+
+    .chatbot-window.full-screen-chat {
+        height: 100vh; 
+        max-width: 100%; 
+    }
+    
+    /* CORREÇÃO DO HEADER: Fixo no topo da viewport e largura total. */
+    .chatbot-header {
+        position: fixed; 
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 15px 15px 15px 65px; 
+    }
+
+    /* CORREÇÃO DO CORPO DO CHAT: Adiciona margem superior para compensar o header fixo. */
+    .chatbot-body {
+        padding-top: 80px; 
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 80px; 
+    }
+    
+    .bot-details span {
+        display: none;
+    }
+
+    /* Footer no mobile */
+    .chatbot-footer {
+        padding: 8px 10px;
+    }
+    .chatbot-footer input {
+        padding: 10px 15px;
+    }
+}

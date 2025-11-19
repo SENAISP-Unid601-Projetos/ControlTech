@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Histórico - ControlTech</title>
+    <title id="page-title">Histórico | SENAI ControlTech</title>
     
     <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,20 +19,24 @@
             <i class="fas fa-bars"></i>
         </button>
 
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h2>ControlTech</h2>
-            </div>
+                <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h2>ControlTech</h2>
+    </div>
 
-            <div class="user-profile">
-                <i class="fas fa-user-circle"></i>
-                <div class="user-details">
-                    <span id="welcome-message">Olá,</span> 
-                    <h4 id="user-name">Usuário</h4>
-                </div>
-            </div>
-            
-            <nav class="sidebar-nav">
+    <div class="user-profile">
+        <i class="fas fa-user-circle"></i>
+        <div class="user-details">
+            <span id="welcome-message">Olá,</span> <h4 id="user-name">Usuário</h4>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+
+                <a href="LandingPage.html" class="active" id="nav-about">
+                    <i class="fas fa-home"></i> 
+                    <span>Início</span>
+                </a>
                 <a href="Ferramentas.html" id="nav-tools">
                     <i class="fas fa-tools"></i>
                     <span>Ferramentas</span>
@@ -45,21 +49,27 @@
                     <i class="fas fa-question-circle"></i>
                     <span>Ajuda</span>
                 </a>
-                <a href="Historico.html" class="active" id="nav-history">
+                <a href="Historico.html" id="nav-history">
                     <i class="fas fa-history"></i>
                     <span>Histórico</span>
                 </a>
+                
+                <a href="ChatBot.html" id="nav-chatbot" class="chatbot-trigger-btn">
+                    <i class="fas fa-robot"></i>
+                    <span>ChatBot</span>
+                </a>
+
                 <a href="Saida.html" class="logout" id="nav-exit">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Sair</span>
                 </a>
-                
+
                 <a href="#" class="settings-btn" id="settings-btn">
                     <i class="fas fa-cog"></i>
                     <span>Configurações</span>
                 </a>
             </nav>
-        </aside>
+</aside>
 
         <main class="main-content">
             <div class="main-header">

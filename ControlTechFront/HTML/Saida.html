@@ -2,7 +2,7 @@
 <html lang="pt-BR"> <head>
     <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
     <meta charset="UTF-8" />
-    <title id="page-title">Registro de Saída - SENAI ControlTech</title> <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title id="page-title">Registro de Saída | SENAI ControlTech</title> <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/CSS/Saida.css">
@@ -14,43 +14,57 @@
         <i class="fas fa-bars"></i>
     </button>
 
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h2>ControlTech</h2>
-        </div>
+            <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h2>ControlTech</h2>
+    </div>
 
-        <div class="user-profile">
-            <i class="fas fa-user-circle"></i>
-            <div class="user-details">
-                <span id="welcome-message">Olá,</span> <h4 id="user-name">Usuário</h4>
-            </div>
+    <div class="user-profile">
+        <i class="fas fa-user-circle"></i>
+        <div class="user-details">
+            <span id="welcome-message">Olá,</span> <h4 id="user-name">Usuário</h4>
         </div>
-        <nav class="sidebar-nav">
-            <a href="Ferramentas.html" id="nav-tools">
-                <i class="fas fa-tools"></i>
-                <span>Ferramentas</span>
-            </a>
-            <a href="Devolver.html" id="nav-return">
-                <i class="fas fa-undo"></i>
-                <span>Devolver</span>
-            </a>
-            <a href="Ajuda.html" id="nav-help">
-                <i class="fas fa-question-circle"></i>
-                <span>Ajuda</span>
-            </a>
-            <a href="Historico.html" id="nav-history"> <i class="fas fa-history"></i>
-                <span>Histórico</span>
-            </a>
-            <a href="Saida.html" class="active logout" id="nav-exit"> <i class="fas fa-sign-out-alt"></i>
-                <span>Sair</span>
-            </a>
+    </div>
 
-            <a href="#" class="settings-btn" id="settings-btn">
-                <i class="fas fa-cog"></i>
-                <span>Configurações</span>
-            </a>
-        </nav>
-    </aside>
+    <nav class="sidebar-nav">
+
+                <a href="LandingPage.html" class="active" id="nav-about">
+                    <i class="fas fa-home"></i> 
+                    <span>Início</span>
+                </a>
+                <a href="Ferramentas.html" id="nav-tools">
+                    <i class="fas fa-tools"></i>
+                    <span>Ferramentas</span>
+                </a>
+                <a href="Devolver.html" id="nav-return">
+                    <i class="fas fa-undo"></i>
+                    <span>Devolver</span>
+                </a>
+                <a href="Ajuda.html" id="nav-help">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Ajuda</span>
+                </a>
+                <a href="Historico.html" id="nav-history">
+                    <i class="fas fa-history"></i>
+                    <span>Histórico</span>
+                </a>
+                
+                <a href="ChatBot.html" id="nav-chatbot" class="chatbot-trigger-btn">
+                    <i class="fas fa-robot"></i>
+                    <span>ChatBot</span>
+                </a>
+
+                <a href="Saida.html" class="logout" id="nav-exit">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </a>
+
+                <a href="#" class="settings-btn" id="settings-btn">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
+                </a>
+            </nav>
+</aside>
 
     <main class="main-content">
         <div class="saida-box">

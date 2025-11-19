@@ -3,7 +3,9 @@ import { lerQrViaUpload, exibirUsuario } from './leitorQrCode.js';
 import { API_BASE_URL } from './apiConfig.js'; // Importa URL
 
 // Variáveis globais para o leitor de QR Code (instâncias da biblioteca)
+// @ts-ignore
 window.html5QrCodeCadastro = null;
+// @ts-ignore
 let html5QrCodeLogin = null;
 
 // ----- Fundo hexagonal (mantido) -----
@@ -53,16 +55,19 @@ voltarLogin?.addEventListener('click', () => {
 
 // ----- Funções Auxiliares de Câmera (Aprimoradas para PC e Mobile) -----
 
+// @ts-ignore
 export function stopCamera(mode) {
     const readerId = mode === 'login' ? 'reader-login' : 'reader-cadastro';
     const readerContainer = document.getElementById(readerId);
 
+    // @ts-ignore
     let reader = mode === 'login' ? html5QrCodeLogin : window.html5QrCodeCadastro;
     // Referencia o botão de câmera de Login pelo ID correto
     let btn = mode === 'login' ? document.getElementById('btnToggleCameraLogin') : document.getElementById('btnToggleCameraCadastro');
     const uploadControls = document.getElementById(mode === 'login' ? 'loginUploadControls' : 'cadastroUploadControls');
 
     if (reader && reader.isScanning) {
+        // @ts-ignore
         reader.stop().then(ignore => {
             if (readerContainer) readerContainer.style.display = 'none';
             if (btn) btn.innerHTML = '<i class="fas fa-video"></i> Usar Câmera';
@@ -73,7 +78,9 @@ export function stopCamera(mode) {
 
             // Clear the reader instance
             if (mode === 'login') html5QrCodeLogin = null;
+            // @ts-ignore
             else window.html5QrCodeCadastro = null;
+        // @ts-ignore
         }).catch(err => console.error("Erro ao parar câmera:", err));
     } else {
         // Garante que a opção de upload esteja visível se a câmera não estava ativa (caso de erro)
@@ -82,6 +89,7 @@ export function stopCamera(mode) {
 }
 
 // ----- Função startCamera (CORRIGIDA E OTIMIZADA) -----
+// @ts-ignore
 export function startCamera(mode, onScanSuccess) {
     const readerId = mode === 'login' ? 'reader-login' : 'reader-cadastro';
     const readerContainer = document.getElementById(readerId);
@@ -100,14 +108,17 @@ export function startCamera(mode, onScanSuccess) {
 
 
     // Cria a instância se necessário
+    // @ts-ignore
     if (mode === 'login' && !html5QrCodeLogin) {
         // @ts-ignore
         html5QrCodeLogin = new Html5Qrcode(readerId);
+    // @ts-ignore
     } else if (mode === 'cadastro' && !window.html5QrCodeCadastro) {
         // @ts-ignore
         window.html5QrCodeCadastro = new Html5Qrcode(readerId);
     }
 
+    // @ts-ignore
     let reader = mode === 'login' ? html5QrCodeLogin : window.html5QrCodeCadastro;
 
     // --- CORREÇÃO E OTIMIZAÇÃO ---
@@ -144,10 +155,12 @@ export function startCamera(mode, onScanSuccess) {
                     startSource, // Argumento 1: Qual câmera (string ou {facingMode})
                     config,      // Argumento 2: Como usá-la (fps, qrbox, width, height)
                     onScanSuccess,
+                    // @ts-ignore
                     (error) => {
                         // Callback de erro de scanning (ignorado)
                     }
                 )
+                // @ts-ignore
                 .catch((err) => {
                     console.error("ERRO CRÍTICO ao iniciar câmera:", err);
                     
@@ -158,7 +171,9 @@ export function startCamera(mode, onScanSuccess) {
                             devices[0].id, // Tenta a primeira câmera da lista (webcam no F12)
                             config,
                             onScanSuccess,
+                            // @ts-ignore
                             (error) => { /* ... */ }
+                        // @ts-ignore
                         ).catch(finalErr => {
                             // Se falhar de novo, informa o usuário.
                             alert("ERRO: Falha ao iniciar qualquer câmera. Detalhe: " + finalErr.message);
@@ -174,6 +189,7 @@ export function startCamera(mode, onScanSuccess) {
                 alert("Nenhuma câmera detectada no seu dispositivo. Use a opção 'Escolher Arquivo'.");
                 stopCamera(mode);
             }
+        // @ts-ignore
         }).catch(err => {
             console.error("ERRO ao listar câmeras:", err);
             alert("ERRO: Falha ao listar dispositivos de câmera.");
@@ -187,12 +203,14 @@ export function startCamera(mode, onScanSuccess) {
 document.getElementById('btnToggleCameraLogin')?.addEventListener('click', () => {
     // @ts-ignore
     stopCamera('cadastro');
+    // @ts-ignore
     startCamera('login', (decodedText, decodedResult) => {
         stopCamera('login');
         handleLoginSuccess(decodedText);
     });
 });
 
+// @ts-ignore
 function handleLoginSuccess(qrCodeContent) {
     if (statusMsgLogin) statusMsgLogin.textContent = "Processando QR Code lido...";
     
@@ -222,7 +240,7 @@ function handleLoginSuccess(qrCodeContent) {
 
             // --- ATUALIZAÇÃO: Redireciona automaticamente ---
             setTimeout(() => {
-                window.location.href = '/HTML/Ferramentas.html';
+                window.location.href = '/HTML/LandingPage.html';
             }, 500); // 500ms para o usuário ver seu nome
 
         })
@@ -272,7 +290,7 @@ btnLerQrUpload?.addEventListener('click', () => {
 
         // --- ATUALIZAÇÃO: Redireciona automaticamente ---
         setTimeout(() => {
-            window.location.href = '/HTML/Ferramentas.html';
+            window.location.href = '/HTML/LandingPage.html';
         }, 500); // 500ms para o usuário ver seu nome
 
     // @ts-ignore
