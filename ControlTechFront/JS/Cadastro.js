@@ -13,16 +13,18 @@ const cadastroFileNameDisplay = document.getElementById('cadastroFileNameDisplay
 
 let qrCodeLido = null;
 
+// -------------- BLOQUEAR NÚMEROS NO CAMPO NOME -----------------
+
+nomeCadastroInput?.addEventListener('input', () => {
+    nomeCadastroInput.value = nomeCadastroInput.value.replace(/[^A-Za-zÀ-ÿ\s]/g, "");
+});
+
 // ----------------- LÓGICA DA CÂMERA DE CADASTRO -----------------
-// Usa a mesma lógica corrigida do Login.js (startCamera detecta mobile/pc)
 
 btnToggleCameraCadastro?.addEventListener('click', () => {
-    // Garante que a câmera de login pare
     stopCamera('login');
 
-    // Inicia câmera em modo 'cadastro'
     startCamera('cadastro', (decodedText, decodedResult) => {
-        // Sucesso na leitura da câmera
         stopCamera('cadastro');
         qrCodeLido = decodedText;
         if(statusMsgCadastro) statusMsgCadastro.textContent = `QR Code lido: ${decodedText}. Prossiga com o cadastro.`;
@@ -30,13 +32,13 @@ btnToggleCameraCadastro?.addEventListener('click', () => {
     });
 });
 
-// ----------------- LÓGICA DE UPLOAD DE CADASTRO (CORRIGIDA) -----------------
+// ----------------- LÓGICA DE UPLOAD DE CADASTRO -----------------
 
 cadastroQrInput?.addEventListener('change', () => {
     const file = cadastroQrInput.files[0];
     if (!file) return;
 
-    stopCamera('cadastro'); // Para a câmera se estiver rodando
+    stopCamera('cadastro');
     qrCodeLido = null;
 
     const formData = new FormData();
@@ -47,7 +49,6 @@ cadastroQrInput?.addEventListener('change', () => {
         statusMsgCadastro.style.color = "orange";
     }
 
-    // --- CORREÇÃO PRINCIPAL: Usa o endpoint /decodificar ---
     fetch(`${API_BASE_URL}/api/qrcode/decodificar`, {
         method: "POST",
         body: formData
@@ -59,7 +60,6 @@ cadastroQrInput?.addEventListener('change', () => {
         return res.json();
     })
     .then(data => {
-        // O Backend novo retorna: { "qrCode": "12345" }
         const qrCodeTexto = data.qrCode;
         
         if (qrCodeTexto) {
@@ -69,7 +69,7 @@ cadastroQrInput?.addEventListener('change', () => {
                 statusMsgCadastro.style.color = "green";
             }
         } else {
-             throw new Error("QR Code ilegível ou resposta vazia.");
+            throw new Error("QR Code ilegível ou resposta vazia.");
         }
     })
     .catch(err => {
@@ -86,7 +86,6 @@ cadastroQrInput?.addEventListener('change', () => {
     }
 });
 
-
 // ----------------- LÓGICA DE SALVAR CADASTRO (POST) -----------------
 
 btnCadastrar?.addEventListener('click', async () => {
@@ -98,6 +97,13 @@ btnCadastrar?.addEventListener('click', async () => {
             statusMsgCadastro.textContent = "Preencha todos os campos e leia o crachá/QR Code!";
             statusMsgCadastro.style.color = "red";
         }
+        return;
+    }
+
+    // --- VALIDAÇÃO EXTRA: GARANTIR QUE TEM SÓ LETRAS ---
+    if (!/^[A-Za-zÀ-ÿ\s]+$/.test(nome)) {
+        statusMsgCadastro.textContent = "O nome deve conter apenas letras!";
+        statusMsgCadastro.style.color = "red";
         return;
     }
 
@@ -122,23 +128,21 @@ btnCadastrar?.addEventListener('click', async () => {
         });
 
         if (!response.ok) {
-             const errorText = await response.text();
-             throw new Error(errorText || `Falha no cadastro: ${response.status}`);
+            const errorText = await response.text();
+            throw new Error(errorText || `Falha no cadastro: ${response.status}`);
         }
 
         const usuarioCadastrado = await response.json();
 
-        // Sucesso: exibe popup
         if(popupNomeCadastro) popupNomeCadastro.textContent = usuarioCadastrado.nome;
         if(popupCadastro) popupCadastro.classList.remove('hidden');
 
-        // Limpa tudo
-        if (nomeCadastroInput) nomeCadastroInput.value = '';
-        if (perfilCadastroInput) perfilCadastroInput.value = '';
-        if (cadastroQrInput) cadastroQrInput.value = '';
-        if (cadastroFileNameDisplay) cadastroFileNameDisplay.textContent = "Nenhum arquivo escolhido";
+        nomeCadastroInput.value = '';
+        perfilCadastroInput.value = '';
+        cadastroQrInput.value = '';
+        cadastroFileNameDisplay.textContent = "Nenhum arquivo escolhido";
         qrCodeLido = null;
-        if(statusMsgCadastro) statusMsgCadastro.textContent = '';
+        statusMsgCadastro.textContent = '';
 
     } catch (error) {
         console.error('Erro no cadastro:', error);
@@ -155,6 +159,5 @@ btnCadastrar?.addEventListener('click', async () => {
 
 document.getElementById('fecharPopupCadastro')?.addEventListener('click', () => {
     popupCadastro.classList.add('hidden');
-    // Volta para o login
     document.getElementById('voltarLogin')?.click();
 });
