@@ -1,6 +1,7 @@
 package com.senai.projeto.ControlTechBack.service;
 
 import com.senai.projeto.ControlTechBack.DTO.FerramentaDTO;
+import com.senai.projeto.ControlTechBack.DTO.FerramentaOutputDTO;
 import com.senai.projeto.ControlTechBack.DTO.FerramentaUsuarioDTO;
 import com.senai.projeto.ControlTechBack.entity.Ferramenta;
 import com.senai.projeto.ControlTechBack.entity.Usuario;
@@ -8,10 +9,11 @@ import com.senai.projeto.ControlTechBack.repository.FerramentaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime; // Importado
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.time.LocalDate;
 
 @Service
 public class FerramentaService {
@@ -65,18 +67,23 @@ public class FerramentaService {
         ferramentaRepository.deleteById(id);
     }
 
-
+    // LÓGICA DE ASSOCIAÇÃO ATUALIZADA
     public void associarUsuario(Ferramenta ferramenta, Usuario usuario) {
         if (ferramenta == null || usuario == null) {
             throw new RuntimeException("Ferramenta ou usuário não podem ser nulos");
         }
 
         ferramenta.setUsuario(usuario);
+        ferramenta.setDataAssociacao(LocalDateTime.now()); // NOVO: REGISTRA A DATA E HORA EXATA
+
+        // Mantém a lógica da data de devolução se for null
         if (ferramenta.getDataDevolucao() == null) {
             ferramenta.setDataDevolucao(LocalDate.now().plusDays(7));
         }
         ferramentaRepository.save(ferramenta);
     }
+
+    // Conversores e Métodos Auxiliares
     private FerramentaDTO converterParaDTO(Ferramenta ferramenta) {
         FerramentaDTO dto = new FerramentaDTO();
         dto.setId(ferramenta.getId());
@@ -95,6 +102,7 @@ public class FerramentaService {
         f.setDataDevolucao(dto.getDataDevolucao());
         return f;
     }
+
     public List<Usuario> listarUsuariosAssociados() {
         return ferramentaRepository.findAll()
                 .stream()
@@ -103,6 +111,8 @@ public class FerramentaService {
                 .distinct()
                 .collect(Collectors.toList());
     }
+
+    // ... (listarFerramentasPorUsuario, listarFerramentasPorCracha - mantidos) ...
     public List<FerramentaUsuarioDTO> listarFerramentasPorUsuario(Long usuarioId) {
         return ferramentaRepository.findAll()
                 .stream()
@@ -142,16 +152,43 @@ public class FerramentaService {
                 })
                 .collect(Collectors.toList());
     }
+
+    // LÓGICA DE DEVOLUÇÃO ATUALIZADA
     public void devolverFerramenta(Long ferramentaId) {
         Ferramenta ferramenta = ferramentaRepository.findById(ferramentaId)
                 .orElseThrow(() -> new RuntimeException("Ferramenta não encontrada"));
 
         // Remove o usuário associado
         ferramenta.setUsuario(null);
+        // Limpa a data de associação também
+        ferramenta.setDataAssociacao(null); // NOVO: LIMPA O CAMPO DE TEMPO
         // Opcional: atualiza data de devolução para hoje
         ferramenta.setDataDevolucao(LocalDate.now());
 
         ferramentaRepository.save(ferramenta); // apenas atualiza
+    }
+
+    public void atualizarEntidade(Ferramenta ferramenta) {
+        if (ferramenta != null) {
+            ferramentaRepository.save(ferramenta);
+        }
+    }
+    public Ferramenta salvarOuAtualizar(Ferramenta ferramenta) {
+        return ferramentaRepository.save(ferramenta);
+    }
+    public FerramentaOutputDTO toDTO(Ferramenta ferramenta) {
+        FerramentaOutputDTO dto = new FerramentaOutputDTO();
+        dto.setId(ferramenta.getId());
+        dto.setNome(ferramenta.getNome());
+        dto.setDescricao(ferramenta.getDescricao());
+        dto.setQuantidadeEstoque(ferramenta.getQuantidadeEstoque());
+
+        if (ferramenta.getUsuario() != null) {
+            dto.setUsuarioId(ferramenta.getUsuario().getId());
+            dto.setUsuarioNome(ferramenta.getUsuario().getNome());
+        }
+
+        return dto;
     }
 
 }

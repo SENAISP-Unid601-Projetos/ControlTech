@@ -5,6 +5,9 @@ body {
     padding: 0;
     background-color: #f0f2f5;
     color: #333;
+    transition: background-color 0.3s, color 0.3s; 
+    /* CORREÇÃO MANTIDA: Impede que o conteúdo posicionado à esquerda (como a sidebar) crie rolagem horizontal. */
+    overflow-x: hidden; 
 }
 
 /* Container do Dashboard */
@@ -22,7 +25,7 @@ body {
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    transition: width 0.3s ease;
+    transition: left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s; 
 }
 
 .sidebar-header {
@@ -35,6 +38,7 @@ body {
 .sidebar-nav {
     display: flex;
     flex-direction: column;
+    flex-grow: 1; /* Faz a navegação ocupar espaço disponível */
 }
 
 .sidebar-nav a {
@@ -55,13 +59,13 @@ body {
 }
 
 .sidebar-nav a i {
-    font-size: 1.2rem;
-    margin-right: 1rem;
+    font-size: 1.5rem;
+    margin-right: 15px;
 }
 
 /* Estilos para o botão do hambúrguer */
 .hamburger-btn {
-    display: none; /* Inicia escondido em telas grandes */
+    display: none;
     position: fixed;
     top: 20px;
     left: 20px;
@@ -73,7 +77,7 @@ body {
     font-size: 1.5rem;
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .hamburger-btn:hover {
@@ -84,6 +88,7 @@ body {
 .main-content {
     flex-grow: 1;
     padding: 2rem;
+    transition: background-color 0.3s; 
 }
 
 .main-header {
@@ -97,12 +102,14 @@ body {
     align-items: center;
     flex-wrap: wrap;
     gap: 1rem;
+    transition: background-color 0.3s, box-shadow 0.3s; 
 }
 
 .main-header h1 {
     font-size: 2rem;
     color: #004b8d;
     margin: 0;
+    transition: color 0.3s; 
 }
 
 /* Layout em Grid para as Ferramentas */
@@ -120,7 +127,7 @@ body {
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     padding: 1.5rem;
     text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s, border-color 0.3s; 
     border: 1px solid #eee;
 }
 
@@ -140,30 +147,10 @@ body {
     margin: 0.5rem 0;
     font-size: 1.2rem;
     color: #004b8d;
-}
-
-.select-btn {
-    background-color: #0061c0;
-    color: white;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 50px;
-    cursor: pointer;
-    width: 100%;
-    font-weight: bold;
-    transition: background-color 0.3s;
-    margin-top: 1rem;
-}
-
-.select-btn:hover {
-    background-color: #004b8d;
+    transition: color 0.3s; 
 }
 
 /* Estilos para a barra de pesquisa */
-#poda {
-    position: relative;
-}
-
 .search-container {
     position: relative;
 }
@@ -175,6 +162,8 @@ body {
     border-radius: 50px;
     font-size: 1rem;
     transition: all 0.3s ease;
+    background-color: #fff; 
+    color: #333; 
 }
 
 .search-input:focus {
@@ -183,16 +172,247 @@ body {
     box-shadow: 0 0 5px rgba(0, 97, 192, 0.5);
 }
 
+.search-input::placeholder { 
+    color: #aaa;
+    transition: color 0.3s;
+}
+
+
 .search-icon-container {
     position: absolute;
-    right: 10px;
+    right: 15px; 
     top: 50%;
     transform: translateY(-50%);
     color: #aaa;
-    cursor: pointer;
+    cursor: text; 
+    transition: color 0.3s; 
 }
 
-/* Responsividade para telas menores */
+/* === ADIÇÕES PARA PERFIL, STATUS, CONFIGURAÇÕES E TEMA ESCURO === */
+
+/* Estilos do perfil do usuário */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+.user-profile i {
+    font-size: 2.5rem;
+    color: #b3cde0;
+    transition: color 0.3s;
+}
+.user-details {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.user-details span {
+    font-size: 0.9rem;
+    color: #b3cde0;
+    opacity: 0.8;
+    transition: color 0.3s;
+}
+.user-details h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+    transition: color 0.3s;
+}
+
+/* Botão de Configurações */
+.settings-btn {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.settings-btn:hover {
+    background-color: #0061c0 !important;
+}
+
+/* Status da Ferramenta */
+.tool-card p.status {
+    font-weight: bold;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 0.5rem;
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+.tool-card p.status.disponivel {
+    background-color: #e0f2f7;
+    color: #007bff;
+}
+.tool-card p.status.emprestado {
+    background-color: #fff3e0;
+    color: #ff9800;
+}
+
+/* Botão Selecionar */
+.select-btn {
+    background-color: #0061c0;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+    transition: background-color 0.3s, opacity 0.3s; 
+    margin-top: 1rem;
+}
+.select-btn:hover {
+    background-color: #004b8d;
+}
+.select-btn:disabled { /* Estilo do botão desabilitado */
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Popup de Configurações - Visibilidade controlada pela classe .visible */
+.theme-popup {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 280px;
+    padding: 1rem;
+    z-index: 101;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s;
+    text-align: center;
+}
+.theme-popup.visible { /* Classe para mostrar o popup */
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition-delay: 0s; /* Garante que a visibilidade mude imediatamente ao mostrar */
+}
+/* A classe .hidden pode ser usada como fallback se necessário, mas .visible controla a exibição */
+.theme-popup.hidden {
+   display: none;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s;
+}
+.popup-header h4 {
+    margin: 0;
+    color: #004b8d;
+    transition: color 0.3s;
+}
+.popup-header .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.popup-content-config {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+.config-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.config-label {
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
+    transition: color 0.3s;
+}
+
+.divider {
+    width: 80%;
+    height: 1px;
+    background-color: #ddd;
+    margin: 0.5rem 0;
+    transition: background-color 0.3s;
+}
+
+.theme-toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2.5rem;
+    color: #004b8d;
+    transition: transform 0.3s ease, color 0.3s; 
+    width: 60px;
+    height: 60px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.theme-toggle-btn:hover {
+    transform: scale(1.1);
+}
+.theme-toggle-btn .fa-sun,
+.theme-toggle-btn .fa-moon {
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.theme-toggle-btn .fa-moon {
+    opacity: 0;
+    transform: translateY(10px);
+}
+.theme-toggle-btn .fa-sun {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.theme-status, .lang-status {
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
+    transition: color 0.3s;
+}
+
+.lang-toggle-btn {
+    background: #0061c0;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.lang-toggle-btn:hover {
+    background-color: #004b8d;
+}
+
+/* Responsividade */
 @media (max-width: 768px) {
     .dashboard-container {
         flex-direction: column;
@@ -201,51 +421,211 @@ body {
     .sidebar {
         position: fixed;
         top: 0;
-        left: -250px; /* Esconde a barra lateral fora da tela */
+        /* MANTIDO: Left mais agressivo para não mostrar sombra */
+        left: -300px;
         height: 100vh;
-        width: 250px;
-        padding: 2rem 1.5rem;
-        transition: left 0.3s ease-in-out;
         z-index: 100;
         box-shadow: 2px 0 5px rgba(0,0,0,0.5);
     }
-    
     .sidebar.active {
-        left: 0; /* Move a barra lateral para dentro da tela quando a classe 'active' é adicionada */
+        left: 0;
     }
-
     .sidebar-header {
         text-align: left;
     }
-
     .sidebar-nav {
-        flex-direction: column;
-        display: flex; /* Garante que a nav esteja visível na barra lateral */
+        display: flex; /* Garante visibilidade */
+    }
+    .user-profile { /* Esconde perfil em mobile */
+        display: none;
     }
 
     .main-content {
-        padding: 1rem;
+        padding: 4rem 1rem 1rem 1rem; /* Adiciona padding superior para não sobrepor header fixo */
+        margin-left: 0; /* Remove margem quando sidebar está fechada */
     }
 
     .main-header {
         padding: 1rem;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch; /* Faz input ocupar largura */
+    }
+
+    /* CORREÇÃO APLICADA: Força o search-container a ocupar 100% da largura do main-header */
+    .search-container {
+        width: 100%; 
     }
 
     .search-input {
-        width: 100%;
+        width: 100%; /* Ocupa toda largura */
     }
-    
+
     .tool-grid {
         gap: 1rem;
     }
-    
     .tool-card {
         padding: 1rem;
     }
 
     .hamburger-btn {
-        display: block; /* Mostra o botão do hambúrguer em telas pequenas */
+        display: block; /* Mostra o botão */
+    }
+    .theme-popup {
+        left: 90px; 
+       
+    }   
+}
+
+
+/* === ESTILOS DO TEMA ESCURO === */
+body.dark-theme {
+    background-color: #2c2c2c;
+    color: #f0f2f5;
+}
+
+body.dark-theme .sidebar {
+    background-color: #1a1a1a;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+}
+body.dark-theme .user-profile {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+body.dark-theme .user-profile i {
+    color: #ccc;
+}
+body.dark-theme .user-details span {
+    color: #b3cde0;
+}
+body.dark-theme .user-details h4 {
+    color: #fff;
+}
+body.dark-theme .sidebar-nav a {
+    color: #ccc;
+}
+body.dark-theme .sidebar-nav a:hover,
+body.dark-theme .sidebar-nav a.active {
+    background-color: #333;
+    color: #fff;
+}
+body.dark-theme .hamburger-btn {
+    background: #1a1a1a;
+    color: #f0f2f5;
+}
+body.dark-theme .settings-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+body.dark-theme .settings-btn:hover {
+     background-color: #333 !important;
+}
+
+body.dark-theme .main-header {
+    background-color: #333;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+body.dark-theme .main-header h1 {
+    color: #b3cde0;
+}
+body.dark-theme .search-input {
+    background-color: #444;
+    border-color: #555;
+    color: #f0f2f5;
+}
+body.dark-theme .search-input::placeholder {
+    color: #999;
+}
+body.dark-theme .search-input:focus {
+    border-color: #0061c0;
+    box-shadow: 0 0 5px rgba(0, 97, 192, 0.7);
+}
+body.dark-theme .search-icon-container {
+    color: #888;
+}
+
+body.dark-theme .tool-card {
+    background: #333;
+    border-color: #444;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+body.dark-theme .tool-card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+body.dark-theme .tool-card h3 {
+    color: #b3cde0;
+}
+body.dark-theme .tool-card p.status.disponivel {
+    background-color: #2a3f54;
+    color: #5bc0de;
+}
+body.dark-theme .tool-card p.status.emprestado {
+    background-color: #5c3d03;
+    color: #f0ad4e;
+}
+body.dark-theme .select-btn {
+    background-color: #0061c0; /* Mantem azul */
+}
+body.dark-theme .select-btn:hover {
+    background-color: #004b8d;
+}
+body.dark-theme .select-btn:disabled {
+    background-color: #555;
+    opacity: 0.5;
+}
+
+
+/* Tema escuro para o popup de config */
+.dark-theme .theme-popup {
+    background-color: #444;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    color: #f0f2f5;
+}
+.dark-theme .popup-header {
+    border-bottom: 1px solid #555;
+}
+.dark-theme .popup-header h4 {
+    color: #b3cde0;
+}
+.dark-theme .popup-header .close-btn {
+    color: #aaa;
+}
+.dark-theme .popup-content-config .config-label,
+.dark-theme .theme-status,
+.dark-theme .lang-status {
+    color: #ccc;
+}
+.dark-theme .divider {
+    background-color: #555;
+}
+.dark-theme .theme-toggle-btn {
+    color: #b3cde0; /* Cor dos ícones no dark mode */
+}
+/* Animação do botão de tema dark */
+.dark-theme .theme-toggle-btn .fa-sun {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+.dark-theme .theme-toggle-btn .fa-moon {
+    opacity: 1;
+    transform: translateY(0);
+    color: #f1c40f; /* Cor da lua */
+}
+.dark-theme .lang-toggle-btn {
+    background-color: #0061c0; /* Mantem azul */
+}
+.dark-theme .lang-toggle-btn:hover {
+    background-color: #004b8d;
+}
+@media (max-width: 768px) {
+
+    .main-header {
+        flex-direction: column;
+        align-items: stretch; 
+    }
+    .search-container {
+        width: 100%; 
+    }
+
+    .search-input {
+        width: 100%; 
+        box-sizing: border-box; /* Impede que o padding quebre o layout */
     }
 }
