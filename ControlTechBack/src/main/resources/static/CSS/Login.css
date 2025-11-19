@@ -1,0 +1,543 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+/*
+  CORREÇÃO APLICADA AQUI:
+  Removemos 'display: flex' e as propriedades
+  relacionadas ('flex-direction', 'justify-content', 'align-items')
+  para deixar o 'margin: auto' do .login-box fazer todo
+  o trabalho de centralização.
+*/
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #fff;
+    color: #222;
+    
+    overflow-x: hidden; 
+    position: relative;
+    min-height: 100vh;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: -150px;
+    left: -150px;
+    width: 600px;
+    height: 600px;
+    background: linear-gradient(135deg, #003a75 0%, #002850 100%);
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    opacity: 0.15;
+    z-index: 0;
+    filter: blur(80px);
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    bottom: -200px;
+    right: -200px;
+    width: 700px;
+    height: 700px;
+    background: repeating-linear-gradient(
+        45deg,
+        #003a75 0,
+        #003a75 2px,
+        transparent 2px,
+        transparent 10px
+    );
+    opacity: 0.05;
+    z-index: 0;
+    transform: rotate(15deg);
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    
+    /* Este padding é o que empurra o card para baixo */
+    padding: 5rem 3em 3em 3em; 
+    
+    flex: 0; 
+    width: 100%;
+    margin-bottom: 0;
+    min-width: 0; 
+}
+
+.login-box {
+    background-color: #fff;
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 58, 117, 0.2);
+    
+    /* Esta é a combinação correta para centralizar */
+    width: 90%; 
+    max-width: 450px; 
+    margin-left: auto;
+    margin-right: auto;
+
+    text-align: center;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    color: #222;
+    z-index: 2;
+    position: relative;
+
+    min-height: 400px; 
+    overflow-y: auto; 
+    overflow-x: hidden; 
+}
+
+.login-box:hover {
+    box-shadow: 0 6px 30px rgba(0, 58, 117, 0.35);
+}
+
+.login-box h1 {
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    font-size: 2rem;
+    color: #003a75; 
+    transition: font-size 0.3s ease;
+}
+
+.status {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    color: #555;
+    min-height: 1.4rem;
+}
+
+.info-aluno {
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 1.5rem; 
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    color: #222;
+    display: none;
+    text-align: left;
+    box-shadow: 0 2px 8px rgba(0, 58, 117, 0.1); 
+    border-left: 5px solid #003a75; 
+    transition: padding 0.3s ease;
+}
+
+.info-aluno div {
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-bottom: 1px dashed #eee; 
+    padding-bottom: 0.6rem;
+}
+
+.info-aluno div:last-child {
+    margin-bottom: 0;
+    border-bottom: none; 
+    padding-bottom: 0;
+}
+
+.info-aluno i {
+    color: #003a75;
+    font-size: 1.1rem;
+    min-width: 1.2rem; 
+}
+
+button#btnEntrar {
+    width: 80%; 
+    max-width: 300px;
+    margin: 1.5rem auto 0 auto;
+    
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #00b41b;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease; 
+    display: block; 
+}
+
+button#btnEntrar:hover {
+    background-color: #146c00;
+}
+
+button#btnEntrar:active {
+    transform: scale(0.98);
+}
+
+/* Pop-up */
+.popup {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.popup.hidden {
+    display: none;
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 2rem 2.5rem;
+    border-radius: 14px;
+    width: 90%; 
+    max-width: 320px; 
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 58, 117, 0.2);
+    color: #222;
+    box-sizing: border-box; 
+    transition: padding 0.3s ease;
+}
+
+.popup-content h2 {
+    color: #003a75; 
+    margin-bottom: 0.8rem;
+}
+
+.popup-content p {
+    color: #555;
+    font-size: 1.1rem;
+    margin-bottom: 1.8rem;
+}
+
+.popup-content button {
+    background-color: #00b41b;
+    border: none;
+    color: #fff;
+    padding: 0.8rem 2.4rem;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.popup-content button:hover {
+    background-color: #146c00;
+}
+
+.popup-content button:active {
+    transform: scale(0.98);
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+    user-select: none;
+}
+
+/* Link cadastro */
+.link-cadastro {
+    font-size: 0.9rem;
+    color: #003a75;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+/* Slide container */
+.slide-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+/* Login e Cadastro sobrepostos */
+#loginContainer, .cadastro-box {
+    position: relative;
+    padding-bottom: 4rem;
+    width: 100%;
+    transform: none;
+    opacity: 1;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    z-index: 2;
+    flex-shrink: 0;
+}
+
+#loginContainer {
+    transform: translateX(0);
+}
+
+#loginContainer.slide-out {
+    transform: translateX(-100%);
+    opacity: 0;
+    z-index: 1;
+}
+
+.cadastro-box {
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-top: 0; 
+    text-align: center;
+    transform: translateX(100%);
+    opacity: 0;
+    z-index: 1;
+}
+
+.cadastro-box.active {
+    transform: translateX(-100%); 
+    opacity: 1;
+    z-index: 3;
+}
+
+.cadastro-box input {
+    display: block;
+    width: 90%;
+    padding: 0.8rem;
+    margin: 0.5rem auto;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.cadastro-box button {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #003a75;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.cadastro-box button:hover {
+    background-color: #002850;
+}
+
+.cadastro-box button:active {
+    transform: scale(0.98);
+}
+
+.spacer {
+    height: 4rem;
+}
+
+/* --- ESTILO DO INPUT FILE --- */
+.custom-file-upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.custom-file-upload input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload .custom-button {
+    background-color: #003a75;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    display: inline-block;
+}
+
+.custom-file-upload .custom-button:hover {
+    background-color: #002850;
+}
+
+.custom-file-upload .custom-button:active {
+    transform: scale(0.98);
+}
+
+.custom-file-upload .file-name {
+    color: #555;
+    font-style: italic;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+}
+
+/* --- ESTILO DO BOTÃO "LER QR CODE" MELHORADO --- */
+#btnLerQr,
+#btnToggleCameraLogin,
+#btnToggleCameraCadastro {
+    width: 80%; 
+    max-width: 300px;
+    margin: 1rem auto;
+    
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #00b41b;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+#btnLerQr:hover,
+#btnToggleCameraLogin:hover,
+#btnToggleCameraCadastro:hover {
+    background-color: #146c00;
+    transform: translateY(-2px);
+}
+
+#btnLerQr:active,
+#btnToggleCameraLogin:active,
+#btnToggleCameraCadastro:active {
+    transform: translateY(0) scale(0.98); 
+}
+
+#btnLerQr.loading {
+    background-color: #ccc;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.login-metodos,
+.cadastro-metodos {
+    display: block;
+}
+
+#popupCadastro .popup-content {
+  border-top: 5px solid #4CAF50;
+}
+
+
+/* ============================================= */
+/* REGRAS DE RESPONSIVIDADE                     */
+/* ============================================= */
+
+/*
+  Para tablets 
+  (Largura máxima de 768px)
+*/
+@media (max-width: 768px) {
+    .container {
+        padding: 3rem 1.5em;
+    }
+
+    .login-box {
+        padding: 2rem 1.5rem; 
+    }
+
+    .login-box h1 {
+        font-size: 1.8rem; 
+    }
+
+    .info-aluno {
+        padding: 1.25rem;
+    }
+
+    #btnLerQr,
+    #btnToggleCameraLogin,
+    #btnToggleCameraCadastro,
+    button#btnEntrar {
+        padding: 0.9rem;
+        font-size: 1rem;
+        width: 90%;
+    }
+}
+
+
+/*
+  Para celulares
+  (Largura máxima de 450px)
+*/
+@media (max-width: 450px) {
+    .container {
+        padding: 2rem 1rem; 
+    }
+
+    .login-box {
+        padding: 2rem 1.25rem; 
+        
+        /* Esta é a regra principal: 
+           O 'width: 90%' global e o 'margin: auto' 
+           já estão cuidando da centralização.
+           Não precisamos de 'width: 100%' aqui.
+        */
+        
+        max-width: 450px; 
+        min-height: auto;
+        border-radius: 12px; 
+        box-shadow: 0 4px 20px rgba(0, 58, 117, 0.2); 
+    }
+    
+    .login-box h1 {
+        font-size: 1.6rem; 
+    }
+
+    .info-aluno {
+        padding: 1rem;
+    }
+    
+    .popup-content {
+        padding: 2rem 1.5rem;
+    }
+
+    .custom-file-upload {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .custom-file-upload .file-name {
+        max-width: 100%;
+        display: block;
+        text-align: center;
+    }
+    
+    #btnLerQr,
+    #btnToggleCameraLogin,
+    #btnToggleCameraCadastro,
+    button#btnEntrar {
+        width: 100%; 
+        max-width: none;
+        font-size: 1rem;
+    }
+}
+
+/* Estiliza os leitores de QR Code */
+#reader-login, #reader-cadastro {
+    position: relative;
+    border: 2px solid #004b8d;
+    border-radius: 8px;
+    overflow: hidden; 
+}
+
+/* Cria a "mira" ou "viewfinder" */
+#reader-login::after, #reader-cadastro::after {
+    content: '';
+    position: absolute;
+    
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    width: 250px; 
+    height: 250px;
+    max-width: 75%;
+    max-height: 75%;
+    
+    border: 3px solid rgba(255, 0, 0, 0.7); 
+    box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.5); 
+    border-radius: 8px;
+}

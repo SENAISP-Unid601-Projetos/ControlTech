@@ -1,2 +1,0 @@
-# ControlTech
-Sumiço de ferramentas
