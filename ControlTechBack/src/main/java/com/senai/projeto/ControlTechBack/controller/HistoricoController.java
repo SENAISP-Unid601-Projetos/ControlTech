@@ -42,5 +42,4 @@ public class HistoricoController {
     public void deletarTodos() {
         historicoService.deletarTodos();
     }
-
 }

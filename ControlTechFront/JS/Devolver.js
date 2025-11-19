@@ -15,7 +15,7 @@ const translations = {
         'labelHorario': 'Horário:',
         'listaVazia': 'Nenhuma ferramenta associada a este usuário.',
         'btnDevolver': 'Devolver',
-        'obsPlaceholder': 'Observações (opcional)',
+        'obsPlaceholder': 'Observações (Obrigatório)',
         'modalText': 'Tem certeza que deseja devolver esta ferramenta?',
         'modalBtnSim': 'Sim',
         'modalBtnCancelar': 'Cancelar',
@@ -23,6 +23,7 @@ const translations = {
         'msgErroDevolver': 'Erro ao devolver a ferramenta.',
         'msgErroCarregar': 'Erro ao carregar ferramentas.',
         'msgNaoLogado': 'Faça login para ver suas ferramentas.',
+        'msgObsObrigatoria': 'Por favor, preencha o campo de observações.',
         'settingsPopupTitle': 'Configurações',
         'themeLabel': 'Alternar Tema:',
         'themeStatusLight': 'Tema Claro',
@@ -47,7 +48,7 @@ const translations = {
         'labelHorario': 'Time:',
         'listaVazia': 'No tools associated with this user.',
         'btnDevolver': 'Return',
-        'obsPlaceholder': 'Observations (optional)',
+        'obsPlaceholder': 'Observations (Mandatory)',
         'modalText': 'Are you sure you want to return this tool?',
         'modalBtnSim': 'Yes',
         'modalBtnCancelar': 'Cancel',
@@ -55,6 +56,7 @@ const translations = {
         'msgErroDevolver': 'Error returning the tool.',
         'msgErroCarregar': 'Error loading tools.',
         'msgNaoLogado': 'Log in to see your tools.',
+        'msgObsObrigatoria': 'Please fill in the observations field.',
         'settingsPopupTitle': 'Settings',
         'themeLabel': 'Toggle Theme:',
         'themeStatusLight': 'Light Theme',
@@ -122,7 +124,6 @@ const updateTranslations = (lang) => {
     if (usuario && typeof carregarFerramentas === 'function') {
         carregarFerramentas(usuario.id);
     } else {
-        // Limpa a lista ou mostra mensagem se não estiver logado
         const lista = document.getElementById("listaFerramentas");
         if (lista) lista.innerHTML = `<div class="lista-vazia">${trans.msgNaoLogado}</div>`;
     }
@@ -262,137 +263,139 @@ function carregarFerramentas(usuarioId) {
             lista.innerHTML = ""; // Limpa a lista anterior
 
             if (!ferramentas || ferramentas.length === 0) {
-                // Mostra mensagem se não houver ferramentas
                 lista.innerHTML = `<div class="lista-vazia">${trans.listaVazia}</div>`;
-                lista.classList.remove("hidden"); // Garante que a mensagem seja visível
+                lista.classList.remove("hidden");
                 return;
             }
 
-            // Cria um card para cada ferramenta
             ferramentas.forEach(f => {
                 const div = document.createElement("div");
                 div.className = "ferramenta-item";
 
-                // Formata data de empréstimo (se existir)
-                const dataPegoFormatada = f.dataPego // Assumindo que a API retorna 'dataPego'
-                    ? new Date(f.dataPego).toLocaleString('pt-BR')
-                    : (currentLang === 'pt' ? 'Não registrado' : 'Not recorded');
-
-                // Cria o HTML do card
                 div.innerHTML = `
                     <p><strong>ID:</strong> ${f.ferramentaId || 'N/A'}</p>
                     <p><strong>Nome:</strong> ${f.ferramentaNome || (currentLang === 'pt' ? 'Nome Ind.' : 'Name Unav.')}</p>
                     <p class="obs-container">
-                       <label for="obs-${f.ferramentaId}" class="sr-only">Observações</label> <input type="text" id="obs-${f.ferramentaId}" class="obsInput" placeholder="${trans.obsPlaceholder}">
+                       <label for="obs-${f.ferramentaId}" class="sr-only">Observações</label> 
+                       <input type="text" id="obs-${f.ferramentaId}" class="obsInput" placeholder="${trans.obsPlaceholder}" required>
                     </p>
                     <button class="btnDevolver" data-id="${f.ferramentaId}">${trans.btnDevolver}</button>
                 `;
                 lista.appendChild(div);
             });
 
-            lista.classList.remove("hidden"); // Mostra a lista
-            ativarModalBotoes(); // Ativa os botões "Devolver" dos cards
+            lista.classList.remove("hidden");
+            ativarModalBotoes();
         })
         .catch(err => {
             console.error("Erro ao carregar ferramentas:", err);
-            lista.innerHTML = `<p class="mensagem msg-error">${trans.msgErroCarregar}</p>`; // Mostra erro
+            lista.innerHTML = `<p class="mensagem msg-error">${trans.msgErroCarregar}</p>`;
             lista.classList.remove("hidden");
         });
 }
 
-
 // --- LÓGICA DO MODAL DE CONFIRMAÇÃO ---
-let ferramentaParaDevolver = null; // Guarda referência ao botão clicado
+let ferramentaParaDevolver = null;
 
-// Adiciona listener aos botões "Devolver" da lista
 function ativarModalBotoes() {
     document.querySelectorAll(".btnDevolver").forEach(btn => {
-        // Remove listener antigo para evitar duplicação (caso a lista seja recarregada)
         btn.replaceWith(btn.cloneNode(true));
     });
-     // Adiciona listener aos botões clonados
     document.querySelectorAll(".btnDevolver").forEach(btn => {
         btn.addEventListener("click", function () {
-            ferramentaParaDevolver = this; // Guarda o botão que foi clicado
+            ferramentaParaDevolver = this;
             const modal = document.getElementById("confirmModal");
-            if (modal) modal.classList.remove("hidden"); // Mostra o modal
+            if (modal) modal.classList.remove("hidden");
         });
     });
 }
 
-// Evento do botão "Sim" do modal
+// Evento do botão "Sim" do modal (Com Validação)
 document.getElementById("confirmBtn")?.addEventListener("click", function () {
-    if (!ferramentaParaDevolver) return; // Sai se não houver botão guardado
+    if (!ferramentaParaDevolver) return;
 
     const ferramentaId = ferramentaParaDevolver.dataset.id;
-    // Pega o input de observações DENTRO do card pai do botão
     const parentCard = ferramentaParaDevolver.closest('.ferramenta-item');
     const observacoesInput = parentCard?.querySelector(".obsInput");
-    const observacoes = observacoesInput?.value.trim() || ""; // Pega valor ou string vazia
+    const observacoes = observacoesInput?.value.trim() || "";
+    
     const currentLang = localStorage.getItem('lang') || 'pt';
     const trans = translations[currentLang];
     const mensagemDiv = document.getElementById("mensagem");
 
-    // Mostra mensagem de processando (opcional)
+    // --- VALIDAÇÃO: Campo Obrigatório ---
+    if (!observacoes) {
+        alert(trans.msgObsObrigatoria || "A descrição é obrigatória.");
+        
+        // Fecha o modal para o usuário editar
+        const modal = document.getElementById("confirmModal");
+        if (modal) modal.classList.add("hidden");
+        
+        // Foca no input e destaca
+        if (observacoesInput) {
+            observacoesInput.focus();
+            observacoesInput.style.border = "2px solid red";
+            // Remove o destaque quando o usuário começar a digitar
+            observacoesInput.addEventListener('input', function() {
+                this.style.border = "";
+            }, { once: true });
+        }
+        return; // Interrompe o envio
+    }
+
+    // Se validou, prossegue com o envio
     if(mensagemDiv) {
         mensagemDiv.textContent = currentLang === 'pt' ? 'Processando devolução...' : 'Processing return...';
-        mensagemDiv.className = 'mensagem info'; // Use uma classe CSS 'info' se tiver
+        mensagemDiv.className = 'mensagem info';
         mensagemDiv.classList.remove('hidden');
     }
 
-    // Faz a requisição POST para a API de devolução
     fetch(`${BASE_URL}/${ferramentaId}/devolver?observacoes=${encodeURIComponent(observacoes)}`, { method: "POST" })
-        .then(async res => { // Usa async para poder ler o corpo do erro
+        .then(async res => {
             if (!res.ok) {
-                 // Tenta ler a mensagem de erro do backend
                 let errorMsg = trans.msgErroDevolver;
                 try {
                     const errorText = await res.text();
                     if(errorText) errorMsg += `: ${errorText}`;
-                } catch(e) {/* Ignora erro ao ler corpo */}
-                throw new Error(errorMsg); // Lança erro com a mensagem
+                } catch(e) {}
+                throw new Error(errorMsg);
             }
-            return res.text(); // Pega a mensagem de sucesso do backend
+            return res.text();
         })
-        .then(msg => { // Sucesso
+        .then(msg => {
             if (mensagemDiv) {
-                mensagemDiv.textContent = msg || trans.msgSucessoDevolucao; // Usa msg da API ou tradução
+                mensagemDiv.textContent = msg || trans.msgSucessoDevolucao;
                 mensagemDiv.className = "mensagem msg-success";
             }
-            // Remove o card da ferramenta devolvida da lista
             parentCard?.remove();
-
-            // Verifica se a lista ficou vazia após remover o item
             const lista = document.getElementById("listaFerramentas");
             if (lista && lista.children.length === 0) {
                  lista.innerHTML = `<div class="lista-vazia">${trans.listaVazia}</div>`;
             }
         })
-        .catch(err => { // Erro
+        .catch(err => {
             console.error("Erro na devolução:", err);
             if (mensagemDiv) {
-                mensagemDiv.textContent = err.message; // Mostra mensagem de erro específica
+                mensagemDiv.textContent = err.message;
                 mensagemDiv.className = "mensagem msg-error";
             }
         })
-        .finally(() => { // Sempre executa, mesmo com erro
+        .finally(() => {
             const modal = document.getElementById("confirmModal");
-            if (modal) modal.classList.add("hidden"); // Esconde o modal
-            ferramentaParaDevolver = null; // Limpa a referência
+            if (modal) modal.classList.add("hidden");
+            ferramentaParaDevolver = null;
         });
 });
 
 // Evento do botão "Cancelar" do modal
 document.getElementById("cancelBtn")?.addEventListener("click", function () {
     const modal = document.getElementById("confirmModal");
-    if (modal) modal.classList.add("hidden"); // Esconde o modal
-    ferramentaParaDevolver = null; // Limpa a referência
+    if (modal) modal.classList.add("hidden");
+    ferramentaParaDevolver = null;
 });
-
 
 // --- INICIALIZAÇÃO GERAL ---
 document.addEventListener("DOMContentLoaded", () => {
-    // Referências
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const sidebar = document.getElementById('sidebar');
     const mensagemDiv = document.getElementById("mensagem");
@@ -402,19 +405,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const langToggleBtn = document.getElementById('lang-toggle-btn');
 
-    // Inicializa Tema e Idioma
     loadTheme();
-    loadLanguage(); // Isso chama updateTranslations > displayUserName > carregarFerramentas
+    loadLanguage();
 
-    // Evento Hamburger
     hamburgerBtn?.addEventListener('click', () => sidebar?.classList.toggle('active'));
 
-    // Verifica se está logado e exibe info/lista
     const usuarioLogado = getUsuarioLogado();
     if (usuarioLogado) {
         exibirUsuarioLogado(usuarioLogado);
     } else {
-        // Mostra mensagem se não estiver logado
         const currentLang = localStorage.getItem('lang') || 'pt';
         const trans = translations[currentLang];
         if (mensagemDiv && trans) {
@@ -422,12 +421,10 @@ document.addEventListener("DOMContentLoaded", () => {
             mensagemDiv.className = "mensagem msg-error";
             mensagemDiv.classList.remove('hidden');
         }
-        // Garante que a lista esteja visível para mostrar a mensagem
         const lista = document.getElementById("listaFerramentas");
         if(lista) lista.classList.remove("hidden");
     }
 
-    // Eventos do Popup de Configurações
     settingsBtn?.addEventListener('click', (e) => {
         e.preventDefault();
         themePopup?.classList.toggle('visible');
@@ -439,12 +436,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     themeToggleBtn?.addEventListener('click', () => {
         const isDark = document.body.classList.contains('dark-theme');
-        saveTheme(isDark ? 'light' : 'dark'); // Salva e atualiza visual
-        document.body.classList.toggle('dark-theme'); // Aplica a classe ao body
+        saveTheme(isDark ? 'light' : 'dark');
+        document.body.classList.toggle('dark-theme');
     });
     langToggleBtn?.addEventListener('click', () => {
         const currentLang = localStorage.getItem('lang') || 'pt';
-        saveLanguage(currentLang === 'pt' ? 'en' : 'pt'); // Salva e atualiza UI
+        saveLanguage(currentLang === 'pt' ? 'en' : 'pt');
     });
-
-}); // Fim do DOMContentLoaded
+});
