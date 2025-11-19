@@ -96,7 +96,7 @@ body {
         top: 0;
         left: -250px; /* Esconde */
         height: 100vh;
-        width: 298px;
+        width: 250px;
         z-index: 100;
         box-shadow: 2px 0 5px rgba(0,0,0,0.5);
     }
@@ -706,3 +706,49 @@ body.dark-theme .theme-toggle-btn .fa-sun { opacity: 0; transform: translateY(-1
 body.dark-theme .theme-toggle-btn .fa-moon { opacity: 1; transform: translateY(0); color: #f1c40f; }
 body.dark-theme .lang-toggle-btn { background-color: #0061c0; }
 body.dark-theme .lang-toggle-btn:hover { background-color: #004b8d; }
+
+.user-profile-sidebar {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.1); /* Linha divisória suave */
+    margin-bottom: 20px; /* Espaçamento abaixo do perfil */
+    
+    /* Adicionando um leve gradiente de fundo para destacar */
+    background: linear-gradient(90deg, #1a57ad, #0d47a1); 
+    border-radius: 8px; /* Cantos levemente arredondados para o bloco */
+    margin-left: 10px; /* Margem para dentro da sidebar */
+    margin-right: 10px; /* Margem para dentro da sidebar */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para profundidade */
+}
+
+/* Estilos para a imagem de perfil */
+.user-profile-sidebar #fotoPerfilUsuario {
+    width: 60px; /* Aumenta um pouco o tamanho da foto */
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.8); /* Borda mais visível na foto */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Sombra na foto para destacá-la */
+    transition: transform 0.3s ease; /* Animação suave ao interagir */
+}
+
+.user-profile-sidebar #fotoPerfilUsuario:hover {
+    transform: scale(1.05); /* Pequeno zoom ao passar o mouse */
+}
+
+/* Estilos para o ícone padrão (quando não há foto) */
+.user-profile-sidebar #iconePadraoUsuario {
+    width: 60px; /* Tamanho igual ao da foto */
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3); /* Fundo mais claro para o ícone */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 28px; /* Aumenta um pouco o tamanho do ícone */
+    border: 3px solid rgba(255, 255, 255, 0.8); /* Borda para o ícone também */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}

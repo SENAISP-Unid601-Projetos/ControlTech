@@ -55,6 +55,7 @@ const translations = {
 };
 
 // --- FUNÇÕES DE LÓGICA DE TEMA E IDIOMA ---
+// (Copie EXATAMENTE as mesmas funções do JS/Ferramenta.js ou JS/Devolver.js)
 const updateTranslations = (lang) => {
     const currentLang = translations[lang] ? lang : 'pt';
     const trans = translations[currentLang];
@@ -107,7 +108,7 @@ const updateTranslations = (lang) => {
             carregarHistorico(); // Carrega 'todos'
         }
     } else {
-        // Carrega 'todos' como fallback inicial
+        // Carrega 'todos' como fallback inicial se botão ativo não for encontrado
         if (typeof carregarHistorico === 'function') carregarHistorico();
     }
 };
@@ -120,11 +121,11 @@ const loadLanguage = () => { const sl = localStorage.getItem('lang') || 'pt'; up
 const updateLanguageStatusText = (al) => { const lts = document.getElementById('lang-toggle-btn')?.querySelector('span'); const ls = document.getElementById('lang-status'); if (lts) lts.textContent = al.toUpperCase(); if (ls) { const tp = translations.pt; const te = translations.en; if (tp && te) ls.textContent = al === 'pt' ? (tp.langStatusPT || 'PT') : (te.langStatusEN || 'EN'); }};
 function displayUserName(lang) { const wm = document.getElementById('welcome-message'); const une = document.getElementById('user-name'); const tr = translations[lang]; let ui = null; try { const su = localStorage.getItem('usuarioLogado'); if (su) ui = JSON.parse(su); } catch (e) { console.error(e); } if (wm && une && tr) { const du = (lang === 'pt' ? 'Usuário' : 'User'); wm.textContent = tr.welcomeMessage || '?'; une.textContent = (ui && ui.nome) ? ui.nome : du; }};
 
-// --- LÓGICA ORIGINAL DA PÁGINA ---
+// --- LÓGICA ORIGINAL DA PÁGINA (PRESERVADA E INTEGRADA) ---
 
 const BASE_URL = "http://localhost:8080/api/historico"; // URL base da API de histórico
 
-// Função para carregar histórico (atualizada para traduções)
+// Função original para carregar histórico (atualizada para traduções)
 function carregarHistorico(usuarioId = null) {
   const url = usuarioId ? `${BASE_URL}/usuario/${usuarioId}` : `${BASE_URL}/todos`;
   const currentLang = localStorage.getItem('lang') || 'pt';
@@ -133,7 +134,7 @@ function carregarHistorico(usuarioId = null) {
 
   if (!historicoContainer || !trans) return console.error("Container de histórico ou traduções não encontrados.");
 
-  // Limpa container e mostra mensagem de carregamento
+  // Limpa container e mostra mensagem de carregamento (opcional)
   historicoContainer.innerHTML = `<p>${currentLang === 'pt' ? 'Carregando histórico...' : 'Loading history...'}</p>`;
 
   fetch(url)
@@ -153,13 +154,14 @@ function carregarHistorico(usuarioId = null) {
         const card = document.createElement("div");
         card.classList.add("historico-card");
 
-        // Formata data/hora
+        // Formata data/hora (API retorna LocalDateTime)
         let dataFormatada = 'N/A';
         let horaFormatada = '';
         if (h.dataDevolucao) {
             try {
+                // Tenta parsear como LocalDateTime (formato ISO como '2023-10-23T14:30:00')
                 const data = new Date(h.dataDevolucao);
-                 if (!isNaN(data)) {
+                 if (!isNaN(data)) { // Verifica se a data é válida
                     dataFormatada = data.toLocaleDateString(currentLang === 'pt' ? 'pt-BR' : 'en-US');
                     horaFormatada = data.toLocaleTimeString(currentLang === 'pt' ? 'pt-BR' : 'en-US', { hour: '2-digit', minute: '2-digit' });
                  }
@@ -168,7 +170,7 @@ function carregarHistorico(usuarioId = null) {
             }
         }
 
-        // Cria HTML do card
+        // Cria HTML do card com traduções
         card.innerHTML = `
           <h3>${h.nomeFerramenta || (currentLang === 'pt' ? 'Ferramenta?' : 'Tool?')}</h3>
           <p><strong>${trans.cardUsuario}</strong> ${h.nomeUsuario || (currentLang === 'pt' ? 'Usuário?' : 'User?')}</p>
@@ -185,7 +187,7 @@ function carregarHistorico(usuarioId = null) {
     });
 }
 
-// Função para pegar usuário logado
+// Função original para pegar usuário logado
 function getUsuarioLogado() {
     try {
         const usuario = localStorage.getItem("usuarioLogado");
@@ -202,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const usuario = getUsuarioLogado();
     const btnUsuario = document.getElementById("btnUsuario");
     const btnTodos = document.getElementById("btnTodos");
-    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const hamburgerBtn = document.getElementById("hamburger-btn"); // ID corrigido
     const sidebar = document.getElementById("sidebar");
     const settingsBtn = document.getElementById('settings-btn');
     const themePopup = document.getElementById('theme-popup');
@@ -210,8 +212,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const langToggleBtn = document.getElementById('lang-toggle-btn');
 
-    // Inicializa Tema
+    // Inicializa Tema e Idioma
     loadTheme();
+    // loadLanguage será chamado DEPOIS de definir listeners de histórico
 
     // Função para marcar botão ativo
     function setActiveButton(activeBtn) {
@@ -240,21 +243,19 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- CARREGAMENTO INICIAL (CORRIGIDO: Prioriza "Todos") ---
-    if (btnTodos) {
-        // Carrega TODOS por padrão
-        carregarHistorico(); 
-        setActiveButton(btnTodos);
-    } else if (usuario && btnUsuario) {
-        // Fallback: Se não tiver botão 'Todos', carrega do usuário
+    // Carregamento inicial (prioriza 'Meu Histórico' se logado)
+    if (usuario && btnUsuario) {
         carregarHistorico(usuario.id);
         setActiveButton(btnUsuario);
-    } else {
-        // Fallback final
+    } else if (btnTodos) {
         carregarHistorico();
+        setActiveButton(btnTodos);
+    } else {
+        // Fallback se nenhum botão for encontrado
+         carregarHistorico();
     }
 
-    // Chama loadLanguage (que chama updateTranslations)
+    // Chama loadLanguage AGORA, após definir listeners de histórico
     loadLanguage();
 
     // Listener Hamburger
@@ -277,7 +278,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     langToggleBtn?.addEventListener('click', () => {
         const currentLang = localStorage.getItem('lang') || 'pt';
-        saveLanguage(currentLang === 'pt' ? 'en' : 'pt');
+        saveLanguage(currentLang === 'pt' ? 'en' : 'pt'); // Salva e atualiza UI (recarrega histórico)
     });
 
 }); // Fim do DOMContentLoaded

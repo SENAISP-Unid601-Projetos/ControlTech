@@ -1,23 +1,17 @@
 package com.senai.projeto.ControlTechBack.entity;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
 @Data
 public class Usuario {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     long id;
+
     String nome;
     String perfil;
     String qrCode;
-
-
+    String fotoUrl; // Campo da foto
 }

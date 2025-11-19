@@ -9,7 +9,6 @@ body {
     font-family: 'Roboto', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    /* Usando o gradiente ou cor sólida */
     background-color: #f0f2f5; 
     color: #333;
     transition: background-color 0.3s, color 0.3s;
@@ -23,11 +22,11 @@ body {
 
 /* Barra Lateral (Sidebar) */
 .sidebar {
-    position: relative; 
     width: 298px;
     background-color: #004b8d;
     color: white;
-    padding: 2rem 1.5rem;
+    /* Removido padding-top fixo para dar espaço ao perfil novo */
+    padding: 0 0 2rem 0; 
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
@@ -35,27 +34,92 @@ body {
 }
 
 .sidebar-header {
-    margin-bottom: 2rem;
+    margin: 2rem 1.5rem; /* Margem ajustada */
     font-size: 1.5rem;
     font-weight: 700;
     text-align: center;
 }
-/* Estilos do Perfil do Usuário */
-.user-profile {
-    display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; margin-bottom: 1.5rem;
-    border-radius: 8px; background-color: rgba(255, 255, 255, 0.1); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s;
+
+/* === NOVO: PERFIL DO USUÁRIO NA SIDEBAR (ATUALIZADO) === */
+.user-profile-sidebar {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 20px;
+    
+    /* Moldura/Fundo Estilizado */
+    background: linear-gradient(90deg, #1a57ad, #0d47a1); 
+    border-radius: 8px;
+    margin-left: 10px;
+    margin-right: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s, box-shadow 0.3s;
 }
-.user-profile i { font-size: 2.5rem; color: #b3cde0; transition: color 0.3s; }
-.user-details { display: flex; flex-direction: column; text-align: left; }
-.user-details span { font-size: 0.9rem; color: #b3cde0; opacity: 0.8; transition: color 0.3s; }
-.user-details h4 { margin: 0; font-size: 1.1rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; transition: color 0.3s; }
+
+/* Foto Redonda com Borda */
+.user-profile-sidebar #fotoPerfilUsuario {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.user-profile-sidebar #fotoPerfilUsuario:hover {
+    transform: scale(1.05);
+}
+
+/* Ícone Padrão (quando sem foto) */
+.user-profile-sidebar #iconePadraoUsuario {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 28px;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Textos do Perfil */
+.user-profile-sidebar div {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    overflow: hidden; /* Garante que texto longo não quebre layout */
+}
+
+.user-profile-sidebar small {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.user-profile-sidebar #nomeUsuarioDisplay {
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* --- FIM DO PERFIL ATUALIZADO --- */
 
 
 .sidebar-nav {
     display: flex;
     flex-direction: column;
-    flex-grow: 1; /* Permite que o nav-bar cresça para empurrar o settings-btn para baixo */
+    flex-grow: 1;
+    padding: 0 1.5rem; /* Padding movido para cá */
 }
 
 .sidebar-nav a {
@@ -115,7 +179,7 @@ body {
     padding: 2rem;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Alinha o conteúdo ao topo */
+    align-items: flex-start;
 }
 
 /* === ESTILOS ESPECÍFICOS DA AJUDA === */
@@ -132,7 +196,7 @@ body {
 }
 
 .ajuda-box:hover {
-    box-shadow: 0 6px 30px rgba(0, 58, 117, 0.15); /* Sombra mais sutil */
+    box-shadow: 0 6px 30px rgba(0, 58, 117, 0.15);
 }
 
 .ajuda-box h2 {
@@ -165,7 +229,7 @@ body {
 }
 
 .faq-item h3 {
-    display: flex; /* Para alinhar o ícone e o texto */
+    display: flex;
     align-items: center;
     margin: 0 0 0.5rem 0;
     font-size: 1.2rem;
@@ -184,7 +248,7 @@ body {
 #formAjuda {
     margin-top: 2rem;
     padding-top: 2rem;
-    border-top: 1px dashed #ddd; /* Separador visual */
+    border-top: 1px dashed #ddd;
 }
 
 #formAjuda h3 {
@@ -293,7 +357,6 @@ body {
 }
 
 /* === POPUP DE CONFIGURAÇÕES (TEMA/IDIOMA) === */
-
 .theme-popup {
     position: fixed;
     bottom: 20px;
@@ -307,14 +370,13 @@ body {
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
-
     transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s;
     text-align: center;
 }
 .theme-popup.visible {
     opacity: 1; visibility: visible; transform: translateY(0); transition-delay: 0s;
 }
-.theme-popup.hidden { display: none; } /* Fallback / Inicial */
+.theme-popup.hidden { display: none; }
 
 .popup-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; transition: border-color 0.3s; }
 .popup-header h4 { margin: 0; color: #004b8d; transition: color 0.3s; }
@@ -345,7 +407,7 @@ body {
         left: -250px; 
         height: 100vh;
         width: 250px;
-        padding: 2rem 1.5rem;
+        padding: 0 0 2rem 0;
         transition: left 0.3s ease-in-out;
         z-index: 100;
         box-shadow: 2px 0 5px rgba(0,0,0,0.5);
@@ -355,13 +417,12 @@ body {
         left: 0; 
     }
     
-    .user-profile {
-        display: none;
-    }
+    /* Em mobile, ocultamos o perfil da sidebar para economizar espaço se necessário, ou ajustamos */
+    /* .user-profile-sidebar { display: none; } */
 
     .main-content {
         padding: 1rem;
-        padding-top: 5.5rem; /* Ajusta espaço para o hamburger */
+        padding-top: 5.5rem;
     }
 
     .ajuda-box {
@@ -369,20 +430,10 @@ body {
         max-width: 100%;
     }
 
-    .ajuda-box h2 {
-        font-size: 1.5rem;
-    }
-
-    #formAjuda button {
-        padding: 0.8rem;
-        font-size: 1rem;
-    }
-
     .hamburger-btn {
         display: block; 
     }
     
-    /* Reposiciona o popup de configurações para a direita */
     .theme-popup {
         left: auto; 
         right: 20px;
@@ -396,10 +447,18 @@ body.dark-theme {
 }
 
 body.dark-theme .sidebar { background-color: #1a1a1a; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); }
-body.dark-theme .user-profile { background-color: rgba(255, 255, 255, 0.05); }
-body.dark-theme .user-profile i { color: #ccc; }
-body.dark-theme .user-details span { color: #b3cde0; }
-body.dark-theme .user-details h4 { color: #fff; }
+
+/* Ajustes do Perfil no Tema Escuro */
+body.dark-theme .user-profile-sidebar { 
+    background: linear-gradient(90deg, #2c2c2c, #1a1a1a); /* Gradiente escuro */
+    border-bottom: 1px solid #333; 
+}
+body.dark-theme .user-profile-sidebar #fotoPerfilUsuario { border-color: #555; }
+body.dark-theme .user-profile-sidebar #iconePadraoUsuario { background: rgba(255,255,255,0.1); border-color: #555; }
+body.dark-theme .user-profile-sidebar small { color: #888; }
+body.dark-theme .user-profile-sidebar #nomeUsuarioDisplay { color: #ddd; }
+
+
 body.dark-theme .sidebar-nav a { color: #ccc; }
 body.dark-theme .sidebar-nav a:hover, body.dark-theme .sidebar-nav a.active { background-color: #333; color: #fff; }
 body.dark-theme .hamburger-btn { background: #1a1a1a; color: #f0f2f5; }
@@ -420,13 +479,10 @@ body.dark-theme #formAjuda input:focus, body.dark-theme #formAjuda textarea:focu
 body.dark-theme #formAjuda button { background-color: #0061c0; }
 body.dark-theme #formAjuda button:hover { background-color: #004b8d; }
 
-/* Popup de Ajuda (Dark) */
 body.dark-theme .popup-content { background-color: #444; color: #b3cde0; box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); }
 body.dark-theme .popup-content strong { color: #fff; }
 body.dark-theme .popup-content button { background-color: #0061c0; }
-body.dark-theme .popup-content button:hover { background-color: #004b8d; }
 
-/* Tema escuro para o popup de config */
 body.dark-theme .theme-popup { background-color: #444; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); color: #f0f2f5; }
 body.dark-theme .popup-header { border-bottom: 1px solid #555; }
 body.dark-theme .popup-header h4 { color: #b3cde0; }
@@ -438,3 +494,53 @@ body.dark-theme .theme-toggle-btn .fa-sun { opacity: 0; transform: translateY(-1
 body.dark-theme .theme-toggle-btn .fa-moon { opacity: 1; transform: translateY(0); color: #f1c40f; }
 body.dark-theme .lang-toggle-btn { background-color: #0061c0; }
 body.dark-theme .lang-toggle-btn:hover { background-color: #004b8d; }
+/* Estilos para o bloco do perfil na sidebar */
+.user-profile-sidebar {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.1); /* Linha divisória suave */
+    margin-bottom: 20px; /* Espaçamento abaixo do perfil */
+    
+    /* Adicionando um leve gradiente de fundo para destacar */
+    background: linear-gradient(90deg, #1a57ad, #0d47a1); 
+    border-radius: 8px; /* Cantos levemente arredondados para o bloco */
+    margin-left: 10px; /* Margem para dentro da sidebar */
+    margin-right: 10px; /* Margem para dentro da sidebar */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para profundidade */
+}
+
+/* Estilos para a imagem de perfil */
+.user-profile-sidebar #fotoPerfilUsuario {
+    width: 60px; /* Aumenta um pouco o tamanho da foto */
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.8); /* Borda mais visível na foto */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Sombra na foto para destacá-la */
+    transition: transform 0.3s ease; /* Animação suave ao interagir */
+}
+
+.user-profile-sidebar #fotoPerfilUsuario:hover {
+    transform: scale(1.05); /* Pequeno zoom ao passar o mouse */
+}
+
+/* Estilos para o ícone padrão (quando não há foto) */
+.user-profile-sidebar #iconePadraoUsuario {
+    width: 60px; 
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3); /* Fundo mais claro para o ícone */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 28px; /* Aumenta um pouco o tamanho do ícone */
+    border: 3px solid rgba(255, 255, 255, 0.8); /* Borda para o ícone também */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+
+
+

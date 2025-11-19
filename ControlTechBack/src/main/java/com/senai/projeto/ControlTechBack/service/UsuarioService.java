@@ -8,9 +8,13 @@ import com.senai.projeto.ControlTechBack.repository.FerramentaRepository;
 import com.senai.projeto.ControlTechBack.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.*;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,55 +26,93 @@ public class UsuarioService {
     @Autowired
     private FerramentaRepository ferramentaRepository;
 
-    // --- Verifica existência por ID ---
-    public boolean existePorId(Long id) {
-        return usuarioRepository.existsById(id);
+    private final Path rootLocation = Paths.get("uploads");
+
+    public UsuarioService() {
+        try {
+            Files.createDirectories(rootLocation);
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao criar pasta uploads!");
+        }
     }
 
-    // --- Criar usuário usando QR Code ---
-    public UsuarioOutputDTO criar(String qrCode, UsuarioInputDTO dto) {
-        if (existePorCodigo(qrCode)) {
-            throw new RuntimeException("❌ QR Code já utilizado");
+    // === 1. MÉTODO PRINCIPAL (COM FOTO) ===
+    public UsuarioOutputDTO criarComFoto(UsuarioInputDTO dto, MultipartFile foto) throws IOException {
+        // Valida se o QR Code já existe
+        if (existePorCodigo(dto.getQrCode())) {
+            throw new RuntimeException("QR Code já cadastrado!");
         }
 
         Usuario usuario = new Usuario();
         usuario.setNome(dto.getNome());
-        usuario.setPerfil(dto.getPerfil() != null ? dto.getPerfil() : "USUARIO");
-        usuario.setQrCode(qrCode);
+        usuario.setPerfil(dto.getPerfil());
+        usuario.setQrCode(dto.getQrCode());
+
+        // Salva foto se existir
+        if (foto != null && !foto.isEmpty()) {
+            String nomeArquivo = "user_" + System.currentTimeMillis() + ".jpg";
+            Path destino = rootLocation.resolve(nomeArquivo);
+            Files.copy(foto.getInputStream(), destino, StandardCopyOption.REPLACE_EXISTING);
+            usuario.setFotoUrl("/uploads/" + nomeArquivo);
+        }
 
         Usuario salvo = usuarioRepository.save(usuario);
         return toOutputDTO(salvo);
     }
 
-    public boolean existePorCodigo(String qrCode) {
-        return usuarioRepository.findByQrCode(qrCode).isPresent();
+    // === 2. MÉTODO "ATALHO" PARA O QRCODE CONTROLLER (CORREÇÃO DO ERRO) ===
+    // Este método recebe o QR Code separado e o DTO, e chama o método principal passando null na foto
+    public UsuarioOutputDTO criar(String qrCode, UsuarioInputDTO dto) {
+        try {
+            // Garante que o QR Code lido vá para o DTO
+            dto.setQrCode(qrCode);
+            // Chama o método principal sem foto
+            return criarComFoto(dto, null);
+        } catch (IOException e) {
+            throw new RuntimeException("Erro interno ao criar usuário: " + e.getMessage());
+        }
     }
+
+    // === MÉTODOS AUXILIARES E LISTAGEM ===
 
     private UsuarioOutputDTO toOutputDTO(Usuario usuario) {
         return new UsuarioOutputDTO(
                 usuario.getId(),
                 usuario.getNome(),
                 usuario.getPerfil(),
-                usuario.getQrCode()
+                usuario.getQrCode(),
+                usuario.getFotoUrl()
         );
     }
 
+    public boolean existePorCodigo(String qrCode) {
+        return usuarioRepository.findByQrCode(qrCode).isPresent();
+    }
+
+    public List<UsuarioOutputDTO> listarUsuariosAssociados() {
+        return ferramentaRepository.findAll().stream()
+                .map(Ferramenta::getUsuario)
+                .filter(u -> u != null)
+                .distinct()
+                .map(this::toOutputDTO)
+                .collect(Collectors.toList());
+    }
+
     public List<UsuarioOutputDTO> listarTodos() {
-        return usuarioRepository.findAll()
-                .stream()
+        return usuarioRepository.findAll().stream()
                 .map(this::toOutputDTO)
                 .collect(Collectors.toList());
     }
 
     public UsuarioOutputDTO buscarPorQrCode(String qrCode) {
-        Optional<Usuario> usuario = usuarioRepository.findByQrCode(qrCode);
-        return usuario.map(this::toOutputDTO)
+        return usuarioRepository.findByQrCode(qrCode)
+                .map(this::toOutputDTO)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
     }
 
     public UsuarioOutputDTO buscarPorId(Long id) {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
-        return usuario.map(this::toOutputDTO)
+        return usuarioRepository.findById(id)
+                .map(this::toOutputDTO)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
     }
 
@@ -78,26 +120,11 @@ public class UsuarioService {
         return usuarioRepository.findById(id);
     }
 
+    public boolean existePorId(Long id) {
+        return usuarioRepository.existsById(id);
+    }
+
     public void excluir(Long id) {
-        if (!existePorId(id)) {
-            throw new RuntimeException("Usuário não encontrado para exclusão: ID " + id);
-        }
-        usuarioRepository.deleteById(id);
-    }
-
-    public void associarUsuarios(Ferramenta ferramenta, Usuario usuario) {
-        ferramenta.setUsuario(usuario);
-        ferramentaRepository.save(ferramenta);
-    }
-
-    // --- NOVO: listar usuários associados a ferramentas ---
-    public List<UsuarioOutputDTO> listarUsuariosAssociados() {
-        return ferramentaRepository.findAll()
-                .stream()
-                .map(Ferramenta::getUsuario)
-                .filter(usuario -> usuario != null)
-                .distinct()
-                .map(this::toOutputDTO)
-                .collect(Collectors.toList());
+        if(existePorId(id)) usuarioRepository.deleteById(id);
     }
 }

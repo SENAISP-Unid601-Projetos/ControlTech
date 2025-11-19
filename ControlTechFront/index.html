@@ -1,104 +1,108 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Login SENAI - ControlTech</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/CSS/Login.css" />
+    <title>ControlTech - Acesso</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="/CSS/Login.css" />
+
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <script src="/JS/Login.js" type="module" defer></script>
     <script src="/JS/Cadastro.js" type="module" defer></script>
-    <script src="https://unpkg.com/html5-qrcode"></script>
 </head>
 <body>
 
-<div class="container" id="container"></div>
+    <div class="container-hex" id="container"></div>
 
-<main class="container">
-    <section class="login-box">
-        <div class="slide-container">
-
+    <main class="main-container">
+        <div class="login-box">
+            
             <div id="loginContainer">
-                <h1>Identificação</h1>
-                <p id="statusMsgLogin" class="status">Passe o crachá para entrar</p>
+                <h1><i class="fas fa-tools"></i> ControlTech</h1>
+                <p class="status" id="statusMsgLogin">Identifique-se para continuar</p>
 
-                <div class="info-aluno" id="infoAluno" style="display:none;">
-                    <div><strong>ID:</strong> <span id="idAluno"></span></div>
-                    <div><strong>Nome:</strong> <span id="nomeAluno"></span></div>
-                    <div><strong>Perfil:</strong> <span id="perfilAluno"></span></div>
-                    <div><strong>QR Code:</strong> <span id="qrCodeAluno"></span></div>
-                    <button id="btnEntrar">Entrar</button>
+                <div id="reader-login" style="display:none;"></div>
+
+                <div id="loginUploadControls" class="custom-file-upload">
+                    <label for="loginQrInput" class="custom-button-outline">
+                        <i class="fas fa-upload"></i> Carregar QR
+                    </label>
+                    <input type="file" id="loginQrInput" accept="image/*">
+                    <span id="fileNameDisplay"></span>
                 </div>
 
-                <div id="loginControls"> 
-                    <div class="login-metodos">
-                        <h3>Login por QR Code</h3>
-
-                        <div id="reader-login" style="width: 100%; display: none; margin: 1rem 0;"></div>
-
-                        <div class="custom-file-upload" id="loginUploadControls">
-                            <label for="loginQrInput" class="custom-button">Escolher Arquivo</label>
-                            <input type="file" id="loginQrInput" accept="image/*" />
-                            <span id="fileNameDisplay" class="file-name">Nenhum arquivo escolhido</span>
-                        </div>
-
-                        <button id="btnToggleCameraLogin">
-                            <i class="fas fa-video"></i> Usar Câmera
-                        </button>
-
-                        <button id="btnLerQr">
-                            <i class="fas fa-qrcode"></i> Ler QR Code por Arquivo
-                        </button>
-                    </div>
-
-                    <p id="abrirCadastro" class="link-cadastro">Sem registro? <strong>Fazer cadastro</strong></p>
-                </div>
-                </div>
-
-            <div class="cadastro-box" id="cadastroBox">
-                <h3>Cadastro</h3>
-
-                <div class="cadastro-metodos">
-                    <div id="reader-cadastro" style="width: 100%; display: none; margin: 1rem 0;"></div>
-
-                    <div class="custom-file-upload" id="cadastroUploadControls">
-                        <label for="cadastroQrInput" class="custom-button">Escolher Arquivo</label>
-                        <input type="file" id="cadastroQrInput" accept="image/*" />
-                        <span id="cadastroFileNameDisplay" class="file-name">Nenhum arquivo escolhido</span>
-                    </div>
-
-                    <button id="btnToggleCameraCadastro">
-                        <i class="fas fa-video"></i> Ler Crachá com Câmera
+                <div class="actions">
+                    <button id="btnToggleCameraLogin">
+                        <i class="fas fa-video"></i> Usar Câmera
                     </button>
+                    
+                    <button id="btnLerQr" style="background-color: #28a745;">
+                        <i class="fas fa-qrcode"></i> Entrar com Arquivo
+                    </button>
+                </div>
 
-                </div>
-                <input type="text" id="nomeCadastro" placeholder="Nome" />
-                <input type="text" id="perfilCadastro" placeholder="Perfil" />
-                <button id="btnCadastrar">Cadastrar</button>
-                <p id="voltarLogin" class="link-cadastro">Voltar para login</p>
-                <p id="statusMsgCadastro" style="color:red; min-height:1.4rem;"></p>
+                <p id="abrirCadastro" class="link-cadastro">Não tem cadastro? <strong>Criar conta</strong></p>
             </div>
-            <div id="popupCadastro" class="popup hidden">
-                <div class="popup-content">
-                    <h2>✅ Cadastro Realizado</h2>
-                    <p>Usuário <strong id="popupNomeCadastro"></strong> foi cadastrado com sucesso!</p>
-                    <button id="fecharPopupCadastro">Fechar</button>
+
+            <div class="cadastro-box" id="cadastroBox" style="display: none;">
+                <h3>Novo Usuário</h3>
+
+                <div id="etapa-qr" class="step-content">
+                    <p class="step-title">Passo 1/3: Ler Crachá</p>
+                    <div id="leitor-qr-cadastro" class="camera-box"></div>
+                    <p class="hint">Aponte o QR Code do crachá para a webcam.</p>
+                    <button id="btn-cancelar-1" class="btn-secondary">Cancelar</button>
                 </div>
+
+                <div id="etapa-foto" class="step-content" style="display: none;">
+                    <p class="step-title">Passo 2/3: Foto de Perfil</p>
+                    
+                    <div class="selfie-wrapper">
+                        <video id="video-selfie" autoplay playsinline></video>
+                    </div>
+
+                    <button id="btn-capturar-foto" class="btn-primary">
+                        <i class="fas fa-camera"></i> Tirar Foto
+                    </button>
+                    <button id="btn-voltar-qr" class="btn-secondary">Voltar</button>
+                </div>
+
+                <div id="etapa-form" class="step-content" style="display: none;">
+                    <p class="step-title">Passo 3/3: Seus Dados</p>
+                    
+                    <div class="preview-wrapper">
+                        <img id="preview-foto" src="" alt="Preview">
+                    </div>
+
+                    <input type="text" id="input-nome" placeholder="Nome Completo" autocomplete="off">
+                    <input type="text" id="input-perfil" placeholder="Perfil (ex: Aluno, Técnico)" autocomplete="off">
+                    
+                    <div class="qr-info">
+                        <i class="fas fa-qrcode"></i> Código: <span id="txt-qr-lido">...</span>
+                    </div>
+
+                    <button id="btn-finalizar-cadastro" class="btn-success">Finalizar Cadastro</button>
+                    <button id="btn-voltar-foto" class="btn-secondary">Tirar outra foto</button>
+                </div>
+
+                <p id="statusMsgCadastro" class="error-msg"></p>
             </div>
 
         </div>
-    </section>
-</main>
+    </main>
 
-<div id="popup" class="popup hidden">
-    <div class="popup-content">
-        <h2>✅ Login Confirmado</h2>
-        <p>Seja muito bem-vindo(a), <strong id="popupNome"></strong>!</p>
-        <button id="fecharPopup">Continuar</button>
+    <div id="popupCadastro" class="popup hidden">
+        <div class="popup-content">
+            <div class="icon-success"><i class="fas fa-check-circle"></i></div>
+            <h2>Cadastro Realizado!</h2>
+            <p>Bem-vindo, <strong id="popupNomeCadastro">Usuário</strong>.</p>
+            <button id="fecharPopupCadastro">Ir para o Login</button>
+        </div>
     </div>
-</div>
 
 </body>
 </html>

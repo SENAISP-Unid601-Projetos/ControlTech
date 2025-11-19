@@ -2,18 +2,26 @@ package com.senai.projeto.ControlTechBack.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        // Permite qualquer origem com credenciais
         registry.addMapping("/**")
-                .allowedOriginPatterns("*")  // Permite qualquer origem usando padrões
-                .allowedMethods("*")         // Permite qualquer método HTTP (GET, POST, PUT, DELETE, etc.)
-                .allowedHeaders("*")         // Permite qualquer cabeçalho
-                .allowCredentials(true)      // Permite o envio de credenciais (cookies, cabeçalhos de autenticação, etc.)
-                .maxAge(3600);               // Define o tempo de cache do CORS
+                .allowedOriginPatterns("*")
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(3600);
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // Libera acesso à pasta de uploads na raiz do projeto
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:uploads/");
     }
 }

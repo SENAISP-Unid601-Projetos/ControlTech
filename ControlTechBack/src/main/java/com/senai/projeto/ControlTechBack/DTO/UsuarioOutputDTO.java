@@ -11,5 +11,6 @@ public class UsuarioOutputDTO {
     private Long id;
     private String nome;
     private String perfil;
-    private String qrCode; // ✅ campo adicionado
+    private String qrCode;
+    private String fotoUrl;
 }

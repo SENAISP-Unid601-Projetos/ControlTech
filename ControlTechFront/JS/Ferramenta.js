@@ -1,6 +1,8 @@
-// JS/Ferramenta.js (Integrando lógica de FerramentaUni.js)
+import { API_BASE_URL } from './apiConfig.js';
 
-// Dicionário de traduções (Certifique-se que 'emUsoPor' existe)
+// ============================================================================
+// 1. DICIONÁRIO DE TRADUÇÕES
+// ============================================================================
 const translations = {
     'pt': {
         'pageTitle': 'Ferramentas - SENAI ControlTech',
@@ -14,10 +16,10 @@ const translations = {
         'searchInputPlaceholder': 'Pesquisar ferramentas...',
         'selectButton': 'Selecionar',
         'disponivel': 'Disponível',
-        'emprestado': 'Emprestado', // Fallback
-        'emUsoPor': 'Em uso por:',   // Chave para status com nome
-        'emUsoDesde': 'Em uso por: {nomeUsuario} (desde {dataHora})', // NOVO: Status com data
-        'dataNaoDisponivel': 'Data não disponível', // NOVO
+        'emprestado': 'Emprestado',
+        'emUsoPor': 'Em uso por:',
+        'emUsoDesde': 'Em uso por: {nomeUsuario} (desde {dataHora})',
+        'dataNaoDisponivel': 'Data não disponível',
         'noToolsFound': 'Nenhuma ferramenta encontrada.',
         'errorLoadingTools': 'Erro ao carregar ferramentas.',
         'settingsPopupTitle': 'Configurações',
@@ -41,10 +43,10 @@ const translations = {
         'searchInputPlaceholder': 'Search tools...',
         'selectButton': 'Select',
         'disponivel': 'Available',
-        'emprestado': 'Loaned', // Fallback
-        'emUsoPor': 'In use by:',   // Chave para status com nome
-        'emUsoDesde': 'In use by: {nomeUsuario} (since {dataHora})', // NOVO: Status with date
-        'dataNaoDisponivel': 'Date unavailable', // NOVO
+        'emprestado': 'Loaned',
+        'emUsoPor': 'In use by:',
+        'emUsoDesde': 'In use by: {nomeUsuario} (since {dataHora})',
+        'dataNaoDisponivel': 'Date unavailable',
         'noToolsFound': 'No tools found.',
         'errorLoadingTools': 'Error loading tools.',
         'settingsPopupTitle': 'Settings',
@@ -58,264 +60,259 @@ const translations = {
     }
 };
 
-// --- FUNÇÕES DE LÓGICA DE TEMA E IDIOMA ---
-const setText = (id, key, trans) => { const element = document.getElementById(id); if (element) element.textContent = trans[key] || ''; else console.warn(`Elemento ID '${id}' não encontrado.`); };
-const setPlaceholder = (id, key, trans) => { const element = document.getElementById(id); if (element) element.placeholder = trans[key] || ''; else console.warn(`Elemento ID '${id}' para placeholder não encontrado.`); };
-const setSpanText = (id, key, trans) => { const element = document.getElementById(id)?.querySelector('span'); if (element) element.textContent = trans[key] || ''; else console.warn(`Span dentro do ID '${id}' não encontrado.`); };
+// ============================================================================
+// 2. UTILITÁRIOS DE TEMA E IDIOMA
+// ============================================================================
+const setText = (id, key, trans) => { const el = document.getElementById(id); if (el) el.textContent = trans[key] || ''; };
+const setPlaceholder = (id, key, trans) => { const el = document.getElementById(id); if (el) el.placeholder = trans[key] || ''; };
+const setSpanText = (id, key, trans) => { const el = document.getElementById(id)?.querySelector('span'); if (el) el.textContent = trans[key] || ''; };
 
-const updateTranslations = (lang) => { 
-    const currentLang = translations[lang] ? lang : 'pt'; 
-    const trans = translations[currentLang]; 
-    if (!trans) return console.error("Traduções não encontradas para:", currentLang); 
-    document.documentElement.lang = currentLang === 'pt' ? 'pt-BR' : 'en'; 
-    document.title = trans.pageTitle || 'Ferramentas - SENAI ControlTech'; 
+const updateTranslations = (lang) => {
+    const currentLang = translations[lang] ? lang : 'pt';
+    const trans = translations[currentLang];
+    if (!trans) return;
+
+    document.documentElement.lang = currentLang === 'pt' ? 'pt-BR' : 'en';
     
-    setSpanText('nav-tools', 'sidebarTools', trans); 
-    setSpanText('nav-return', 'sidebarReturn', trans); 
-    setSpanText('nav-help', 'sidebarHelp', trans); 
-    setSpanText('nav-history', 'sidebarHistory', trans); 
-    setSpanText('nav-exit', 'sidebarExit', trans); 
-    setSpanText('settings-btn', 'sidebarSettings', trans); 
-    setText('header-title', 'headerTitle', trans); 
-    setPlaceholder('search-input', 'searchInputPlaceholder', trans); 
-    setText('settings-popup-title', 'settingsPopupTitle', trans); 
-    setText('theme-label', 'themeLabel', trans); 
-    setText('lang-label', 'langLabel', trans); 
-    updateThemeStatusText(document.body.classList.contains('dark-theme') ? 'dark' : 'light', currentLang); 
-    updateLanguageStatusText(currentLang); 
-    displayUserName(currentLang); 
+    setSpanText('nav-tools', 'sidebarTools', trans);
+    setSpanText('nav-return', 'sidebarReturn', trans);
+    setSpanText('nav-help', 'sidebarHelp', trans);
+    setSpanText('nav-history', 'sidebarHistory', trans);
+    setSpanText('nav-exit', 'sidebarExit', trans);
+    setSpanText('settings-btn', 'sidebarSettings', trans);
+    setText('header-title', 'headerTitle', trans);
+    setPlaceholder('search-input', 'searchInputPlaceholder', trans);
+    setText('settings-popup-title', 'settingsPopupTitle', trans);
+    setText('theme-label', 'themeLabel', trans);
+    setText('lang-label', 'langLabel', trans);
     
-    // Atualiza botões de filtro se existirem
-    setText('filter-all', 'filterAll', trans);
-    setText('filter-available', 'filterAvailable', trans);
-    setText('filter-loaned', 'filterLoaned', trans);
-    
-    if (typeof renderizarFerramentas === 'function') { 
-        // Re-renderiza para atualizar o texto de status
-        renderizarFerramentas(); 
-    } 
+    updateThemeStatusText(document.body.classList.contains('dark-theme') ? 'dark' : 'light', currentLang);
+    updateLanguageStatusText(currentLang);
+
+    // Re-renderiza ferramentas para atualizar textos dos cards
+    if (typeof renderizarFerramentas === 'function') renderizarFerramentas();
 };
-const saveTheme = (theme) => { localStorage.setItem('theme', theme); const currentLang = localStorage.getItem('lang') || 'pt'; updateThemeStatusText(theme, currentLang); updateThemeToggleButtonVisuals(theme); };
-const loadTheme = () => { const savedTheme = localStorage.getItem('theme') || 'light'; const currentLang = localStorage.getItem('lang') || 'pt'; document.body.classList.toggle('dark-theme', savedTheme === 'dark'); updateThemeStatusText(savedTheme, currentLang); updateThemeToggleButtonVisuals(savedTheme); };
-const updateThemeStatusText = (activeTheme, lang) => { const themeStatusEl = document.getElementById('theme-status'); const trans = translations[lang]; if (themeStatusEl && trans) { themeStatusEl.textContent = activeTheme === 'dark' ? (trans.themeStatusDark || 'Tema Escuro') : (trans.themeStatusLight || 'Tema Claro'); }};
-const updateThemeToggleButtonVisuals = (activeTheme) => { const sunIcon = document.querySelector('#theme-toggle-btn .fa-sun'); const moonIcon = document.querySelector('#theme-toggle-btn .fa-moon'); if (sunIcon && moonIcon) { sunIcon.style.opacity = activeTheme === 'dark' ? '0' : '1'; sunIcon.style.transform = activeTheme === 'dark' ? 'translateY(-10px)' : 'translateY(0)'; moonIcon.style.opacity = activeTheme === 'dark' ? '1' : '0'; moonIcon.style.transform = activeTheme === 'dark' ? 'translateY(0)' : 'translateY(10px)'; }};
+
+const saveTheme = (theme) => { localStorage.setItem('theme', theme); loadTheme(); };
+const loadTheme = () => {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.classList.toggle('dark-theme', savedTheme === 'dark');
+    const currentLang = localStorage.getItem('lang') || 'pt';
+    updateThemeStatusText(savedTheme, currentLang);
+};
+const updateThemeStatusText = (activeTheme, lang) => {
+    const el = document.getElementById('theme-status');
+    const trans = translations[lang];
+    if (el && trans) el.textContent = activeTheme === 'dark' ? (trans.themeStatusDark || 'Escuro') : (trans.themeStatusLight || 'Claro');
+};
+
 const saveLanguage = (lang) => { localStorage.setItem('lang', lang); updateTranslations(lang); };
 const loadLanguage = () => { const savedLang = localStorage.getItem('lang') || 'pt'; updateTranslations(savedLang); };
-const updateLanguageStatusText = (activeLang) => { const langToggleBtnSpan = document.getElementById('lang-toggle-btn')?.querySelector('span'); const langStatusEl = document.getElementById('lang-status'); if (langToggleBtnSpan) langToggleBtnSpan.textContent = activeLang.toUpperCase(); if (langStatusEl) { const transPt = translations.pt; const transEn = translations.en; if (transPt && transEn) { langStatusEl.textContent = activeLang === 'pt' ? (transPt.langStatusPT || 'Português') : (transEn.langStatusEN || 'English'); }}};
-function displayUserName(lang) { const welcomeMessage = document.getElementById('welcome-message'); const userNameElement = document.getElementById('user-name'); const trans = translations[lang]; let userInfo = null; try { const storedUser = localStorage.getItem('usuarioLogado'); if (storedUser) userInfo = JSON.parse(storedUser); } catch (e) { console.error("Erro ao ler usuarioLogado:", e); } if (welcomeMessage && userNameElement && trans) { const defaultUserName = (lang === 'pt' ? 'Usuário' : 'User'); welcomeMessage.textContent = trans.welcomeMessage || (lang === 'pt' ? 'Olá,' : 'Hello,'); userNameElement.textContent = (userInfo && userInfo.nome) ? userInfo.nome : defaultUserName; }};
+const updateLanguageStatusText = (activeLang) => {
+    const el = document.getElementById('lang-status');
+    if (el) el.textContent = activeLang === 'pt' ? 'Português' : 'English';
+};
 
-// --- LÓGICA PRINCIPAL DA PÁGINA ---
+// ============================================================================
+// 3. GESTÃO DE USUÁRIO (CORRIGIDO PARA FOTO)
+// ============================================================================
+
+function carregarDadosUsuario() {
+    console.log(">>> Carregando perfil do usuário...");
+    
+    const usuarioJson = localStorage.getItem("usuarioLogado");
+    if (!usuarioJson) {
+        window.location.href = '/index.html'; // Redireciona se não estiver logado
+        return;
+    }
+
+    let usuario;
+    try {
+        usuario = JSON.parse(usuarioJson);
+    } catch (e) {
+        console.error("JSON inválido:", e);
+        return;
+    }
+
+    // 1. Preenche Nome e Perfil
+    const elNome = document.getElementById('nomeUsuarioDisplay');
+    const elPerfil = document.getElementById('perfilUsuarioDisplay');
+
+    if (elNome) elNome.textContent = usuario.nome || "Usuário";
+    if (elPerfil) elPerfil.textContent = usuario.perfil || "Visitante";
+
+    // 2. Lógica da Foto
+    const imgPerfil = document.getElementById('fotoPerfilUsuario');
+    const iconePadrao = document.getElementById('iconePadraoUsuario');
+
+    if (!imgPerfil || !iconePadrao) return console.warn("Elementos de foto não encontrados no HTML.");
+
+    if (usuario.fotoUrl) {
+        // Monta a URL: Backend (8080) + Caminho da Foto
+        const urlCompleta = `${API_BASE_URL}${usuario.fotoUrl}`;
+        console.log("Tentando carregar foto:", urlCompleta);
+        
+        imgPerfil.src = urlCompleta;
+        
+        imgPerfil.onload = function() {
+            imgPerfil.style.display = 'block';
+            iconePadrao.style.display = 'none';
+        };
+        
+        imgPerfil.onerror = function() {
+            console.warn("Falha ao carregar imagem (404 ou erro). Usando ícone.");
+            imgPerfil.style.display = 'none';
+            iconePadrao.style.display = 'flex';
+        };
+    } else {
+        // Sem foto cadastrada
+        imgPerfil.style.display = 'none';
+        iconePadrao.style.display = 'flex';
+    }
+}
+
+// ============================================================================
+// 4. LÓGICA DE FERRAMENTAS
+// ============================================================================
 
 let ferramentas = [];
 let ferramentasFiltradas = [];
 
-// NOVO: Função de utilidade para formatar o LocalDateTime recebido do backend
-function formatarDataAssociacao(localDateTimeStr, lang) {
-    const trans = translations[lang];
-    if (!localDateTimeStr) {
-        return trans.dataNaoDisponivel || 'Data não disponível';
-    }
+// Formatação de data
+function formatarDataAssociacao(dataStr, lang) {
+    if (!dataStr) return translations[lang].dataNaoDisponivel || '-';
     try {
-        const date = new Date(localDateTimeStr);
-        if (isNaN(date)) return trans.dataNaoDisponivel || 'Data não disponível';
-
-        const locale = lang === 'pt' ? 'pt-BR' : 'en-US';
-        const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
-        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
-
-        const datePart = date.toLocaleDateString(locale, dateOptions);
-        const timePart = date.toLocaleTimeString(locale, timeOptions);
-        
-        // Retorna "DD/MM/AAAA às HH:MM:SS" (ou formato EN)
-        if (lang === 'pt') {
-            return `${datePart} às ${timePart}`;
-        } else {
-            return `${datePart} at ${timePart}`;
-        }
-    } catch (e) {
-        console.error("Erro ao formatar data:", e);
-        return trans.dataNaoDisponivel || 'Data não disponível';
-    }
+        const date = new Date(dataStr);
+        return date.toLocaleString(lang === 'pt' ? 'pt-BR' : 'en-US');
+    } catch (e) { return '-'; }
 }
 
-
-// Função para buscar o usuário associado a UMA ferramenta (similar a FerramentaUni)
-async function buscarUsuarioDaFerramenta(ferramentaId) {
+// Busca usuário que está com a ferramenta
+async function buscarUsuarioDaFerramenta(id) {
     try {
-        // Este endpoint agora retorna o UsuarioStatusDTO, que inclui a dataAssociacao
-        const res = await fetch(`http://localhost:8080/api/ferramentas/${ferramentaId}/usuario`);
-        if (!res.ok) {
-            console.warn(`Erro ${res.status} ao buscar usuário para ferramenta ${ferramentaId}.`);
-            return null;
-        }
-        const usuarioStatus = await res.json();
-        // Retorna o objeto usuario (com nome e dataAssociacao)
-        return usuarioStatus;
-    } catch (err) {
-        console.error(`Falha na requisição ao buscar usuário para ferramenta ${ferramentaId}:`, err);
-        return null;
-    }
+        const res = await fetch(`${API_BASE_URL}/api/ferramentas/${id}/usuario`);
+        if (res.ok) return await res.json();
+    } catch (err) { /* silencioso */ }
+    return null;
 }
-
 
 async function carregarFerramentas() {
-    const grid = document.getElementById("toolGrid");
-    const currentLang = localStorage.getItem('lang') || 'pt';
-    const currentTrans = translations[currentLang];
     try {
-        const res = await fetch("http://localhost:8080/api/ferramentas");
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        const res = await fetch(`${API_BASE_URL}/api/ferramentas`);
+        if (!res.ok) throw new Error("Erro API");
         ferramentas = await res.json();
-        if (!Array.isArray(ferramentas)) {
-            console.warn("API não retornou array:", ferramentas);
-            ferramentas = [];
-        }
         ferramentasFiltradas = [...ferramentas];
-        renderizarFerramentas(); // Chama renderização
+        renderizarFerramentas();
     } catch (err) {
-        console.error("Erro ao carregar ferramentas:", err);
-        if (grid && currentTrans) grid.innerHTML = `<p>${currentTrans.errorLoadingTools || 'Erro.'}</p>`;
-        else if (grid) grid.innerHTML = `<p>Erro ao carregar ferramentas.</p>`;
+        console.error(err);
+        const grid = document.getElementById("toolGrid");
+        if(grid) grid.innerHTML = "<p style='color:white'>Erro ao carregar ferramentas.</p>";
     }
 }
 
-// ****** FUNÇÃO RENDERIZAR ATUALIZADA ******
-window.renderizarFerramentas = async function() { 
-    const grid = document.getElementById("toolGrid");
-    if (!grid) return console.error("Elemento #toolGrid não encontrado.");
-    grid.innerHTML = ""; 
+function filtrarFerramentas() {
+    const termo = document.getElementById("search-input")?.value.toLowerCase() || '';
+    ferramentasFiltradas = ferramentas.filter(f => (f.nome || '').toLowerCase().includes(termo));
+    renderizarFerramentas();
+}
 
-    const currentLang = localStorage.getItem('lang') || 'pt';
-    const trans = translations[currentLang];
-    if (!trans) return console.error("Traduções não encontradas:", currentLang);
+window.renderizarFerramentas = async function() {
+    const grid = document.getElementById("toolGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+
+    const lang = localStorage.getItem('lang') || 'pt';
+    const trans = translations[lang];
 
     if (ferramentasFiltradas.length === 0) {
-        grid.innerHTML = `<p>${trans.noToolsFound}</p>`;
+        grid.innerHTML = `<p style="color: #ccc;">${trans.noToolsFound}</p>`;
         return;
     }
 
-    // Usamos Promise.all para esperar todas as buscas de usuário terminarem
-    const cardPromises = ferramentasFiltradas.map(async (f) => {
-        const id = f.id;
-        const nome = f.nome || (currentLang === 'pt' ? 'Nome Ind.' : 'Name Unav.');
-        const imageUrlApi = f.imagemUrl;
+    const promises = ferramentasFiltradas.map(async (f) => {
+        const userStatus = await buscarUsuarioDaFerramenta(f.id);
+        const nomeUser = userStatus?.nome;
+        const dataAssoc = userStatus?.dataAssociacao;
+        
+        const isLivre = !nomeUser;
+        const statusClass = isLivre ? 'disponivel' : 'emprestado';
+        let statusTxt = isLivre ? trans.disponivel : `${trans.emUsoPor} ${nomeUser}`;
 
-        if (id === null || id === undefined) {
-            console.warn("Ferramenta sem ID:", f);
-            return null; 
+        // Se tiver data, usa formato detalhado
+        if (!isLivre && dataAssoc) {
+            const dataFmt = formatarDataAssociacao(dataAssoc, lang);
+            statusTxt = trans.emUsoDesde.replace('{nomeUsuario}', nomeUser).replace('{dataHora}', dataFmt);
         }
 
-        // --- Busca o usuário associado ANTES de criar o card (inclui data) ---
-        const usuarioInfo = await buscarUsuarioDaFerramenta(id);
-        const nomeUsuarioAssociado = usuarioInfo?.nome; 
-        const dataAssociacao = usuarioInfo?.dataAssociacao; // NOVO: Pega a data de associação
-
-        // Determina o status final e a classe CSS com base no nome do usuário
-        const isDisponivel = !nomeUsuarioAssociado; 
-        let statusText;
-        
-        if (isDisponivel) {
-            statusText = trans.disponivel;
-        } else if (dataAssociacao) {
-            // NOVO: Formata a data e usa a nova chave de tradução
-            const dataFormatada = formatarDataAssociacao(dataAssociacao, currentLang);
-            statusText = trans.emUsoDesde
-                .replace('{nomeUsuario}', nomeUsuarioAssociado)
-                .replace('{dataHora}', dataFormatada);
-        } else {
-            // Fallback: Apenas nome (se a data não vier do back-end)
-            statusText = `${trans.emUsoPor} ${nomeUsuarioAssociado}`; 
-        }
-        
-        const statusClass = isDisponivel ? 'disponivel' : 'emprestado'; 
-
-        const imageUrl = imageUrlApi || "/img/tools.png";
-
-        // Cria o elemento card 
-        const card = document.createElement("div");
-        card.classList.add("tool-card");
-        card.setAttribute("data-nome", nome);
-
-        card.innerHTML = `
-            <img src="${imageUrl}" alt="${nome}" onerror="this.onerror=null; this.src='/img/tools.png';"/>
-            <h3>${nome}</h3>
-            <p class="status ${statusClass}">${statusText}</p> 
-            <button class="select-btn" ${isDisponivel ? '' : 'disabled'}>
-                ${trans.selectButton}
-            </button>
+        const div = document.createElement('div');
+        div.className = 'tool-card';
+        div.innerHTML = `
+            <img src="${f.imagemUrl || '/img/tools.png'}" onerror="this.src='/img/tools.png'">
+            <h3>${f.nome}</h3>
+            <p class="status ${statusClass}">${statusTxt}</p>
+            <button class="select-btn" ${isLivre ? '' : 'disabled'}>${trans.selectButton}</button>
         `;
 
-        const selectBtn = card.querySelector(".select-btn");
-        if (selectBtn && isDisponivel) { 
-            selectBtn.addEventListener("click", () => {
-                window.location.href = `FerramentaUni.html?id=${id}`;
-            });
+        if (isLivre) {
+            div.querySelector('button').onclick = () => window.location.href = `FerramentaUni.html?id=${f.id}`;
         }
-
-        return card; 
-    }); 
-
-    // Espera todas as Promises (buscas de usuário e criação de cards) terminarem
-    const cards = await Promise.all(cardPromises);
-
-    // Adiciona todos os cards válidos (não nulos) ao grid
-    cards.forEach(card => {
-        if (card) {
-            grid.appendChild(card);
-        }
+        return div;
     });
 
-} 
+    const cards = await Promise.all(promises);
+    cards.forEach(c => grid.appendChild(c));
+};
 
+// ============================================================================
+// 5. INICIALIZAÇÃO
+// ============================================================================
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Carrega Perfil (Foto e Nome)
+    carregarDadosUsuario();
 
-// Filtra as ferramentas baseado no input de pesquisa
-function filtrarFerramentas() { /* ... (código existente) ... */ const searchInput = document.getElementById("search-input"); if (!searchInput) return; const termo = searchInput.value.trim().toLowerCase(); ferramentasFiltradas = ferramentas.filter(f => (f.nome || '').toLowerCase().includes(termo)); renderizarFerramentas(); }
+    // 2. Configura Tema e Idioma
+    loadTheme();
+    loadLanguage();
+    
+    // 3. Carrega Dados da API
+    carregarFerramentas();
 
-// --- INICIALIZAÇÃO E EVENT LISTENERS ---
-document.addEventListener("DOMContentLoaded", () => { 
-    const hamburgerBtn = document.getElementById('hamburger-btn'); 
-    const sidebar = document.getElementById('sidebar'); 
-    const searchInput = document.getElementById("search-input"); 
-    const settingsBtn = document.getElementById('settings-btn'); 
-    const themePopup = document.getElementById('theme-popup'); 
-    const closePopupBtn = document.getElementById('close-popup-btn'); 
-    const themeToggleBtn = document.getElementById('theme-toggle-btn'); 
-    const langToggleBtn = document.getElementById('lang-toggle-btn'); 
-    let usuarioLogado = null; 
-    try { 
-        const storedUser = localStorage.getItem("usuarioLogado"); 
-        if (storedUser) usuarioLogado = JSON.parse(storedUser); 
-    } catch (e) { 
-        console.error("Erro ao ler usuarioLogado:", e); 
-    } 
-    if (!usuarioLogado) { 
-        alert("Faça login para continuar."); 
-        window.location.href = "/index.html"; 
-        return; 
-    } 
-    loadTheme(); 
-    loadLanguage(); 
-    carregarFerramentas(); 
-    hamburgerBtn?.addEventListener('click', () => sidebar?.classList.toggle('active')); 
-    searchInput?.addEventListener("input", filtrarFerramentas); 
-    settingsBtn?.addEventListener('click', (e) => { 
-        e.preventDefault(); 
-        themePopup?.classList.toggle('visible'); 
-        themePopup?.classList.toggle('hidden', !themePopup.classList.contains('visible')); 
-    }); 
-    closePopupBtn?.addEventListener('click', () => { 
-        themePopup?.classList.remove('visible'); 
-        themePopup?.classList.add('hidden'); 
-    }); 
-    themeToggleBtn?.addEventListener('click', () => { 
-        const isDark = document.body.classList.contains('dark-theme'); 
-        const newTheme = isDark ? 'light' : 'dark'; 
-        document.body.classList.toggle('dark-theme'); 
-        saveTheme(newTheme); 
-    }); 
-    langToggleBtn?.addEventListener('click', () => { 
-        const currentLang = localStorage.getItem('lang') || 'pt'; 
-        const newLang = currentLang === 'pt' ? 'en' : 'pt'; 
-        saveLanguage(newLang); 
-    }); 
+    // 4. Eventos
+    document.getElementById('hamburger-btn')?.addEventListener('click', () => 
+        document.getElementById('sidebar')?.classList.toggle('active')
+    );
+    
+    document.getElementById("search-input")?.addEventListener("input", filtrarFerramentas);
+
+    // Configurações (Popup)
+    const settingsBtn = document.getElementById('settings-btn');
+    const popup = document.getElementById('theme-popup');
+    
+    settingsBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        popup?.classList.toggle('hidden');
+        popup?.classList.toggle('visible');
+    });
+    
+    document.getElementById('close-popup-btn')?.addEventListener('click', () => {
+        popup?.classList.add('hidden');
+        popup?.classList.remove('visible');
+    });
+
+    document.getElementById('theme-toggle-btn')?.addEventListener('click', () => {
+        const isDark = document.body.classList.contains('dark-theme');
+        saveTheme(isDark ? 'light' : 'dark');
+    });
+
+    document.getElementById('lang-toggle-btn')?.addEventListener('click', () => {
+        const curr = localStorage.getItem('lang') || 'pt';
+        saveLanguage(curr === 'pt' ? 'en' : 'pt');
+    });
+
+    // Logout
+    document.getElementById('nav-exit')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('usuarioLogado');
+        window.location.href = '/index.html';
+    });
 });

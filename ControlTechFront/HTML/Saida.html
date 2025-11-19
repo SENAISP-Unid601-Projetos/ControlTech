@@ -7,6 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/CSS/Saida.css">
     <script src="/JS/Saida.js" defer></script>
+    <script src="/JS/apiConfig.js" type="module"></script>
+    <script src="/JS/userProfile.js" type="module" defer></script>
 </head>
 <body>
 <div class="dashboard-container">
@@ -19,12 +21,22 @@
             <h2>ControlTech</h2>
         </div>
 
-        <div class="user-profile">
-            <i class="fas fa-user-circle"></i>
-            <div class="user-details">
-                <span id="welcome-message">Olá,</span> <h4 id="user-name">Usuário</h4>
-            </div>
-        </div>
+        <div class="user-profile-sidebar" style="padding: 20px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px;">
+    
+    <img id="fotoPerfilUsuario" src="" alt="Perfil" 
+         style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid white; display: none;">
+    
+    <div id="iconePadraoUsuario" style="width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; justify-content: center; align-items: center; color: white;">
+        <i class="fas fa-user" style="font-size: 24px;"></i>
+    </div>
+
+    <div style="overflow: hidden;">
+        <small style="color: #ccc; font-size: 0.8rem; display: block;">Bem-vindo,</small>
+        <span id="nomeUsuarioDisplay" style="color: white; font-weight: bold; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">
+            Visitante
+        </span>
+    </div>
+</div>
         <nav class="sidebar-nav">
             <a href="Ferramentas.html" id="nav-tools">
                 <i class="fas fa-tools"></i>
