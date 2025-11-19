@@ -23,10 +23,7 @@ body {
 
 /* Barra Lateral (Sidebar) */
 .sidebar {
-<<<<<<< HEAD
     position: relative; 
-=======
->>>>>>> 7ab4491d7351a13dfb08ffd5bfbc8e80dc22a5e8
     width: 298px;
     background-color: #004b8d;
     color: white;
@@ -298,11 +295,6 @@ body {
 /* === POPUP DE CONFIGURAÇÕES (TEMA/IDIOMA) === */
 
 .theme-popup {
-<<<<<<< HEAD
-    position: fixed; bottom: 20px; left: 20px; background-color: #fff; border-radius: 12px; 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); width: 280px; padding: 1rem; z-index: 101; 
-    opacity: 0; visibility: hidden; transform: translateY(20px); 
-=======
     position: fixed;
     bottom: 20px;
     left: 20px;
@@ -315,7 +307,7 @@ body {
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
->>>>>>> 7ab4491d7351a13dfb08ffd5bfbc8e80dc22a5e8
+
     transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s;
     text-align: center;
 }

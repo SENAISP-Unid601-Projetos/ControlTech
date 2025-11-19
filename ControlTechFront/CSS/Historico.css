@@ -22,10 +22,7 @@ body {
 
 /* Barra Lateral (Sidebar) */
 .sidebar {
-<<<<<<< HEAD
     position: relative; 
-=======
->>>>>>> 7ab4491d7351a13dfb08ffd5bfbc8e80dc22a5e8
     width: 298px;
     background-color: #004b8d;
     color: white;

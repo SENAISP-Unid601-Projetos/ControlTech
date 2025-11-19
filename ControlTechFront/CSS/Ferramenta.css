@@ -291,10 +291,6 @@ body {
     width: 280px;
     padding: 1rem;
     z-index: 101;
-<<<<<<< HEAD
-    /* Começa invisível e fora da tela */
-=======
->>>>>>> 7ab4491d7351a13dfb08ffd5bfbc8e80dc22a5e8
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
