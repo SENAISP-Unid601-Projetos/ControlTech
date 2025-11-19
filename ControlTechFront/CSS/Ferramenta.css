@@ -290,7 +290,7 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     width: 280px;
     padding: 1rem;
-    z-index: 99;
+    z-index: 101;
     /* Começa invisível e fora da tela */
     opacity: 0;
     visibility: hidden;

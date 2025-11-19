@@ -101,7 +101,7 @@ body {
         top: 0;
         left: -250px; /* Esconde */
         height: 100vh;
-        width: 250px;
+        width: 298px;
         z-index: 100;
         box-shadow: 2px 0 5px rgba(0,0,0,0.5);
     }
@@ -168,7 +168,7 @@ body {
 
 /* Barra Lateral */
 .sidebar {
-    width: 250px;
+    width: 298px;
     background-color: #004b8d;
     color: white;
     padding: 2rem 1.5rem;
@@ -539,7 +539,7 @@ textarea:focus {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     width: 280px;
     padding: 1rem;
-    z-index: 99;
+    z-index: 101;
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
@@ -581,7 +581,7 @@ textarea:focus {
         top: 0;
         left: -250px;
         height: 100vh;
-        width: 250px;
+        width: 298px;
         padding: 2rem 1.5rem;
         transition: left 0.3s ease-in-out;
         z-index: 100;

@@ -13,7 +13,6 @@ body {
     min-height: 100vh;
 }
 
-/* Barra Lateral */
 .sidebar {
     width: 250px;
     background-color: #004b8d;
@@ -22,7 +21,7 @@ body {
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    transition: left 0.3s ease-in-out;
+    transition: left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s; 
 }
 
 .sidebar-header {
@@ -35,6 +34,7 @@ body {
 .sidebar-nav {
     display: flex;
     flex-direction: column;
+    flex-grow: 1; /* Faz a navegação ocupar espaço disponível */
 }
 
 .sidebar-nav a {
@@ -90,17 +90,15 @@ body {
     flex-direction: column;
 }
 
-/* Saida Box - Container principal do conteúdo */
 .saida-box {
     background: white;
     padding: 2rem;
     border-radius: 16px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 100%;
+    width: 90%;
     max-width: 450px;
-    position: relative;
-    overflow: hidden;
+    overflow: hidden;   
     transition: box-shadow 0.3s ease;
 }
 
@@ -147,7 +145,7 @@ body {
 }
 
 #crachaInput {
-    width: 100%;
+    width: 90%;
     padding: 0.75rem;
     border: 2px solid #ddd;
     border-radius: 8px;
@@ -258,68 +256,68 @@ body {
 
 /* Responsividade */
 @media (max-width: 768px) {
-    /* !! MUDANÇA: display: block (como no Historico.css) */
     .dashboard-container {
-        display: block;
+        flex-direction: column;
     }
 
     .sidebar {
         position: fixed;
         top: 0;
-        left: -250px;
+        /* MANTIDO: Left mais agressivo para não mostrar sombra */
+        left: -300px;
         height: 100vh;
-        width: 250px;
-        padding: 2rem 1.5rem;
-        transition: left 0.3s ease-in-out;
         z-index: 100;
         box-shadow: 2px 0 5px rgba(0,0,0,0.5);
     }
-
     .sidebar.active {
         left: 0;
     }
-
     .sidebar-header {
         text-align: left;
     }
-
     .sidebar-nav {
-        flex-direction: column;
-        display: flex;
+        display: flex; /* Garante visibilidade */
+    }
+.user-profile { /* Esconde perfil em mobile */
+        display: none;
     }
 
-    /* !! MUDANÇA: Adicionado padding-top (como no Historico.css) */
     .main-content {
-        margin-left: 0;
-        width: 100%;
+        padding: 4rem 1rem 1rem 1rem; /* Adiciona padding superior para não sobrepor header fixo */
+        margin-left: 0; /* Remove margem quando sidebar está fechada */
+    }
+
+    .main-header {
         padding: 1rem;
-        padding-top: 5.5rem; /* Espaço para o botão hamburger */
+        flex-direction: column;
+        align-items: stretch; /* Faz input ocupar largura */
     }
 
-    .saida-box {
-        padding: 1.5rem;
+    /* CORREÇÃO APLICADA: Força o search-container a ocupar 100% da largura do main-header */
+    .search-container {
+        width: 100%; 
     }
 
-    .saida-box h2 {
-        font-size: 1.5rem;
+    .search-input {
+        width: 100%; /* Ocupa toda largura */
+    }
+
+    .tool-grid {
+        gap: 1rem;
+    }
+    .tool-card {
+        padding: 1rem;
     }
 
     .hamburger-btn {
-        display: block;
+        display: block; /* Mostra o botão */
     }
-
-    /* !! MUDANÇA: Popup movido para a direita (como no Historico.css) */
     .theme-popup {
-        bottom: 20px;
-        left: auto;
+        left: auto; 
         right: 20px;
-    }
-
-    /* !! REMOÇÃO: Estilos do .overlay removidos */
+    }   
 }
-/* === ADIÇÕES PARA PERFIL, CONFIGURAÇÕES E TEMA ESCURO === */
 
-/* Estilos do perfil do usuário */
 .user-profile { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; background-color: rgba(255, 255, 255, 0.1); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); transition: background-color 0.3s; }
 .user-profile i { font-size: 2.5rem; color: #b3cde0; transition: color 0.3s; }
 .user-details { display: flex; flex-direction: column; text-align: left; }
@@ -327,12 +325,12 @@ body {
 .user-details h4 { margin: 0; font-size: 1.1rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; transition: color 0.3s; }
 
 /* Botão de Configurações */
-.settings-btn { margin-top: auto; background-color: rgba(0, 0, 0, 0.2); }
+.settings-btn {background-color: rgba(0, 0, 0, 0.2); }
 .settings-btn:hover { background-color: #0061c0 !important; }
 
 /* Popup de Configurações (Mesmo estilo das outras páginas) */
 /* (A posição 'left: 20px' original é agora controlada pela media query) */
-.theme-popup { position: fixed; bottom: 20px; left: 20px; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); width: 280px; padding: 1rem; z-index: 99; opacity: 0; visibility: hidden; transform: translateY(20px); transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s; text-align: center; }
+.theme-popup { position: fixed; bottom: 20px; left: 125px; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); width: 240px; padding: 1rem; z-index: 101; opacity: 0; visibility: hidden; transform: translateY(20px); transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s; text-align: center; }
 .theme-popup.visible { opacity: 1; visibility: visible; transform: translateY(0); transition-delay: 0s; }
 .theme-popup.hidden { display: none; }
 .popup-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; transition: border-color 0.3s; }
