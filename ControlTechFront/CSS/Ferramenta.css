@@ -471,8 +471,8 @@ body {
         display: block; /* Mostra o botão */
     }
     .theme-popup {
-        left: auto; 
-        right: 20px;
+        left: 90px; 
+       
     }   
 }
 
