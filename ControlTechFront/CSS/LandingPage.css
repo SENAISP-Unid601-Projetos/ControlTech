@@ -31,7 +31,7 @@ body {
     z-index: 100; 
     
     /* Demais estilos */
-    width: 250px;
+    width: 250px; /* FIXO: 250px */
     background-color: #004b8d;
     color: white;
     padding: 2rem 1.5rem;
@@ -126,7 +126,7 @@ body {
 
 /* Estilos para o botão do hambúrguer (mobile) */
 .hamburger-btn {
-    display: none;
+    display: none; /* CORREÇÃO: Garante que ele não apareça no Desktop */
     position: fixed;
     top: 20px;
     left: 20px;
@@ -151,56 +151,56 @@ body {
 
 .main-content {
     flex-grow: 1;
-    /* Ajuste essencial para que o conteúdo não fique por baixo da sidebar fixa */
+    /* FIXO: Empurra o conteúdo principal para a direita, após a sidebar de 250px */
     margin-left: 250px; 
     padding: 0; 
     transition: background-color 0.3s; 
 }
 
 .main-header {
-    background-color: white;
-    padding: 1.5rem 2rem;
+    /* COR DE FUNDO AZUL CLARO SUAVE REFORÇADA */
+    background-color: #e3f2fd; 
+    padding: 1rem 2rem; 
     border-radius: 0 0 12px 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     margin-bottom: 0;
     display: flex;
     
-    /* ALTERAÇÃO: CENTRALIZA O CONTEÚDO HORIZONTALMENTE */
-    justify-content: center; 
+    justify-content: space-between; 
     
     align-items: center;
     flex-wrap: wrap;
-    gap: 1rem;
     transition: background-color 0.3s, box-shadow 0.3s; 
     
-    /* FIXA O HEADER AO TOPO AO ROLAR */
     position: sticky; 
     top: 0; 
     z-index: 50; 
 }
 
+.header-logo-title {
+    display: flex;
+    align-items: center;
+}
+
 .main-header h1 {
-    font-size: 2rem;
+    /* MANTIDO: Fonte responsiva para o título do Header */
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem); 
     color: #004b8d;
-    margin: 0;
+    margin: 25px; 
+    font-weight: 900; 
     transition: color 0.3s; 
 }
 
-/* Estilos da barra de pesquisa (MANTIDO para uso em outras páginas) */
-.search-container {
-    position: relative;
+/* Estilos para as ações do Header (Agora apenas "Olá, Usuário") */
+.header-actions {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
 }
-.search-input {
-    width: 300px;
-    padding: 10px 40px 10px 15px;
-    border: 1px solid #ddd;
-    border-radius: 50px;
-}
-.search-icon-container {
-    position: absolute;
-    right: 15px; 
-    top: 50%;
-    transform: translateY(-50%);
+
+#header-user-name {
+    color: #333;
+    font-weight: 500;
 }
 
 /* ======================================= */
@@ -354,6 +354,7 @@ body {
     position: absolute;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
+/* Estado inicial (Claro) */
 .theme-toggle-btn .fa-moon {
     opacity: 0;
     transform: translateY(10px);
@@ -435,13 +436,21 @@ body.dark-theme .sidebar-nav a:hover,
 body.dark-theme .sidebar-nav a.active {
     background-color: #0056a0; /* Azul escuro mais forte */
 }
+/* Dark Theme para o Header (COR ALTERADA) */
 body.dark-theme .main-header {
-    background-color: #1f1f1f;
+    background-color: #2c2c2c; /* Cinza escuro suave */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
+
 body.dark-theme .main-header h1 {
     color: #b3cde0;
 }
+
+body.dark-theme #header-user-name {
+    color: #e0e0e0;
+}
+
+/* Transição dos ícones de tema no Dark Mode */
 body.dark-theme .theme-toggle-btn .fa-sun {
     opacity: 0;
     transform: translateY(-10px);
@@ -509,7 +518,7 @@ body.dark-theme .team-member {
 body.dark-theme .main-footer {
     background-color: #121212;
     color: #888;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.8);
 }
 body.dark-theme .main-footer h3 {
     color: #fff;
@@ -527,7 +536,7 @@ body.dark-theme .footer-bottom {
 
 
 /* ======================================= */
-/* 8. Estilos e Efeitos da Landing Page    */
+/* 8. Estilos e Efeitos da Landing Page    */
 /* ======================================= */
 
 .landing-page-container {
@@ -536,10 +545,10 @@ body.dark-theme .footer-bottom {
     transition: background-color 0.3s;
 }
 
-/* --- 8.1. Seção Hero (Fundo Animado) --- */
+/* --- 8.1. Seção Hero (Fundo Animado e Fontes Responsivas) --- */
 .hero-section {
     position: relative;
-    height: 90vh; 
+    height: 80vh; 
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -549,6 +558,20 @@ body.dark-theme .footer-bottom {
     background: linear-gradient(135deg, #004b8d 0%, #0061c0 100%); 
     overflow: hidden;
     padding: 2rem;
+}
+.hero-section h1 {
+    /* RESPONSIVO: Tamanho Mínimo: 2rem | Ideal: 5vw | Máximo: 4rem */
+    font-size: clamp(2rem, 5vw, 4rem); 
+    
+    margin-bottom: 1.5rem;
+    font-weight: 900;
+}
+.hero-section p {
+    /* RESPONSIVO: Tamanho Mínimo: 1rem | Ideal: 1.5vw | Máximo: 1.25rem */
+    font-size: clamp(1rem, 1.5vw, 1.25rem); 
+    max-width: 800px;
+    margin: 0 auto 2rem auto;
+    line-height: 1.6;
 }
 .hero-wave {
     position: absolute;
@@ -563,7 +586,7 @@ body.dark-theme .footer-bottom {
 }
 @keyframes wave-motion {
     0% { transform: scale(1, 0.8) translateY(0); }
-    100% { transform: scale(1.1, 1.2) translateY(20px); }
+    50% { transform: scale(1.1, 1.2) translateY(20px); }
 }
 .cta-button {
     background-color: #ff9800; 
@@ -588,13 +611,27 @@ body.dark-theme .footer-bottom {
     100% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0); }
 }
 
+/* NOVO: Estilo para centralizar e espaçar o botão abaixo da seção Hero */
+.cta-standalone-container {
+    padding: 2rem 0;
+    text-align: center; 
+    background-color: #f0f2f5; 
+    transition: background-color 0.3s;
+}
+
+/* Garante que o container do botão mude no dark theme */
+body.dark-theme .cta-standalone-container {
+    background-color: #121212;
+}
+
 /* --- 8.2. Seção de Recursos (Features) --- */
 .features-section {
     padding: 5rem 2rem;
     text-align: center;
 }
 .section-title {
-    font-size: 2.5rem;
+    /* RESPONSIVO: Tamanho Mínimo: 1.8rem | Ideal: 3.5vw | Máximo: 2.5rem */
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
     color: #004b8d;
     margin-bottom: 3rem;
     font-weight: 700;
@@ -609,11 +646,16 @@ body.dark-theme .footer-bottom {
 .feature-card {
     transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s, border-color 0.3s, border-top-color 0.4s;
 }
+/* Para o texto do card (parágrafos dentro de .tool-card) */
+.tool-card p {
+    /* RESPONSIVO: Tamanho Mínimo: 0.85rem | Ideal: 1.1vw | Máximo: 1rem */
+    font-size: clamp(0.85rem, 1.1vw, 1rem); 
+}
 .shadow-pop {
     transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
 }
 
-/* Efeito NOVO: Destaque da Borda no Hover */
+/* Efeito Destaque da Borda no Hover */
 .hover-border-glow {
     position: relative;
     overflow: hidden;
@@ -634,11 +676,8 @@ body.dark-theme .footer-bottom {
 }
 .team-grid.flex-centered {
     display: flex;
-    /* Alinha os itens em linha, um ao lado do outro */
     flex-direction: row; 
-    /* Centraliza o grupo de membros da equipe na seção */
     justify-content: center; 
-    /* Garante quebra de linha se a tela for pequena */
     flex-wrap: wrap; 
     gap: 2rem;
     max-width: 1200px;
@@ -650,7 +689,7 @@ body.dark-theme .footer-bottom {
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     width: 150px;
-    display: flex; /* Para centralizar o conteúdo do card */
+    display: flex; 
     flex-direction: column;
     align-items: center;
     text-align: center;
@@ -664,12 +703,12 @@ body.dark-theme .footer-bottom {
     animation: float 4s ease-in-out infinite;
 }
 @keyframes float {
-	0% { transform: translateY(0); }
-	50% { transform: translateY(-10px); }
-	100% { transform: translateY(0); }
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
 }
 
-/* --- 8.4. Estilos do NOVO Footer - BRANCO (para Light Mode) */
+/* --- 8.4. Estilos do Footer */
 .main-footer {
     background-color: #ffffff; 
     color: #333; 
@@ -730,9 +769,10 @@ body.dark-theme .footer-bottom {
     font-size: 0.8rem;
 }
 
-/* --- 8.5. Efeitos de Entrada com JS (Animações) --- */
+/* --- 8.5. Efeitos de Entrada com JS (CORREÇÃO DE VISIBILIDADE) --- */
 
-.fade-in-up, .slide-in-left, .slide-in-right {
+/* 1. Estado Inicial: Inicia invisível e deslocado */
+.fade-in-up, .slide-in-left, .slide-in-right, .shadow-pop, .float-effect {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -751,11 +791,11 @@ body.dark-theme .footer-bottom {
 .delay-300 { transition-delay: 0.3s; }
 .delay-400 { transition-delay: 0.4s; }
 
-/* Classe que será adicionada pelo JavaScript */
+/* 2. Estado Final: Totalmente visível e na posição correta */
 .animate-visible {
     opacity: 1;
     visibility: visible;
-    transform: translate(0, 0);
+    transform: translate(0, 0); /* Volta para a posição original */
 }
 
 
@@ -786,28 +826,25 @@ body.dark-theme .footer-bottom {
 
     .main-content {
         padding: 4rem 0 0 0; 
+        /* Zera a margem no mobile */
         margin-left: 0; 
     }
 
     .main-header {
         padding: 1rem;
         border-radius: 0;
+        /* Em mobile, centraliza o título e tira as ações laterais */
+        justify-content: center;
+    }
+    .header-actions {
+        display: none;
     }
 
     .hamburger-btn {
-        display: block; 
+        display: block; /* Garante que ele apareça apenas no Mobile */
     }
 
-    /* Ajuste de fontes para mobile */
-    .hero-section h1 {
-        font-size: 2rem; 
-    }
-    .hero-section p {
-        font-size: 1rem;
-    }
-    .section-title {
-        font-size: 2rem;
-    }
+    /* Otimização de fontes para mobile (O CLAMP já está fazendo o trabalho) */
     .features-section, .team-section {
         padding: 3rem 1rem;
     }

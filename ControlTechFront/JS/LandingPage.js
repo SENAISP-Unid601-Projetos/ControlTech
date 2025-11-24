@@ -5,12 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.getElementById('sidebar');
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const themeToggleBtn = document.getElementById('theme-toggle-btn'); 
-    const body = document.body;
     
     // Elementos do Pop-up de Configurações
     const settingsBtn = document.getElementById('settings-btn');
-    const themePopup = document.getElementById('theme-popup');
-    const closePopupBtn = document.getElementById('close-popup-btn');
+    const themePopup = document.querySelector('.theme-popup'); 
+    const closePopupBtn = document.querySelector('.theme-popup .close-btn'); 
     
     // Elementos do Nome de Usuário na Sidebar
     const userNameElement = document.getElementById('user-name');
@@ -24,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
             'langStatusPT': 'Português',
             'langStatusEN': 'English',
             'welcomeMessage': 'Olá,',
-            // 'heroWelcome' não é mais necessário no novo layout, mas mantemos a estrutura.
         },
         'en': {
             'themeStatusLight': 'Light Theme',
@@ -52,10 +50,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const sunIcon = document.querySelector('#theme-toggle-btn .fa-sun'); 
         const moonIcon = document.querySelector('#theme-toggle-btn .fa-moon'); 
         if (sunIcon && moonIcon) { 
-            // Controla a transição visual dos ícones de sol e lua no botão de toggle
+            // @ts-ignore
             sunIcon.style.opacity = activeTheme === 'dark' ? '0' : '1'; 
+            // @ts-ignore
             sunIcon.style.transform = activeTheme === 'dark' ? 'translateY(-10px)' : 'translateY(0)'; 
+            // @ts-ignore
             moonIcon.style.opacity = activeTheme === 'dark' ? '1' : '0'; 
+            // @ts-ignore
             moonIcon.style.transform = activeTheme === 'dark' ? 'translateY(0)' : 'translateY(10px)'; 
         }
     };
@@ -63,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveTheme = (theme) => { 
         localStorage.setItem('theme', theme); 
         const currentLang = localStorage.getItem('lang') || 'pt'; 
+        document.body.classList.toggle('dark-theme', theme === 'dark'); 
         updateThemeStatusText(theme, currentLang); 
         updateThemeToggleButtonVisuals(theme); 
     };
@@ -90,9 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Erro ao ler usuarioLogado:", e); 
         } 
         
-        // --- Lógica para o Nome e Saudação ---
         const defaultUserName = (lang === 'pt' ? 'Usuário' : 'User'); 
-        // Usa o nome completo, mas exibe apenas o primeiro nome
         const nomeCompleto = (userInfo && userInfo.nome) ? userInfo.nome : defaultUserName;
         const firstName = nomeCompleto.split(' ')[0];
         
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
             userNameElement.textContent = firstName;
         } 
         
-        // 2. Atualiza Header Principal (Onde a frase 'Olá, [Nome] - ControlTech' aparece)
+        // 2. Atualiza Header Principal 
         const headerTitle = document.getElementById('header-title');
         if (headerTitle) {
             const saudacao = trans.welcomeMessage.replace(',', ''); 
@@ -117,11 +117,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // =======================================
 
     const updateLanguageStatusText = (activeLang) => { 
-        const langToggleBtnSpan = document.getElementById('lang-toggle-btn')?.querySelector('span'); 
         const langStatusEl = document.getElementById('lang-status'); 
+        const langToggleBtn = document.getElementById('lang-toggle-btn');
         const trans = translations[activeLang] || translations.pt;
 
-        if (langToggleBtnSpan) langToggleBtnSpan.textContent = activeLang.toUpperCase(); 
+        if (langToggleBtn) langToggleBtn.textContent = activeLang.toUpperCase(); 
         
         if (langStatusEl) { 
             langStatusEl.textContent = activeLang === 'pt' 
@@ -133,7 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveLanguage = (lang) => { 
         localStorage.setItem('lang', lang); 
         updateLanguageStatusText(lang);
-        // Atualiza elementos textuais (nome e tema) na nova língua
         displayUserName(lang);
         const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
         updateThemeStatusText(currentTheme, lang); 
@@ -178,6 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // IMPORTANTE: Permite que o link funcione, mas fecha o menu em mobile
     document.querySelectorAll('.sidebar-nav a').forEach(link => {
         link.addEventListener('click', closeMenu);
     });
@@ -186,20 +186,17 @@ document.addEventListener('DOMContentLoaded', () => {
     settingsBtn?.addEventListener('click', (e) => {
         e.preventDefault();
         themePopup?.classList.add('visible'); 
-        themePopup?.classList.remove('hidden'); 
         closeMenu(); 
     });
 
     closePopupBtn?.addEventListener('click', () => {
         themePopup?.classList.remove('visible');
-        themePopup?.classList.add('hidden');
     });
 
     window.addEventListener('click', (e) => {
         // @ts-ignore
         if (themePopup?.classList.contains('visible') && !themePopup.contains(e.target) && !settingsBtn?.contains(e.target)) {
             themePopup.classList.remove('visible');
-            themePopup?.classList.add('hidden');
         }
     });
 
@@ -212,6 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Alternar Idioma ---
+    const langToggleBtn = document.getElementById('lang-toggle-btn');
     langToggleBtn?.addEventListener('click', () => { 
         const currentLang = localStorage.getItem('lang') || 'pt'; 
         const newLang = currentLang === 'pt' ? 'en' : 'pt'; 
@@ -223,21 +221,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // 7. OBSERVER E REVELAÇÃO DE CONTEÚDO
     // =======================================
     
-    // Revela imediatamente o conteúdo principal (h1, p, a) da Landing Page
-    // ISSO É CRUCIAL PARA CORRIGIR O PROBLEMA DA TELA VAZIA (IMAGEM AZUL)
-    document.querySelectorAll('.hero-content-section > *').forEach(el => {
-        // As classes de animação (fade-in-up, etc.) foram removidas
-        // do HTML principal no novo layout para garantir que ele apareça imediatamente,
-        // mas mantemos este bloco de código para qualquer outro elemento que use animação.
-        
-        // Se você quiser animações, adicione as classes .fade-in-up no HTML
-        // e este bloco as ativará no carregamento:
+    // 1. Correção: Seletor para o conteúdo imediato da seção principal (hero-section e o novo botão)
+    const heroElementsToReveal = document.querySelectorAll(
+        '.hero-section .fade-in-up, ' + 
+        '.hero-section .slide-in-left, ' + 
+        '.hero-section .slide-in-right, ' + 
+        '.cta-standalone-container .fade-in-up' // Inclui o novo botão
+    );
+    
+    // Força a exibição imediata dos elementos da Seção Hero
+    heroElementsToReveal.forEach(el => {
         setTimeout(() => {
             el.classList.add('animate-visible');
-        }, 50); 
+        }, 100); 
     });
 
-    // Intersection Observer para elementos que devem aparecer ao rolar a página
+    // 2. Intersection Observer para o restante do conteúdo (ao rolar)
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -250,10 +249,13 @@ document.addEventListener('DOMContentLoaded', () => {
         threshold: 0.2
     });
 
-    // Observa todos os elementos que têm classes de animação definidas no CSS
-    const elementsToAnimate = document.querySelectorAll('.fade-in-up, .slide-in-left, .slide-in-right, .shadow-pop, .float-effect');
+    // Observa elementos que devem aparecer ao rolar a página
+    const elementsToAnimateOnScroll = document.querySelectorAll(
+        '.features-grid .fade-in-up, .features-grid .slide-in-left, .features-grid .slide-in-right, .features-grid .shadow-pop, ' + 
+        '.team-grid .float-effect'
+    );
     
-    elementsToAnimate.forEach(element => {
+    elementsToAnimateOnScroll.forEach(element => {
         observer.observe(element);
     });
 });

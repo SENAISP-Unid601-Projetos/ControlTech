@@ -69,31 +69,43 @@
             </nav>
         </aside>
 
-        <main class="main-content">
-            <header class="main-header">
-                <h1 id="header-title">Bem-vindo(a) à ControlTech</h1>
-            </header>
+<main class="main-content">
+    <header class="main-header">
+        
+        <div class="header-logo-title">
+            <h1 id="header-title">ControlTech</h1>
+        </div>
+        
+        <div class="header-actions">
+            <span id="header-user-name" class="fade-in-up delay-100">Olá, Usuário</span>
+            </div>
+    </header>
             
             <div class="landing-page-container">
 
-                <section class="hero-section wave-bg">
-                    <div class="hero-content">
-                        <h1 class="fade-in-up">ControlTech: O Fim do Sumiço de Ferramentas na Elétrica.</h1>
-                        
-                        <p id="hero-welcome-message" class="fade-in-up delay-100 welcome-message-hero">
-                            Seja muito bem-vindo(a)!
-                        </p>
-                        
-                        <p class="fade-in-up delay-200">
-                            Um sistema robusto para o Gerenciamento de Ativos do SENAI, garantindo que cada ferramenta esteja onde deveria.
-                        </p>
-                        <a href="Ferramentas.html" class="cta-button pulse-effect fade-in-up delay-400">
-                            Acessar Dashboard
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
+                <section class="hero-section wave-bg" role="banner">
+                <div class="hero-content">
+                    <h1 class="fade-in-up">ControlTech: O Fim do Sumiço de Ferramentas na Elétrica.</h1>
+                    
+                    <p id="hero-welcome-message" class="fade-in-up delay-100 welcome-message-hero" aria-live="polite">
+                        Seja muito bem-vindo(a)!
+                    </p>
+                    
+                    <p class="fade-in-up delay-200">
+                        Um sistema robusto para o <strong>Gerenciamento de Ativos</strong> do SENAI, garantindo que cada ferramenta esteja onde deveria.
+                    </p>
+                    
                     </div>
-                    <div class="hero-wave"></div>
-                </section>
+                
+                <div class="hero-wave" aria-hidden="true"></div>
+            </section>
+
+                <div class="cta-standalone-container">
+                    <a href="Ferramentas.html" class="cta-button pulse-effect fade-in-up delay-400" id="hero-cta-button" aria-label="Acessar o Dashboard do ControlTech">
+                            Acessar Dashboard
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
 
                 <section class="features-section">
                     <h2 class="section-title slide-in-left">Por que ControlTech é Essencial?</h2>
@@ -102,7 +114,7 @@
                         <div class="feature-card shadow-pop hover-border-glow"> 
                             <i class="fas fa-search-location"></i>
                             <h3>Rastreabilidade Total</h3>
-                            <p>Saiba **quem pegou**, **quando pegou** e **qual ferramenta** está com cada usuário em tempo real.</p>
+                            <p>Saiba <strong>quem pegou</strong>, <strong>quando pegou</strong> e <strong>qual ferramenta</strong> está com cada usuário em tempo real.</p>
                         </div>
 
                         <div class="feature-card shadow-pop delay-100 hover-border-glow">
