@@ -6,7 +6,6 @@ body {
     background-color: #f0f2f5;
     color: #333;
     transition: background-color 0.3s, color 0.3s; 
-    /* CORREÇÃO MANTIDA: Impede que o conteúdo posicionado à esquerda (como a sidebar) crie rolagem horizontal. */
     overflow-x: hidden; 
 }
 
@@ -65,11 +64,11 @@ body {
 
 /* Estilos para o botão do hambúrguer */
 .hamburger-btn {
-    display: none;
+    display: none; /* ESCONDIDO POR PADRÃO (PC) */
     position: fixed;
     top: 20px;
     left: 20px;
-    z-index: 101;
+    z-index: 2001; 
     background: #004b8d;
     color: white;
     border: none;
@@ -77,7 +76,7 @@ body {
     font-size: 1.5rem;
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s;
 }
 
 .hamburger-btn:hover {
@@ -153,10 +152,13 @@ body {
 /* Estilos para a barra de pesquisa */
 .search-container {
     position: relative;
+    max-width: 350px; 
 }
 
 .search-input {
-    width: 300px;
+    width: 100%; 
+    margin: 10px 0; 
+    box-sizing: border-box; 
     padding: 10px 40px 10px 15px;
     border: 1px solid #ddd;
     border-radius: 50px;
@@ -177,9 +179,9 @@ body {
     transition: color 0.3s;
 }
 
-
 .search-icon-container {
     position: absolute;
+    /* Ajustado para centralizar com o margin do input */
     right: 15px; 
     top: 50%;
     transform: translateY(-50%);
@@ -288,22 +290,21 @@ body {
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    width: 280px;
+    width: 232px;
     padding: 1rem;
-    z-index: 101;
+    z-index: 2000;
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
     transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s;
     text-align: center;
 }
-.theme-popup.visible { /* Classe para mostrar o popup */
+.theme-popup.visible { 
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
-    transition-delay: 0s; /* Garante que a visibilidade mude imediatamente ao mostrar */
+    transition-delay: 0s; 
 }
-/* A classe .hidden pode ser usada como fallback se necessário, mas .visible controla a exibição */
 .theme-popup.hidden {
    display: none;
 }
@@ -421,11 +422,12 @@ body {
     .sidebar {
         position: fixed;
         top: 0;
-        /* MANTIDO: Left mais agressivo para não mostrar sombra */
-        left: -300px;
+        left: -300px; /* Corrigido para garantir que suma */
+        width: 250px;
         height: 100vh;
-        z-index: 100;
+        z-index: 2000;
         box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+        transition: left 0.3s ease-in-out;
     }
     .sidebar.active {
         left: 0;
@@ -434,50 +436,54 @@ body {
         text-align: left;
     }
     .sidebar-nav {
-        display: flex; /* Garante visibilidade */
+        display: flex;
     }
-    .user-profile { /* Esconde perfil em mobile */
+    .user-profile {
         display: none;
     }
 
     .main-content {
-        padding: 4rem 1rem 1rem 1rem; /* Adiciona padding superior para não sobrepor header fixo */
-        margin-left: 0; /* Remove margem quando sidebar está fechada */
+        padding: 5.5rem 1rem 1rem 1rem;
+        margin-left: 0;
     }
 
     .main-header {
         padding: 1rem;
         flex-direction: column;
-        align-items: stretch; /* Faz input ocupar largura */
+        align-items: stretch;
     }
 
-    /* CORREÇÃO APLICADA: Força o search-container a ocupar 100% da largura do main-header */
     .search-container {
         width: 100%; 
+        max-width: none; /* NOVO: Permite que o container cresça para 100% no mobile */
     }
 
     .search-input {
-        width: 100%; /* Ocupa toda largura */
+        width: 100%; 
+        box-sizing: border-box; 
     }
 
     .tool-grid {
         gap: 1rem;
     }
-    .tool-card {
-        padding: 1rem;
-    }
 
     .hamburger-btn {
-        display: block; /* Mostra o botão */
+        display: block !important;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 2001;
     }
+
     .theme-popup {
-        left: 90px; 
-       
+        left: auto;
+        right: 40px;
     }   
 }
 
 
 /* === ESTILOS DO TEMA ESCURO === */
+/* ESTES ESTILOS APLICAM-SE A TODAS AS TELAS POR ESTAREM FORA DE QUALQUER MEDIA QUERY */
 body.dark-theme {
     background-color: #2c2c2c;
     color: #f0f2f5;
@@ -613,19 +619,4 @@ body.dark-theme .select-btn:disabled {
 }
 .dark-theme .lang-toggle-btn:hover {
     background-color: #004b8d;
-}
-@media (max-width: 768px) {
-
-    .main-header {
-        flex-direction: column;
-        align-items: stretch; 
-    }
-    .search-container {
-        width: 100%; 
-    }
-
-    .search-input {
-        width: 100%; 
-        box-sizing: border-box; /* Impede que o padding quebre o layout */
-    }
 }

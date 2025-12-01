@@ -17,7 +17,7 @@ public class FerramentaUsuarioDTO {
 
     private Long usuarioId;
     private String usuarioNome;
-    private String usuarioPerfil;
+    private String usuarioTurma;
     private String usuarioQrCode;
 
 }

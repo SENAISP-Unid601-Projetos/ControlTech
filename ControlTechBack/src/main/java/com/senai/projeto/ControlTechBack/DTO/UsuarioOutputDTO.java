@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class UsuarioOutputDTO {
     private Long id;
     private String nome;
-    private String perfil;
+    private String turma;
     private String qrCode; // ✅ campo adicionado
 }

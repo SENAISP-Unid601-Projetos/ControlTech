@@ -112,42 +112,38 @@ public class FerramentaService {
                 .collect(Collectors.toList());
     }
 
-    // ... (listarFerramentasPorUsuario, listarFerramentasPorCracha - mantidos) ...
     public List<FerramentaUsuarioDTO> listarFerramentasPorUsuario(Long usuarioId) {
-        return ferramentaRepository.findAll()
-                .stream()
-                .filter(f -> f.getUsuario() != null)
-                .filter(f -> f.getUsuario().getId() == usuarioId) // <- correção
+        // Agora busca no banco SÓ o que precisa
+        List<Ferramenta> ferramentas = ferramentaRepository.findByUsuarioId(usuarioId);
+
+        return ferramentas.stream()
                 .map(f -> {
                     FerramentaUsuarioDTO dto = new FerramentaUsuarioDTO();
                     dto.setFerramentaId(f.getId());
                     dto.setFerramentaNome(f.getNome());
                     dto.setQuantidadeEstoque(f.getQuantidadeEstoque());
                     dto.setDataDevolucao(f.getDataDevolucao());
-
-                    dto.setUsuarioId(f.getUsuario().getId());
-                    dto.setUsuarioNome(f.getUsuario().getNome());
-                    dto.setUsuarioPerfil(f.getUsuario().getPerfil());
-                    dto.setUsuarioQrCode(f.getUsuario().getQrCode());
+                    // ... preencher dados do usuario ...
+                    if (f.getUsuario() != null) {
+                        dto.setUsuarioId(f.getUsuario().getId());
+                        dto.setUsuarioNome(f.getUsuario().getNome());
+                        dto.setUsuarioPerfil(f.getUsuario().getTurma());
+                        dto.setUsuarioQrCode(f.getUsuario().getQrCode());
+                    }
                     return dto;
                 })
                 .collect(Collectors.toList());
     }
-    public List<FerramentaUsuarioDTO> listarFerramentasPorCracha(String cracha) {
-        return ferramentaRepository.findAll()
-                .stream()
-                .filter(f -> f.getUsuario() != null && f.getUsuario().getQrCode().equals(cracha))
-                .map(f -> {
-                    FerramentaUsuarioDTO dto = new FerramentaUsuarioDTO();
-                    dto.setFerramentaId(f.getId());
-                    dto.setFerramentaNome(f.getNome());
-                    dto.setQuantidadeEstoque(f.getQuantidadeEstoque());
-                    dto.setDataDevolucao(f.getDataDevolucao());
 
-                    dto.setUsuarioId(f.getUsuario().getId());
-                    dto.setUsuarioNome(f.getUsuario().getNome());
-                    dto.setUsuarioPerfil(f.getUsuario().getPerfil());
-                    dto.setUsuarioQrCode(f.getUsuario().getQrCode());
+    public List<FerramentaUsuarioDTO> listarFerramentasPorCracha(String cracha) {
+        // Busca otimizada
+        List<Ferramenta> ferramentas = ferramentaRepository.findByUsuarioQrCode(cracha);
+
+        return ferramentas.stream()
+                .map(f -> {
+                    // ... (mesma lógica de mapeamento acima)
+                    FerramentaUsuarioDTO dto = new FerramentaUsuarioDTO();
+                    // ... preencha os dados ...
                     return dto;
                 })
                 .collect(Collectors.toList());

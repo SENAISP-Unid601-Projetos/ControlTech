@@ -1,11 +1,13 @@
 // Dicionário de traduções
 const translations = {
     'pt': {
-        'pageTitle': 'Registro de Saída - SENAI ControlTech',
+        'pageTitle': 'Ajuda - SENAI ControlTech',
+        'sidebarAbout': 'Início', 
         'sidebarTools': 'Ferramentas',
         'sidebarReturn': 'Devolver',
         'sidebarHelp': 'Ajuda',
         'sidebarHistory': 'Histórico',
+        'sidebarChatBot': 'ChatBot', 
         'sidebarExit': 'Sair',
         'sidebarSettings': 'Configurações',
         'saidaTitle': 'Aproxime seu crachá',
@@ -29,11 +31,13 @@ const translations = {
         'welcomeMessage': 'Olá,'
     },
     'en': {
-        'pageTitle': 'Exit Registration - SENAI ControlTech',
+        'pageTitle': 'Help - SENAI ControlTech',
+        'sidebarAbout': 'Home', 
         'sidebarTools': 'Tools',
         'sidebarReturn': 'Return',
         'sidebarHelp': 'Help',
         'sidebarHistory': 'History',
+        'sidebarChatBot': 'ChatBot', 
         'sidebarExit': 'Exit',
         'sidebarSettings': 'Settings',
         'saidaTitle': 'Approach your badge',

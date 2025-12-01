@@ -6,11 +6,11 @@ import lombok.Data;
 public class UsuarioQrDTO {
     private long id;
     private String nome;
-    private String perfil;
+    private String turma;
 
-    public UsuarioQrDTO(long id, String nome, String perfil) {
+    public UsuarioQrDTO(long id, String nome, String turma) {
         this.id = id;
         this.nome = nome;
-        this.perfil = perfil;
+        this.turma = turma;
     }
 }

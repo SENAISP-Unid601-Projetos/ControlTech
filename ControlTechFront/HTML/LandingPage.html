@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title id="page-title">Gerenciamento de Ferramentas - ControlTech</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/CSS/LandingPage.css">
+    <script src="/JS/LandingPage.js" defer></script> 
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <button class="hamburger-btn" id="hamburger-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>ControlTech</h2>
+            </div>
+
+            <div class="user-profile">
+                <i class="fas fa-user-circle"></i>
+                <div class="user-details">
+                    <span id="welcome-message"></span> 
+                    <h4 id="user-name">Usuário</h4> 
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="LandingPage.html" class="active" id="nav-about">
+                    <i class="fas fa-home"></i> 
+                    <span>Início</span>
+                </a>
+                <a href="Ferramentas.html" id="nav-tools">
+                    <i class="fas fa-tools"></i>
+                    <span>Ferramentas</span>
+                </a>
+                <a href="Devolver.html" id="nav-return">
+                    <i class="fas fa-undo"></i>
+                    <span>Devolver</span>
+                </a>
+                <a href="Ajuda.html" id="nav-help">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Ajuda</span>
+                </a>
+                <a href="Historico.html" id="nav-history">
+                    <i class="fas fa-history"></i>
+                    <span>Histórico</span>
+                </a>
+                
+                <a href="ChatBot.html" id="nav-chatbot" class="chatbot-trigger-btn">
+                    <i class="fas fa-robot"></i>
+                    <span>ChatBot</span>
+                </a>
+
+                <a href="Saida.html" class="logout" id="nav-exit">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </a>
+
+                <a href="#" class="settings-btn" id="settings-btn">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
+                </a>
+            </nav>
+        </aside>
+
+<main class="main-content">
+    <header class="main-header">
+        
+        <div class="header-logo-title">
+            <h1 id="header-title">ControlTech</h1>
+        </div>
+        
+        <div class="header-actions">
+            <span id="header-user-name" class="fade-in-up delay-100"></span>
+            </div>
+    </header>
+            <div class="landing-page-container">
+                <section class="hero-section wave-bg" role="banner">
+                    <div class="hero-content">
+                        <h1 class="fade-in-up">ControlTech: Gerenciamento eficiente e prático </h1>
+                        
+                        <p class="fade-in-up delay-200">
+                            Um sistema robusto para o <strong>Gerenciamento de componentes em seu ambiente</strong> garantindo que cada ferramenta esteja onde deveria.
+                        </p>
+                        
+                    </div>
+
+                    <div class="hero-wave" aria-hidden="true"></div>
+                    
+                    <div class="scroll-indicator">
+                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </section>
+                <div class="cta-standalone-container">
+                    <a href="Ferramentas.html" class="cta-button pulse-effect fade-in-up delay-400" id="hero-cta-button" aria-label="Acessar o Dashboard do ControlTech">
+                            Acessar Dashboard
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <section class="features-section">
+                    <h2 class="section-title slide-in-left">Por que ControlTech é Essencial?</h2>
+                    <div class="features-grid">
+
+                        <div class="feature-card shadow-pop hover-border-glow"> 
+                            <i class="fas fa-search-location"></i>
+                            <h3>Rastreabilidade Total</h3>
+                            <p>Saiba <strong>quem pegou</strong>, <strong>quando pegou</strong> e <strong>qual ferramenta</strong> está com cada usuário em tempo real.</p>
+                        </div>
+
+                        <div class="feature-card shadow-pop delay-100 hover-border-glow">
+                            <i class="fas fa-boxes"></i>
+                            <h3>Inventário Preciso</h3>
+                            <p>Mantenha um controle de estoque digital, eliminando a perda e o extravio de materiais.</p>
+                        </div>
+
+                        <div class="feature-card shadow-pop delay-200 hover-border-glow">
+                            <i class="fas fa-user-check"></i>
+                            <h3>Responsabilidade Individual</h3>
+                            <p>A exigência de login cria um registro de empréstimo transparente e seguro.</p>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section class="team-section dark-bg">
+                    <h2 class="section-title">Membros da Equipe & Colaboradores</h2>
+                    <p class="section-subtitle">Desenvolvido com paixão e expertise por:</p>
+                    
+                    <div class="team-grid flex-centered"> 
+                        
+                        <a href="https://github.com/EduardoRodrigues0" class="team-member-link" target="_blank">
+                            <div class="team-member float-effect delay-300">
+                                <i class="fas fa-user-circle"></i>
+                                <span class="perfis">Eduardo</span>
+                            </div>
+                        </a>
+                    
+                        <a href="https://github.com/EliezerBeltrame" class="team-member-link" target="_blank">
+                            <div class="team-member float-effect delay-200">
+                                <i class="fas fa-user-circle" ></i>
+                                <span class="perfis">Eliezer</span>
+                            </div>
+                        </a>
+                        
+                        <a href="https://github.com/FelipedeFreitasRossi283" class="team-member-link" target="_blank">
+                            <div class="team-member float-effect">
+                                <i class="fas fa-user-circle"></i>
+                                <span class="perfis">Felipe Rossi</span>
+                            </div>
+                        </a>
+                        
+                        <a href="https://github.com/guirxm" class="team-member-link" target="_blank">
+                            <div class="team-member float-effect delay-400">
+                                <i class="fas fa-user-circle"></i>
+                                <span class="perfis">Guilherme</span>
+                            </div>
+                        </a>
+
+                        <a href="https://github.com/V1cta0" class="team-member-link" target="_blank">
+                            <div class="team-member float-effect delay-100">
+                                <i class="fas fa-user-circle"></i>
+                                <span class="perfis">Victor Hugo</span>
+                            </div>
+                        </a>
+                        </div>
+                </section>
+
+                <footer class="main-footer">
+                    <div class="footer-content">
+                        <div class="footer-branding">
+                            <h3>ControlTech</h3>
+                            <p>Gestão Inteligente de Ativos.</p>
+                        </div>
+                        <div class="footer-links">
+                            <h4>Navegação</h4>
+                            <ul>
+                                <li><a href="Ferramentas.html">Ferramentas</a></li>
+                                <li><a href="Historico.html">Histórico</a></li>
+                                <li><a href="Ajuda.html">Suporte</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-contact">
+                            <h4>Contato</h4>
+                            <p><i class="fas fa-envelope"></i> contato@controltech.com</p>
+                            
+                            <p><i class="fas fa-map-marker-alt"></i> SENAI - São Carlos</p>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <p>&copy; 2025 ControlTech - Projeto SENAI. Todos os direitos reservados. </p>
+                        
+                        <p class="developers-note">Desenvolvedores: Felipe Rossi, Victor Hugo, Eliezer, Eduardo, Guilherme.</p>
+                    </div>
+                </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <div class="theme-popup" id="theme-popup"> 
+        <div class="popup-header">
+            <h4 id="settings-popup-title">Configurações</h4> 
+            <button class="close-btn" id="close-popup-btn">&times;</button>
+        </div>
+        <div class="popup-content-config">
+            <div class="config-section">
+                <p class="config-label" id="theme-label">Alternar Tema:</p> 
+                <button id="theme-toggle-btn" class="theme-toggle-btn">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </button>
+                <p class="theme-status" id="theme-status">Tema Escuro</p> 
+            </div>
+            <div class="divider"></div>
+            <div class="config-section">
+                <p class="config-label" id="lang-label">Alternar Idioma:</p> 
+                <button id="lang-toggle-btn" class="lang-toggle-btn">
+                    <span>PT</span>
+                </button>
+                <p class="lang-status" id="lang-status">Português</p> 
+            </div>
+        </div>
+    </div>
+
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+
+</body>
+</html>

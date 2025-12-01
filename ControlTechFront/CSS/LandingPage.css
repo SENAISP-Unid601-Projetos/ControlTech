@@ -1,0 +1,957 @@
+/* ======================================= */
+/* 1. Estilos Gerais e Estrutura do Layout */
+/* ======================================= */
+
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s; 
+    overflow-x: hidden; 
+}
+
+/* Container do Dashboard */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+.sidebar {
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    height: 110vh; 
+    z-index: 100; 
+    overflow-y: auto; 
+    width: 250px; 
+    background-color: #004b8d;
+    color: white;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    transition: left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s; 
+}
+
+.sidebar-header {
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; 
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #b3cde0;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a.active {
+    background-color: #0061c0;
+    color: white;
+}
+
+.sidebar-nav a i {
+    font-size: 1.5rem;
+    margin-right: 15px;
+}
+
+/* Estilos do perfil do usuário */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+.user-profile i {
+    font-size: 2.5rem;
+    color: #b3cde0;
+    transition: color 0.3s;
+}
+.user-details {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.user-details span {
+    font-size: 0.9rem;
+    color: #b3cde0;
+    opacity: 0.8;
+    transition: color 0.3s;
+}
+.user-details h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+    transition: color 0.3s;
+}
+
+/* Botão de Configurações */
+.settings-btn {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.settings-btn:hover {
+    background-color: #0061c0 !important;
+}
+
+/* Estilos para o botão do hambúrguer (mobile) */
+.hamburger-btn {
+    display: none; /* CORREÇÃO: Garante que ele não apareça no Desktop */
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 101;
+    background: #004b8d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.hamburger-btn:hover {
+    background: #0061c0;
+}
+
+/* ======================================= */
+/* 3. Conteúdo Principal e Header */
+/* ======================================= */
+
+.main-content {
+    flex-grow: 1;
+    /* FIXO: Empurra o conteúdo principal para a direita, após a sidebar de 250px */
+    margin-left: 250px; 
+    padding: 0; 
+    transition: background-color 0.3s; 
+}
+
+.main-header {
+    /* CORREÇÃO: Cor de fundo mais suave no light theme */
+    background-color: #f6f9fc; 
+    padding: 1rem 2rem; 
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-bottom: 0;
+    display: flex;
+    
+    justify-content: space-between; 
+    
+    align-items: center;
+    flex-wrap: wrap;
+    transition: background-color 0.3s, box-shadow 0.3s; 
+    
+    position: sticky; 
+    top: 0; 
+    z-index: 50; 
+}
+
+.header-logo-title {
+    display: flex;
+    align-items: center;
+    padding: 2em;
+}
+
+.main-header h1 {
+    /* MANTIDO: Fonte responsiva para o título do Header */
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem); 
+    color: #004b8d;
+    /* CORREÇÃO: Remove margem de 25px, deixando 0 para melhor controle em layouts flex */
+    margin: 0; 
+    font-weight: 900; 
+    transition: color 0.3s; 
+}
+
+/* Estilos para as ações do Header (Agora apenas "Olá, Usuário") */
+.header-actions {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+}
+
+#header-user-name {
+    color: #333;
+    font-weight: 500;
+}
+
+/* ======================================= */
+/* 4. Layout e Cards (Ferramentas/Conteúdo)*/
+/* ======================================= */
+
+/* Layout em Grid para as Ferramentas (MANTIDO para uso em Ferramentas.html) */
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 1rem 2rem; 
+}
+
+/* Cards de Ferramentas/Conteúdo */
+.tool-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s, border-color 0.3s; 
+    border: 1px solid #eee;
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.tool-card p.status {
+    font-weight: bold;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 0.5rem;
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+.tool-card p.status.disponivel {
+    background-color: #e0f2f7;
+    color: #007bff;
+}
+.tool-card p.status.emprestado {
+    background-color: #fff3e0;
+    color: #ff9800;
+}
+.select-btn {
+    background-color: #0061c0;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+    transition: background-color 0.3s, opacity 0.3s; 
+    margin-top: 1rem;
+}
+
+/* ======================================= */
+/* 5. Pop-up de Configurações (Tema/Idioma)*/
+/* ======================================= */
+
+/* Popup de Configurações */
+.theme-popup {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 280px;
+    padding: 1rem;
+    z-index: 101;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s;
+    text-align: center;
+}
+.theme-popup.visible { 
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition-delay: 0s; 
+}
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+.popup-header h4 {
+    margin: 0;
+    color: #004b8d;
+}
+.popup-header .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #888;
+    cursor: pointer;
+}
+.popup-content-config {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+.config-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.config-label {
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
+}
+.divider {
+    width: 80%;
+    height: 1px;
+    background-color: #ddd;
+    margin: 0.5rem 0;
+}
+.theme-toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2.5rem;
+    color: #004b8d;
+    transition: transform 0.3s ease, color 0.3s; 
+    width: 60px;
+    height: 60px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.theme-toggle-btn:hover {
+    transform: scale(1.1);
+}
+.theme-toggle-btn .fa-sun,
+.theme-toggle-btn .fa-moon {
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+/* Estado inicial (Claro) */
+.theme-toggle-btn .fa-moon {
+    opacity: 0;
+    transform: translateY(10px);
+}
+.theme-toggle-btn .fa-sun {
+    opacity: 1;
+    transform: translateY(0);
+}
+.theme-status, .lang-status {
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
+}
+.lang-toggle-btn {
+    background: #0061c0;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ======================================= */
+/* 6. Estilos do Chatbot */
+/* ======================================= */
+
+.typing-animation p {
+    display: none;
+}
+.typing-animation {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 15px;
+    background: #e6e6e6; 
+    border-radius: 15px;
+    border-top-left-radius: 0;
+    max-width: 80px; 
+}
+.typing-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #555; 
+    border-radius: 50%;
+    animation: bounce-dot 1.5s infinite ease-in-out;
+}
+.typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+@keyframes bounce-dot {
+    0%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-5px);
+    }
+}
+
+
+/* ======================================= */
+/* 7. Tema Escuro (body.dark-theme) */
+/* ======================================= */
+
+body.dark-theme {
+    background-color: #121212; /* Fundo escuro profundo */
+    color: #e0e0e0; /* Cor do texto padrão */
+}
+/* Estilos Dark Theme para todos os elementos */
+body.dark-theme .sidebar {
+    background-color: #1f1f1f; /* Sidebar um pouco mais clara que o fundo */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.8);
+}
+body.dark-theme .sidebar-nav a:hover,
+body.dark-theme .sidebar-nav a.active {
+    background-color: #0056a0; /* Azul escuro mais forte */
+}
+/* Dark Theme para o Header (COR ALTERADA) */
+body.dark-theme .main-header {
+    background-color: #2c2c2c; /* Cinza escuro suave */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .main-header h1 {
+    color: #b3cde0;
+}
+
+body.dark-theme #header-user-name {
+    color: #e0e0e0;
+}
+
+/* Transição dos ícones de tema no Dark Mode */
+body.dark-theme .theme-toggle-btn .fa-sun {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+body.dark-theme .theme-toggle-btn .fa-moon {
+    opacity: 1;
+    transform: translateY(0);
+    color: #ffc107; /* Lua em amarelo/dourado */
+}
+body.dark-theme .theme-popup {
+    background-color: #1f1f1f;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+body.dark-theme .popup-header h4 {
+    color: #b3cde0;
+}
+body.dark-theme .config-label, body.dark-theme .theme-status, body.dark-theme .lang-status {
+    color: #ccc;
+}
+body.dark-theme .divider {
+    background-color: #333;
+}
+/* Fundo da Landing Page no Dark Mode */
+body.dark-theme .landing-page-container {
+    background-color: #121212;
+}
+
+/* Seção de Recursos (Features) no Dark Mode */
+body.dark-theme .features-section {
+    background-color: #121212;
+}
+body.dark-theme .feature-card {
+    background: #1f1f1f;
+    border: 4px solid #333;
+}
+body.dark-theme .feature-card i {
+    color: #007bff; /* Ícones em azul */
+}
+body.dark-theme .feature-card h3 {
+    color: #e0e0e0;
+}
+body.dark-theme .feature-card p {
+    color: #ccc;
+}
+body.dark-theme .hover-border-glow {
+    border-top: 5px solid #0056a0;
+}
+body.dark-theme .hover-border-glow:hover {
+     border-top: 5px solid #ff9800;
+}
+
+/* Seção da Equipe (Team) no Dark Mode */
+body.dark-theme .team-section {
+    background-color: #1f1f1f; 
+    color: #e0e0e0;
+}
+body.dark-theme .team-member {
+    background: #2c2c2c;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Footer no Dark Mode */
+body.dark-theme .main-footer {
+    background-color: #121212;
+    color: #888;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.8);
+}
+body.dark-theme .main-footer h3 {
+    color: #fff;
+}
+body.dark-theme .main-footer h4 {
+    color: #b3cde0 !important; 
+    border-bottom: 2px solid #ff9800; 
+}
+body.dark-theme .footer-links a {
+    color: #888;
+}
+body.dark-theme .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.landing-page-container {
+    overflow-x: hidden;
+    background-color: #f0f2f5;
+    transition: background-color 0.3s;
+}
+
+
+.hero-section {
+    position: relative;
+    height: 80vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    background: linear-gradient(135deg, #004b8d 0%, #0061c0 100%); 
+    overflow: hidden;
+    padding: 2rem;
+}
+.hero-section h1 {
+    /* RESPONSIVO: Tamanho Mínimo: 2rem | Ideal: 5vw | Máximo: 4rem */
+    font-size: clamp(2rem, 5vw, 4rem); 
+    
+    margin-bottom: 1.5rem;
+    font-weight: 900;
+}
+.hero-section p {
+    /* RESPONSIVO: Tamanho Mínimo: 1rem | Ideal: 1.5vw | Máximo: 1.25rem */
+    font-size: clamp(1rem, 1.5vw, 1.25rem); 
+    max-width: 800px;
+    margin: 0 auto 2rem auto;
+    line-height: 1.6;
+}
+.hero-wave {
+    position: absolute;
+    bottom: 0;
+    width: 150%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1); 
+    border-radius: 40%;
+    animation: wave-motion 10s linear infinite alternate;
+    transform-origin: center bottom;
+    z-index: 5; 
+}
+@keyframes wave-motion {
+    0% { transform: scale(1, 0.8) translateY(0); }
+    50% { transform: scale(1.1, 1.2) translateY(20px); }
+}
+.cta-button {
+    background-color: #ff9800; 
+    color: #004b8d;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.pulse-effect {
+    animation: pulse-shadow 2s infinite ease-in-out;
+}
+@keyframes pulse-shadow {
+    0% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.7); }
+    70% { box-shadow: 0 0 0 20px rgba(255, 152, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0); }
+}
+
+/* NOVO: Estilo para centralizar e espaçar o botão abaixo da seção Hero */
+.cta-standalone-container {
+    padding: 2rem 0;
+    text-align: center; 
+    background-color: #f0f2f5; 
+    transition: background-color 0.3s;
+}
+
+/* Garante que o container do botão mude no dark theme */
+body.dark-theme .cta-standalone-container {
+    background-color: #121212;
+}
+
+/* --- 8.2. Seção de Recursos (Features) --- */
+.features-section {
+    padding: 5rem 2rem;
+    text-align: center;
+}
+.section-title {
+    /* RESPONSIVO: Tamanho Mínimo: 1.8rem | Ideal: 3.5vw | Máximo: 2.5rem */
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    color: #004b8d;
+    margin-bottom: 3rem;
+    font-weight: 700;
+}
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.feature-card {
+    border: 4px solid #d3e0f0; 
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+/* Para o texto do card (parágrafos dentro de .tool-card) */
+.tool-card p {
+    /* RESPONSIVO: Tamanho Mínimo: 0.85rem | Ideal: 1.1vw | Máximo: 1rem */
+    font-size: clamp(0.85rem, 1.1vw, 1rem); 
+}
+
+
+/* Efeito Destaque da Borda no Hover */
+.hover-border-glow {
+    position: relative;
+    overflow: hidden;
+    border-top: 8px solid #0061c0; 
+}
+.hover-border-glow:hover {
+    border-top: 8px solid #ff9800; 
+    transform: translateY(-10px) scale(1.01);
+    transition: 0.8s;
+}
+
+.team-section {
+    padding: 5rem 2rem;
+    text-align: center;
+    /* CORREÇÃO: Fundo suave (#f3f3f3) */
+    background-color: #f3f3f3; 
+}
+.team-grid.flex-centered {
+    display: flex;
+    justify-content: center; 
+    flex-wrap: wrap; 
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 3rem auto 0 auto;
+}
+.team-member {
+    padding: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    /* CORREÇÃO ESTÉTICA: Borda mais visível e suave */
+    border: 1px solid #d3e0f0; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 150px;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.team-member i {
+    font-size: 2.5rem;
+    color: #004b8d;
+    margin-bottom: 0.5rem;
+}
+.team-member-link {
+    text-decoration: none; 
+    color: inherit; 
+}
+
+.team-member-link:hover .team-member {
+    cursor: pointer;
+}
+
+.team-member-link .perfis {
+    text-decoration: none;
+    color: inherit; 
+    font-weight: bold;
+}
+.float-effect {
+    animation: float 4s ease-in-out infinite;
+}
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+/* --- 8.4. Estilos do Footer */
+.main-footer {
+    background-color: #ffffff; 
+    color: #333; 
+    padding: 3rem 2rem 1rem 2rem;
+    font-size: 0.95rem;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05); 
+}
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto 2rem auto;
+    text-align: left;
+}
+.footer-branding h3 {
+    color: #004b8d; 
+    font-size: 1.8rem;
+    margin-top: 0;
+}
+.footer-links h4, .footer-contact h4 {
+    color: #333; 
+    border-bottom: 2px solid #ff9800;
+    padding-bottom: 5px;
+    margin-bottom: 1rem;
+}
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+.footer-links a {
+    color: #555; 
+    text-decoration: none;
+    transition: color 0.3s;
+}
+.footer-links a:hover {
+    color: #0061c0;
+}
+.footer-contact p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.footer-bottom {
+    text-align: center;
+    border-top: 1px solid #eee; 
+    padding-top: 1rem;
+}
+.footer-bottom p {
+    margin: 0.5rem 0;
+    color: #888;
+}
+.developers-note {
+    font-size: 0.8rem;
+}
+
+/* --- 8.5. Efeitos de Entrada com JS (CORREÇÃO DE VISIBILIDADE) --- */
+
+/* 1. Estado Inicial: Inicia invisível e deslocado */
+.fade-in-up, .slide-in-left, .slide-in-right, .shadow-pop, .float-effect {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.fade-in-up {
+    transform: translateY(20px);
+}
+.slide-in-left {
+    transform: translateX(-50px);
+}
+.slide-in-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.delay-100 { transition-delay: 0.1s; }
+.delay-200 { transition-delay: 0.2s; }
+.delay-300 { transition-delay: 0.3s; }
+.delay-400 { transition-delay: 0.4s; }
+
+/* 2. Estado Final: Totalmente visível e na posição correta */
+.animate-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(0, 0); /* Volta para a posição original */
+}
+
+/* ======================================= */
+/* 9. Responsividade (Mobile) */
+/* ======================================= */
+
+@media (max-width: 1024px) {
+
+ .sidebar {
+ width: 220px; 
+ }
+
+ .main-content {
+margin-left: 220px; 
+ }
+    
+    /* Ajustes para evitar o esmagamento do Hero e seções */
+    .hero-section {
+        /* Garante que o padding interno não cause quebra em 1024px */
+        padding: 2rem 1.5rem; 
+    }
+    
+    .features-section, .team-section {
+        /* Ajusta o padding horizontal para centralizar e dar espaço */
+        padding-left: 1.5rem; 
+        padding-right: 1.5rem; 
+    }
+    
+    .main-footer {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+
+/* Responsividade para Mobile (max-width: 768px) - Off-Canvas */
+@media (max-width: 768px) {
+ .dashboard-container {
+ flex-direction: column;
+ }
+
+ .sidebar {
+position: fixed;
+ top: 0;
+ left: -300px;
+ height: 100vh;
+ width: 250px; /* Mantém a largura maior para o menu off-canvas */
+ z-index: 100;
+ box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+ }
+ .sidebar.active {
+ left: 0;
+ }
+ .user-profile { 
+ display: none;
+ }
+
+ .main-content {
+ padding: 4rem 0 0 0; 
+ margin-left: 0; 
+ }
+
+ .main-header {
+ padding: 1rem;
+ border-radius: 0;
+ justify-content: center;
+ }
+ .header-actions {
+display: none;
+ }
+
+ .hamburger-btn {
+ display: block;  }
+
+
+.features-section, .team-section {
+ padding: 3rem 1rem;
+ }
+ .features-grid {
+gap: 1rem;
+ }
+ .team-grid {
+ gap: 1.5rem;
+ }
+ .footer-content {
+ justify-content: flex-start;
+ flex-direction: column;
+ text-align: center;
+ gap: 2rem;
+ }
+ .footer-links h4, .footer-contact h4 {
+ text-align: center;
+ border-bottom: none;
+ }
+ .footer-contact p {
+ justify-content: center;
+ }
+}
+
+.perfis {
+ text-decoration: none;
+ color: #0061c0;
+}
+.scroll-indicator {
+ position: absolute;
+ bottom: 30px; /* Posição fixa no rodapé do hero */
+ left: 50%;
+ transform: translateX(-50%);
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ color: white; /* Cor visível no fundo azul do Hero */
+ z-index: 10; 
+ opacity: 0.9;
+}
+
+.scroll-indicator i {
+    font-size: 1.5rem;
+  margin-top: -8px; 
+ animation: bounce-scroll 2s infinite;
+}
+
+.scroll-indicator i:nth-child(2) {
+ animation-delay: 0.3s; 
+}
+
+@keyframes bounce-scroll {
+ 0%, 20%, 50%, 80%, 100% {
+ transform: translateY(0);
+}
+ 40% {
+transform: translateY(-15px); /* Salto maior */
+ }
+ 60% {
+ transform: translateY(-7px);
+}
+}
+
+body.dark-theme .scroll-indicator {
+ color: #ff9800;
+ opacity: 1;
+}
+.team-section.dark-bg .section-title,
+.team-section.dark-bg .section-subtitle {
+    color: inherit; /* Deve herdar a cor branca/clara do .dark-bg */
+    opacity: 1;    /* Garante visibilidade, desfazendo possíveis opacidades de animação */
+}
+
+/* Garante que, no Tema Escuro, as cores permaneçam */
+body.dark-theme .team-section.dark-bg .section-title,
+body.dark-theme .team-section.dark-bg .section-subtitle {
+    color: #f0f2f5; 
+}

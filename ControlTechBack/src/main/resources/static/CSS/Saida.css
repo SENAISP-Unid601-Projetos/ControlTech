@@ -15,6 +15,8 @@ body {
 
 /* Barra Lateral */
 .sidebar {
+    /* !! CORREÇÃO CRUCIAL: Adicionado position: relative; !! */
+    position: relative;
     width: 250px;
     background-color: #004b8d;
     color: white;
@@ -22,7 +24,7 @@ body {
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    transition: left 0.3s ease-in-out;
+    transition: left 0.3s ease-in-out, background-color 0.3s, box-shadow 0.3s;
 }
 
 .sidebar-header {
@@ -35,6 +37,8 @@ body {
 .sidebar-nav {
     display: flex;
     flex-direction: column;
+    /* Adicionado para empurrar o botão de config para baixo */
+    flex-grow: 1;
 }
 
 .sidebar-nav a {
@@ -88,6 +92,8 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    /* Adicionado para transição suave */
+    transition: background-color 0.3s;
 }
 
 /* Saida Box - Container principal do conteúdo */
@@ -101,7 +107,7 @@ body {
     max-width: 450px;
     position: relative;
     overflow: hidden;
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease, background-color 0.3s;
 }
 
 .saida-box:hover {
@@ -115,12 +121,14 @@ body {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    transition: color 0.3s;
 }
 
 .instructions {
     color: #666;
     margin-bottom: 1.5rem;
     font-size: 0.95rem;
+    transition: color 0.3s;
 }
 
 .scanner-animation {
@@ -129,6 +137,7 @@ body {
     margin: -2rem -2rem 1.5rem -2rem;
     position: relative;
     overflow: hidden;
+    transition: background 0.3s;
 }
 
 .laser {
@@ -139,6 +148,7 @@ body {
     width: 100%;
     background: linear-gradient(to right, transparent 0%, #0061c0 50%, transparent 100%);
     animation: scanning 2s infinite linear;
+    transition: background 0.3s;
 }
 
 @keyframes scanning {
@@ -154,7 +164,7 @@ body {
     font-size: 1rem;
     text-align: center;
     margin: 1rem 0;
-    transition: border-color 0.3s;
+    transition: border-color 0.3s, background-color 0.3s, color 0.3s;
     background-color: #f8f9fa;
 }
 
@@ -173,17 +183,20 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .placeholder {
     color: #777;
     text-align: center;
+    transition: color 0.3s;
 }
 
 .placeholder i {
     font-size: 2rem;
     margin-bottom: 0.5rem;
     color: #ccc;
+    transition: color 0.3s;
 }
 
 .btn-primary {
@@ -222,10 +235,12 @@ body {
     justify-content: center;
     gap: 1rem;
     font-size: 0.9rem;
+    transition: color 0.3s;
 }
 
 .time-display i {
     color: #004b8d;
+    transition: color 0.3s;
 }
 
 .notification {
@@ -256,17 +271,20 @@ body {
     background-color: #dc3545;
 }
 
-/* Responsividade */
+/* ============================================= */
+/* !! RESPONSIVIDADE (PADRÃO HISTORICO.CSS) !!  */
+/* ============================================= */
 @media (max-width: 768px) {
-    /* !! MUDANÇA: display: block (como no Historico.css) */
+    /* Muda container para 'block' para o layout off-canvas */
     .dashboard-container {
         display: block;
     }
 
+    /* Configura a sidebar para ficar fora da tela */
     .sidebar {
         position: fixed;
         top: 0;
-        left: -250px;
+        left: -250px; /* Começa escondida */
         height: 100vh;
         width: 250px;
         padding: 2rem 1.5rem;
@@ -275,6 +293,7 @@ body {
         box-shadow: 2px 0 5px rgba(0,0,0,0.5);
     }
 
+    /* Classe .active (adicionada pelo JS) mostra a sidebar */
     .sidebar.active {
         left: 0;
     }
@@ -288,12 +307,12 @@ body {
         display: flex;
     }
 
-    /* !! MUDANÇA: Adicionado padding-top (como no Historico.css) */
+    /* Ajusta o conteúdo principal para ter espaço para o hamburger */
     .main-content {
         margin-left: 0;
         width: 100%;
         padding: 1rem;
-        padding-top: 5.5rem; /* Espaço para o botão hamburger */
+        padding-top: 5.5rem; /* Espaço para o hamburger fixo */
     }
 
     .saida-box {
@@ -304,18 +323,17 @@ body {
         font-size: 1.5rem;
     }
 
+    /* Mostra o botão hamburger */
     .hamburger-btn {
         display: block;
     }
 
-    /* !! MUDANÇA: Popup movido para a direita (como no Historico.css) */
+    /* Move o popup para a direita */
     .theme-popup {
         bottom: 20px;
         left: auto;
         right: 20px;
     }
-
-    /* !! REMOÇÃO: Estilos do .overlay removidos */
 }
 /* === ADIÇÕES PARA PERFIL, CONFIGURAÇÕES E TEMA ESCURO === */
 
@@ -330,8 +348,7 @@ body {
 .settings-btn { margin-top: auto; background-color: rgba(0, 0, 0, 0.2); }
 .settings-btn:hover { background-color: #0061c0 !important; }
 
-/* Popup de Configurações (Mesmo estilo das outras páginas) */
-/* (A posição 'left: 20px' original é agora controlada pela media query) */
+/* Popup de Configurações */
 .theme-popup { position: fixed; bottom: 20px; left: 20px; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); width: 280px; padding: 1rem; z-index: 99; opacity: 0; visibility: hidden; transform: translateY(20px); transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s; text-align: center; }
 .theme-popup.visible { opacity: 1; visibility: visible; transform: translateY(0); transition-delay: 0s; }
 .theme-popup.hidden { display: none; }
@@ -377,7 +394,7 @@ body.dark-theme .laser { background: linear-gradient(to right, transparent 0%, #
 body.dark-theme #crachaInput { background-color: #444; color: #fff; border-color: #555; }
 body.dark-theme #crachaInput:focus { border-color: #0061c0; }
 body.dark-theme .info-card { background-color: #444; color: #ccc;}
-body.dark-theme .info-card p strong { color: #f0f2f5; } /* Labels dentro do card */
+body.dark-theme .info-card p strong { color: #f0f2f5; }
 body.dark-theme .placeholder { color: #888; }
 body.dark-theme .placeholder i { color: #555; }
 body.dark-theme .btn-primary { background-color: #0061c0; }
@@ -407,39 +424,27 @@ body.dark-theme .lang-toggle-btn:hover { background-color: #004b8d; }
    AJUSTES FINOS PARA TELEMÓVEIS (Abaixo de 450px)
 ========================================================= */
 
-@media (max-width: 768px) {
-    /* !! MUDANÇA: display: block (como no Historico.css) */
-    .dashboard-container {
-        display: block;
-    }
-
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: -250px; /* <- ESCONDE A SIDEBAR FORA DA TELA */
-        height: 100vh;
-        width: 250px;
-        /* ... */
-        z-index: 100;
-        /* ... */
-    }
-
-    .sidebar.active {
-        left: 0; /* <- MOSTRA A SIDEBAR QUANDO TEM A CLASSE 'active' */
-    }
-    
-    /* ... */
-
-    /* !! MUDANÇA: Adicionado padding-top (como no Historico.css) */
+@media (max-width: 450px) {
     .main-content {
-        /* ... */
-        padding-top: 5.5rem; /* Espaço para o botão hamburger */
+        /* Ajusta o padding para menos espaço nas laterais */
+        padding: 1rem 1rem;
+        padding-top: 5.5rem; /* Mantém o espaço do hamburger */
     }
-    
-    /* ... */
 
-    .hamburger-btn {
-        display: block; /* <- MOSTRA O BOTÃO HAMBURGER */
+    .saida-box {
+        /* Reduz o padding interno do card */
+        padding: 2rem 1.25rem;
     }
-/* ... */
+
+    .saida-box h2 {
+        font-size: 1.6rem;
+    }
+
+    .btn-primary {
+        width: 100%;
+        max-width: none;
+        font-size: 1rem;
+    }
+
+    /* O popup de config já está à direita por causa da regra de 768px */
 }
