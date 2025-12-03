@@ -12,13 +12,12 @@ import java.time.LocalDate;
 public class FerramentaUsuarioDTO {
     private Long ferramentaId;
     private String ferramentaNome;
-    private Integer quantidadeEstoque;
+    private String patrimonio;
     private LocalDate dataDevolucao;
 
     private Long usuarioId;
     private String usuarioNome;
-    private String usuarioPerfil;
+    private String usuarioTurma;
     private String usuarioQrCode;
 
 }
-

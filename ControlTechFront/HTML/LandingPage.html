@@ -4,7 +4,7 @@
     <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title id="page-title">Gerenciamento de Ferramentas - ControlTech</title>
+    <title data-i18n="pageTitle" id="page-title">Gerenciamento de Ferramentas - ControlTech</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/CSS/LandingPage.css">
@@ -25,46 +25,46 @@
             <div class="user-profile">
                 <i class="fas fa-user-circle"></i>
                 <div class="user-details">
-                    <span id="welcome-message">Olá,</span> 
-                    <h4 id="user-name">Usuário</h4> 
+                    <span id="welcome-message"></span> 
+                    <h4 id="user-name" data-i18n="defaultUserName">Usuário</h4> 
                 </div>
             </div>
 
             <nav class="sidebar-nav">
                 <a href="LandingPage.html" class="active" id="nav-about">
                     <i class="fas fa-home"></i> 
-                    <span>Início</span>
+                    <span data-i18n="navAbout">Início</span>
                 </a>
                 <a href="Ferramentas.html" id="nav-tools">
                     <i class="fas fa-tools"></i>
-                    <span>Ferramentas</span>
+                    <span data-i18n="navTools">Ferramentas</span>
                 </a>
                 <a href="Devolver.html" id="nav-return">
                     <i class="fas fa-undo"></i>
-                    <span>Devolver</span>
+                    <span data-i18n="navReturn">Devolver</span>
                 </a>
                 <a href="Ajuda.html" id="nav-help">
                     <i class="fas fa-question-circle"></i>
-                    <span>Ajuda</span>
+                    <span data-i18n="navHelp">Ajuda</span>
                 </a>
                 <a href="Historico.html" id="nav-history">
                     <i class="fas fa-history"></i>
-                    <span>Histórico</span>
+                    <span data-i18n="navHistory">Histórico</span>
                 </a>
                 
                 <a href="ChatBot.html" id="nav-chatbot" class="chatbot-trigger-btn">
                     <i class="fas fa-robot"></i>
-                    <span>ChatBot</span>
+                    <span data-i18n="navChatbot">ChatBot</span>
                 </a>
 
                 <a href="Saida.html" class="logout" id="nav-exit">
                     <i class="fas fa-sign-out-alt"></i>
-                    <span>Sair</span>
+                    <span data-i18n="navExit">Sair</span>
                 </a>
 
                 <a href="#" class="settings-btn" id="settings-btn">
                     <i class="fas fa-cog"></i>
-                    <span>Configurações</span>
+                    <span data-i18n="navSettings">Configurações</span>
                 </a>
             </nav>
         </aside>
@@ -77,120 +77,127 @@
         </div>
         
         <div class="header-actions">
-            <span id="header-user-name" class="fade-in-up delay-100">Olá, Usuário</span>
+            <span id="header-user-name" class="fade-in-up delay-100"></span>
             </div>
     </header>
-            
             <div class="landing-page-container">
-
                 <section class="hero-section wave-bg" role="banner">
-                <div class="hero-content">
-                    <h1 class="fade-in-up">ControlTech: O Fim do Sumiço de Ferramentas na Elétrica.</h1>
-                    
-                    <p id="hero-welcome-message" class="fade-in-up delay-100 welcome-message-hero" aria-live="polite">
-                        Seja muito bem-vindo(a)!
-                    </p>
-                    
-                    <p class="fade-in-up delay-200">
-                        Um sistema robusto para o <strong>Gerenciamento de Ativos</strong> do SENAI, garantindo que cada ferramenta esteja onde deveria.
-                    </p>
-                    
+                    <div class="hero-content">
+                        <h1 class="fade-in-up" data-i18n="heroTitle">ControlTech: Gerenciamento eficiente e prático </h1>
+                        
+                        <p class="fade-in-up delay-200" data-i18n="heroSubtitle">
+                            Um sistema robusto para o <strong>Gerenciamento de componentes em seu ambiente</strong> garantindo que cada ferramenta esteja onde deveria.
+                        </p>
+                        
                     </div>
-                
-                <div class="hero-wave" aria-hidden="true"></div>
-            </section>
 
+                    <div class="hero-wave" aria-hidden="true"></div>
+                    
+                    <div class="scroll-indicator">
+                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </section>
                 <div class="cta-standalone-container">
-                    <a href="Ferramentas.html" class="cta-button pulse-effect fade-in-up delay-400" id="hero-cta-button" aria-label="Acessar o Dashboard do ControlTech">
+                    <a href="Ferramentas.html" class="cta-button pulse-effect fade-in-up delay-400" id="hero-cta-button" aria-label="Acessar o Dashboard do ControlTech" data-i18n="heroCtaButton">
                             Acessar Dashboard
                         <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
 
                 <section class="features-section">
-                    <h2 class="section-title slide-in-left">Por que ControlTech é Essencial?</h2>
+                    <h2 class="section-title slide-in-left" data-i18n="sectionTitle1">Por que ControlTech é Essencial?</h2>
                     <div class="features-grid">
 
                         <div class="feature-card shadow-pop hover-border-glow"> 
                             <i class="fas fa-search-location"></i>
-                            <h3>Rastreabilidade Total</h3>
-                            <p>Saiba <strong>quem pegou</strong>, <strong>quando pegou</strong> e <strong>qual ferramenta</strong> está com cada usuário em tempo real.</p>
+                            <h3 data-i18n="featureTitle1">Rastreabilidade Total</h3>
+                            <p data-i18n="featureText1">Saiba <strong>quem pegou</strong>, <strong>quando pegou</strong> e <strong>qual ferramenta</strong> está com cada usuário em tempo real.</p>
                         </div>
 
                         <div class="feature-card shadow-pop delay-100 hover-border-glow">
                             <i class="fas fa-boxes"></i>
-                            <h3>Inventário Preciso</h3>
-                            <p>Mantenha um controle de estoque digital, eliminando a perda e o extravio de materiais.</p>
+                            <h3 data-i18n="featureTitle2">Inventário Preciso</h3>
+                            <p data-i18n="featureText2">Mantenha um controle de estoque digital, eliminando a perda e o extravio de materiais.</p>
                         </div>
 
                         <div class="feature-card shadow-pop delay-200 hover-border-glow">
                             <i class="fas fa-user-check"></i>
-                            <h3>Responsabilidade Individual</h3>
-                            <p>A exigência de login cria um registro de empréstimo transparente e seguro.</p>
+                            <h3 data-i18n="featureTitle3">Responsabilidade Individual</h3>
+                            <p data-i18n="featureText3">A exigência de login cria um registro de empréstimo transparente e seguro.</p>
                         </div>
 
                     </div>
                 </section>
 
                 <section class="team-section dark-bg">
-                    <h2 class="section-title slide-in-right">Os Pilares da Inovação</h2>
-                    <p class="section-subtitle slide-in-right delay-100">Desenvolvido com paixão e expertise por:</p>
+                    <h2 class="section-title" data-i18n="sectionTitle2">Membros da Equipe & Colaboradores</h2>
+                    <p class="section-subtitle" data-i18n="sectionSubtitle2">Desenvolvido com paixão e expertise por:</p>
                     
                     <div class="team-grid flex-centered"> 
                         
-                        <div class="team-member float-effect">
-                            <i class="fas fa-user-circle"></i>
-                            <h4>Felipe Rossi</h4>
-                        </div>
+                        <a href="https://github.com/EduardoRodrigues0" class="team-member-link" target="_blank">
+                            <div class="team-member float-effect delay-300">
+                                <i class="fas fa-user-circle"></i>
+                                <span class="perfis">Eduardo</span>
+                            </div>
+                        </a>
+                    
+                        <a href="https://github.com/EliezerBeltrame" class="team-member-link" target="_blank">
+                            <div class="team-member float-effect delay-200">
+                                <i class="fas fa-user-circle" ></i>
+                                <span class="perfis">Eliezer</span>
+                            </div>
+                        </a>
                         
-                        <div class="team-member float-effect delay-100">
-                            <i class="fas fa-user-circle"></i>
-                            <h4>Victor Hugo</h4>
-                        </div>
+                        <a href="https://github.com/FelipedeFreitasRossi283" class="team-member-link" target="_blank">
+                            <div class="team-member float-effect">
+                                <i class="fas fa-user-circle"></i>
+                                <span class="perfis">Felipe Rossi</span>
+                            </div>
+                        </a>
                         
-                        <div class="team-member float-effect delay-200">
-                            <i class="fas fa-user-circle"></i>
-                            <h4>Eliezer</h4>
+                        <a href="https://github.com/guirxm" class="team-member-link" target="_blank">
+                            <div class="team-member float-effect delay-400">
+                                <i class="fas fa-user-circle"></i>
+                                <span class="perfis">Guilherme</span>
+                            </div>
+                        </a>
+
+                        <a href="https://github.com/V1cta0" class="team-member-link" target="_blank">
+                            <div class="team-member float-effect delay-100">
+                                <i class="fas fa-user-circle"></i>
+                                <span class="perfis">Victor Hugo</span>
+                            </div>
+                        </a>
                         </div>
-                        
-                        <div class="team-member float-effect delay-300">
-                            <i class="fas fa-user-circle"></i>
-                            <h4>Eduardo</h4>
-                        </div>
-                        
-                        <div class="team-member float-effect delay-400">
-                            <i class="fas fa-user-circle"></i>
-                            <h4>Guilherme</h4>
-                        </div>
-                        
-                    </div>
                 </section>
 
                 <footer class="main-footer">
                     <div class="footer-content">
                         <div class="footer-branding">
                             <h3>ControlTech</h3>
-                            <p>Gestão Inteligente de Ativos.</p>
+                            <p data-i18n="footerBrandingText">Gestão Inteligente de Ativos.</p>
                         </div>
                         <div class="footer-links">
-                            <h4>Navegação</h4>
+                            <h4 data-i18n="footerNavTitle">Navegação</h4>
                             <ul>
-                                <li><a href="Ferramentas.html">Ferramentas</a></li>
-                                <li><a href="Historico.html">Histórico</a></li>
-                                <li><a href="Ajuda.html">Suporte</a></li>
+                                <li><a href="Ferramentas.html" data-i18n="footerTools">Ferramentas</a></li>
+                                <li><a href="Historico.html" data-i18n="footerHistory">Histórico</a></li>
+                                <li><a href="Ajuda.html" data-i18n="footerSupport">Suporte</a></li>
                             </ul>
                         </div>
                         <div class="footer-contact">
-                            <h4>Contato</h4>
+                            <h4 data-i18n="footerContactTitle">Contato</h4>
                             <p><i class="fas fa-envelope"></i> contato@controltech.com</p>
                             
                             <p><i class="fas fa-map-marker-alt"></i> SENAI - São Carlos</p>
                         </div>
                     </div>
                     <div class="footer-bottom">
-                        <p>&copy; 2025 ControlTech - Projeto SENAI. Todos os direitos reservados. </p>
+                        <p data-i18n="footerBottomText1">&copy; 2025 ControlTech - Projeto SENAI. Todos os direitos reservados. </p>
                         
-                        <p class="developers-note">Desenvolvedores: Felipe Rossi, Victor Hugo, Eliezer, Eduardo, Guilherme.</p>
+                        <p class="developers-note" data-i18n="footerBottomText2">Desenvolvedores: Felipe Rossi, Victor Hugo, Eliezer, Eduardo, Guilherme.</p>
                     </div>
                 </footer>
 
@@ -200,12 +207,12 @@
 
     <div class="theme-popup" id="theme-popup"> 
         <div class="popup-header">
-            <h4 id="settings-popup-title">Configurações</h4> 
+            <h4 id="settings-popup-title" data-i18n="settingsPopupTitle">Configurações</h4> 
             <button class="close-btn" id="close-popup-btn">&times;</button>
         </div>
         <div class="popup-content-config">
             <div class="config-section">
-                <p class="config-label" id="theme-label">Alternar Tema:</p> 
+                <p class="config-label" id="theme-label" data-i18n="themeLabel">Alternar Tema:</p> 
                 <button id="theme-toggle-btn" class="theme-toggle-btn">
                     <i class="fas fa-sun"></i>
                     <i class="fas fa-moon"></i>
@@ -214,7 +221,7 @@
             </div>
             <div class="divider"></div>
             <div class="config-section">
-                <p class="config-label" id="lang-label">Alternar Idioma:</p> 
+                <p class="config-label" id="lang-label" data-i18n="langLabel">Alternar Idioma:</p> 
                 <button id="lang-toggle-btn" class="lang-toggle-btn">
                     <span>PT</span>
                 </button>

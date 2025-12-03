@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt-BR"> <head>
+<html lang="pt-BR"> 
+<head>
     <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title id="page-title">Devolução de Itens | SENAI ControlTech</title> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title id="page-title">Devolução de Itens - SENAI</title> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/CSS/Devolver.css">
-    <script src="/JS/Devolver.js" defer></script>
+    <script type="module" src="/JS/Devolver.js" defer></script>
 </head>
 <body>
     <div class="dashboard-container">
@@ -14,21 +16,19 @@
             <i class="fas fa-bars"></i>
         </button>
 
-                <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-        <h2>ControlTech</h2>
-    </div>
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>ControlTech</h2>
+            </div>
 
-    <div class="user-profile">
-        <i class="fas fa-user-circle"></i>
-        <div class="user-details">
-            <span id="welcome-message">Olá,</span> <h4 id="user-name">Usuário</h4>
-        </div>
-    </div>
-
-    <nav class="sidebar-nav">
-
-                <a href="LandingPage.html" class="active" id="nav-about">
+            <div class="user-profile">
+                <i class="fas fa-user-circle"></i>
+                <div class="user-details">
+                    <span id="welcome-message">Olá,</span> <h4 id="user-name">Usuário</h4>
+                </div>
+            </div>
+            <nav class="sidebar-nav">    
+                <a href="LandingPage.html" id="nav-about">
                     <i class="fas fa-home"></i> 
                     <span>Início</span>
                 </a>
@@ -36,7 +36,7 @@
                     <i class="fas fa-tools"></i>
                     <span>Ferramentas</span>
                 </a>
-                <a href="Devolver.html" id="nav-return">
+                <a href="Devolver.html" class="active" id="nav-return">
                     <i class="fas fa-undo"></i>
                     <span>Devolver</span>
                 </a>
@@ -64,11 +64,11 @@
                     <span>Configurações</span>
                 </a>
             </nav>
-</aside>
+        </aside>
 
         <main class="main-content">
             <div class="devolucao-box">
-                <h1 id="form-title">Devolução de Itens</h1> <div id="infoUsuario" class="info-box hidden">
+                <h1 id="form-title"><i class="fas fa-box-open"></i> Devolução de Itens</h1> <div id="infoUsuario" class="info-box hidden">
                     <p><strong><span id="label-id-func">ID do Funcionário:</span></strong> <span id="funcId"></span></p> <p><strong><span id="label-nome-func">Nome:</span></strong> <span id="funcNome"></span></p> <p><strong><span id="label-data">Data:</span></strong> <span id="dataAtual"></span></p> <p><strong><span id="label-horario">Horário:</span></strong> <span id="horaAtual"></span></p> </div>
 
                 <div id="mensagem" class="mensagem hidden"></div>
@@ -79,6 +79,20 @@
             <div id="confirmModal" class="modal hidden">
                 <div class="modal-content">
                     <p id="modal-text">Tem certeza que deseja devolver esta ferramenta?</p> <button id="confirmBtn" class="modal-btn-confirm">Sim</button> <button id="cancelBtn" class="modal-btn-cancel">Cancelar</button> </div>
+            </div>
+
+            <div id="alertModal" class="modal hidden" style="z-index: 2000;">
+                <div class="modal-content bounce-in">
+                    <div class="modal-header">
+                        <h3 id="alertTitle" style="color: #004b8d; margin-top:0;">Aviso</h3>
+                    </div>
+                    <div class="modal-body">
+                        <p id="alertMessage" style="font-size: 1.1rem; margin: 1rem 0;">Mensagem...</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnAlertOk" class="btnDevolver" style="width: auto; padding: 0.5rem 2rem; margin:0 auto; display:block;">OK</button>
+                    </div>
+                </div>
             </div>
 
         </main> </div> <div class="theme-popup hidden" id="theme-popup"> <div class="popup-header">

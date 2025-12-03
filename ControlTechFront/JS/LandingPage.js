@@ -15,21 +15,101 @@ document.addEventListener('DOMContentLoaded', () => {
     const userNameElement = document.getElementById('user-name');
     const welcomeMessageElement = document.getElementById('welcome-message');
 
-    // Dicionário de traduções
+    // Dicionário de traduções COMPLETO para todos os textos da página
     const translations = {
         'pt': {
+            // Configurações e Mensagens de Usuário
             'themeStatusLight': 'Tema Claro',
             'themeStatusDark': 'Tema Escuro',
             'langStatusPT': 'Português',
             'langStatusEN': 'English',
             'welcomeMessage': 'Olá,',
+            'defaultUserName': 'Usuário',
+            'settingsPopupTitle': 'Configurações',
+            'themeLabel': 'Alternar Tema:',
+            'langLabel': 'Alternar Idioma:',
+
+            // Navegação
+            'pageTitle': 'Gerenciamento de Ferramentas - ControlTech',
+            'navAbout': 'Início',
+            'navTools': 'Ferramentas',
+            'navReturn': 'Devolver',
+            'navHelp': 'Ajuda',
+            'navHistory': 'Histórico',
+            'navChatbot': 'ChatBot',
+            'navExit': 'Sair',
+            'navSettings': 'Configurações',
+            'footerNavTitle': 'Navegação',
+            'footerTools': 'Ferramentas',
+            'footerHistory': 'Histórico',
+            'footerSupport': 'Suporte',
+
+            // Conteúdo Principal (Hero e Recursos)
+            'heroTitle': 'ControlTech: Gerenciamento eficiente e prático',
+            'heroSubtitle': 'Um sistema robusto para o <strong>Gerenciamento de componentes em seu ambiente</strong> garantindo que cada ferramenta esteja onde deveria.',
+            'heroCtaButton': 'Acessar Dashboard',
+            'sectionTitle1': 'Por que ControlTech é Essencial?',
+            'featureTitle1': 'Rastreabilidade Total',
+            'featureText1': 'Saiba <strong>quem pegou</strong>, <strong>quando pegou</strong> e <strong>qual ferramenta</strong> está com cada usuário em tempo real.',
+            'featureTitle2': 'Inventário Preciso',
+            'featureText2': 'Mantenha um controle de estoque digital, eliminando a perda e o extravio de materiais.',
+            'featureTitle3': 'Responsabilidade Individual',
+            'featureText3': 'A exigência de login cria um registro de empréstimo transparente e seguro.',
+
+            // Equipe e Rodapé
+            'sectionTitle2': 'Membros da Equipe & Colaboradores',
+            'sectionSubtitle2': 'Desenvolvido com paixão e expertise por:',
+            'footerBrandingText': 'Gestão Inteligente de Ativos.',
+            'footerContactTitle': 'Contato',
+            'footerBottomText1': '&copy; 2025 ControlTech - Projeto SENAI. Todos os direitos reservados.',
+            'footerBottomText2': 'Desenvolvedores: Felipe Rossi, Victor Hugo, Eliezer, Eduardo, Guilherme.',
         },
         'en': {
+            // Configurações e Mensagens de Usuário
             'themeStatusLight': 'Light Theme',
             'themeStatusDark': 'Dark Theme',
             'langStatusPT': 'Português',
             'langStatusEN': 'English',
             'welcomeMessage': 'Hello,',
+            'defaultUserName': 'User',
+            'settingsPopupTitle': 'Settings',
+            'themeLabel': 'Toggle Theme:',
+            'langLabel': 'Toggle Language:',
+
+            // Navegação
+            'pageTitle': 'Tool Management - ControlTech',
+            'navAbout': 'Home',
+            'navTools': 'Tools',
+            'navReturn': 'Return',
+            'navHelp': 'Help',
+            'navHistory': 'History',
+            'navChatbot': 'ChatBot',
+            'navExit': 'Sign Out',
+            'navSettings': 'Settings',
+            'footerNavTitle': 'Navigation',
+            'footerTools': 'Tools',
+            'footerHistory': 'History',
+            'footerSupport': 'Support',
+
+            // Conteúdo Principal (Hero e Recursos)
+            'heroTitle': 'ControlTech: Efficient and Practical Management',
+            'heroSubtitle': 'A robust system for <strong>Component Management in your environment</strong>, ensuring every tool is where it should be.',
+            'heroCtaButton': 'Access Dashboard',
+            'sectionTitle1': 'Why is ControlTech Essential?',
+            'featureTitle1': 'Complete Traceability',
+            'featureText1': 'Know <strong>who took it</strong>, <strong>when they took it</strong>, and <strong>which tool</strong> is with each user in real-time.',
+            'featureTitle2': 'Precise Inventory',
+            'featureText2': 'Maintain digital stock control, eliminating material loss and misplacement.',
+            'featureTitle3': 'Individual Accountability',
+            'featureText3': 'The login requirement creates a transparent and secure borrowing record.',
+
+            // Equipe e Rodapé
+            'sectionTitle2': 'Team Members & Collaborators',
+            'sectionSubtitle2': 'Developed with passion and expertise by:',
+            'footerBrandingText': 'Intelligent Asset Management.',
+            'footerContactTitle': 'Contact',
+            'footerBottomText1': '&copy; 2025 ControlTech - SENAI Project. All rights reserved.',
+            'footerBottomText2': 'Developers: Felipe Rossi, Victor Hugo, Eliezer, Eduardo, Guilherme.',
         }
     };
 
@@ -42,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const themeStatusEl = document.getElementById('theme-status'); 
         const trans = translations[lang] || translations.pt;
         if (themeStatusEl && trans) { 
-            themeStatusEl.textContent = activeTheme === 'dark' ? (trans.themeStatusDark || 'Tema Escuro') : (trans.themeStatusLight || 'Tema Claro'); 
+            themeStatusEl.textContent = activeTheme === 'dark' ? (trans.themeStatusDark) : (trans.themeStatusLight); 
         }
     };
     
@@ -68,19 +148,59 @@ document.addEventListener('DOMContentLoaded', () => {
         updateThemeStatusText(theme, currentLang); 
         updateThemeToggleButtonVisuals(theme); 
     };
-    
+
     const loadTheme = () => { 
-        const savedTheme = localStorage.getItem('theme') || 'dark'; 
+        const savedTheme = localStorage.getItem('theme') || 'light'; 
         const currentLang = localStorage.getItem('lang') || 'pt'; 
         document.body.classList.toggle('dark-theme', savedTheme === 'dark'); 
         updateThemeStatusText(savedTheme, currentLang); 
         updateThemeToggleButtonVisuals(savedTheme); 
     };
 
-    // =======================================
-    // 3. CAPTURA E EXIBIÇÃO DO NOME (CHAVE: 'usuarioLogado')
-    // =======================================
-    
+    // NOVO: Função para aplicar todas as traduções usando o atributo data-i18n
+    const applyTranslations = (lang) => {
+        const trans = translations[lang] || translations.pt;
+        
+        // 1. Atualiza o atributo lang no <html>
+        document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en-US'; 
+
+        // 2. Atualiza elementos com data-i18n
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            if (key && trans[key]) {
+                if (element.tagName === 'TITLE') {
+                    element.textContent = trans[key];
+                } else if (element.id === 'hero-cta-button') {
+                    // Trata o botão CTA para incluir o ícone
+                    element.innerHTML = trans[key] + ' <i class="fas fa-arrow-right"></i>';
+                } else if (element.parentElement.tagName === 'LI' && element.tagName === 'A') {
+                    // Trata links do rodapé
+                    element.textContent = trans[key];
+                } else {
+                     // Usa innerHTML para manter tags como <strong> dentro das strings
+                     element.innerHTML = trans[key];
+                }
+            }
+        });
+        
+        // 3. Atualiza os links de navegação da Sidebar (por ID)
+        // Isso garante que os SPANs dentro dos links sejam atualizados
+        document.getElementById('nav-about').querySelector('span').textContent = trans.navAbout;
+        document.getElementById('nav-tools').querySelector('span').textContent = trans.navTools;
+        document.getElementById('nav-return').querySelector('span').textContent = trans.navReturn;
+        document.getElementById('nav-help').querySelector('span').textContent = trans.navHelp;
+        document.getElementById('nav-history').querySelector('span').textContent = trans.navHistory;
+        document.getElementById('nav-chatbot').querySelector('span').textContent = trans.navChatbot;
+        document.getElementById('nav-exit').querySelector('span').textContent = trans.navExit;
+        document.getElementById('settings-btn').querySelector('span').textContent = trans.navSettings;
+        
+        // 4. Garante que os status de tema e idioma estejam corretos após a troca de idioma
+        const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+        updateThemeStatusText(currentTheme, lang);
+        updateLanguageStatusText(lang); 
+    };
+
+
     function displayUserName(lang) { 
         const trans = translations[lang] || translations.pt;
         let userInfo = null; 
@@ -92,24 +212,19 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Erro ao ler usuarioLogado:", e); 
         } 
         
-        const defaultUserName = (lang === 'pt' ? 'Usuário' : 'User'); 
+        const defaultUserName = trans.defaultUserName; 
         const nomeCompleto = (userInfo && userInfo.nome) ? userInfo.nome : defaultUserName;
         const firstName = nomeCompleto.split(' ')[0];
         
-        // 1. Atualiza Sidebar
+        // Atualiza Sidebar
         if (welcomeMessageElement) {
-            welcomeMessageElement.textContent = trans.welcomeMessage || (lang === 'pt' ? 'Olá,' : 'Hello,');
+            welcomeMessageElement.textContent = trans.welcomeMessage;
         }
         if (userNameElement) {
             userNameElement.textContent = firstName;
         } 
         
-        // 2. Atualiza Header Principal 
-        const headerTitle = document.getElementById('header-title');
-        if (headerTitle) {
-            const saudacao = trans.welcomeMessage.replace(',', ''); 
-            headerTitle.textContent = `${saudacao} ${firstName} à ControlTech`;
-        }
+        // Remove a lógica de atualizar o H1, pois a saudação do nome é na sidebar.
     };
 
     // =======================================
@@ -118,29 +233,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const updateLanguageStatusText = (activeLang) => { 
         const langStatusEl = document.getElementById('lang-status'); 
-        const langToggleBtn = document.getElementById('lang-toggle-btn');
+        const langToggleBtnSpan = document.querySelector('#lang-toggle-btn span');
         const trans = translations[activeLang] || translations.pt;
 
-        if (langToggleBtn) langToggleBtn.textContent = activeLang.toUpperCase(); 
+        if (langToggleBtnSpan) langToggleBtnSpan.textContent = activeLang.toUpperCase(); 
         
         if (langStatusEl) { 
             langStatusEl.textContent = activeLang === 'pt' 
-                ? (trans.langStatusPT || 'Português') 
-                : (trans.langStatusEN || 'English'); 
+                ? (trans.langStatusPT) 
+                : (trans.langStatusEN); 
         }
     };
     
     const saveLanguage = (lang) => { 
         localStorage.setItem('lang', lang); 
-        updateLanguageStatusText(lang);
+        applyTranslations(lang); // Aplica a tradução após salvar o idioma
         displayUserName(lang);
-        const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-        updateThemeStatusText(currentTheme, lang); 
     };
 
     const loadLanguage = () => { 
         const savedLang = localStorage.getItem('lang') || 'pt'; 
-        updateLanguageStatusText(savedLang); 
+        applyTranslations(savedLang); // Aplica a tradução ao carregar a página
         displayUserName(savedLang); 
     };
 
@@ -226,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '.hero-section .fade-in-up, ' + 
         '.hero-section .slide-in-left, ' + 
         '.hero-section .slide-in-right, ' + 
-        '.cta-standalone-container .fade-in-up' // Inclui o novo botão
+        '.cta-standalone-container .fade-in-up'
     );
     
     // Força a exibição imediata dos elementos da Seção Hero

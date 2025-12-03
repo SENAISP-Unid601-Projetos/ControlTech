@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Histórico | SENAI ControlTech</title>
+    <title id="page-title">Histórico - ControlTech</title>
     
     <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="../CSS/Historico.css"> 
     
-    <script src="../JS/Historico.js" defer></script>
+    <script type="module" src="../JS/Historico.js" defer></script>
 </head>
 <body>
     <div class="dashboard-container">
@@ -19,21 +19,21 @@
             <i class="fas fa-bars"></i>
         </button>
 
-                <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-        <h2>ControlTech</h2>
-    </div>
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>ControlTech</h2>
+            </div>
 
-    <div class="user-profile">
-        <i class="fas fa-user-circle"></i>
-        <div class="user-details">
-            <span id="welcome-message">Olá,</span> <h4 id="user-name">Usuário</h4>
-        </div>
-    </div>
-
-    <nav class="sidebar-nav">
-
-                <a href="LandingPage.html" class="active" id="nav-about">
+            <div class="user-profile">
+                <i class="fas fa-user-circle"></i>
+                <div class="user-details">
+                    <span id="welcome-message">Olá,</span> 
+                    <h4 id="user-name">Usuário</h4>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="LandingPage.html" id="nav-about">
                     <i class="fas fa-home"></i> 
                     <span>Início</span>
                 </a>
@@ -49,7 +49,7 @@
                     <i class="fas fa-question-circle"></i>
                     <span>Ajuda</span>
                 </a>
-                <a href="Historico.html" id="nav-history">
+                <a href="Historico.html" class="active" id="nav-history">
                     <i class="fas fa-history"></i>
                     <span>Histórico</span>
                 </a>
@@ -69,7 +69,7 @@
                     <span>Configurações</span>
                 </a>
             </nav>
-</aside>
+        </aside>
 
         <main class="main-content">
             <div class="main-header">

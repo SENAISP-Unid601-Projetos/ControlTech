@@ -2,10 +2,12 @@
 const translations = {
     'pt': {
         'pageTitle': 'Ajuda - SENAI ControlTech',
+        'sidebarAbout': 'Início', 
         'sidebarTools': 'Ferramentas',
         'sidebarReturn': 'Devolver',
         'sidebarHelp': 'Ajuda',
         'sidebarHistory': 'Histórico',
+        'sidebarChatBot': 'ChatBot', 
         'sidebarExit': 'Sair',
         'sidebarSettings': 'Configurações',
         'headerTitle': 'Central de Ajuda',
@@ -38,10 +40,12 @@ const translations = {
     },
     'en': {
         'pageTitle': 'Help - SENAI ControlTech',
+        'sidebarAbout': 'Home', 
         'sidebarTools': 'Tools',
         'sidebarReturn': 'Return',
         'sidebarHelp': 'Help',
         'sidebarHistory': 'History',
+        'sidebarChatBot': 'ChatBot', 
         'sidebarExit': 'Exit',
         'sidebarSettings': 'Settings',
         'headerTitle': 'Help Center',
@@ -101,11 +105,12 @@ const updateTranslations = (lang) => {
     };
 
 
-    // Barra lateral
+    setSpanText('nav-about', 'sidebarAbout'); // NOVO: Início
     setSpanText('nav-tools', 'sidebarTools');
     setSpanText('nav-return', 'sidebarReturn');
     setSpanText('nav-help', 'sidebarHelp');
     setSpanText('nav-history', 'sidebarHistory');
+    setSpanText('nav-chatbot', 'sidebarChatBot'); // NOVO: ChatBot
     setSpanText('nav-exit', 'sidebarExit');
     setSpanText('settings-btn', 'sidebarSettings');
 

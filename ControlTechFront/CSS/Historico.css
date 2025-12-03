@@ -226,7 +226,7 @@ body {
 }
 
 /* === ESTILOS DO POPUP DE CONFIGURAÇÕES === */
-.theme-popup { position: fixed; bottom: 20px; left: 20px; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); width: 280px; padding: 1rem; z-index: 101; opacity: 0; visibility: hidden; transform: translateY(20px); transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s; text-align: center; }
+.theme-popup { position: fixed; bottom: 20px; left: 20px; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); width: 280px; padding: 1rem; z-index: 2000; opacity: 0; visibility: hidden; transform: translateY(20px); transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s; text-align: center; }
 .theme-popup.visible { opacity: 1; visibility: visible; transform: translateY(0); transition-delay: 0s; }
 .popup-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; transition: border-color 0.3s; }
 .popup-header h4 { margin: 0; color: #004b8d; transition: color 0.3s; }
@@ -246,6 +246,7 @@ body {
 
 
 
+/* Substitua a parte responsiva no final do arquivo por isto: */
 @media (max-width: 768px) {
     .dashboard-container {
         display: block; 
@@ -254,35 +255,35 @@ body {
     .sidebar {
         position: fixed;
         top: 0;
-        left: -250px;
+        left: -300px;
         height: 100vh;
-        width: 250px;
+        width: 298px;
         padding: 2rem 1.5rem;
         transition: left 0.3s ease-in-out;
-        z-index: 100;
+        z-index: 2000;
         box-shadow: 2px 0 5px rgba(0,0,0,0.5);
     }   
     .sidebar.active {
-        left: 0; /* Mostra */
-    }
-    
-    .hamburger-btn {
-        display: block;
-        top: 15px;
-        left: 15px;
+        left: 0;
     }
     
     .user-profile { 
         display: none;
     }
     
-    /* Ajusta padding do conteúdo principal para o hamburger */
+    .hamburger-btn {
+        display: block !important;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 2001;
+    }
+    
     .main-content {
-        padding: 1rem; /* Padding base */
-        padding-top: 5.5rem; /* Espaço para o hamburger fixo + header (se necessário) */
+        padding: 1rem;
+        padding-top: 5.5rem;
     }
 
-    /* Ajusta o header principal */
     .main-header {
         flex-direction: column;
         align-items: flex-start;
@@ -290,31 +291,28 @@ body {
         margin-top: 0;
         margin-bottom: 1rem;
     }
-    .main-header h1 {
-        font-size: 1.5rem;
-        margin-bottom: 0.5rem;
-    }
+    
     .main-header div {
-        display: flex; /* Garante que os botões fiquem lado a lado */
+        display: flex;
         width: 100%;
-        justify-content: space-around;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 10px;
     }
+    
     .select-btn {
         flex-grow: 1;
-        margin: 0 5px;
-        font-size: 0.9rem;
+        margin: 0;
     }
 
-    /* Uma coluna em mobile para os cards */
     .historico-grid {
         grid-template-columns: 1fr; 
         gap: 1rem;
     }
     
-    /* Reposiciona o popup de configurações para não colidir com o hamburger */
     .theme-popup {
         left: auto; 
-        right: 20px;
+        right: 30px;
     }   
 }
 

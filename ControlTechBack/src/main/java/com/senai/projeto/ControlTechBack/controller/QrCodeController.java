@@ -11,11 +11,11 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.Base64;
+// Importação necessária para Map.of()
+import java.util.Map;
 
+@CrossOrigin(origins = {"https://control-tech-six.vercel.app", "http://localhost:8080"})
 @RestController
 @RequestMapping("/api/qrcode")
 public class QrCodeController {
@@ -23,26 +23,36 @@ public class QrCodeController {
     @Autowired
     UsuarioService usuarioService;
 
-    // ✅ GERAR QR CODE DO USUÁRIO
-    @GetMapping("/{id}/qrcode")
-    public ResponseEntity<byte[]> gerarQrCodeDoUsuario(@PathVariable Long id) {
+    // ... (Métodos existentes: gerarQrCodeDoUsuario) ...
+
+    // ✅ NOVO ENDPOINT (CORREÇÃO): Apenas decodifica o QR Code (para uso no Cadastro)
+    @PostMapping("/decode")
+    public ResponseEntity<?> decodificarQrCode(@RequestParam("file") MultipartFile file) {
         try {
-            UsuarioOutputDTO usuario = usuarioService.buscarPorId(id);
+            System.out.println("📂 Recebi arquivo para decodificação: " + file.getOriginalFilename());
 
-            String textoQr = String.valueOf(usuario.getId()); // só o ID no QR
-            byte[] imagemQr = QRCodeGenerator.gerarQRCodeBytes(textoQr, 400, 400);
+            // Salva o arquivo temporariamente
+            File tempFile = File.createTempFile("qrcode_temp", ".png");
+            file.transferTo(tempFile);
 
-            return ResponseEntity.ok()
-                    .header("Content-Type", "image/png")
-                    .body(imagemQr);
+            // Lê o conteúdo
+            String conteudo = QRCodeReader.lerQRCode(tempFile.getAbsolutePath()).trim();
+            System.out.println("🔍 Conteúdo decodificado: [" + conteudo + "]");
+
+            // Limpa o arquivo
+            tempFile.delete();
+
+            // Retorna apenas o texto lido em um JSON simples: {"qrCode": "TEXTO_LIDO"}
+            return ResponseEntity.ok(Map.of("qrCode", conteudo)); // Adaptação para o frontend
 
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("❌ Erro ao decodificar QR Code: " + e.getMessage());
         }
     }
 
-    // ✅ LER QR CODE (usando o endpoint /ler)
+    // ✅ LER QR CODE (endpoint original, mantido para buscar usuário)
     @PostMapping("/ler")
     public ResponseEntity<?> lerQrCode(@RequestParam("file") MultipartFile file) {
         try {
@@ -88,83 +98,5 @@ public class QrCodeController {
                     .body("❌ Erro ao processar QR Code: " + e.getMessage());
         }
     }
-
-    @PostMapping(value = "/ler-e-criar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> lerEcriarUsuario(
-            @RequestParam("file") MultipartFile file,
-            @RequestPart("usuario") UsuarioInputDTO dto // JSON com nome, perfil, descricao
-    ) {
-        try {
-            if (file.isEmpty()) {
-                return ResponseEntity.badRequest().body("Nenhum arquivo enviado");
-            }
-
-            // Salva temporariamente
-            File tempFile = File.createTempFile("qrcode", ".png");
-            file.transferTo(tempFile);
-
-            // Lê o QR Code
-            String qrCode = QRCodeReader.lerQRCode(tempFile.getAbsolutePath()).trim();
-
-            // Cria o usuário com QR Code + dados do JSON
-            UsuarioOutputDTO criado = usuarioService.criar(qrCode, dto);
-
-            // Limpa arquivo temporário
-            tempFile.delete();
-
-            return ResponseEntity.ok(criado);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().body("Erro ao processar QR Code: " + e.getMessage());
-        }
-    }
-
-
-    // ✅ Método alternativo usando arquivo temporário (mantido para compatibilidade)
-    @PostMapping("/ler-temp")
-    public ResponseEntity<UsuarioOutputDTO> lerQrCodeComArquivoTemp(@RequestParam("file") MultipartFile file) {
-        try {
-            // Salva o arquivo temporariamente
-            File tempFile = File.createTempFile("qrcode", ".png");
-            file.transferTo(tempFile);
-
-            // Lê o conteúdo do QR Code
-            String conteudo = QRCodeReader.lerQRCode(tempFile.getAbsolutePath());
-            System.out.println("Conteúdo lido: " + conteudo);
-
-            // Aqui o conteúdo é só o ID
-            Long id = Long.parseLong(conteudo.trim());
-
-            // Busca o usuário pelo ID
-            UsuarioOutputDTO usuario = usuarioService.buscarPorId(id);
-
-            // Limpa arquivo temporário
-            tempFile.delete();
-
-            return ResponseEntity.ok(usuario);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> excluirUsuario(@PathVariable Long id) {
-        try {
-            boolean existe = usuarioService.existePorId(id);
-            if (!existe) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("❌ Usuário não encontrado com ID: " + id);
-            }
-
-            usuarioService.excluir(id); // chama o método do service
-            return ResponseEntity.ok("✅ Usuário excluído com sucesso: ID " + id);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("❌ Erro ao excluir usuário: " + e.getMessage());
-        }
-    }
+    // ... (Outros métodos) ...
 }

@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title id="page-title">Detalhes da Ferramenta | SENAI ControlTech</title>
-
+    <title id="page-title">Detalhes da Ferramenta - SENAI ControlTech</title>
     <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
@@ -12,29 +11,19 @@
 </head>
 <body>
     <div class="dashboard-container">
-        <button class="hamburger-btn" id="hamburger-btn">
-            <i class="fas fa-bars"></i>
-        </button>
-
+        <button class="hamburger-btn" id="hamburger-btn"><i class="fas fa-bars"></i></button>
         <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-        <h2>ControlTech</h2>
-    </div>
-
-    <div class="user-profile">
-        <i class="fas fa-user-circle"></i>
-        <div class="user-details">
-            <span id="welcome-message">Olá,</span> <h4 id="user-name">Usuário</h4>
-        </div>
-    </div>
-
-    <nav class="sidebar-nav">
-
-                <a href="LandingPage.html" class="active" id="nav-about">
+            <div class="sidebar-header"><h2>ControlTech</h2></div>
+            <div class="user-profile">
+                <i class="fas fa-user-circle"></i>
+                <div class="user-details"><span id="welcome-message">Olá,</span> <h4 id="user-name">Usuário</h4></div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="LandingPage.html" id="nav-about">
                     <i class="fas fa-home"></i> 
                     <span>Início</span>
                 </a>
-                <a href="Ferramentas.html" id="nav-tools">
+                <a href="Ferramentas.html" class="active" id="nav-tools">
                     <i class="fas fa-tools"></i>
                     <span>Ferramentas</span>
                 </a>
@@ -66,33 +55,24 @@
                     <span>Configurações</span>
                 </a>
             </nav>
-</aside>
+        </aside>
 
         <main class="main-content">
             <div class="container">
                 <h1 id="toolNome">Carregando...</h1>
-                <p><strong>ID:</strong> <span id="toolId">-</span></p>
-                <p id="label-descricao"><strong>Descrição:</strong> <span id="toolDescricao">-</span></p>
-                <p id="label-estoque"><strong>Estoque:</strong> <span id="toolEstoque">-</span></p>
-
-                <div class="image-container">
+                    <p><strong>ID:</strong> <span id="toolId">-</span></p>
+                    <p id="label-descricao"><strong>Descrição:</strong> <span id="toolDescricao">-</span></p>
+                    <p id="label-patrimonio"><strong>Patrimônio:</strong> <span id="toolPatrimonio">-</span></p> 
+                    <div class="image-container">
                     <img id="toolImage" src="/img/tools.png" alt="Imagem da Ferramenta" onerror="this.onerror=null; this.src='/img/tools.png';"/>
                 </div>
-                
                 <p id="statusMsg"></p>
-
                 <p id="time-elapsed" class="time-info hidden">
-                    <i class="fas fa-clock"></i> 
-                    <strong id="time-elapsed-label">Tempo em Uso:</strong> 
-                    <span id="chronometer-display">--:--:--</span>
+                    <i class="fas fa-clock"></i> <strong id="time-elapsed-label">Tempo em Uso:</strong> <span id="chronometer-display">--:--:--</span>
                 </p>
                 <div class="botoes-container">
-                    <a href="/HTML/Ferramentas.html" class="btn-voltar">
-                        <i class="fas fa-arrow-left"></i> <span id="btn-voltar-text">Voltar</span>
-                    </a>
-                    <button id="btnAssociar" class="btn-principal">
-                        <i class="fas fa-link"></i> <span id="btn-associar-text">Associar ao meu usuário</span>
-                    </button>
+                    <a href="/HTML/Ferramentas.html" class="btn-voltar"><i class="fas fa-arrow-left"></i> <span id="btn-voltar-text">Voltar</span></a>
+                    <button id="btnAssociar" class="btn-principal"><i class="fas fa-link"></i> <span id="btn-associar-text">Associar ao meu usuário</span></button>
                 </div>
             </div>
         </main>
@@ -106,30 +86,21 @@
     </div>
 
     <div class="theme-popup" id="theme-popup"> 
-        <div class="popup-header">
-            <h4 id="settings-popup-title">Configurações</h4> 
-            <button class="close-btn" id="close-popup-btn">&times;</button>
-        </div>
+        <div class="popup-header"><h4 id="settings-popup-title">Configurações</h4> <button class="close-btn" id="close-popup-btn">&times;</button></div>
         <div class="popup-content-config">
             <div class="config-section">
                 <p class="config-label" id="theme-label">Alternar Tema:</p> 
-                <button id="theme-toggle-btn" class="theme-toggle-btn">
-                    <i class="fas fa-sun"></i>
-                    <i class="fas fa-moon"></i>
-                </button>
+                <button id="theme-toggle-btn" class="theme-toggle-btn"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></button>
                 <p class="theme-status" id="theme-status">Tema Claro</p> 
             </div>
             <div class="divider"></div>
             <div class="config-section">
                 <p class="config-label" id="lang-label">Alternar Idioma:</p> 
-                <button id="lang-toggle-btn" class="lang-toggle-btn">
-                    <span>PT</span>
-                </button>
+                <button id="lang-toggle-btn" class="lang-toggle-btn"><span>PT</span></button>
                 <p class="lang-status" id="lang-status">Português</p> 
             </div>
         </div>
     </div>
-    
-    <script src="../JS/FerramentaUni.js"></script>
+    <script type="module" src="../JS/FerramentaUni.js"></script>
 </body>
 </html>

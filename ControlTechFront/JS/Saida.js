@@ -1,11 +1,13 @@
 // Dicionário de traduções
 const translations = {
     'pt': {
-        'pageTitle': 'Registro de Saída - SENAI ControlTech',
+        'pageTitle': 'Saída - SENAI ControlTech', // Título ajustado para refletir a página
+        'sidebarAbout': 'Início', 
         'sidebarTools': 'Ferramentas',
         'sidebarReturn': 'Devolver',
         'sidebarHelp': 'Ajuda',
         'sidebarHistory': 'Histórico',
+        'sidebarChatBot': 'ChatBot', 
         'sidebarExit': 'Sair',
         'sidebarSettings': 'Configurações',
         'saidaTitle': 'Aproxime seu crachá',
@@ -13,10 +15,10 @@ const translations = {
         'inputPlaceholder': 'Número do crachá (auto preenchido)',
         'placeholderText': 'Aguardando leitura do crachá...',
         'confirmBtnText': 'Confirmar Saída',
-        'confirmingBtnText': 'Confirmando...', // Novo
+        'confirmingBtnText': 'Confirmando...',
         'successSaida': '✅ Saída registrada com sucesso para',
-        'userNotFound': '❌ Erro: Usuário não encontrado no sistema.', // Não usado diretamente, mas pode ser útil
-        'alreadyExited': '❌ Você já registrou sua saída hoje.', // Chave mantida (embora não usada na nova lógica)
+        'userNotFound': '❌ Erro: Usuário não encontrado no sistema.',
+        'alreadyExited': '❌ Você já registrou sua saída hoje.',
         'errorSaida': '❌ Erro ao registrar saída. Tente novamente.',
         'settingsPopupTitle': 'Configurações',
         'themeLabel': 'Alternar Tema:',
@@ -26,14 +28,17 @@ const translations = {
         'langStatusPT': 'Português',
         'langStatusEN': 'Inglês',
         'notLoggedError': 'Usuário não logado. Redirecionando para a página de login...',
-        'welcomeMessage': 'Olá,'
+        'welcomeMessage': 'Olá,',
+        'labelTurma': 'Turma:', // <-- NOVO CAMPO DE TRADUÇÃO
     },
     'en': {
-        'pageTitle': 'Exit Registration - SENAI ControlTech',
+        'pageTitle': 'Exit - SENAI ControlTech', // Título ajustado para refletir a página
+        'sidebarAbout': 'Home', 
         'sidebarTools': 'Tools',
         'sidebarReturn': 'Return',
         'sidebarHelp': 'Help',
         'sidebarHistory': 'History',
+        'sidebarChatBot': 'ChatBot', 
         'sidebarExit': 'Exit',
         'sidebarSettings': 'Settings',
         'saidaTitle': 'Approach your badge',
@@ -41,9 +46,9 @@ const translations = {
         'inputPlaceholder': 'Badge number (auto-filled)',
         'placeholderText': 'Awaiting badge scan...',
         'confirmBtnText': 'Confirm Exit',
-        'confirmingBtnText': 'Confirming...', // New
+        'confirmingBtnText': 'Confirming...',
         'successSaida': '✅ Exit successfully registered for',
-        'userNotFound': '❌ Error: User not found in the system.', // Not used directly
+        'userNotFound': '❌ Error: User not found in the system.',
         'alreadyExited': '❌ You have already registered your exit today.',
         'errorSaida': '❌ Error registering exit. Please try again.',
         'settingsPopupTitle': 'Settings',
@@ -54,12 +59,13 @@ const translations = {
         'langStatusPT': 'Portuguese',
         'langStatusEN': 'English',
         'notLoggedError': 'User not logged in. Redirecting to login page...',
-        'welcomeMessage': 'Hello,'
+        'welcomeMessage': 'Hello,',
+        'labelTurma': 'Class:', // <-- NOVO CAMPO DE TRADUÇÃO
     }
 };
 
 // --- FUNÇÕES DE LÓGICA DE TEMA E IDIOMA ---
-// (Estas funções estão corretas e foram mantidas)
+// (Funções de tema/idioma e displayUserName omitidas para brevidade, mas estão no arquivo original)
 const updateTranslations = (lang) => {
     const currentLang = translations[lang] ? lang : 'pt';
     const trans = translations[currentLang];
@@ -113,6 +119,7 @@ const loadLanguage = () => { const sl = localStorage.getItem('lang') || 'pt'; up
 const updateLanguageStatusText = (al) => { const lts = document.getElementById('lang-toggle-btn')?.querySelector('span'); const ls = document.getElementById('lang-status'); if (lts) lts.textContent = al.toUpperCase(); if (ls) { const tp = translations.pt; const te = translations.en; if (tp && te) ls.textContent = al === 'pt' ? (tp.langStatusPT || 'PT') : (te.langStatusEN || 'EN'); }};
 function displayUserName(lang) { const wm = document.getElementById('welcome-message'); const une = document.getElementById('user-name'); const tr = translations[lang]; let ui = null; try { const su = localStorage.getItem('usuarioLogado'); if (su) ui = JSON.parse(su); } catch (e) { console.error(e); } if (wm && une && tr) { const du = (lang === 'pt' ? 'Usuário' : 'User'); wm.textContent = tr.welcomeMessage || '?'; une.textContent = (ui && ui.nome) ? ui.nome : du; }};
 
+
 // --- LÓGICA ORIGINAL DA PÁGINA (PRESERVADA E INTEGRADA) ---
 
 // Função para exibir notificações (mantida)
@@ -149,21 +156,24 @@ function updateTime() {
 }
 
 
-// Exibe os dados do usuário no card (mantida)
+// Exibe os dados do usuário no card (CORRIGIDO)
 function displayUserData(user) {
     const infoCard = document.getElementById('dadosAluno');
     const placeholder = document.getElementById('placeholder-container');
     const confirmarBtn = document.getElementById('confirmarBtn');
     const crachaInput = document.getElementById('crachaInput');
     const scannerAnimation = document.getElementById('scannerAnimation');
+    
+    // NOVO: Captura a linguagem para tradução do label
+    const lang = localStorage.getItem('lang') || 'pt'; 
+    const trans = translations[lang];
 
     if (!infoCard || !placeholder || !confirmarBtn || !crachaInput || !scannerAnimation) return;
 
     infoCard.innerHTML = `
         <h3 style="color: #004b8d; margin-bottom: 0.5rem;">${user.nome || 'N/A'}</h3>
         <p><strong>ID:</strong> ${user.id || 'N/A'}</p>
-        <p><strong>Perfil:</strong> ${user.perfil || 'N/A'}</p>
-        `;
+        <p><strong>${trans.labelTurma}</strong> ${user.turma || 'N/A'}</p> `;
     placeholder.style.display = 'none';
     infoCard.style.display = 'block';
     confirmarBtn.disabled = false;
@@ -285,4 +295,4 @@ document.addEventListener("DOMContentLoaded", () => {
         saveLanguage(currentLang === 'pt' ? 'en' : 'pt');
     });
 
-}); // Fim do DOMContentLoaded
+}); 

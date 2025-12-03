@@ -18,20 +18,15 @@ body {
     min-height: 100vh;
 }
 
-/* ======================================= */
-/* 2. Barra Lateral (Sidebar) e Navegação */
-/* ======================================= */
 
 .sidebar {
-    /* PROPRIEDADES PARA FIXAR A BARRA LATERAL: */
     position: fixed; 
     top: 0; 
     left: 0; 
-    height: 100vh; 
+    height: 110vh; 
     z-index: 100; 
-    
-    /* Demais estilos */
-    width: 250px; /* FIXO: 250px */
+    overflow-y: auto; 
+    width: 250px; 
     background-color: #004b8d;
     color: white;
     padding: 2rem 1.5rem;
@@ -158,8 +153,8 @@ body {
 }
 
 .main-header {
-    /* COR DE FUNDO AZUL CLARO SUAVE REFORÇADA */
-    background-color: #e3f2fd; 
+    /* CORREÇÃO: Cor de fundo mais suave no light theme */
+    background-color: #f6f9fc; 
     padding: 1rem 2rem; 
     border-radius: 0 0 12px 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
@@ -180,13 +175,15 @@ body {
 .header-logo-title {
     display: flex;
     align-items: center;
+    padding: 2em;
 }
 
 .main-header h1 {
     /* MANTIDO: Fonte responsiva para o título do Header */
     font-size: clamp(1.2rem, 2.5vw, 1.8rem); 
     color: #004b8d;
-    margin: 25px; 
+    /* CORREÇÃO: Remove margem de 25px, deixando 0 para melhor controle em layouts flex */
+    margin: 0; 
     font-weight: 900; 
     transition: color 0.3s; 
 }
@@ -484,8 +481,7 @@ body.dark-theme .features-section {
 }
 body.dark-theme .feature-card {
     background: #1f1f1f;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid #333;
+    border: 4px solid #333;
 }
 body.dark-theme .feature-card i {
     color: #007bff; /* Ícones em azul */
@@ -500,7 +496,6 @@ body.dark-theme .hover-border-glow {
     border-top: 5px solid #0056a0;
 }
 body.dark-theme .hover-border-glow:hover {
-     box-shadow: 0 10px 40px rgba(0, 97, 192, 0.6); 
      border-top: 5px solid #ff9800;
 }
 
@@ -534,18 +529,13 @@ body.dark-theme .footer-bottom {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-
-/* ======================================= */
-/* 8. Estilos e Efeitos da Landing Page    */
-/* ======================================= */
-
 .landing-page-container {
     overflow-x: hidden;
     background-color: #f0f2f5;
     transition: background-color 0.3s;
 }
 
-/* --- 8.1. Seção Hero (Fundo Animado e Fontes Responsivas) --- */
+
 .hero-section {
     position: relative;
     height: 80vh; 
@@ -644,39 +634,36 @@ body.dark-theme .cta-standalone-container {
     margin: 0 auto;
 }
 .feature-card {
-    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s, border-color 0.3s, border-top-color 0.4s;
+    border: 4px solid #d3e0f0; 
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 /* Para o texto do card (parágrafos dentro de .tool-card) */
 .tool-card p {
     /* RESPONSIVO: Tamanho Mínimo: 0.85rem | Ideal: 1.1vw | Máximo: 1rem */
     font-size: clamp(0.85rem, 1.1vw, 1rem); 
 }
-.shadow-pop {
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
-}
+
 
 /* Efeito Destaque da Borda no Hover */
 .hover-border-glow {
     position: relative;
     overflow: hidden;
-    border-top: 5px solid #0061c0;
+    border-top: 8px solid #0061c0; 
 }
 .hover-border-glow:hover {
-    border-top: 5px solid #ff9800; /* Muda a cor da borda ao passar o mouse */
-    box-shadow: 0 10px 40px rgba(0, 97, 192, 0.4); /* Efeito de brilho azul */
-    transform: translateY(-5px);
+    border-top: 8px solid #ff9800; 
+    transform: translateY(-10px) scale(1.01);
+    transition: 0.8s;
 }
 
-
-/* --- 8.3. Seção da Equipe (Team) - FLEX e CENTRALIZADA */
 .team-section {
     padding: 5rem 2rem;
     text-align: center;
-    background-color: #e6e6e6; 
+    /* CORREÇÃO: Fundo suave (#f3f3f3) */
+    background-color: #f3f3f3; 
 }
 .team-grid.flex-centered {
     display: flex;
-    flex-direction: row; 
     justify-content: center; 
     flex-wrap: wrap; 
     gap: 2rem;
@@ -687,6 +674,8 @@ body.dark-theme .cta-standalone-container {
     padding: 1.5rem;
     background: white;
     border-radius: 12px;
+    /* CORREÇÃO ESTÉTICA: Borda mais visível e suave */
+    border: 1px solid #d3e0f0; 
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     width: 150px;
     display: flex; 
@@ -698,6 +687,20 @@ body.dark-theme .cta-standalone-container {
     font-size: 2.5rem;
     color: #004b8d;
     margin-bottom: 0.5rem;
+}
+.team-member-link {
+    text-decoration: none; 
+    color: inherit; 
+}
+
+.team-member-link:hover .team-member {
+    cursor: pointer;
+}
+
+.team-member-link .perfis {
+    text-decoration: none;
+    color: inherit; 
+    font-weight: bold;
 }
 .float-effect {
     animation: float 4s ease-in-out infinite;
@@ -784,7 +787,9 @@ body.dark-theme .cta-standalone-container {
     transform: translateX(-50px);
 }
 .slide-in-right {
+    opacity: 0;
     transform: translateX(50px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 .delay-100 { transition-delay: 0.1s; }
 .delay-200 { transition-delay: 0.2s; }
@@ -798,74 +803,155 @@ body.dark-theme .cta-standalone-container {
     transform: translate(0, 0); /* Volta para a posição original */
 }
 
-
 /* ======================================= */
 /* 9. Responsividade (Mobile) */
 /* ======================================= */
 
-@media (max-width: 768px) {
-    .dashboard-container {
-        flex-direction: column;
-    }
+@media (max-width: 1024px) {
 
-    .sidebar {
-        /* No mobile, voltamos a barra para fora da tela (left: -300px) */
-        position: fixed;
-        top: 0;
-        left: -300px;
-        height: 100vh;
-        z-index: 100;
-        box-shadow: 2px 0 5px rgba(0,0,0,0.5);
-    }
-    .sidebar.active {
-        left: 0;
-    }
-    .user-profile { 
-        display: none;
-    }
+ .sidebar {
+ width: 220px; 
+ }
 
-    .main-content {
-        padding: 4rem 0 0 0; 
-        /* Zera a margem no mobile */
-        margin-left: 0; 
+ .main-content {
+margin-left: 220px; 
+ }
+    
+    /* Ajustes para evitar o esmagamento do Hero e seções */
+    .hero-section {
+        /* Garante que o padding interno não cause quebra em 1024px */
+        padding: 2rem 1.5rem; 
     }
-
-    .main-header {
-        padding: 1rem;
-        border-radius: 0;
-        /* Em mobile, centraliza o título e tira as ações laterais */
-        justify-content: center;
-    }
-    .header-actions {
-        display: none;
-    }
-
-    .hamburger-btn {
-        display: block; /* Garante que ele apareça apenas no Mobile */
-    }
-
-    /* Otimização de fontes para mobile (O CLAMP já está fazendo o trabalho) */
+    
     .features-section, .team-section {
-        padding: 3rem 1rem;
+        /* Ajusta o padding horizontal para centralizar e dar espaço */
+        padding-left: 1.5rem; 
+        padding-right: 1.5rem; 
     }
-    .features-grid {
-        gap: 1rem;
+    
+    .main-footer {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
     }
-    .team-grid {
-        gap: 1.5rem;
-    }
-    /* Mobile Footer */
-    .footer-content {
-        justify-content: flex-start;
-        flex-direction: column;
-        text-align: center;
-        gap: 2rem;
-    }
-    .footer-links h4, .footer-contact h4 {
-        text-align: center;
-        border-bottom: none;
-    }
-    .footer-contact p {
-        justify-content: center;
-    }
+}
+
+
+/* Responsividade para Mobile (max-width: 768px) - Off-Canvas */
+@media (max-width: 768px) {
+ .dashboard-container {
+ flex-direction: column;
+ }
+
+ .sidebar {
+position: fixed;
+ top: 0;
+ left: -300px;
+ height: 100vh;
+ width: 250px; /* Mantém a largura maior para o menu off-canvas */
+ z-index: 100;
+ box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+ }
+ .sidebar.active {
+ left: 0;
+ }
+ .user-profile { 
+ display: none;
+ }
+
+ .main-content {
+ padding: 4rem 0 0 0; 
+ margin-left: 0; 
+ }
+
+ .main-header {
+ padding: 1rem;
+ border-radius: 0;
+ justify-content: center;
+ }
+ .header-actions {
+display: none;
+ }
+
+ .hamburger-btn {
+ display: block;  }
+
+
+.features-section, .team-section {
+ padding: 3rem 1rem;
+ }
+ .features-grid {
+gap: 1rem;
+ }
+ .team-grid {
+ gap: 1.5rem;
+ }
+ .footer-content {
+ justify-content: flex-start;
+ flex-direction: column;
+ text-align: center;
+ gap: 2rem;
+ }
+ .footer-links h4, .footer-contact h4 {
+ text-align: center;
+ border-bottom: none;
+ }
+ .footer-contact p {
+ justify-content: center;
+ }
+}
+
+.perfis {
+ text-decoration: none;
+ color: #0061c0;
+}
+.scroll-indicator {
+ position: absolute;
+ bottom: 30px; /* Posição fixa no rodapé do hero */
+ left: 50%;
+ transform: translateX(-50%);
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ color: white; /* Cor visível no fundo azul do Hero */
+ z-index: 10; 
+ opacity: 0.9;
+}
+
+.scroll-indicator i {
+    font-size: 1.5rem;
+  margin-top: -8px; 
+ animation: bounce-scroll 2s infinite;
+}
+
+.scroll-indicator i:nth-child(2) {
+ animation-delay: 0.3s; 
+}
+
+@keyframes bounce-scroll {
+ 0%, 20%, 50%, 80%, 100% {
+ transform: translateY(0);
+}
+ 40% {
+transform: translateY(-15px); /* Salto maior */
+ }
+ 60% {
+ transform: translateY(-7px);
+}
+}
+
+body.dark-theme .scroll-indicator {
+ color: #ff9800;
+ opacity: 1;
+}
+.team-section.dark-bg .section-title,
+.team-section.dark-bg .section-subtitle {
+    color: inherit; /* Deve herdar a cor branca/clara do .dark-bg */
+    opacity: 1;    /* Garante visibilidade, desfazendo possíveis opacidades de animação */
+}
+
+/* Garante que, no Tema Escuro, as cores permaneçam */
+body.dark-theme .team-section.dark-bg .section-title,
+body.dark-theme .team-section.dark-bg .section-subtitle {
+    color: #f0f2f5; 
 }

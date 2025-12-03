@@ -17,8 +17,8 @@ body, html {
     font-family: 'Inter', sans-serif;
     background: #fff;
     color: #222;
-    
-    overflow-x: hidden; 
+
+    overflow-x: hidden;
     position: relative;
     min-height: 100vh;
 }
@@ -59,14 +59,14 @@ body::after {
 .container {
     position: relative;
     z-index: 1;
-    
+
     /* Este padding é o que empurra o card para baixo */
-    padding: 5rem 3em 3em 3em; 
-    
-    flex: 0; 
+    padding: 5rem 3em 3em 3em;
+
+    flex: 0;
     width: 100%;
     margin-bottom: 0;
-    min-width: 0; 
+    min-width: 0;
 }
 
 .login-box {
@@ -74,10 +74,10 @@ body::after {
     padding: 2rem 3rem;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 58, 117, 0.2);
-    
+
     /* Esta é a combinação correta para centralizar */
-    width: 90%; 
-    max-width: 450px; 
+    width: 90%;
+    max-width: 450px;
     margin-left: auto;
     margin-right: auto;
 
@@ -87,9 +87,9 @@ body::after {
     z-index: 2;
     position: relative;
 
-    min-height: 400px; 
-    overflow-y: auto; 
-    overflow-x: hidden; 
+    min-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .login-box:hover {
@@ -100,7 +100,7 @@ body::after {
     margin-bottom: 1.5rem;
     font-weight: 700;
     font-size: 2rem;
-    color: #003a75; 
+    color: #003a75;
     transition: font-size 0.3s ease;
 }
 
@@ -114,14 +114,14 @@ body::after {
 .info-aluno {
     background: #f9fafb;
     border-radius: 10px;
-    padding: 1.5rem; 
+    padding: 1.5rem;
     margin-top: 1.5rem;
     font-size: 1rem;
     color: #222;
     display: none;
     text-align: left;
-    box-shadow: 0 2px 8px rgba(0, 58, 117, 0.1); 
-    border-left: 5px solid #003a75; 
+    box-shadow: 0 2px 8px rgba(0, 58, 117, 0.1);
+    border-left: 5px solid #003a75;
     transition: padding 0.3s ease;
 }
 
@@ -130,27 +130,27 @@ body::after {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    border-bottom: 1px dashed #eee; 
+    border-bottom: 1px dashed #eee;
     padding-bottom: 0.6rem;
 }
 
 .info-aluno div:last-child {
     margin-bottom: 0;
-    border-bottom: none; 
+    border-bottom: none;
     padding-bottom: 0;
 }
 
 .info-aluno i {
     color: #003a75;
     font-size: 1.1rem;
-    min-width: 1.2rem; 
+    min-width: 1.2rem;
 }
 
 button#btnEntrar {
-    width: 80%; 
+    width: 80%;
     max-width: 300px;
     margin: 1.5rem auto 0 auto;
-    
+
     padding: 1rem;
     border: none;
     border-radius: 10px;
@@ -159,8 +159,8 @@ button#btnEntrar {
     font-weight: 600;
     font-size: 1.1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.1s ease; 
-    display: block; 
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    display: block;
 }
 
 button#btnEntrar:hover {
@@ -190,17 +190,17 @@ button#btnEntrar:active {
     background-color: #fff;
     padding: 2rem 2.5rem;
     border-radius: 14px;
-    width: 90%; 
-    max-width: 320px; 
+    width: 90%;
+    max-width: 320px;
     text-align: center;
     box-shadow: 0 0 20px rgba(0, 58, 117, 0.2);
     color: #222;
-    box-sizing: border-box; 
+    box-sizing: border-box;
     transition: padding 0.3s ease;
 }
 
 .popup-content h2 {
-    color: #003a75; 
+    color: #003a75;
     margin-bottom: 0.8rem;
 }
 
@@ -280,7 +280,7 @@ footer {
     background: #f9fafb;
     border-radius: 10px;
     padding: 1rem;
-    margin-top: 0; 
+    margin-top: 0;
     text-align: center;
     transform: translateX(100%);
     opacity: 0;
@@ -288,7 +288,7 @@ footer {
 }
 
 .cadastro-box.active {
-    transform: translateX(-100%); 
+    transform: translateX(-100%);
     opacity: 1;
     z-index: 3;
 }
@@ -374,10 +374,10 @@ footer {
 #btnLerQr,
 #btnToggleCameraLogin,
 #btnToggleCameraCadastro {
-    width: 80%; 
+    width: 80%;
     max-width: 300px;
     margin: 1rem auto;
-    
+
     padding: 1rem;
     border: none;
     border-radius: 10px;
@@ -404,7 +404,7 @@ footer {
 #btnLerQr:active,
 #btnToggleCameraLogin:active,
 #btnToggleCameraCadastro:active {
-    transform: translateY(0) scale(0.98); 
+    transform: translateY(0) scale(0.98);
 }
 
 #btnLerQr.loading {
@@ -428,7 +428,7 @@ footer {
 /* ============================================= */
 
 /*
-  Para tablets 
+  Para tablets
   (Largura máxima de 768px)
 */
 @media (max-width: 768px) {
@@ -437,11 +437,11 @@ footer {
     }
 
     .login-box {
-        padding: 2rem 1.5rem; 
+        padding: 2rem 1.5rem;
     }
 
     .login-box h1 {
-        font-size: 1.8rem; 
+        font-size: 1.8rem;
     }
 
     .info-aluno {
@@ -465,32 +465,32 @@ footer {
 */
 @media (max-width: 450px) {
     .container {
-        padding: 2rem 1rem; 
+        padding: 2rem 1rem;
     }
 
     .login-box {
-        padding: 2rem 1.25rem; 
-        
-        /* Esta é a regra principal: 
-           O 'width: 90%' global e o 'margin: auto' 
+        padding: 2rem 1.25rem;
+
+        /* Esta é a regra principal:
+           O 'width: 90%' global e o 'margin: auto'
            já estão cuidando da centralização.
            Não precisamos de 'width: 100%' aqui.
         */
-        
-        max-width: 450px; 
+
+        max-width: 450px;
         min-height: auto;
-        border-radius: 12px; 
-        box-shadow: 0 4px 20px rgba(0, 58, 117, 0.2); 
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 58, 117, 0.2);
     }
-    
+
     .login-box h1 {
-        font-size: 1.6rem; 
+        font-size: 1.6rem;
     }
 
     .info-aluno {
         padding: 1rem;
     }
-    
+
     .popup-content {
         padding: 2rem 1.5rem;
     }
@@ -504,12 +504,12 @@ footer {
         display: block;
         text-align: center;
     }
-    
+
     #btnLerQr,
     #btnToggleCameraLogin,
     #btnToggleCameraCadastro,
     button#btnEntrar {
-        width: 100%; 
+        width: 100%;
         max-width: none;
         font-size: 1rem;
     }
@@ -520,23 +520,23 @@ footer {
     position: relative;
     border: 2px solid #004b8d;
     border-radius: 8px;
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 /* Cria a "mira" ou "viewfinder" */
 #reader-login::after, #reader-cadastro::after {
     content: '';
     position: absolute;
-    
+
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    
-    width: 250px; 
+
+    width: 250px;
     height: 250px;
     max-width: 75%;
     max-height: 75%;
-    
+
     border: 3px solid rgba(255, 0, 0, 0.7); 
     box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.5); 
     border-radius: 8px;

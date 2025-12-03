@@ -203,7 +203,6 @@ body {
 }
 
 
-/* --- POPUP DE CONFIGURAÇÕES (MANTIDO) --- */
 .theme-popup {
     position: fixed;
     bottom: 20px;
@@ -213,9 +212,9 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     width: 280px;
     padding: 1rem;
-    z-index: 99;
+    z-index: 1000; /* CORRIGIDO: Valor alto para garantir visibilidade */
     opacity: 0;
-    visibility: hidden;
+    visibility: hidden; 
     transform: translateY(20px);
     transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s;
     text-align: center;
@@ -226,7 +225,7 @@ body {
     transform: translateY(0);
     transition-delay: 0s;
 }
-.theme-popup.hidden { display: none; } 
+
 
 .popup-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; transition: border-color 0.3s; }
 .popup-header h4 { margin: 0; color: #004b8d; transition: color 0.3s; }
@@ -338,13 +337,32 @@ body.dark-theme .lang-toggle-btn:hover { background-color: #004b8d; }
     color: white;
     padding: 15px 20px;
     display: flex; 
-    justify-content: flex-start;
+    /* CORREÇÃO: Alinha o botão no canto direito */
+    justify-content: space-between; 
     align-items: center;
     flex-shrink: 0; 
     border-radius: 0;
     box-shadow: 0 2px 4px rgba(0,0,0,0.15); 
     z-index: 10;
 }
+
+/* Botão de Limpar Histórico */
+.clear-history-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s, color 0.2s;
+    padding: 5px; 
+}
+
+.clear-history-btn:hover {
+    opacity: 1;
+    color: #ffd700; 
+}
+
 
 .bot-profile {
     display: flex;
@@ -471,6 +489,14 @@ body.dark-theme .chatbot-header {
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
+body.dark-theme .clear-history-btn {
+    color: #b3cde0;
+}
+
+body.dark-theme .clear-history-btn:hover {
+    color: #f1c40f;
+}
+
 body.dark-theme .chatbot-body {
     background-color: #121212;
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><rect width="10" height="10" fill="%23121212"/><circle cx="5" cy="5" r="1" fill="%23383838"/></svg>');
@@ -495,6 +521,119 @@ body.dark-theme .chatbot-footer input {
     color: #f0f2f5;
 }
 
+/* ------------------------------------------- */
+/* --- ESTILOS DO POPUP DE CONFIRMAÇÃO --- */
+/* ------------------------------------------- */
+
+.confirm-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    transition: opacity 0.3s ease;
+}
+
+.confirm-modal-overlay.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.confirm-modal-content {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 350px;
+    width: 90%;
+    animation: scaleIn 0.3s ease-out;
+}
+
+.confirm-modal-content h4 {
+    color: #004b8d;
+    margin-top: 0;
+    font-size: 1.4rem;
+}
+
+.confirm-modal-content p {
+    color: #555;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+.modal-buttons button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    flex-grow: 1;
+}
+
+.modal-btn-cancel {
+    background-color: #ccc;
+    color: #333;
+}
+
+.modal-btn-cancel:hover {
+    background-color: #b3b3b3;
+}
+
+.modal-btn-confirm {
+    background-color: #e74c3c; /* Vermelho para exclusão */
+    color: white;
+}
+
+.modal-btn-confirm:hover {
+    background-color: #c0392b;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Dark Theme para o Modal */
+body.dark-theme .confirm-modal-content {
+    background: #2c2c2c;
+    color: #f0f2f5;
+}
+
+body.dark-theme .confirm-modal-content h4 {
+    color: #b3cde0;
+}
+
+body.dark-theme .confirm-modal-content p {
+    color: #ccc;
+}
+
+body.dark-theme .modal-btn-cancel {
+    background-color: #555;
+    color: #f0f2f5;
+}
+
+body.dark-theme .modal-btn-cancel:hover {
+    background-color: #666;
+}
 
 /* ------------------------------------------- */
 /* --- RESPONSIVIDADE (Mobile: max-width: 768px) --- */
@@ -579,4 +718,6 @@ body.dark-theme .chatbot-footer input {
     .chatbot-footer input {
         padding: 10px 15px;
     }
+    
+    /* Manteve o botão de limpar na direita */
 }
