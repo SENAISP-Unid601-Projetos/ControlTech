@@ -1,4 +1,5 @@
-// Dicionário de traduções (Adaptado do Ferramenta.js)
+import { API_BASE_URL } from './apiConfig.js';
+
 const translations = {
     'pt': {
         'pageTitle': 'Detalhes da Ferramenta - ControlTech',
@@ -9,7 +10,7 @@ const translations = {
         'sidebarExit': 'Sair',
         'sidebarSettings': 'Configurações',
         'labelDescricao': '<strong>Descrição:</strong>',
-        'labelEstoque': '<strong>Estoque:</strong>',
+        'labelPatrimonio': '<strong>Patrimônio:</strong>',
         'btnVoltar': 'Voltar',
         'btnAssociar': 'Associar ao meu usuário',
         'statusDisponivel': '⚪ Disponível',
@@ -18,7 +19,7 @@ const translations = {
         'popupBtnFechar': 'Fechar',
         'erroCarregar': 'Erro ao carregar ferramenta',
         'erroFalhaAssociar': 'Falha ao associar.',
-        'erroSessao': 'Sessão expirada. Faça login.',
+        'erroSessao': 'Sessão expirada. Faça login.', // Texto usado no pop-up visual
         'settingsPopupTitle': 'Configurações',
         'themeLabel': 'Alternar Tema:',
         'themeStatusLight': 'Tema Claro',
@@ -27,7 +28,6 @@ const translations = {
         'langStatusPT': 'Português',
         'langStatusEN': 'Inglês',
         'welcomeMessage': 'Olá,',
-        // NOVAS CHAVES
         'timeElapsedLabel': 'Tempo em Uso:',
         'timeDisplayInitial': '--:--:--',
     },
@@ -40,7 +40,7 @@ const translations = {
         'sidebarExit': 'Exit',
         'sidebarSettings': 'Settings',
         'labelDescricao': '<strong>Description:</strong>',
-        'labelEstoque': '<strong>Stock:</strong>',
+        'labelPatrimonio': '<strong>Asset ID:</strong>',
         'btnVoltar': 'Back',
         'btnAssociar': 'Associate to my user',
         'statusDisponivel': '⚪ Available',
@@ -58,84 +58,83 @@ const translations = {
         'langStatusPT': 'Portuguese',
         'langStatusEN': 'English',
         'welcomeMessage': 'Hello,',
-        // NOVAS CHAVES
         'timeElapsedLabel': 'Time in Use:',
         'timeDisplayInitial': '--:--:--',
     }
 };
 
-// --- FUNÇÕES DE UTILIDADE DE TEMA E IDIOMA ---
-
-// Variável para armazenar o ID do intervalo do cronômetro
 let cronometroIntervalId = null;
 
-// NOVO: Função para formatar segundos em HH:MM:SS
 function formatarTempo(totalSeconds) {
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
-
-    return [hours, minutes, seconds]
-        .map(t => t.toString().padStart(2, '0'))
-        .join(':');
+    return [hours, minutes, seconds].map(t => t.toString().padStart(2, '0')).join(':');
 }
 
-// NOVO: Função para iniciar o cronômetro
 function iniciarCronometro(timestampAssociacao) {
     const chronometerDisplay = document.getElementById('chronometer-display');
     const timeElapsedContainer = document.getElementById('time-elapsed');
-    const dataAssociacao = new Date(timestampAssociacao);
+    
+    let dataAssociacao;
+
+    // CORREÇÃO CRÍTICA: Lida com a serialização do Java (LocalDateTime como array)
+    if (Array.isArray(timestampAssociacao) && timestampAssociacao.length >= 6) {
+        // Formato Java: [ano, mes(1-12), dia, hora, minuto, segundo, nanosec]
+        const [year, month, day, hour, minute, second] = timestampAssociacao;
+        
+        // Construtor JS Date: new Date(year, monthIndex(0-11), day, hour, minute, second, millisec)
+        // Usa Date.UTC() e subtrai 1 do mês (mês é 0-indexado em JS) para garantir UTC
+        dataAssociacao = new Date(Date.UTC(year, month - 1, day, hour, minute, second, 0));
+        
+    } else {
+        // Lógica de fallback para strings (ISO 8601), incluindo a correção anterior de timezone
+        let dateString = timestampAssociacao;
+        if (typeof dateString === 'string' && dateString.slice(-1) !== 'Z' && dateString.indexOf('+') === -1) {
+            dateString += 'Z'; 
+        }
+        dataAssociacao = new Date(dateString);
+    }
+    
+    // VERIFICAÇÃO DE VALIDADE DA DATA
+    if (isNaN(dataAssociacao.getTime())) {
+        console.error("Data de associação inválida após correção:", timestampAssociacao);
+        if (timeElapsedContainer && chronometerDisplay) {
+            timeElapsedContainer.classList.remove('hidden');
+            chronometerDisplay.textContent = 'ERRO DE DATA';
+        }
+        return; 
+    }
 
     if (!chronometerDisplay || !timeElapsedContainer) return;
 
-    // 1. Limpa qualquer cronômetro anterior
-    if (cronometroIntervalId) {
-        clearInterval(cronometroIntervalId);
-    }
+    if (cronometroIntervalId) clearInterval(cronometroIntervalId);
     
-    // 2. Função de atualização
     function atualizarCronometro() {
         const now = new Date();
         const diffMs = now.getTime() - dataAssociacao.getTime();
         const diffSeconds = Math.floor(diffMs / 1000);
         
-        // Evita tempo negativo (caso data futura, embora não deva ocorrer)
-        if (diffSeconds < 0) return; 
-
+        if (diffSeconds < 0) {
+            chronometerDisplay.textContent = '00:00:00'; 
+            return; 
+        } 
+        
         chronometerDisplay.textContent = formatarTempo(diffSeconds);
     }
 
-    // Executa a primeira vez imediatamente
     atualizarCronometro();
-    
-    // Inicia o intervalo de 1 segundo
     cronometroIntervalId = setInterval(atualizarCronometro, 1000);
-    
-    // Mostra o cronômetro
     timeElapsedContainer.classList.remove('hidden');
 }
 
-
-const setText = (id, key, trans) => {
-    const element = document.getElementById(id);
-    if (element) element.textContent = trans[key] || '';
-    else console.warn(`Elemento ID '${id}' não encontrado.`);
-};
-
-const setSpanText = (id, key, trans) => {
-    const element = document.getElementById(id)?.querySelector('span');
-    if (element) element.textContent = trans[key] || '';
-    else console.warn(`Span dentro do ID '${id}' não encontrado.`);
-};
-
-// FUNÇÃO CRÍTICA MOVIDA E CORRIGIDA: Agora acessível pelos event listeners.
+const setText = (id, key, trans) => { const element = document.getElementById(id); if (element) element.textContent = trans[key] || ''; };
+const setSpanText = (id, key, trans) => { const element = document.getElementById(id)?.querySelector('span'); if (element) element.textContent = trans[key] || ''; };
 const setInnerHtml = (id, key, trans, args = {}) => {
     const element = document.getElementById(id);
     if (element) {
         let text = trans[key] || '';
-        Object.keys(args).forEach(k => {
-            text = text.replace(`{${k}}`, args[k]);
-        });
+        Object.keys(args).forEach(k => { text = text.replace(`{${k}}`, args[k]); });
         element.innerHTML = text;
     }
 };
@@ -148,7 +147,6 @@ const updateTranslations = (lang) => {
     document.documentElement.lang = currentLang === 'pt' ? 'pt-BR' : 'en';
     document.title = trans.pageTitle || 'Ferramenta - ControlTech';
 
-    // Barra lateral
     setSpanText('nav-tools', 'sidebarTools', trans);
     setSpanText('nav-return', 'sidebarReturn', trans);
     setSpanText('nav-help', 'sidebarHelp', trans);
@@ -156,30 +154,19 @@ const updateTranslations = (lang) => {
     setSpanText('nav-exit', 'sidebarExit', trans);
     setSpanText('settings-btn', 'sidebarSettings', trans);
 
-    // Conteúdo Principal
     setInnerHtml('label-descricao', 'labelDescricao', trans); 
     setInnerHtml('label-estoque', 'labelEstoque', trans);    
-    
-    // CORREÇÃO DOS WARNINGS: Usando setText para elementos que são o <span> alvo
     setText('btn-voltar-text', 'btnVoltar', trans);
     setText('btn-associar-text', 'btnAssociar', trans);
     setText('popup-btn-fechar', 'popupBtnFechar', trans);
-
-    // NOVO: Traduções do cronômetro
     setText('time-elapsed-label', 'timeElapsedLabel', trans);
-    // setText('chronometer-display', 'timeDisplayInitial', trans); // Não é necessário traduzir o valor inicial, pois o cronômetro começa imediatamente
-
-    // Popup Configurações
     setText('settings-popup-title', 'settingsPopupTitle', trans);
     setText('theme-label', 'themeLabel', trans);
     setText('lang-label', 'langLabel', trans);
 
-    // Atualiza textos de status
     updateThemeStatusText(document.body.classList.contains('dark-theme') ? 'dark' : 'light', currentLang);
     updateLanguageStatusText(currentLang);
     displayUserName(currentLang);
-    
-    // Forçamos a atualização do status para que o cronômetro e a mensagem sejam traduzidos
     atualizarStatusDaFerramenta();
 };
 
@@ -190,19 +177,30 @@ const updateThemeToggleButtonVisuals = (activeTheme) => { const si = document.qu
 const saveLanguage = (lang) => { localStorage.setItem('lang', lang); updateTranslations(lang); };
 const loadLanguage = () => { const sl = localStorage.getItem('lang') || 'pt'; updateTranslations(sl); };
 const updateLanguageStatusText = (activeLang) => { const lts = document.getElementById('lang-toggle-btn')?.querySelector('span'); const ls = document.getElementById('lang-status'); if (lts) lts.textContent = activeLang.toUpperCase(); if (ls) { const transPt = translations.pt; const transEn = translations.en; if (transPt && transEn) { ls.textContent = activeLang === 'pt' ? (transPt.langStatusPT || 'Português') : (transEn.langStatusEN || 'English'); }}};
-function displayUserName(lang) { const wm = document.getElementById('welcome-message'); const une = document.getElementById('user-name'); const tr = translations[lang]; let userInfo = null; try { const su = localStorage.getItem('usuarioLogado'); if (su) userInfo = JSON.parse(su); } catch (e) { console.error("Erro ao ler usuarioLogado:", e); } if (wm && une && tr) { const du = (lang === 'pt' ? 'Usuário' : 'User'); wm.textContent = tr.welcomeMessage || (lang === 'pt' ? 'Olá,' : 'Hello,'); une.textContent = (userInfo && userInfo.nome) ? userInfo.nome : du; }};
+function displayUserName(lang) { 
+    const welcomeMessage = document.getElementById('welcome-message'); 
+    const userNameElement = document.getElementById('user-name'); 
+    const trans = translations[lang]; 
+    let userInfo = null; 
+    try { 
+        const storedUser = localStorage.getItem('usuarioLogado'); 
+        if (storedUser) userInfo = JSON.parse(storedUser); 
+    } catch (e) { console.error("Erro ao ler usuarioLogado:", e); } 
+    if (welcomeMessage && userNameElement && trans) { 
+        const defaultUserName = (lang === 'pt' ? 'Usuário' : 'User'); 
+        welcomeMessage.textContent = trans.welcomeMessage || (lang === 'pt' ? 'Olá,' : 'Hello,'); 
+        userNameElement.textContent = (userInfo && userInfo.nome) ? userInfo.nome : defaultUserName; 
+    }
+};
 
-
-// --- LÓGICA PRINCIPAL DA PÁGINA ---
-
-// --- Função ATUALIZADA para atualizar status (traduzida e com cronômetro) ---
-function atualizarStatus(usuarioNome, dataAssociacao) { // Recebe dataAssociacao
+function atualizarStatus(usuarioNome, usuarioTurma, dataAssociacao) { 
     const statusMsg = document.getElementById("statusMsg");
     const btnAssociar = document.getElementById("btnAssociar");
     const timeElapsedContainer = document.getElementById('time-elapsed');
+    const userTurmaStatus = document.getElementById('user-turma-status'); 
     const lang = localStorage.getItem('lang') || 'pt';
     const trans = translations[lang];
-
+    
     if (cronometroIntervalId) {
         clearInterval(cronometroIntervalId);
         cronometroIntervalId = null;
@@ -211,41 +209,30 @@ function atualizarStatus(usuarioNome, dataAssociacao) { // Recebe dataAssociacao
 
     if (usuarioNome) {
         if (statusMsg) statusMsg.innerHTML = `${trans.statusEmUso}<strong>${usuarioNome}</strong>`;
+        if (userTurmaStatus) userTurmaStatus.textContent = `(${usuarioTurma || 'N/A'})`; 
         if (statusMsg) statusMsg.style.color = "green"; 
         if (btnAssociar) btnAssociar.disabled = true; 
-        
-        // NOVO: Inicia o cronômetro se houver data de associação
-        if (dataAssociacao) {
-            iniciarCronometro(dataAssociacao);
-        }
+
     } else {
         if (statusMsg) statusMsg.innerHTML = trans.statusDisponivel;
-        if (statusMsg) statusMsg.style.color = "gray"; 
-        if (btnAssociar) btnAssociar.disabled = false; 
+        if (userTurmaStatus) userTurmaStatus.textContent = ''; 
+        if (statusMsg) statusMsg.style.color = "gray";
     }
 }
 
-// --- Buscar usuário associado via GET (ATUALIZADA para pegar a data) ---
 async function atualizarStatusDaFerramenta() {
     const ferramentaId = new URLSearchParams(window.location.search).get("id");
     const lang = localStorage.getItem('lang') || 'pt';
     try {
-        const res = await fetch(`http://localhost:8080/api/ferramentas/${ferramentaId}/usuario`);
-        if (!res.ok) throw new Error(lang === 'pt' ? "Erro ao buscar usuário da ferramenta" : "Error fetching tool user");
-        
-        // A API agora retorna UsuarioStatusDTO com dataAssociacao
+        const res = await fetch(`${API_BASE_URL}/api/ferramentas/${ferramentaId}/usuario`);
+        if (!res.ok) throw new Error("Erro");
         const usuarioStatus = await res.json(); 
-
-        // Passa o nome e o timestamp para a função de atualização
-        atualizarStatus(usuarioStatus.nome, usuarioStatus.dataAssociacao); 
+        atualizarStatus(usuarioStatus.usuarioNome, usuarioStatus.usuarioTurma, usuarioStatus.dataAssociacao); 
     } catch (err) {
-        console.error(err);
-        // Em caso de erro de conexão, assume que não está em uso
-        atualizarStatus(null, null); 
+        atualizarStatus(null, null, null); 
     }
 }
 
-// --- Carrega os dados da ferramenta (ATUALIZADA) ---
 async function carregarFerramenta() {
     const ferramentaId = new URLSearchParams(window.location.search).get("id");
     const toolNome = document.getElementById("toolNome");
@@ -259,44 +246,109 @@ async function carregarFerramenta() {
     const trans = translations[lang];
 
     try {
-        const res = await fetch(`http://localhost:8080/api/ferramentas/${ferramentaId}`);
+        const res = await fetch(`${API_BASE_URL}/api/ferramentas/${ferramentaId}`);
         if (!res.ok) throw new Error(trans.erroCarregar);
 
         const ferramenta = await res.json();
 
-        // IMPLEMENTAÇÃO DAS VERIFICAÇÕES DE NULIDADE AQUI
         if (toolNome) toolNome.textContent = ferramenta.nome;
         if (toolId) toolId.textContent = ferramenta.id;
         if (toolDescricao) toolDescricao.textContent = ferramenta.descricao || (lang === 'pt' ? 'Sem descrição' : 'No description');
         if (toolEstoque) toolEstoque.textContent = ferramenta.quantidadeEstoque;
         if (toolImage) toolImage.src = ferramenta.imagemUrl || '/img/tools.png'; 
 
-        // Atualiza status usando GET do usuário associado
         await atualizarStatusDaFerramenta();
-
         return ferramenta;
     } catch (err) {
-        console.error("Erro ao carregar ferramenta:", err);
-        // IMPLEMENTAÇÃO DAS VERIFICAÇÕES DE NULIDADE AQUI
+        console.error("Erro:", err);
         if (toolNome) toolNome.textContent = trans.erroCarregar;
         if (statusMsg) statusMsg.textContent = err.message;
-        if (statusMsg) statusMsg.style.color = "red";
         if (btnAssociar) btnAssociar.disabled = true;
         return null;
     }
 }
 
+// NOVO: Função auxiliar para a lógica de associação, usada tanto no clique quanto na auto-associação
+async function handleAssociation(ferramentaId, ferramenta, statusMsg, popup) {
+    const lang = localStorage.getItem('lang') || 'pt';
+    const trans = translations[lang];
+
+    const popupMessage = document.getElementById("popupMessage");
+    
+    let usuarioLogado = null;
+    try { usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado")); } catch (e) {}
+
+    const idUsuario = usuarioLogado?.id ?? usuarioLogado?.usuarioId;
+    
+    // VERIFICAÇÃO DE LOGIN E REDIRECIONAMENTO COM POP-UP VISUAL
+    if (!idUsuario) {
+        // 1. Prepara a mensagem visual
+        if (popupMessage) {
+            // Usando um ícone de aviso visualmente atraente do Font Awesome
+            popupMessage.innerHTML = `<i class="fas fa-exclamation-triangle" style="color: #ffc107; font-size: 24px; margin-right: 15px;"></i> <strong>${trans.erroSessao}</strong>`;
+            // Define um atributo para identificar o erro de sessão
+            popupMessage.setAttribute('data-action', 'redirect');
+            popupMessage.style.color = "var(--text-color-dark, #333)"; 
+        }
+        
+        // 2. Exibe o pop-up
+        if (popup) popup.style.display = "flex";
+        
+        // 3. O redirecionamento ocorrerá quando o usuário clicar em Fechar (tratado no listener DOMContentLoaded)
+        return; 
+    }
+    
+    // Lógica de Associação (se estiver logado)
+    if (statusMsg) statusMsg.textContent = "";
+    try {
+        const assocRes = await fetch(`${API_BASE_URL}/api/ferramentas/associar/${ferramentaId}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ usuarioId: idUsuario })
+        });
+
+        let resposta;
+        try { resposta = await assocRes.json(); } catch { 
+            const texto = await assocRes.text();
+            throw new Error(lang === 'pt' ? "Resposta inválida do servidor: " + texto : "Invalid server response: " + texto);
+        }
+
+        if (!assocRes.ok) throw new Error(resposta.erro || trans.erroFalhaAssociar);
+
+        // Lógica para Pop-up de Sucesso (mantida)
+        setInnerHtml("popupMessage", "popupSucesso", trans, {
+            ferramentaNome: resposta.ferramentaNome,
+            usuarioNome: resposta.usuarioNome
+        });
+        
+        // Limpa o atributo data-action se houver
+        if (popupMessage) popupMessage.removeAttribute('data-action'); 
+        if (popupMessage) popupMessage.style.color = "var(--text-color-dark, #333)";
+
+        if (popup) popup.style.display = "flex";
+
+        atualizarStatus(resposta.usuarioNome, resposta.dataAssociacao);
+        if (ferramenta) ferramenta.usuarioNome = resposta.usuarioNome;
+
+    } catch (err) {
+        console.error(err);
+        if (statusMsg) {
+            statusMsg.textContent = `${lang === 'pt' ? 'Erro' : 'Error'}: ${err.message}`;
+            statusMsg.style.color = "red";
+        }
+    }
+}
+
 
 document.addEventListener("DOMContentLoaded", async () => {
-    // Referências do HTML (incluindo as novas)
     const params = new URLSearchParams(window.location.search);
     const ferramentaId = params.get("id");
+    const autoAssoc = params.get("action") === "assoc"; // Flag de associação automática
 
     const btnAssociar = document.getElementById("btnAssociar");
     const statusMsg = document.getElementById("statusMsg");
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const sidebar = document.getElementById('sidebar');
-
     const popup = document.getElementById("confirmationPopup");
     const closePopupBtn = document.getElementById("closePopupBtn");
     const settingsBtn = document.getElementById('settings-btn');
@@ -304,83 +356,50 @@ document.addEventListener("DOMContentLoaded", async () => {
     const closeSettingsPopupBtn = document.getElementById('close-popup-btn'); 
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const langToggleBtn = document.getElementById('lang-toggle-btn');
+    const popupMessage = document.getElementById("popupMessage"); // Elemento de mensagem do pop-up
 
-    
-    // Inicializa Tema e Idioma (antes de carregar os dados)
     loadTheme();
-    loadLanguage(); // Isso chama updateTranslations > displayUserName
-
-    const lang = localStorage.getItem('lang') || 'pt';
-    const trans = translations[lang];
-
-    // --- Verifica usuário logado ---
-    let usuarioLogado = null;
-    try {
-        usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-    } catch (e) {
-        console.error("Erro ao ler dados do usuário:", e);
-    }
-
-    const idUsuario = usuarioLogado?.id ?? usuarioLogado?.usuarioId;
-    if (!idUsuario) {
-        alert(trans.erroSessao);
-        window.location.href = "/index.html";
-        return;
-    }
-
+    loadLanguage(); 
+    
     let ferramenta = await carregarFerramenta();
+    
+    // Lógica de auto-associação (executa se a flag estiver presente e o usuário estiver logado)
+    if (autoAssoc) {
+        // Remove a flag da URL para evitar associações repetidas no refresh.
+        const cleanUrl = window.location.href.replace(/&action=assoc/g, '');
+        window.history.replaceState(null, null, cleanUrl);
+        await handleAssociation(ferramentaId, ferramenta, statusMsg, popup);
+    }
 
-    // --- Botão associar (ATUALIZADO para usar a data de associação do retorno) ---
+    // Associa a função ao botão de clique
     btnAssociar?.addEventListener("click", async () => {
-        if (statusMsg) statusMsg.textContent = "";
-
-        try {
-            const assocRes = await fetch(`http://localhost:8080/api/ferramentas/associar/${ferramentaId}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ usuarioId: idUsuario })
-            });
-
-            let resposta;
-            try {
-                // A API agora retorna um Map (JSON)
-                resposta = await assocRes.json();
-            } catch {
-                const texto = await assocRes.text();
-                throw new Error(lang === 'pt' ? "Resposta inválida do servidor: " + texto : "Invalid server response: " + texto);
-            }
-
-            if (!assocRes.ok) throw new Error(resposta.erro || trans.erroFalhaAssociar);
-
-            // Usa a função setInnerHtml (agora global) para o popup
-            setInnerHtml("popupMessage", "popupSucesso", trans, {
-                ferramentaNome: resposta.ferramentaNome,
-                usuarioNome: resposta.usuarioNome
-            });
-            popup.style.display = "flex";
-
-            // Atualiza status imediatamente (usando o novo campo dataAssociacao)
-            atualizarStatus(resposta.usuarioNome, resposta.dataAssociacao);
-            ferramenta.usuarioNome = resposta.usuarioNome;
-
-        } catch (err) {
-            console.error("Erro ao associar:", err);
-            if (statusMsg) {
-                statusMsg.textContent = `${lang === 'pt' ? 'Erro' : 'Error'}: ${err.message}`;
-                statusMsg.style.color = "red";
-            }
+        await handleAssociation(ferramentaId, ferramenta, statusMsg, popup);
+    });
+    
+    // --- LÓGICA CONDICIONAL DE FECHAR O POP-UP ---
+    closePopupBtn?.addEventListener("click", () => {
+        
+        // Verifica se o atributo 'data-action' está definido como 'redirect' (indicando erro de sessão)
+        if (popup.style.display === "flex" && popupMessage.getAttribute('data-action') === 'redirect') {
+            
+            // Prepara a URL de redirecionamento para o login, mantendo o contexto para auto-associação
+            const currentPath = window.location.pathname; 
+            const currentQuery = window.location.search.replace(/&action=assoc/g, ''); 
+            const redirectUrl = encodeURIComponent(currentPath + currentQuery + "&action=assoc");
+            
+            // Limpa o atributo antes de redirecionar
+            popupMessage.removeAttribute('data-action'); 
+            popup.style.display = "none";
+            
+            // Redireciona
+            window.location.href = `/index.html?redirect=${redirectUrl}`;
+        } else {
+            // Se for qualquer outra mensagem (sucesso, etc.), apenas fecha o pop-up
+            popup.style.display = "none";
         }
     });
-    
-    // --- Fechar popup de confirmação ---
-    closePopupBtn?.addEventListener("click", () => {
-        popup.style.display = "none";
-    });
 
-    // --- Eventos do Dashboard ---
     hamburgerBtn?.addEventListener('click', () => sidebar?.classList.toggle('active'));
-
-    // Eventos Popup Configurações
     settingsBtn?.addEventListener('click', (e) => {
         e.preventDefault();
         themePopup?.classList.toggle('visible');
@@ -400,6 +419,5 @@ document.addEventListener("DOMContentLoaded", async () => {
         saveLanguage(currentLang === 'pt' ? 'en' : 'pt');
     });
 
-    // --- Atualização automática a cada 5s ---
     setInterval(atualizarStatusDaFerramenta, 5000);
 });

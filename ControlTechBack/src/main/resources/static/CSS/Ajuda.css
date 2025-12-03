@@ -83,6 +83,7 @@ body {
 
 /* Botão de Configurações */
 .settings-btn {
+    margin-top: auto; /* Empurra para o final do sidebar-nav */
     background-color: rgba(0, 0, 0, 0.2);
 }
 .settings-btn:hover {

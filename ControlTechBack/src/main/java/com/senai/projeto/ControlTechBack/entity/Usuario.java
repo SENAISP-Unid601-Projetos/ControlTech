@@ -16,7 +16,7 @@ public class Usuario {
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     long id;
     String nome;
-    String perfil;
+    String turma;
     String qrCode;
 
 

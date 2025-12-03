@@ -303,7 +303,7 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     width: 280px;
     padding: 1rem;
-    z-index: 101;
+    z-index: 2000;
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
@@ -334,6 +334,7 @@ body {
 
 
 /* === RESPONSIVIDADE === */
+/* Substitua a parte responsiva no final do arquivo por isto: */
 @media (max-width: 768px) {
     .dashboard-container {
         display: block;
@@ -342,17 +343,17 @@ body {
     .sidebar {
         position: fixed;
         top: 0;
-        left: -250px; 
+        left: -300px;
         height: 100vh;
-        width: 250px;
+        width: 298px;
         padding: 2rem 1.5rem;
         transition: left 0.3s ease-in-out;
-        z-index: 100;
+        z-index: 2000;
         box-shadow: 2px 0 5px rgba(0,0,0,0.5);
     }
 
     .sidebar.active {
-        left: 0; 
+        left: 0;
     }
     
     .user-profile {
@@ -361,7 +362,7 @@ body {
 
     .main-content {
         padding: 1rem;
-        padding-top: 5.5rem; /* Ajusta espaço para o hamburger */
+        padding-top: 5.5rem;
     }
 
     .ajuda-box {
@@ -369,26 +370,19 @@ body {
         max-width: 100%;
     }
 
-    .ajuda-box h2 {
-        font-size: 1.5rem;
-    }
-
-    #formAjuda button {
-        padding: 0.8rem;
-        font-size: 1rem;
-    }
-
     .hamburger-btn {
-        display: block; 
+        display: block !important;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 2001;
     }
     
-    /* Reposiciona o popup de configurações para a direita */
     .theme-popup {
         left: auto; 
-        right: 20px;
+        right: 30px;
     }
 }
-
 /* === ESTILOS DO TEMA ESCURO === */
 body.dark-theme {
     background-color: #2c2c2c;

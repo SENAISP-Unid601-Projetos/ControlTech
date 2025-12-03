@@ -18,19 +18,15 @@ public class HistoricoService {
     private HistoricoDevolucaoRepository historicoRepository;
 
     public HistoricoDevolucao registrarDevolucao(Ferramenta ferramenta, Usuario usuario, String observacoes) {
-        // --- VALIDAÇÃO: OBSERVAÇÃO OBRIGATÓRIA ---
-        if (observacoes == null || observacoes.trim().isEmpty()) {
-            throw new IllegalArgumentException("A descrição da devolução é obrigatória.");
-        }
-
         HistoricoDevolucao h = new HistoricoDevolucao();
         h.setFerramenta(ferramenta);
         h.setUsuario(usuario);
-        h.setDataDevolucao(java.time.LocalDateTime.now());
+        h.setDataDevolucao(java.time.LocalDateTime.now()); // já inclui data e hora atuais
         h.setObservacoes(observacoes);
         return historicoRepository.save(h);
     }
 
+    // 🔹 Histórico apenas do usuário
     public List<HistoricoDevolucaoDTO> listarPorUsuario(Long usuarioId) {
         return historicoRepository.findByUsuarioId(usuarioId)
                 .stream()
@@ -38,6 +34,7 @@ public class HistoricoService {
                 .collect(Collectors.toList());
     }
 
+    // 🔹 Histórico de todos os usuários
     public List<HistoricoDevolucaoDTO> listarTodos() {
         return historicoRepository.findAll()
                 .stream()
@@ -53,12 +50,13 @@ public class HistoricoService {
         historicoRepository.deleteAllByUsuarioId(usuarioId);
     }
 
+    // 🔹 Conversão para DTO
     private HistoricoDevolucaoDTO toDTO(HistoricoDevolucao h) {
         HistoricoDevolucaoDTO dto = new HistoricoDevolucaoDTO();
         dto.setId(h.getId());
         dto.setNomeFerramenta(h.getFerramenta().getNome());
         dto.setNomeUsuario(h.getUsuario().getNome());
-        dto.setDataDevolucao(h.getDataDevolucao());
+        dto.setDataDevolucao(h.getDataDevolucao()); // mantemos LocalDateTime original
         dto.setObservacoes(h.getObservacoes());
         return dto;
     }

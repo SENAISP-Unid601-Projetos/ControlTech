@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/historico")
+@CrossOrigin(origins = "*")
 public class HistoricoController {
 
     @Autowired
@@ -42,4 +43,5 @@ public class HistoricoController {
     public void deletarTodos() {
         historicoService.deletarTodos();
     }
+
 }

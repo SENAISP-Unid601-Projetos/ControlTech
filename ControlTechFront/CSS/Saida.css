@@ -59,13 +59,13 @@ body {
     margin-right: 15px;
 }
 
-/* Estilos para o botão do hambúrguer */
+/* Estilos para o botão do hambúrguer (Versão PC - Escondido) */
 .hamburger-btn {
-    display: none;
+    display: none; /* ESCONDIDO POR PADRÃO */
     position: fixed;
     top: 20px;
     left: 20px;
-    z-index: 101;
+    z-index: 2001; /* Z-INDEX ALTO PARA SEMPRE FICAR ACIMA DE TUDO */
     background: #004b8d;
     color: white;
     border: none;
@@ -96,7 +96,7 @@ body {
     border-radius: 16px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 90%;
+    width: calc(100% - 4rem); 
     max-width: 450px;
     overflow: hidden;   
     transition: box-shadow 0.3s ease;
@@ -154,6 +154,7 @@ body {
     margin: 1rem 0;
     transition: border-color 0.3s;
     background-color: #f8f9fa;
+    box-sizing: border-box; /* Garante que o padding não quebre no mobile */
 }
 
 #crachaInput:focus {
@@ -253,8 +254,31 @@ body {
 .notification.error {
     background-color: #dc3545;
 }
+.theme-popup {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 232px;
+    padding: 1rem;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s;
+    text-align: center;
+}
+.theme-popup.visible { 
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition-delay: 0s; 
+}
+.theme-popup.hidden { display: none; }
 
-/* Responsividade */
+/* Responsividade (Mobile) */
 @media (max-width: 768px) {
     .dashboard-container {
         flex-direction: column;
@@ -263,10 +287,11 @@ body {
     .sidebar {
         position: fixed;
         top: 0;
-        /* MANTIDO: Left mais agressivo para não mostrar sombra */
+        /* Corrigido para garantir que suma completamente */
         left: -300px;
+        width: 250px;
         height: 100vh;
-        z-index: 100;
+        z-index: 2000; /* Alto z-index */
         box-shadow: 2px 0 5px rgba(0,0,0,0.5);
     }
     .sidebar.active {
@@ -276,48 +301,38 @@ body {
         text-align: left;
     }
     .sidebar-nav {
-        display: flex; /* Garante visibilidade */
+        display: flex; 
     }
-.user-profile { /* Esconde perfil em mobile */
+    .user-profile { 
         display: none;
     }
 
     .main-content {
-        padding: 4rem 1rem 1rem 1rem; /* Adiciona padding superior para não sobrepor header fixo */
-        margin-left: 0; /* Remove margem quando sidebar está fechada */
+        /* Ajustado para dar espaço ao hamburger (5.5rem) */
+        padding: 5.5rem 1rem 1rem 1rem; 
+        margin-left: 0; 
     }
 
-    .main-header {
-        padding: 1rem;
-        flex-direction: column;
-        align-items: stretch; /* Faz input ocupar largura */
-    }
-
-    /* CORREÇÃO APLICADA: Força o search-container a ocupar 100% da largura do main-header */
-    .search-container {
-        width: 100%; 
-    }
-
-    .search-input {
-        width: 100%; /* Ocupa toda largura */
-    }
-
-    .tool-grid {
-        gap: 1rem;
-    }
-    .tool-card {
-        padding: 1rem;
+    /* O saida-box já é responsivo, mas garantimos o width do input */
+    #crachaInput {
+        width: 100%; /* Ocupa 100% da largura do saida-box (que é 90% da tela) */
     }
 
     .hamburger-btn {
-        display: block; /* Mostra o botão */
+        display: block !important; 
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 2001; 
     }
+
     .theme-popup {
-        left: auto; 
-        right: 20px;
+        left: auto;
+        right: 40px;
     }   
 }
 
+/* Estilos de Perfil e Popup para Desktop */
 .user-profile { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; background-color: rgba(255, 255, 255, 0.1); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); transition: background-color 0.3s; }
 .user-profile i { font-size: 2.5rem; color: #b3cde0; transition: color 0.3s; }
 .user-details { display: flex; flex-direction: column; text-align: left; }
@@ -328,11 +343,6 @@ body {
 .settings-btn {background-color: rgba(0, 0, 0, 0.2); }
 .settings-btn:hover { background-color: #0061c0 !important; }
 
-/* Popup de Configurações (Mesmo estilo das outras páginas) */
-/* (A posição 'left: 20px' original é agora controlada pela media query) */
-.theme-popup { position: fixed; bottom: 20px; left: 125px; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); width: 240px; padding: 1rem; z-index: 101; opacity: 0; visibility: hidden; transform: translateY(20px); transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s, visibility 0s 0.3s; text-align: center; }
-.theme-popup.visible { opacity: 1; visibility: visible; transform: translateY(0); transition-delay: 0s; }
-.theme-popup.hidden { display: none; }
 .popup-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-bottom: 1rem; transition: border-color 0.3s; }
 .popup-header h4 { margin: 0; color: #004b8d; transition: color 0.3s; }
 .popup-header .close-btn { background: none; border: none; font-size: 1.5rem; color: #888; cursor: pointer; transition: color 0.3s; }
@@ -399,33 +409,3 @@ body.dark-theme .theme-toggle-btn .fa-sun { opacity: 0; transform: translateY(-1
 body.dark-theme .theme-toggle-btn .fa-moon { opacity: 1; transform: translateY(0); color: #f1c40f; }
 body.dark-theme .lang-toggle-btn { background-color: #0061c0; }
 body.dark-theme .lang-toggle-btn:hover { background-color: #004b8d; }
-
-
-/* =========================================================
-   AJUSTES FINOS PARA TELEMÓVEIS (Abaixo de 450px)
-========================================================= */
-
-@media (max-width: 450px) {
-    .main-content {
-        /* Ajusta o padding para menos espaço nas laterais */
-        padding: 1rem 1rem;
-        padding-top: 5.5rem; /* Mantém o espaço do hamburger */
-    }
-
-    .saida-box {
-        /* Reduz o padding interno do card */
-        padding: 2rem 1.25rem;
-    }
-    
-    .saida-box h2 {
-        font-size: 1.6rem; 
-    }
-
-    .btn-primary {
-        width: 100%;
-        max-width: none;
-        font-size: 1rem;
-    }
-
-    /* O popup de config já está à direita por causa da regra de 768px */
-}

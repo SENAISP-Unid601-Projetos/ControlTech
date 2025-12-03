@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt-BR"> <head>
+<html lang="pt-BR"> 
+<head>
     <link rel="icon" href="/img/LogoProjeto.svg" type="image/svg+xml">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title id="page-title">Devolução de Itens - SENAI</title> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title id="page-title">Devolução de Itens - SENAI</title> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/CSS/Devolver.css">
-    <script src="/JS/Devolver.js" defer></script>
+    <script type="module" src="/JS/Devolver.js" defer></script>
 </head>
 <body>
     <div class="dashboard-container">
@@ -25,7 +27,11 @@
                     <span id="welcome-message">Olá,</span> <h4 id="user-name">Usuário</h4>
                 </div>
             </div>
-            <nav class="sidebar-nav">
+            <nav class="sidebar-nav">    
+                <a href="LandingPage.html" id="nav-about">
+                    <i class="fas fa-home"></i> 
+                    <span>Início</span>
+                </a>
                 <a href="Ferramentas.html" id="nav-tools">
                     <i class="fas fa-tools"></i>
                     <span>Ferramentas</span>
@@ -38,9 +44,16 @@
                     <i class="fas fa-question-circle"></i>
                     <span>Ajuda</span>
                 </a>
-                <a href="Historico.html" id="nav-history"> <i class="fas fa-history"></i>
+                <a href="Historico.html" id="nav-history">
+                    <i class="fas fa-history"></i>
                     <span>Histórico</span>
                 </a>
+                
+                <a href="ChatBot.html" id="nav-chatbot" class="chatbot-trigger-btn">
+                    <i class="fas fa-robot"></i>
+                    <span>ChatBot</span>
+                </a>
+
                 <a href="Saida.html" class="logout" id="nav-exit">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Sair</span>
@@ -50,12 +63,12 @@
                     <i class="fas fa-cog"></i>
                     <span>Configurações</span>
                 </a>
-                </nav>
+            </nav>
         </aside>
 
         <main class="main-content">
             <div class="devolucao-box">
-                <h1 id="form-title">Devolução de Itens</h1> <div id="infoUsuario" class="info-box hidden">
+                <h1 id="form-title"><i class="fas fa-box-open"></i> Devolução de Itens</h1> <div id="infoUsuario" class="info-box hidden">
                     <p><strong><span id="label-id-func">ID do Funcionário:</span></strong> <span id="funcId"></span></p> <p><strong><span id="label-nome-func">Nome:</span></strong> <span id="funcNome"></span></p> <p><strong><span id="label-data">Data:</span></strong> <span id="dataAtual"></span></p> <p><strong><span id="label-horario">Horário:</span></strong> <span id="horaAtual"></span></p> </div>
 
                 <div id="mensagem" class="mensagem hidden"></div>
